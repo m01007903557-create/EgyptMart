@@ -1,0 +1,27 @@
+.inner_wrapper {
+    width: 100% !important;
+    margin: 0 auto !important;
+    padding: 0 15px !important;
+    max-width: 1290px !important;
+    float: none !important;
+}
+.inner_wrapper .lft {
+    width: 77% !important;
+}
+.inner_wrapper .ryt {
+    width: 22% !important;
+
+}
+
+.inner_wrapper .wlc,.inner_wrapper .tbx {
+    min-height: 310px !important;
+}
+.inner_wrapper .wlc {
+    width: 100% !important;
+    position: relative !important;
+}
+@media screen and (max-width: 1056px) and (min-width: 990px){
+.inner_wrapper{
+    padding: 0 0px !important;
+}
+}

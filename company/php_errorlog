@@ -1,0 +1,28 @@
+[24-Jan-2021 03:42:08 CST6CDT] PHP Fatal error:  Uncaught Error: Call to undefined function mysql_query() in /home/egyptmar/public_html/company/quotationRequest.php:38
+Stack trace:
+#0 {main}
+  thrown in /home/egyptmar/public_html/company/quotationRequest.php on line 38
+[24-Jan-2021 03:42:19 CST6CDT] PHP Fatal error:  Uncaught Error: Call to undefined function mysql_query() in /home/egyptmar/public_html/company/productzoomimage.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/egyptmar/public_html/company/productzoomimage.php on line 7
+[24-Jan-2021 03:42:58 CST6CDT] PHP Fatal error:  Uncaught Error: Call to undefined function mysql_query() in /home/egyptmar/public_html/company/quotationRequest.php:38
+Stack trace:
+#0 {main}
+  thrown in /home/egyptmar/public_html/company/quotationRequest.php on line 38
+[24-Jan-2021 03:44:27 CST6CDT] PHP Fatal error:  Uncaught Error: Call to undefined function mysql_query() in /home/egyptmar/public_html/company/productzoomimage.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/egyptmar/public_html/company/productzoomimage.php on line 7
+[24-Jan-2021 03:44:27 CST6CDT] PHP Fatal error:  Uncaught Error: Call to undefined function mysql_query() in /home/egyptmar/public_html/company/productzoomimage.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/egyptmar/public_html/company/productzoomimage.php on line 7
+[24-Jan-2021 03:44:32 CST6CDT] PHP Fatal error:  Uncaught Error: Call to undefined function mysql_query() in /home/egyptmar/public_html/company/productzoomimage.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/egyptmar/public_html/company/productzoomimage.php on line 7
+[24-Jan-2021 03:46:10 CST6CDT] PHP Fatal error:  Uncaught Error: Call to undefined function mysql_query() in /home/egyptmar/public_html/company/productzoomimage.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/egyptmar/public_html/company/productzoomimage.php on line 7

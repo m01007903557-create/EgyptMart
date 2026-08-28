@@ -1,0 +1,107 @@
+<?php
+$message1 ='<div class="b9_m2 b10_m2" id="detable">
+  <table class="lh2_m2" border="0" width="100%" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr class="f5_m2">
+        <td class="sh_m2">
+          <span style="width:600px;word-wrap:break-word;" id="wbr">
+            <div style="width: 550px;height: auto;border: 10px solid #92AED2;float: left;padding: 10px;margin-top:10px;">
+              <div style="height: 100px; width: 100%; float: left; ">
+                  <div style="height: 100px; width: 30%; float: left;">
+          <img style="width: 100%;color: #00F;font-size: 22px;font-weight: bold;" alt="EgyptMART" src="https://egyptmart.online/images/Mlogo.png" />
+                  </div>
+                  <div style="height:100px;width:43%;float:left;">
+                      <h2 style="font-size: 18px;  color:#c52500; font-weight: 600; ; margin-top:0px; margin-bottom:0px;"> <span style="color:#0600ff; text-align: center;">  </span></h2>
+</div>
+                  <div style="min-height: 100px; width: 27%; float: right; padding-top: 3px;">
+       <span style="font-size: 15px; float: right; padding-bottom: 0px; clear: both; font-weight: bold;color:#000000;"> <br> عرض الموردين</span>
+                      <span style="float: right; font-size: 13px; padding-top: 0px; clear: both;color:#000000;">' . date("Y/m/d") . '</span>
+                  </div>
+                  
+              
+
+ </div>
+
+              <div style="width:100%;color:#000000;">
+                  <p style="font-size:16px;text-align:right;color:#000000"><strong>'.$suname.' : الســادة  </strong>
+                 
+                  </p>
+			  
+<div style="width: 100%; line-height:1.5em;  font-family:Arial,Helvetica,sans-serif;padding:0.5em 0 0.9em 1em">
+	<p style="color:#1600cc; font-size:1.5em; font-weight:bold;line-height:16px; margin-top:0px; margin-bottom:0px; text-align:center; font-family: Arial, Helvetica,sans-serif;"><a href="https://www.egyptmart.online/sign-in.php?email='.$usr_email.'&redirect=https://www.egyptmart.online/product-list.php">! أنشر منتجاتك وخدماتك للجملة والتصدير نجلب لك موردين 
+ </p>       
+
+ </div>    
+ 
+ <div>
+			  <a href="https://egyptmart.online
+/sign-in.php?email='.stripslashes($user_detail->email).'&redirect=https://egyptmart.online
+/product-list.php" ><img src="https://egyptmart.online
+/images/plan.png" alt="" height="100%" width="100%"></a>
+			  </div>
+
+
+     <div style="max-width:600px;text-align:center">
+  <p style="font-size:1.2em;margin:0;padding:.5em 0 0.5em;line-height:1.4em;text-align:center"><b><span style="color:#00c118; font-size: 22px;">
+     </span>
+
+
+
+			
+			
+			
+			
+			<p style="text-align:left;padding: 10px;  margin-bottom: 0px;">   <a href="https://www.egyptmart.online" ><img src="https://egyptmart.online/images/mail.png
+" alt=" height="100%" width="100%"></a>
+
+
+
+  </div>
+
+
+              </div>
+              <div style="max-width:600px;line-height:18px;font-size:20px;background-color: #eaeaea;color:#000000;font-family:Arial,Helvetica,sans-serif">
+  <p style="font-size:.9em;margin:0;padding:.5em 0 0.5em;line-height:1.4em;text-align:center"><b><span style="color:#000000;font-size: 18px;">
+     نعرض لك حتى 6 منتجات للتسويق ديجيتال بمنصات إيجبت مارت وأرابيوس دوت كوم * </span><br/><span></b> 
+                 <b>    نجلب لك طلبات شراء من داخل وخارج مصر ومستوردين وجملة * <span>    </p>
+
+
+ 
+</div>
+<div style="max-width:575px;line-height:18px;margin-top:15px;">
+                    
+	<p style="line-height:1.5em;text-align:left; margin:0;padding:.4em .4em .4em"> </p>
+  
+			  
+<div style="width: 100%; line-height:1.5em;  font-family:Arial,Helvetica,sans-serif;padding:0.5em 0 0.9em 1em">
+	<p style="color:#1600cc; font-size:1.5em; font-weight:bold;line-height:16px; margin-top:0px; margin-bottom:0px; text-align:center; font-family: Arial, Helvetica,sans-serif;"><a href="https://www.egyptmart.online/sign-in.php?email='.$usr_email.'&redirect=https://www.egyptmart.online/product-list.php">سجل الآن صور منتجاتك التى تريد تسويقها مجانا وأستمتع بالتجربة </p>       
+
+ </div>
+ 
+
+
+
+
+			  
+
+			             
+             </div>
+              <div style="height:2px;width:100%;float:left;border-bottom: 3px dotted #D8AED8;">
+
+               </div>
+              <div style="width:100%;float:left;text-align:center;padding-top: 10px;padding-bottom: 10px;">
+                  <a href="https://www.egyptmart.online/sign-in.php?email='.$usr_email.'&redirect=https://www.egyptmart.online/product-list.php" style="color:#00c118;text-decoration:none;font-size:18px;font-weight:bold;">سجل منتجات جديدة </a> | <a href="https://www.egyptmart.online/sign-in.php?email='.$usr_email.'&redirect=https://www.egyptmart.online/post-sell-offer.php" style="color:#00c118;text-decoration:none;font-size:18px;font-weight:bold;">أنشر عروضك الخاصة</a> | <a href="https://www.egyptmart.online/sign-in.php?email='.$usr_email.'&redirect=https://www.egyptmart.online/post-buy-req.php" style="color:#00c118;text-decoration:none;font-size:18px;font-weight:bold;">أنشر طلب تسعير</a> | <a href="https://www.egyptmart.online/sign-in.php?email='.$usr_email.'&redirect=https://www.egyptmart.online/post-tender.php" style="color:#00c118;text-decoration:none;font-size:18px;font-weight:bold;">أنشر مناقصات مجانا</a>
+              </div>
+              
+              <div style="width:100%;padding-left: 0px;float:left;color:#808080;"><p style="margin:10px 0px 2px;font-size:12px;text-align: right">نحيط سيادكم أنه يمكنكم وحدك تقرير إذا ماكنت تريد إستمرار عرض مضمون شركتك وتجارتك على المنصة أو تعديله أو حذفه طبقا لسياساتك المعمول بها داخل شركتك للإستفسار يمكنك الاتصال على محمول 01030029097</p>
+              </div><br/><br/>
+              <div style="width:100%;padding-left: 0px;text-align:center;color:#808080;"><p style="margin:10px 0px 2px;font-size:12px;"><span style="    font-size: 17px;    font-weight: 600;"></span> <br/><span><b><span style="color: blue;font-size: 14px;">Egypt MART<span style="color: blue;font-size: 14px;">  Team</span></b></span><br/><span style="color: #da4e1e;font-size: 17px;    font-weight: 700;">We Promote Your Business !</span></p>
+              </div>
+            </div>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>';
+?> 

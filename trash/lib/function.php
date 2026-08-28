@@ -1,0 +1,514 @@
+<?php
+global $con;
+function dateDifference($start_dt,$end_dt) //pranab
+{
+
+	$start_ts = strtotime($start_dt);
+  	$end_ts = strtotime($end_dt);
+  	$diff = $end_ts - $start_ts;
+  	
+	return round($diff / 86400);	
+}
+function dateRange( $first, $last, $step = '+1 day', $format = 'Y/m/d' ) //pranab
+{
+
+	$dates = array();
+	$current = strtotime( $first );
+	$last = strtotime( $last );
+
+	while( $current < $last ) {
+
+		$dates[] = date( $format, $current );
+		$current = strtotime( $step, $current );
+	}
+	return $dates;
+}
+function checkActive($op) //pranab
+{
+	global $con;
+	$sql="select so_value from site_option where so_id='".$op."'";
+	$qry=mysqli_query($con, $sql);
+	$obj=mysqli_fetch_object($qry);
+	if($obj->so_value=='1')
+	{
+		return true;	
+	}
+	else
+	{
+		return false;	
+	}
+}
+function get_membership_expired(){
+	global $con;
+	$uid=$_SESSION['uid_indm'];
+	if(isset($uid)){
+		$sql_user_bus="select * from `business_profile` where `bnsprof_uid`='".$uid."'";
+		$qry_bus=mysqli_query($con, $sql_user_bus);
+		$obj_bus=mysqli_fetch_object($qry_bus);
+		$business_id=$obj_bus->bnsprof_id;
+		$sql_user_mem_plan="select * from `plan_member_id` where `b_id`='".$business_id."'";
+		$qry_plan=mysqli_query($con, $sql_user_mem_plan);
+		$obj_plan=mysqli_fetch_object($qry_plan);
+		if(date('Y-m-d H:i:s',$obj_plan->expiry_date)>date('Y-m-d H:i:s')){
+			return true;
+		} 
+		else{
+			return false;
+		}
+	}
+}
+function init_site_settings() { //webxtor 2021Jan25: making only one request to settings
+	//global $site_settings;
+	global $con;
+	$result = @mysqli_query($con, "select st_value, st_field, st_id from site_settings_arabyos where st_status=1");
+	if (!$result) {
+	  printf("Query failed: %s\n", mysqli_error($con));
+	  exit;
+	}      
+	while($row = $result->fetch_array()) {
+		$key = ($row['st_field'] == 'website-title') ? $row['st_field'] : $row['st_id'];
+		$site_settings[$key]  =$row['st_value'];
+	}
+	return $site_settings;
+}
+function getSiteTitle()	//pranab
+{
+	global $site_settings;
+	return $site_settings['website-title'] ? ucfirst($site_settings['website-title']) : "No Title";//webxtor 2021Jan25
+	/*global $con;
+	$sql="select st_value from site_settings_arabyos where st_field='website-title' and st_status=1";
+	$query=@mysqli_query($con, $sql);
+	if($tit=@mysqli_fetch_object($query))
+	{
+		return ucfirst(@$tit->st_value);
+	}
+	
+	return "No Title";*/
+}
+if (!function_exists('getWebSiteName')) { function getWebSiteName()	//pranab
+{
+	global $site_settings;
+	return $site_settings[4] ? ucfirst($site_settings[4]) : "No Name";//webxtor 2021Jan25
+	/*global $con;
+	$sql="select st_value from site_settings_arabyos where st_id=4 and st_status=1";
+	$query=@mysqli_query($con, $sql);
+	if($tit=@mysqli_fetch_object($query))
+	{
+		return ucfirst($tit->st_value);
+	}
+	
+	return "No Name";*/
+}}
+
+if (!function_exists('get_page_settings')) { function get_page_settings($x)
+{
+	global $site_settings;
+	return $site_settings[$x];//webxtor 2021Jan25
+	/*global $con;	
+	$sql = "select * from site_settings_arabyos where st_id='".$x."'";
+	$qry = mysqli_query($con, $sql);	
+	$arr = @mysqli_fetch_array($qry);	
+	return stripslashes(@$arr['st_value']);*/
+}}
+function get_site_settings_arabyos($x)
+{
+	global $site_settings;
+	return $site_settings[$x];//webxtor 2021Jan25
+	/*global $con;
+	$sql = "select * from site_settings_arabyos where st_id='".$x."'";
+	$qry = mysqli_query($con, $sql);
+	$arr = mysqli_fetch_array( $qry);	
+	return stripslashes($arr['st_value']);*/
+}
+function get_page_social($x,$type)
+{
+	global $con;
+	$sql = "select * from site_social where st_id='".$x."'";
+	$qry = mysqli_query($con, $sql);
+	$arr = mysqli_fetch_array( $qry);	
+	return stripslashes($arr[$type]);
+}
+function user_pref($id,$data)
+{
+	global $con;
+$sql="select $data from user where usr_id=$id";
+$res=mysqli_query($con, $sql);
+$row=mysqli_fetch_array( $res);
+$return=$row[$data];
+return "$return";
+}
+function business_user_pref($id,$data)
+{
+	global $con;
+$sql="select $data from business_profile where bnsprof_uid=$id";
+$res=mysqli_query($con, $sql);
+$row_bus=mysqli_fetch_array($res);
+return "$row_bus[$data]";
+}
+
+function get_page_content($x,$fld)
+{
+	global $con;
+	$sql = "select * from cms_arabyos where cms_id='".$x."'";
+	$qry = mysqli_query($con, $sql);
+	$arr = mysqli_fetch_array( $qry);	
+	return stripslashes($arr[$fld]);
+}
+
+
+
+function date_addition($curr_date,$day)
+{
+$date = "$curr_date";
+$newdate = strtotime ( "$day day" , strtotime ( $date ) ) ;
+$newdate = date ( 'Y-m-j' , $newdate );
+ 
+return $newdate;
+}
+
+function random_ID($x,$char)       // $x = random Id length | $char = character you want to add before id for identification
+{
+	$random = '';
+  			for ($i = 0; $i < $x; $i++) {
+					$random .= rand(0, 1) ? rand(0, 9) : chr(rand(ord('A'), ord('Z')));
+  				}
+	return $char.$random;
+}
+if (!function_exists('getSiteLogo')) { function getSiteLogo()	//pranab
+{
+	global $con;
+	$sql="select st_value from site_settings_arabyos where st_id='5' and st_status='1'";
+	$query=mysqli_query($con, $sql);
+	if(mysqli_num_rows($query)>0)
+	{
+		$tit=mysqli_fetch_object($query);
+		return $tit->st_value;
+	}
+	else
+	{
+		return "No Title";
+	}
+}}
+
+function curPageURL() {
+ $pageURL = 'http';
+ if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
+ $pageURL .= "://";
+ if ($_SERVER["SERVER_PORT"] != "80") {
+  $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
+ } else {
+  $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+ }
+ return $pageURL;
+}
+function getMetaKeyWords()
+{
+	global $con;
+	$sql="select * from site_settings_arabyos where st_id='2'";
+	$res=mysqli_query($con, $sql);
+	$row=mysqli_fetch_object($res);
+	return $row->st_value;
+}
+function getMetaDescription()
+{
+	global $con;
+	$sql="select * from site_settings_arabyos where st_id='3'";
+	$res=mysqli_query($con, $sql);
+	$row=mysqli_fetch_object($res);
+	return $row->st_value;
+}
+if (!function_exists('measurement_unit')) { function measurement_unit($id)	//pranab
+{
+	global $con;
+	$sql="select * from measurement_unit where mu_id='".$id."'";
+	$res=mysqli_query($con, $sql);
+	$row=mysqli_fetch_object($res);
+	return $row->mu_name;
+}}
+function getCurrencyCode()	//pranab
+{
+	global $con;
+	$sql = "select * from site_settings_arabyos where st_field='currency-code'";
+	$qry = mysqli_query($con, $sql);
+	$arr = mysqli_fetch_array( $qry);	
+	return stripslashes($arr['st_value']);
+}
+function getCurrencySymbol()	//pranab
+{
+	global $con;
+	$sql = "select * from site_settings_arabyos where st_field='currency-symbol'";
+	$qry = mysqli_query($con, $sql);
+	$arr = mysqli_fetch_array( $qry);	
+	return stripslashes($arr['st_value']);
+}
+function getUserCredit($uid)	//pranab
+{
+	global $con;
+	$sql="select usr_credit from user where usr_id='".$uid."'";
+	$res=mysqli_query($con, $sql);
+	$row=mysqli_fetch_object($res);
+	return $row->usr_credit;
+}
+if (!function_exists('getEmailVerificationStatus')) { function getEmailVerificationStatus()
+{
+	global $con;
+	$sql = "select * from site_settings_arabyos where st_field='email-verification'";
+	$qry = mysqli_query($con, $sql);
+	$arr = mysqli_fetch_array( $qry);	
+	return $arr['st_value'];
+}}
+
+function getLocationInfoByIp(){
+
+	$json = file_get_contents("http://ipinfo.io/");
+	$details = json_decode($json);
+	
+	$result['country'] = $details->country;
+	$result['city'] = $ip_data->city;
+
+	return $result;
+
+}
+
+function XgetLocationInfoByIp()	//pranab
+{
+    $client  = @$_SERVER['HTTP_CLIENT_IP'];
+    $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
+    $remote  = @$_SERVER['REMOTE_ADDR'];
+    $result  = array('country'=>'', 'city'=>'');
+    if(filter_var($client, FILTER_VALIDATE_IP)){
+        $ip = $client;
+    }elseif(filter_var($forward, FILTER_VALIDATE_IP)){
+        $ip = $forward;
+    }else{
+        $ip = $remote;
+    }
+    $ip_data = @json_decode(file_get_contents("http://www.geoplugin.net/json.gp?ip=".$ip));  
+   echo "IP". $ip;
+   echo '<pre>';	
+   print_r($ip_data);
+   echo '</pre>';	
+    if($ip_data && $ip_data->geoplugin_countryName != null){
+        $result['country'] = $ip_data->geoplugin_countryCode;
+        $result['city'] = $ip_data->geoplugin_city;
+    }
+    return $result;
+}
+if (!function_exists('getUserInfo')) { function getUserInfo($id,$fld)	//pranab
+{
+	global $con;
+	$sql="select ".$fld." from user where usr_id='".$id."'";
+	$res=mysqli_query($con, $sql);
+	$row=@mysqli_fetch_array( $res);
+	return $row[0];
+}}
+
+function get_country_name1($country) {
+        global $con;
+	$sql="select cn_name from country where cn_id='".$country."'";
+	$res=mysqli_query($con, $sql);
+	$row=mysqli_fetch_array( $res);
+	return $row[0];
+}
+function get_city_name1($city) {
+        global $con;
+	$sql="select ct_name from city where ct_id='".$city."'";
+	$res=mysqli_query($con, $sql);
+	$row=mysqli_fetch_array( $res);
+	return $row[0];
+}
+function get_state_name1($state) {
+        global $con;
+	$sql="select state_name from states where state_id='".$state."'";
+	$res=mysqli_query($con, $sql);
+	$row=mysqli_fetch_array( $res);
+	return $row[0];
+}
+/*function get_country_name($country) {
+        global $con;
+	$sql="select cn_name from country where cn_id='".$country."'";
+	$res=mysqli_query($con, $sql);
+	$row=mysqli_fetch_array( $res);
+	return $row[0];
+}
+function get_city_name($city) {
+        global $con;
+	$sql="select cn_name from city where ct_id='".$city."'";
+	$res=mysqli_query($con, $sql);
+	$row=mysqli_fetch_array( $res);
+	return $row[0];
+}
+function get_state_name($state) {
+        global $con;
+	$sql="select state_name from states where state_id='".$state."'";
+	$res=mysqli_query($con, $sql);
+	$row=mysqli_fetch_array( $res);
+	return $row[0];
+}*/
+function getBlockedUserList($usr)
+{
+	global $con;
+	$sql="select distinct usr_id from user,blocked_user where 
+		(case
+		 	when bu_blockBy='".$usr."' then bu_blocked=usr_id
+			when bu_blocked='".$usr."' then bu_blockBy=usr_id
+		 end)";
+	$res=mysqli_query($con, $sql);
+	$id="";
+	$i=0;
+	while($row=mysqli_fetch_object($res))
+	{
+		if($i>0)
+		{
+			$id=$id.",";	
+		}
+		$id=$id.$row->usr_id;
+		$i++;
+	}
+	return $id;
+}
+if (!function_exists('getRealIpAddr')) { function getRealIpAddr()//pranab
+{
+    if (!empty($_SERVER['HTTP_CLIENT_IP']))   //check ip from share internet
+    {
+		$ip=$_SERVER['HTTP_CLIENT_IP'];
+    }
+    elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))   //to check ip is pass from proxy
+    {
+		$ip=$_SERVER['HTTP_X_FORWARDED_FOR'];
+    }
+	else if(@$_SERVER['HTTP_FORWARDED_FOR'])
+	{
+    	$ip = @$_SERVER['HTTP_FORWARDED_FOR'];
+	}
+	else if(@$_SERVER['HTTP_FORWARDED'])
+	{
+    	$ip = @$_SERVER['HTTP_FORWARDED'];
+	}
+    else if($_SERVER['REMOTE_ADDR'])
+	{
+         $ip = $_SERVER['REMOTE_ADDR'];
+	}
+    else
+    {
+      $ip=$_SERVER['REMOTE_ADDR'];
+    }
+    return $ip;
+}}
+/*function getCountryCode()//pranab
+{
+	$xml = simplexml_load_file("http://www.geoplugin.net/xml.gp?ip=".getRealIpAddr());
+	return $xml->geoplugin_countryCode;
+}*/
+//by webcast
+function produce_XML_object_tree($raw_XML) {
+    libxml_use_internal_errors(true);
+    try {
+        $xmlTree = new SimpleXMLElement($raw_XML);
+    } catch (Exception $e) {
+        // Something went wrong.
+        $error_message = 'SimpleXMLElement threw an exception.';
+        foreach(libxml_get_errors() as $error_line) {
+            $error_message .= "\t" . $error_line->message;
+        }
+        trigger_error($error_message);
+        return false;
+    }
+    return $xmlTree;
+}
+if (!function_exists('getCountryCode')) { function getCountryCode()
+{
+	$xml_feed_url = 'http://www.geoplugin.net/xml.gp?ip='.getRealIpAddr();
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $xml_feed_url);
+	curl_setopt($ch, CURLOPT_HEADER, false);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	$xml = curl_exec($ch);
+	curl_close($ch);
+	$cont = produce_XML_object_tree($xml);
+	return $cont->geoplugin_countryCode;
+}}
+function getCityCode()
+{
+	$ip = getRealIpAddr();
+	$details = json_decode(file_get_contents("http://ipinfo.io/{$ip}"));
+	return $details->city;
+}
+function getCountryId()
+{
+	$sql="select * from country where cn_code='".getCountryCode()."'";
+	$res=mysqli_query($con, $sql);
+	$row=mysqli_fetch_object($res);
+	
+	return $row->cn_id;
+}
+function geoCheckIP()
+{
+	$ip=getRealIpAddr();
+    //check, if the provided ip is valid
+	if(!filter_var($ip, FILTER_VALIDATE_IP))
+    {
+    	throw new InvalidArgumentException("IP is not valid");
+    }
+
+    //contact ip-server
+    $response=@file_get_contents('http://www.netip.de/search?query='.$ip);
+    if (empty($response))
+    {
+         throw new InvalidArgumentException("Error contacting Geo-IP-Server");
+    }
+
+    //Array containing all regex-patterns necessary to extract ip-geoinfo from page
+    $patterns=array();
+    $patterns["domain"] = '#Domain: (.*?)&nbsp;#i';
+    $patterns["country"] = '#Country: (.*?)&nbsp;#i';
+    $patterns["state"] = '#State/Region: (.*?)<br#i';
+    $patterns["town"] = '#City: (.*?)<br#i';
+
+    //Array where results will be stored
+    $ipInfo=array();
+
+    //check response from ipserver for above patterns
+    foreach ($patterns as $key => $pattern)
+    {
+    	//store the result in array
+        $ipInfo[$key] = preg_match($pattern,$response,$value) && !empty($value[1]) ? $value[1] : 'not found';
+	}
+
+    return $ipInfo;
+}
+if (!function_exists('getCurrency')) { function getCurrency($curr)
+{
+	global $con;
+	$sql="select cn_currency from country where cn_id='".$curr."'";
+	$res=mysqli_query($con, $sql);
+	$row=mysqli_fetch_object($res);
+
+	return $row->cn_currency;
+}}
+function getServiceTaxRate()
+{
+	$sql = "select * from site_settings_arabyos where st_field='service-tax-rate'";
+	$qry = mysqli_query($con, $sql);
+	$arr = mysqli_fetch_array( $qry);	
+	return $arr['st_value'];
+}
+function Show_shortcontent($text, $count)
+{ 
+	$text = str_replace("  ", " ", $text); 
+	$string = explode(" ", $text); 
+	for ( $wordCounter = 0; $wordCounter <= $count;$wordCounter++ )
+	{ 
+	  $trimed .= $string[$wordCounter]; 
+	  if($wordCounter < $count )
+	  { 
+        $trimed .= ""; 
+	   } 
+	  else{
+      		  $trimed .= "...";
+		  } 
+	} 
+	$trimed = trim($trimed); 
+	return $trimed; 
+} 
+?>

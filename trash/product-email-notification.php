@@ -1,0 +1,239 @@
+<?php
+ob_start();
+session_start();
+
+//include 'common.php';
+
+if(isset($_GET['token']))
+{
+
+$token=substr($_GET['token'],4);
+}
+else
+if(isset($_POST['pd_id']))
+{
+$pd_id=$_POST['pd_id'];
+}
+else
+if(isset($_GET['pd_id']))
+{
+$pd_id=$_GET['pd_id'];
+}
+else
+if(isset($_GET['admn_pd_id']))
+{
+$pd_id=$_GET['admn_pd_id'];
+}
+
+if(isset($_GET['token']))
+{
+$sql="select cn_id,cn_name,fname,lname from user,products,country where pd_uid = usr_id and country = cn_id and md5(pd_id) ='".$token."'"; 
+}
+else
+{
+$sql="select cn_id,cn_name,fname,lname from user,products,country where pd_uid = usr_id and country = cn_id and pd_id = ".$pd_id; 
+}
+//webcast start
+if(isset($_GET['token'])) {
+	$sql="select bnsprof_id from business_profile,products where bnsprof_uid = pd_uid and md5(pd_id) ='".$token."'";
+	$suser1=mysql_query($sql);
+	$suser=mysql_fetch_array($suser1);
+}
+//webcast end
+if($suser->bnsprof_id!=''){
+	$buss_id=$suser->bnsprof_id;;
+}
+else{
+	$buss_id=$_GET['buss_id'];
+}
+$rs=mysql_query($sql);
+$row=mysql_fetch_array($rs);
+$cn_name=$row['cn_name'];
+$cn_id=$row['cn_id'];
+
+//Get Data From Database According to location 
+/*$sql_tbi = "select pd_uid,pd_title,pd_fob_price,cn_currency,pd_desc,pd_status,pc_name,usr_id,country,email,usr_so_prefLocation 
+from selloffer_alert_category,products,user,country,product_category
+ where pd_subcat_id = sac_pc_id and sac_pc_id = pc_id and sac_usr_id = usr_id 
+ and pd_currency = cn_id and pd_id = ".$pd_id;*/
+
+ //Here we check same category and same LP
+ if(isset($_GET['token']))
+{
+  $sql_tbi = "select * from selloffer_alert_category,products,user,country
+ where pd_subcat_id = sac_pc_id and sac_usr_id = usr_id 
+ and pd_currency = cn_id and pd_preferred_buyer_location = usr_so_prefLocation and md5(pd_id) ='".$token."'";
+}
+else
+{
+  $sql_tbi = "select * from selloffer_alert_category,products,user,country,business_profile
+ where pd_subcat_id = sac_pc_id and sac_usr_id = usr_id and usr_id=bnsprof_uid
+ and pd_currency = cn_id and pd_preferred_buyer_location = usr_so_prefLocation and pd_id = ".$pd_id;
+}
+$res_tbi=mysql_query($sql_tbi);
+     
+//Send Email To All Sellers according to location and product	 
+        $from_mail=get_adminemail();
+		$from_name = get_page_settings(4);
+	    $subj="Latest Product Alert On  :منتجات / خدمات تجارية تهمك على  ".getWebSiteName();
+	    $headers  = "MIME-Version: 1.0\n";
+		$headers .= "Content-type: text/html; charset=iso-8859-1\n";
+	 	$headers .= "From: ".$from_name." <".$from_mail.">";
+		    
+    while($row_mpc=mysql_fetch_array($res_tbi)){
+	//echo $row_mpc['pd_status'];die;
+	if($row_mpc['pd_status']==1 || $row_mpc['pd_status']==0)
+	{
+	$flag=0;
+	 //Here we check location of  both seller and buyer according to LP
+	if($row_mpc['usr_so_prefLocation']=="any")
+	{
+	    $flag=1;
+	}
+	else
+	if($row_mpc['usr_so_prefLocation']=="abroad" && $row_mpc['country']!=$cn_id)
+	{
+	   $flag=2;
+	}
+	else
+	if($row_mpc['usr_so_prefLocation']=="domestic" && $row_mpc['country']==$cn_id)
+	{
+	   $flag=3;
+	}
+	else
+	if($row_mpc['usr_so_prefLocation']=="my_city" && $row_mpc['country']==$cn_id)
+	{
+	   $flag=4;
+	}
+	if($flag!=0)
+	{
+	
+	   $sql_pc="select m.pc_name,c.pc_name,s.pc_name,m.pc_id,c.pc_id,s.pc_id from product_category m,product_category c,product_category s where m.pc_id=c.pc_parent_id and c.pc_id=s.pc_parent_id and s.pc_id='".$row_mpc['sac_pc_id']."'";
+	  $res_pc=mysql_query($sql_pc);
+	  $row_pc=mysql_fetch_array($res_pc);
+	 
+	  
+	    $comment="<div style='width: 628px;height: auto;border: 9px solid #92AED2;float: left;padding: 10px;margin-top:10px;'>";
+		$comment.="<div style='height: 100px; width: 100%; float: left; '><div style='height: 100px; width: 30%; float: left;'>";
+		$comment.="<img src='https://egyptmart.online/images/logo.png' style='width:100%;' alt='EgyptMART'>";
+        $comment.="</div><div style='height:100px;width:43%;float:left;'><h2 style='font-size: 20px; color:#0e14da; text-align:center; margin-top:0px; margin-bottom:0px;'>Today's Latest<br> Products & Suppliers</h2></div>";
+       $comment.="<div style='min-height: 100px; width: 27%; float: right; padding-top: 3px;'><span style='font-size: 15px; float: right; padding-bottom: 0px; clear: both; font-weight: bold;color:#000000;'> Notification</span><span style='float: right; font-size: 13px; padding-top: 0px; clear: both;color:#000000;'>".date('M d, Y')."</span></div></div>";
+		$comment.="<div style='width:100%;float:left;color:#000000;'><p style='font-size:16px;color:#000000'><strong>Dear ".$row_mpc['name_prefix']." ".$row_mpc['fname']." ".$row_mpc['lname']."</strong>,<br><br>Latest Products relevant to your products of interest on EgyptMART listed below:
+
+</p></div>";
+		 $comment.="<div style='height:auto;width:100%;float:left;margin-top:10px;'>";
+		$comment.="<div style='height:auto;width:100%;float:left;'><div style='width:25%;float:left;padding-top:9px;'>";
+		if($row_mpc['pd_image']=="")
+		{
+		$comment.="<img src='https://egyptmart.online/upload/myproduct/noimage.jpg' style='height:116px;width:100%;'>";
+		}
+		else
+		{
+		$comment.="<img src='https://egyptmart.online/upload/myproduct/thumb/".$row_mpc['pd_image']."' style='height:116px;width:100%;'>";
+		}
+		$comment.="</div>";
+		$comment.="<div style='width:66%'>
+		<div style='width:100%'><h3 style='padding-left:20px;display:inline-block;font-size:16px;'>".$row_mpc['pd_title']."</h3></div>
+		<div style='width:100%;margin-top:10px'> <div style='display:inline-block;padding-left:20px;'>MOQ<span style='padding-left:20px;'>:</span></div>
+					 <div style='color:#e9582c;display:inline-block'>".$row_mpc['pd_min_order_qty']."</div>
+					 <div style='color:#000;display:inline-block'>".measurement_unit($row_mpc['pd_unit'])."</div>
+					 </div>
+					 <div style='width:100%;margin-top:10px'>
+					 <div style='padding-left:20px;display:inline-block;'>Price<span style='padding-left:20px;'>:</span></div>
+					 <div style='color:#e9582c;font-weight:bold;font-size:15px;line-height:15px;display:inline-block;'>".$row_mpc['pd_fob_price']."</div>
+					 <div style='color:#000;padding-left:5px;display:inline-block;'>".$row_mpc['cn_currency']."</div>
+					 </div>
+		</div>
+			
+		</div>";
+		$comment.="<div style='width:100%;font-size:12px;font-weight:bold;text-align:center;padding-top:15px;'>
+					<a href='https://egyptmart.online/company/product-details.php?token=".rand(1000,9999).md5($row_mpc['pd_id'])."&c=".rand(1000,9999).md5($buss_id)."' style='text-decoration:none;color:#0e14da;padding-right: 2px;'>Learn More  >> </a>
+				 </div>";
+		$comment.="<div style='height:2px;width:100%;float:left;border-bottom: 3px dotted #D8AED8;'></div>";
+		$comment.="<div style='width:100%;float:left;text-align:center;padding-top: 10px;padding-bottom: 10px;'><a href='https://egyptmart.online/dir.php' style='color:#0e14da;text-decoration:none;font-size:18px;font-weight:bold;'>Product & Suppliers</a> | <a href='https://egyptmart.online/sale-offers.php' style='color:#0e14da;text-decoration:none;font-size:18px;font-weight:bold;'>Sale Offers</a> | <a href='https://egyptmart.online/buyleads.php' style='color:#0e14da;text-decoration:none;font-size:18px;font-weight:bold;'>Buy Requests</a> | <a href='https://egyptmart.online/tenders.php' style='color:#0e14da;text-decoration:none;font-size:18px;font-weight:bold;'>Tenders</a></div>";
+		$comment.="<div style='width:100%;padding-left: 0px;float:left;color:#808080;text-align: center;'><p style='margin:10px 0px 2px'>You have received this mail virtue of your opt-in subscription for product alert on <font style='color:blue;'>EgyptMART</font>.</p><p style='color:#808080; margin:0px 0px 20px;'><a href='https://egyptmart.online/sign-in.php?email=".$usr_email."&redirect=https://egyptmart.online/manage-selloffer-alert.php' style='text-decoration:none;color:blue;'>Click here</a> if you wish to modify to your product alert categories.</p></div>";
+			$comment.="</div>";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/* inbox */
+		$inbox="<div style='width:628px;height: auto;border: 9px solid #92AED2;float: left;padding: 10px;margin-top:10px;'>";
+		$inbox.="<div style='height: 100px; width: 100%; float: left; '><div style='height: 100px; width: 30%; float: left;'>";
+		$inbox.="<img src='https://egyptmart.online/images/logo.png' style='width:100%;' alt='EgyptMART'>";
+        $inbox.="</div><div style='height:100px;width:43%;float:left;'><h2 style='font-size: 20px; color:#0e14da; text-align:center; margin-top:0px; margin-bottom:0px;'>Today's Latest<br> Products & Suppliers</h2></div>";
+       $inbox.="<div style='min-height: 100px; width: 27%; float: right; padding-top: 3px;'><span style='font-size: 15px; float: right; padding-bottom: 0px; clear: both; font-weight: bold;color:#000000;'> Notification</span><span style='float: right; font-size: 13px; padding-top: 0px; clear: both;color:#000000;'>".date('M d, Y')."</span></div></div>";
+		$inbox.="<div style='width:100%;float:left;color:#000000;'><p style='font-size:16px;color:#000000'><strong>Dear ".$row_mpc['name_prefix']." ".$row_mpc['fname']." ".$row_mpc['lname']."</strong>,<br><br>Latest Products relevant to your subscribed categories on EgyptMART are listed below:</p></div>";
+		 $inbox.="<div style='height:auto;width:100%;float:left;margin-top:10px;'>";
+		$inbox.="<div style='height:auto;width:100%;float:left;'><div style='width:25%;float:left;padding-top:9px;'>";
+		if($row_mpc['pd_image']=="")
+		{
+		$inbox.="<img src='https://egyptmart.online/upload/myproduct/noimage.jpg' style='height:116px;width:100%;'>";
+		}
+		else
+		{
+		$inbox.="<img src='https://egyptmart.online/upload/myproduct/thumb/".$row_mpc['pd_image']."' style='height:116px;width:100%;'>";
+		}
+		$inbox.="</div>";
+		$inbox.="<div style='width:66%'><div style='width:100%'><h3 style='font-size:18px;'>".$row_mpc['pd_title']."</h3></div><div style='width:100%;margin-top:10px'> <div style='display:inline-block;padding-left:0px;'>MOQ<span style='padding-left:20px;'>:</span></div><div style='color:#e9582c;display:inline-block'>".$row_mpc['pd_min_order_qty']."</div><div style='color:#000;display:inline-block'>".measurement_unit($row_mpc['pd_unit'])."</div></div><div style='width:100%;margin-top:10px'><div style='padding-left:0px;display:inline-block;'>Price<span style='padding-left:20px;'>:</span></div><div style='color:#e9582c;font-weight:bold;font-size:15px;line-height:15px;display:inline-block;'>".$row_mpc['pd_fob_price']."</div><div style='color:#000;padding-left:5px;display:inline-block;'>".$row_mpc['cn_currency']."</div></div></div></div>";
+		$inbox.="<div style='width:100%;font-size:12px;font-weight:bold;text-align:center;padding-top:15px;'><a href='https://egyptmart.online/company/product-details.php?token=".rand(1000,9999).md5($row_mpc['pd_id'])."&c=".rand(1000,9999).md5($buss_id)."' style='text-decoration:none;color:#0e14da;padding-right: 2px;'>شاهد التفاصيل >> </a></div>";
+		$inbox.="<div style='height:2px;width:100%;float:left;border-bottom: 3px dotted #D8AED8;'></div>";
+		$inbox.="<div style='width:100%;float:left;text-align:center;padding-top: 10px;padding-bottom: 10px;'><a href='https://egyptmart.online/dir.php' style='color:#0e14da;text-decoration:none;font-size:18px;font-weight:bold;'>Product & Suppliers</a> | <a href='https://egyptmart.online/sale-offers.php' style='color:#0e14da;text-decoration:none;font-size:18px;font-weight:bold;'>Sale Offers</a> | <a href='https://egyptmart.online/buyleads.php' style='color:#0e14da;text-decoration:none;font-size:18px;font-weight:bold;'>Buy Requests</a> | <a href='https://egyptmart.online/tenders.php' style='color:#0e14da;text-decoration:none;font-size:18px;font-weight:bold;'>Tenders</a></div>";
+		$inbox.="<div style='width:100%;padding-left: 0px;float:left;color:#808080;text-align: center;'><p style='margin:10px 0px 2px'>You have recived this mail virtue of your opt-in subscription for product alert on <font style='color:blue;'>EgyptMART</font>.</p><p style='color:#808080; margin:0px 0px 20px;'><a href='https://egyptmart.online/manage-selloffer-alert.php' style='text-decoration:none;color:blue;'>Click here</a> if you wish to modify to your product alert categories.</p></div>";
+			$inbox.="</div>";
+		
+		/* inbox */
+		
+	//echo $comment;die;
+	  $to=stripslashes($row_mpc['email']);  
+	  sendSMTPMail($to,$subj,$comment,$headers);	
+	  //End Mail
+	//  echo $comment;
+		
+        //Insert in message table 	
+  	
+       $sql='insert into message set	
+		msg_from ="'.$row_mpc['pd_uid'].'",
+		msg_to ="'.$row_mpc['usr_id'].'",
+		msg_subject ="'.$subj.'",
+		msg_message ="'.$inbox.'",
+		msg_to_status ="1",
+		msg_from_status ="0",
+		msg_date =now()';	
+        mysql_query($sql);
+		//End Inserting in message table
+		}
+		}
+	}	
+	if(isset($_GET['token']))
+    {
+
+	header("location:product-edit.php?token=".$_GET['token']);
+    }
+	else
+	if(isset($_GET['pd_id']))
+    {
+	header("location:admin/product-view.php");
+    }
+	else
+	if(isset($_GET['admn_pd_id']))
+    {
+    header("location:admin/product-edit.php?fid=".$_GET['admn_pd_id']);
+    }
+?>

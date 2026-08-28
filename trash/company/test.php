@@ -1,0 +1,218 @@
+<?php
+include "../common.php";
+$c = $_GET['c'];
+$id = substr($_GET['c'], 4);
+$sql = "select * from business_profile,user,ownership_type,revenue_turnover where bnsprof_uid=usr_id and md5(bnsprof_id)='" . $id . "'";
+$res = mysql_query($sql);
+$row = mysql_fetch_object($res);
+
+
+
+$class = "grids_list";
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+$limit = 9;
+$start = (($page - 1) * $limit);
+
+$sq1s_totle = "select count(*) as totle from products where pd_uid='" . $row->usr_id . "' and pd_status='1' and pd_hot='1'";
+$ress_totle = mysql_query($sq1s_totle);
+$rows_totle = mysql_fetch_object($ress_totle);
+$totalitem = ceil($rows_totle->totle / $limit);
+
+
+$sq1_totle = "select count(*) as totle from products where pd_uid='" . $row->usr_id . "' and pd_status='1' and pd_hot='0'";
+$res_totle = mysql_query($sq1_totle);
+$row_totle = mysql_fetch_object($res_totle);
+$totalitems = ceil($row_totle->totle / $limit);
+
+
+$prev = ($page > 1) ? $page - 1 : 1;
+$next = ($page < $totalitem) ? $page + 1 : 1;
+
+
+
+if (isset($_GET['view']) && $_GET['view'] != "") {
+    $class = $_GET['view'];
+}
+?>
+<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+<script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.colorbox/1.6.3/jquery.colorbox.js"></script>
+
+<script type="text/javascript" src="js/jssor.slider.mini.js"></script>
+<script src="js/index.js"></script>
+<script src="../company/loader/waitMe.js"></script>
+
+                        
+                        <div class="top_page_list_first" style="position:absolute; top: -166px;right: 0px;">
+                            <a class="but left" uri-id="<?php echo 'test.php?c=' . $c . '&view=' . $class . '&page=' . $prev; ?>" uri-page="<?php echo $prev;?>" href="javascript:void(0)"><img src="images/left.png" style="width:10%" /></a>
+                            <a class="but right" uri-id="<?php echo 'test.php?c=' . $c . '&view=' . $class . '&page=' . $next; ?>" uri-page="<?php echo $next;?>" href="javascript:void(0)"><img src="images/right.png" style="width:10%" /></a><?php echo $page . " of " . $totalitem; ?> pages
+                        </div>
+
+                        <ul class="hot-product">
+                            <li class="ac-bdrb lc-bbw0 <?php echo $class; ?>">
+
+                                <script src="js/jquery.colorbox.js"></script>
+                                <link href="css/colorbox.css" type="text/css" rel="stylesheet">
+                                <?php
+                                $sql_pd_h = "select * from products where pd_uid='" . $row->usr_id . "' and pd_status='1' and pd_hot='1' LIMIT " . $limit . " OFFSET " . $start . "";
+                                $res_pd_h = mysql_query($sql_pd_h);
+                                if (mysql_num_rows($res_pd_h) > 0) {
+                                    $j = 1;
+                                    while ($row_pd_h = mysql_fetch_object($res_pd_h)) {
+                                        ?>
+                                        <section class="itemr">
+                                            <div class="shadow items">
+                                                <!-- single item -->
+                                                <div class="item">
+                                                    <div class="product_image">
+                                                    <a href="product-details.php?token=<?php echo rand(1000, 9999) . md5($row_pd_h->pd_id); ?>&c=<?php echo $c; ?>" style="font-size:17px;">
+                                                        <img src="../upload/myproduct/<?php
+                                                        if ($row_pd_h->pd_image != '') {
+                                                            echo $row_pd_h->pd_image;
+                                                        } else {
+                                                            echo "noimage.jpg";
+                                                        }
+                                                        ?>" alt="<?php echo $row_pd_h->pd_title; ?>" class="cu" style="height:94%;"></a>
+                                                        <li class="wtmp wtmpie">
+                                                            <a href="productzoomimage.php?token=<?php echo rand(1000, 9999) . md5($row_pd_h->pd_id); ?>" class="ajax1" style="cursor:pointer;"><img src="images/zoom.png" style="height: 30px; width: 30px; float: right; position: absolute; left: 153px; top: 125px;"/>
+                                                                <div class="f2 zoom2 mrgzoom"></div>
+                                                            </a>
+                                                        </li>
+
+                                                    </div>
+                                                    <script>
+                                                        $(document).ready(function() {
+                                                            //Examples of how to assign the ColorBox event to elements
+
+                                                            $(".ajax1").colorbox();
+                                                            $(".inline").colorbox({inline: true, width: "50%"});
+                                                            //Example of preserving a JavaScript event for inline calls.
+                                                            $("#click").click(function() {
+                                                                $('#click').css({"background-color": "#f00", "color": "#fff", "cursor": "inherit"}).text("Open this window again and this message will 		still be here.");
+                                                                return false;
+                                                            });
+                                                        });
+                                                    </script>
+
+                                                    <div class="product_title">
+                                                        <a href="product-details.php?token=<?php echo rand(1000, 9999) . md5($row_pd_h->pd_id); ?>&c=<?php echo $c; ?>" style="font-size:17px;"><?php echo $row_pd_h->pd_title; ?></a>		
+                                                    </div>
+                                                    <div class="product_title">
+                                                       <p> <?php echo substr($row_pd_h->pd_desc, 0, 65) ?>
+                                                        <a href="product-details.php?token=<?php echo rand(1000, 9999) . md5($row_pd_h->pd_id); ?>&c=<?php echo $c; ?>" style="font-size:11px;">more</a>		
+                                                    </p></div>
+                                                    <button class="add-to-cart" onclick="addtosupplier(<?php echo $row_pd_h->pd_id; ?>, '<?php
+                                                    if ($row->bnsprof_comp_url != '') {
+                                                        echo $row->bnsprof_comp_url;
+                                                    } else {
+                                                        echo "";
+                                                    }
+                                                    ?>', '<?php
+                                                    if ($row_pd_h->pd_image != '') {
+                                                        echo $row_pd_h->pd_image;
+                                                    } else {
+                                                        echo "noimage.jpg";
+                                                    }
+                                                    ?>');" style="float:right;"><a href="javaScript:void(0);"><i class="fa fa-plus"></i></a></button>
+
+                                                    <div class="product_detail">
+                                                        <div class="product_left"></div>
+
+                                                        <div class="price_div">
+                                                            <span><?php echo $row_pd_h->pd_fob_price; ?></span><?php echo get_product_detail($row_pd_h->pd_id, 'pd_currency'); ?>
+                                                            <div class="unit_div"><span><?php echo $row_pd_h->pd_min_order_qty; ?> </span> <?php echo get_measurement_unit($row_pd_h->pd_unit); ?><span style="font-size:11px; color: #B5BABE;"> (Min Order)</span></div>
+                                                        </div>
+
+
+
+                                                    </div>
+
+                                                    <div class="product_number">
+                                                        <span><img src="<?php echo BASE_URL ?>/company/images/mobile_icon.png"></span>+20-123654789
+                                                    </div>
+
+                                                    <div class="link pt10px">				
+                                                        <script>
+                                                        $(document).ready(function() {
+                                                            $("#btn_ajax" +<?php echo $row_pd_h->pd_id; ?>).colorbox({width: "62%", height: "89%"});
+                                                        });
+                                                        </script>
+                                                        <span>
+                                                            <a href="quotationRequest.php?id=<?php echo rand(1000, 9999) . md5($row->bnsprof_id); ?>&pid=<?php echo $row_pd_h->pd_id; ?>" id="btn_ajax<?php echo $row_pd_h->pd_id; ?>" rel="product-send-inquiry" class="inquiry_but">Send Inquiry</a></span>
+                                                        <span><img src="<?php echo BASE_URL ?>/company/images/chat_icon.png" width="20"></span>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+
+                                        </section>            
+                                        <?php
+                                        $j++;
+                                    }
+                                }
+                                ?>
+
+
+
+                            </li>
+                        </ul>
+                        <div class="top_page_list_first" style="display: block; position: inherit; float:left; width:100%; padding-top: 30px; text-align: center !important;">
+                            <a class="but left" uri-id="<?php echo 'test.php?c=' . $c . '&view=' . $class . '&page=' . $prev; ?>" uri-page="<?php echo $prev;?>" href="javascript:void(0)" style="border-style: solid; border-width: 1px; border-color: black; color:#060; font-size: 20px;">Prev</a>
+                            <?php for ($i = 1; $i <= $totalitem; $i++) : ?>
+                                <a class="but" uri-id="<?php echo 'test.php?c=' . $c . '&view=' . $class . '&page=' . $i; ?>" uri-page="<?php echo $i;?>" href="javascript:void(0)" style="border-style: solid; border-width: 1px; border-color: black; color:#060; font-size: 20px; font-family: serif;"><span style="margin: 2px 5px 4px 5px; font-weight: 200 !important;"><?php print_r($i); ?></span></a>
+                            <?php endfor; ?>
+                             
+                             <a class="but right" uri-id="<?php echo  'test.php?c=' . $c . '&view=' . $class . '&page=' . $next; ?>" uri-page="<?php echo $next;?>" href="javascript:void(0)" style="border-style: solid; border-width: 1px; border-color: black; color:#060; font-size: 20px;">Next</a>
+
+
+
+                        </div> 
+
+<script>
+    $(document).ready(function() {
+      
+       
+        $(".but").click(function() {
+        var page=$(this).attr('uri-page');
+      
+            //console.log($(this).attr('uri-id'));
+            $.ajax({
+                url: $(this).attr('uri-id'),
+                type: 'GET',
+                dataType: "html",
+                data: {
+                    page:page
+                },
+                beforeSend: function() {
+                    var current_effect = "roundBounce";
+                    run_waitMe(current_effect);
+                    function run_waitMe(effect){
+                    $('.containerBlock').waitMe({
+			effect: effect,
+			text: 'Please wait...',
+			bg: 'rgba(255,255,255,0.7)',
+			color: '#000',
+			maxSize: '',
+			source: 'img.svg',
+			onClose: function() {}
+                        });
+                    }
+                    
+                },
+                success: function(success) {
+                    console.log(success);
+                    $('.hotproduct').html(success);
+                },
+                error: function(error) {
+
+                },
+                complete: function(complete) {
+                    $('.containerBlock').waitMe('hide');
+                }
+            });
+
+        });
+    });
+
+</script>

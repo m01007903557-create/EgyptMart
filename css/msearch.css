@@ -1,0 +1,41 @@
+a {
+    color: #00f;
+}
+
+#cssmenu{ 
+    float:left;
+    width:220px;
+}
+
+@media (max-width: 767px) {
+    .prdt-search-btn-grp {
+        display: none;
+    }
+
+    form > .checkbox {
+        display: inline-block !important;
+        width: auto !important;
+        margin: 3px 5px!important;
+        vertical-align: top;
+    }
+
+    #cssmenu {
+        width:100% !important;
+    }
+
+    form > .checkbox:not(:first-child) {
+        /* border-right: 2px solid; */
+    }
+
+    form > .checkbox label {
+        display:flex;
+        justify-content:center;
+        align-items: center;
+        gap: 5px;
+    }
+
+    form > .checkbox label input {
+        margin: 0;
+    }
+    
+}

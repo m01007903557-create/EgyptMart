@@ -1,0 +1,70 @@
+/* Allow flyout to escape the 3-column float container */
+.demobox {
+    overflow: visible !important;
+}
+.demobox::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+#block_navigation,
+#block_navigation ul,
+#block_navigation ul li {
+    overflow: visible;
+}
+
+#block_navigation ul li:hover {
+    z-index: 1002;
+}
+
+.typography_3_colm {
+    z-index: 1001 !important;
+}
+
+#block_navigation ul li:hover > ul,
+#block_navigation ul li:hover > .typography_2_colm,
+#block_navigation ul li:hover > .typography_3_colm,
+#block_navigation ul li:hover > .typography_5_colm {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: 1004 !important;
+}
+.slider.r_css,
+.slider.r_css .jqans-wrapper,
+.slider.r_css .jqans-container,
+.slider.r_css .jqans-stories,
+.slider.r_css .jqans-stories-selector {
+    overflow: hidden;
+}
+
+.slider.r_css .jqans-wrapper,
+.slider.r_css .jqans-container,
+.slider.r_css .jqans-content,
+.slider.r_css .jqans-stories,
+.slider.r_css .jqans-stories-selector {
+    width: 100%;
+}
+
+.slider.r_css #newsslider {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.slider.r_css #newsslider > li {
+    float: left;
+}
+
+.slider.r_css .jqans-content img {
+    display: block;
+    height: auto;
+    width: 100%;
+}
+
+.slider.r_css .jqans-stories-selector ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}

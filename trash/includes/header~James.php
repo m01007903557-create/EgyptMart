@@ -1,0 +1,692 @@
+<?php
+//echo 'fdf df df';
+?>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--<link href="css/style123.css" type="text/css" rel="stylesheet" / >-->
+   
+<style>
+
+ 
+body {
+	background-color: rgb(237, 242, 245);
+}
+.page-header-col1-row2-col4 h1{
+	text-align: left;
+	font-size: 14px;
+}
+</style>
+ 
+<script type="text/javascript">
+   function showmymenu() {
+       $("#mn1").show();
+   }
+   function hidemymenu() {
+       $("#mn1").hide();
+   }
+   function showLocMenu() {
+       $("#changeLocation").show();
+   }
+   function hideLocMenu() {
+       $("#changeLocation").hide();
+   }
+   function showbuymenu() {
+       $("#buymnu").show();
+   }
+   function hidebuymenu() {
+       $("#buymnu").hide();
+   }
+   function showsellmenu() {
+       $("#sellmnu").show();
+   }
+   function hidesellmenu() {
+       $("#sellmnu").hide();
+   }
+</script>
+<script>
+   function showsrchm() {
+       $("#smnu").show();
+   }
+   function hidesrchm() {
+       $("#smnu").hide();
+   }
+   function OutboundLink(type) {
+       if (type == 'buy_lead') {
+           $("#a1").html("Buy Leads");
+       }
+       else if (type == 'tender') {
+           $("#a1").html("Tender");
+       }
+       else if (type == 'auction') {
+           $("#a1").html("Auction");
+       }
+       else {
+           $("#a1").html(type);
+       }
+       $("#rctyp").val(type);
+       $("#smnu").hide();
+   }
+</script>
+<script>
+   function validsearch() {
+       var keywords = document.getElementById('keywords');
+       if (keywords.value == '' || keywords.value == null) {
+           alert("Please enter a valid text to search.");
+           return false;
+       }
+   }
+   function gotFocus() {
+       var keywords = $("input#keywords").val();
+       if (keywords == 'Enter product / service to search' || keywords == 'Enter Buy Lead to search' || keywords == 'Enter Supplier to search' || keywords == 'Enter Tender to search') {
+           $("input#keywords").val('')
+       }
+   }
+   function lostFocus() {
+       var type = $("#keyword_type").val();
+       var keywords = $("input#keywords").val();
+       if (type == 'Products' && (keywords == '' || keywords == 'Enter Buy Lead to search' || keywords == 'Enter Supplier to search')) {
+           $("input#keywords").val('Search Product');
+       }
+       else if (type == 'Buy Leads' && (keywords == '' || keywords == 'Enter product / service to search' || keywords == 'Enter Supplier to search')) {
+           $("input#keywords").val('Enter Buy Lead to search');
+       }
+       else if (type == 'Suppliers' && (keywords == '' || keywords == 'Enter product / service to search' || keywords == 'Enter Buy Lead to search')) {
+           $("input#keywords").val('Enter Supplier to search');
+       }
+         else if (type == 'Tender' && (keywords == '' || keywords == 'Enter product / service to search' || keywords == 'Enter Tender to search')) {
+           $("input#keywords").val('Enter Tender to search');
+       }
+   }
+   function setCountryLocation(id)
+   {
+       $.post("setCountryLocation.php", {loc_id: id}, function (data)
+   {
+           if (data != 0) {
+               //	$("#cnlocation").html('<img src="images/country_flag/'+data+'" alt="" class="w4" align="top" height="15" width="20"/>');
+               location.reload();
+           }
+       });
+   }
+   function unsetCountryLocation() {
+       $.post("unsetCountryLocation.php", function (data) {
+           //	$("#cnlocation").html('<img src="images/country_flag/'+data+'" alt="" class="w4" align="top" height="15" width="20"/>');
+           location.reload();
+       });
+   }
+</script>
+<script type="test/javascript">
+    function showcontent(x){
+      if(window.XMLHttpRequest) {
+        xmlhttp = new XMLHttpRequest();
+      } else {
+        xmlhttp = new ActiveXObject('Microsoft.XMLHTTP');
+      }
+      xmlhttp.onreadystatechange = function() {
+        if(xmlhttp.readyState == 1) {
+            document.getElementById('content').innerHTML = "<img src='images/loadingif.gif' />";
+        }
+        if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+          document.getElementById('content').innerHTML = xmlhttp.responseText;
+        }
+      }
+      xmlhttp.open('POST', x+'.html', true);
+      xmlhttp.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+      xmlhttp.send(null);
+    }
+    </script>
+<?php
+   /**
+    * Created by PhpStorm.
+    * User: Long
+    * Date: 12/18/2015
+    * Time: 11:49 PM
+    */
+   function getLocationInfoByIp1(){
+    $client  = @$_SERVER['HTTP_CLIENT_IP'];
+    $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
+    $remote  = @$_SERVER['REMOTE_ADDR'];
+    $result  = array('country'=>'', 'city'=>'');
+    if(filter_var($client, FILTER_VALIDATE_IP)){
+        $ip = $client;
+    }elseif(filter_var($forward, FILTER_VALIDATE_IP)){
+        $ip = $forward;
+    }else{
+        $ip = $remote;
+    }
+    //$ip = "1.0.63.255";
+    $ip_data = @json_decode(file_get_contents("http://www.geoplugin.net/json.gp?ip=".$ip));
+    if($ip_data && $ip_data->geoplugin_countryName != null){
+        $result['country'] = $ip_data->geoplugin_countryCode;
+        $result['city'] = $ip_data->geoplugin_city;
+    }
+    return $result;
+}
+$location = getLocationInfoByIp1();
+   ?>
+<!-- Top Blue Bar-->
+<div class="container top-bar" id="topbar">
+  <div class="row">
+    <div class="col-lg-4 col-xs-12 col-sm-4 col-md-4 top-lft">
+      <ul>
+        <?php $cid;
+		if (isset($_SESSION['uid_indm']) && $_SESSION['uid_indm'] != '') {
+            $uid = $_SESSION['uid_indm'];
+			$sql_icon = "select sip.mst_icon,sip.mst_name from smembership_icon_plan sip join user u on sip.mp_id = u.usr_mp_id where u.usr_id = ".$uid;
+			$get_icon = mysql_query($sql_icon) or die(mysql_error());
+			$sql="select * from user,business_profile where usr_id=bnsprof_uid and usr_id='".$uid."' and status = '1'";
+			$res=mysqli_query($con, $sql);
+			$row=mysqli_fetch_object($res);
+			$cid=rand(1000,9999).md5($row->bnsprof_id);
+			?>
+        <li><span class="pp1"><span
+            class="tlc">Welcome: </span><?php echo getUserInfo($uid, 'name_prefix') . "&nbsp;" . getUserInfo($uid, 'fname');
+			if($row->bnsprof_compname !=''){
+			?> <span>
+          <?php if(mysql_num_rows($get_icon) > 0){
+				$title = 'Junior';
+				$icon = mysql_fetch_array($get_icon);
+				if(strpos(strtolower($icon['mst_name']), 'senior') !== false || strpos(strtolower($icon['mst_name']), 'senier') !== false) {
+				$title = 'Senior';
+				}
+				else if(strpos(strtolower($icon['mst_name']), 'sponsor') !== false || strpos(strtolower($icon['mst_name']), 'sponser') !== false) {
+				$title = 'Sponsor';
+				}
+																	?>
+          <a href="company/index.php?c=<?php echo $cid; ?>"><img src="admin/images/<?php echo $icon['mst_icon']; ?>"  title="<?php echo strtoupper($title); ?>" style="width:18px; height:15px;border:0;"
+                                                                                              alt=""/></a>
+          <?php }
+			?>
+          </span>
+          <?php } ?>
+          </span> </li>
+        <?php } else { ?>
+        <li><a href="sign-in.php" target="_top" rel="nofollow">Sign in</a></li>
+        |
+        <li><a href="create_account.php" target="_top" rel="nofollow">Join Free &nbsp;|</a></li>
+        <?php } ?>
+        <li class="dropdown dropdown1"  style="z-index: 100;"> <a data-target="myArabyos"  class="dropbtn1" href="" data-toggle="dropdown" role="button"
+               aria-haspopup="true" aria-expanded="false" > <b class="txt-yellow" style="font-weight:900;">M<span class="s-small">Y</span> <?php echo getWebSiteName(); ?></b> <i class="fa fa-chevron-down"></i> </a><span class="linebr" style="color: black"> |</span> <a href="my-enquiries.php"> <img width="25" src="images/envolap.png"/>
+          <?php
+            if(isset($_SESSION['uid_indm'])){
+            $query_pag_num = "SELECT count(*) AS count from message,user where msg_to='".$_SESSION['uid_indm']."' and msg_from=usr_id and msg_to_status='1'"; // Total records
+            $result_pag_num = mysqli_query($con, $query_pag_num);
+            $row = mysqli_fetch_array( $result_pag_num);
+            $count = $row['count'];
+            echo '<span class="label label-yellow">'.$count.'</span>';
+          }
+          else{
+            echo '<span class="label label-yellow">0</span>';
+          }
+            ?>
+          </a>
+          <ul class="dropdown-menu ar-dropdown-menu dropdown-content1" aria-labelledby="myArabyos" style="width:101%; z-index: -1;">
+            <li><a href="my-dashboard.php">My Dashboard</a></li>
+            <li><a href="my-enquiries.php">My Inbox</a></li>
+            <li><a href="buyleads.php">Buy Leads</a></li>
+            <!--<li><a href="compare.php">Compare</a></li>-->
+            <li><a href="favorite.php">My Favorite</a></li>
+            <li><a href="image-gallery.php">Image Gallery</a></li>
+            <?php if (isset($_SESSION['uid_indm']) && $_SESSION['uid_indm'] != '') { ?>
+            <li><a href="logout.php">Sign Out</a></li>
+            <?php } ?>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="col-lg-4 col-xs-12 col-sm-4 col-md-4 top-mid">
+      <ul>
+        <?php if(getUserInfo($uid, 'usr_mp_id') < 4){ ?>
+       <!-- <li style="color: orange; padding-left:3px;" > Credit : <a href="#" class="txt-bold txt-yellow" style="font-weight:900 ; font-size:13px; color: orange"> <b style="color: white"><?php echo (getUserInfo($uid, 'usr_credit') > 0)?getUserInfo($uid, 'usr_credit'):'0'; ?></b></a> </li>
+        <li><a href="subscription.php" style="margin:0px; padding:0px;">| &nbsp;Buy Credit</a></li>-->
+        <?php }   ?>
+        <?php if (isset($_SESSION['uid_indm']) && $_SESSION['uid_indm'] != '') { ?>
+		<li><a href="company/index.php?c=<?php echo $cid; ?>" class="txt-yellow" style=" color:#fff450;font-weight:700;">My Website</a></li>
+		<?php } ?>
+		<li class="contact_photooo">
+			<?php if(user_info($uid,'image')!=""){ ?>
+			<a style="margin-left: 25px;" href="<?php echo BASE_URL ?>my-contactdetails.php"><img  src="<?php echo 'data:image/jpg;base64,'.base64_encode( getUserInfo($uid,'profileImage'));?>"  width="30" id="profilephoto" height="30"> <span class="user-name-topbar"><?php echo getUserInfo($uid, 'fname'); ?></span></a>
+			<?php } else{ ?>
+			<a href="<?php echo BASE_URL ?>sign-in.php"><img src="http://arabyos.com/images/upload.png"  width="30" id="profilephoto" height="30"><span class="user-name-topbar"><?php echo getUserInfo($uid, 'fname'); ?></span></a>
+			<?php } ?>
+			
+		</li>
+		
+         <span style="margin-left:40px;">
+         <li class="dropdown dropdown1"> <a class="ar-lebel dropbtn1" data-target="#" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Buy <i class="fa fa-chevron-down"></i> </a>
+          <ul class="dropdown-menu ar-dropdown-menu dropdown-content1 dropdown-menur" aria-labelledby="buy">
+            <li><a href="post-buy-req.php">Post Your Buy Requirement</a></li>
+            <li><a href="search_adv.php">Search Product &amp; Suppliers</a></li>
+            <li><a href="manage-selloffer-alert.php">Manage Sell Offer Alerts</a></li>
+            <li><a href="post-tender.php">Post FREE Tenders</a></li>
+          </ul>
+        </li>
+      <li class="dropdown dropdown1" id="sell"> <a class="ar-lebel dropbtn1" data-target="#" href="#" data-toggle="dropdown"
+               role="button" aria-haspopup="true" aria-expanded="false"
+               > Sell <i class="fa fa-chevron-down"></i> </a>
+          <ul class="dropdown-menu ar-dropdown-menu dropdown-content1 dropdown-menur " aria-labelledby="sell">
+            <li><a href="product-add.php">Display Products / Services</a></li>
+            <li><a href="create-free-website.php">Create Website</a></li>
+            <li><a href="buyleads.php">Latest Buy Requests</a></li>
+            <li><a href="http://www.arabyos.com/post-sell-offer.php">Post a Temporary Sale Offer</a></li>
+            <li><a href="manage-buylead-alert.php">Manage Buy Requests Alerts</a></li>
+            <li><a href="post-auction.php">Post FREE Auctions</a></li>
+          </ul>
+        </li>
+        </span>
+      </ul>
+    </div>
+    <div class="col-lg-4 col-xs-12 col-sm-4 col-md-4 top-rht">
+      <ul class="text-right tstleft">
+      
+         <!--<li style="padding-right:3px;"><a href="http://arabyos.com/company/products.php?c=3654fa3a3c407f82377f55c19c5d403335c7&amp;sc=179742556">Member</a></li>-->
+        <li><a href="help.php" style="color:orange ">Help Line : <b style="font-weight:900; color: white"> <span
+            class="txt-yellow"></span><?php echo get_page_settings(21); ?></b></a></li>
+        <li><a href="why_egyptmart.php" class=" txt-yellow"><b class="txt-yellow"  style="font-weight:900;">Why  EgyptMART</b></a> </li>
+        <li style=""><a href="help.php">Help</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- End of topbar // -->
+<div class="maincontainertop "> 
+  <!-- page-header start -->
+  <header class="page-header home-header">
+    <div class="headertop-custom-box"> 
+      <div class="headertop-custom-box-left">
+        <img alt="fdfdf" src="images/page-header-col1_mapbg.jpg" class="globeimg1">
+        <div class="">
+        <!-- <a href="product-sel-cat.php"> <img src="images/Postproducts.png" /></a> -->
+          <!-- <h1><a href="product-sel-cat.php">Display Your Prouducts</a></h1>
+                  <a href="product-sel-cat.php"> <p>Get <span>Home & Global</span> Enquiries </p></a> --> 
+         <a href="product-sel-cat.php" class="post-product-btn">
+         Post Your Products<small>Get <strong>Domestic</strong> or <strong>Global</strong> Enquiries</small> 
+         </a>         
+        </div>
+      </div>
+      
+      <div class="headertop-custom-box-middle">
+        <div class="page-header-col1-row1" style="padding:0;">
+        <!-- col-md-9 start -->
+         <div class="page-header-col1-row1-col1_row">
+            <p><a href="my-contactdetails.php">Account Setting</a></p>
+          </div>
+        <div class="page-header-col1-row1-col1 col-xs-6"> 
+          <!-- page-header-col1-row1-col1 start -->
+         
+          <div class="page-header-col1-row1-col1_row2">
+            <div class="page-header-col1-row1-col1_row2_pic" id="cnlocation">
+              <?php
+//secho "<pre>";print_r($_COOKIE);"</pre>";
+                        if (isset($_COOKIE['loc_id'])) {
+//echo "<pre>";print_r($_COOKIE);"</pre>";
+//echo get_country_flag($_COOKIE['loc_id']);
+            ?>
+              <span><?php echo get_country_name($_COOKIE['loc_id']); ?></span>&nbsp; <img src="images/country_flag/<?php echo get_country_flag($_COOKIE['loc_id']); ?>"
+                        alt="<?php echo get_country_name($_COOKIE['loc_id']); ?>" class="w4" align="top" height="16"
+                        width="23" title="<?php echo get_country_name($_COOKIE['loc_id']); ?>"/>
+              <?php } else { ?>
+              <span style="font-weight: bold; font-size: 20px;  color: darkcyan;  font-family: Arial Black;">Global</span> &nbsp; <img src="images/country_flag/Global$download.png" alt="Global" class="w4"
+                        align="top" height="30" width="30"/>
+              <?php } ?>
+            </div>
+            <div class="page-header-col1-row1-col1-row2-form">
+              <div onmouseover = "showLocMenu();" onmouseout = "hideLocMenu()"> <a class="un" style="border-left:none; font-size: 9px; color:#0f2399; 
+              "> <span style="color: black;">Change</span> Country 
+                <!--  <i class="fa fa-chevron-down"></i>--> 
+                &nbsp;<span class="arw"><b>&or;</b></span> </a>
+                <div class="sub_menu" style="display:none; left:0; top:105px; right:0;" id="changeLocation">
+                  <ul>
+                    <li>
+                      <?php
+                                    $numCun = count(explode(",", getActiveCountryList()));
+                                    $sql_cnLoc = "select * from country where cn_id in(" . getActiveCountryList() . ")";
+                                    $res_cnLoc = mysqli_query($con, $sql_cnLoc);
+                                    ?>
+                      <table style="width:100%;padding:1px;" class="table-responsive">
+                        <tr>
+                          <td align="center"><a title="Global" style="cursor:pointer;" onclick="unsetCountryLocation();"> <img src="images/country_flag/Global$download.png" alt="Global" class="w4"
+                                             align="top" height="16" width="16"/> </a></td>
+                          <?php
+                                          $cn = 1;
+                                          while ($row_cnLoc = mysqli_fetch_object($res_cnLoc)){
+                                          if ($cn % 4 == 0){
+                                          $cn = 0; ?>
+                        </tr>
+                        <tr>
+                          <?php }
+                                       //echo $location['country']."--".$row_cnLoc->cn_code."<br/>";
+                                       /* if($location['country'] == $row_cnLoc->cn_code){ ?>
+                                       <script>
+                                        setCountryLocation(<?php echo $row_cnLoc->cn_id ?>);
+                                        </script>
+                                       <?php } */
+                                          ?>
+                          <td align="center"><a title="<?php echo $row_cnLoc->cn_name; ?>" style="cursor:pointer;"
+                                             onclick="setCountryLocation(<?php echo $row_cnLoc->cn_id ?>);"> <img
+                                             src="images/country_flag/<?php echo get_country_flag($row_cnLoc->cn_id); ?>"
+                                             alt="<?php echo $row_cnLoc->cn_name; ?>" class="w4" align="top"
+                                             height="15" width="20"/> </a></td>
+                          <?php
+                                          $cn++;
+                                          } ?>
+                          <?php
+                                          while ($cn <= 3) { ?>
+                          <td>&nbsp;</td>
+                          <?php $cn++;
+                                          }
+                                          ?>
+                        </tr>
+                      </table>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- page-header-col1-row1-col1 close // --> 
+        <!-- page-header-col1-row1-col2 start -->
+        <div class="page-header-col1-row1-col2 col-xs-6">
+          <?php
+                  $toplogo=GettingSite_Setting('logo');
+                  if($toplogo!="")
+                  {
+                    $toplogo2show = "sitelogo/".$toplogo;
+                  }
+                  else
+                  {
+                     $toplogo2show = "images/page-header-col1-row1-col2-logo.png";
+                  }
+                  ?>
+          <a href="index.php"><img src="<?php echo $toplogo2show;?>" alt=""  class="logoa" /></a> 
+          <!--<p>Arabs Home &amp; Global Trade</p>--> 
+        </div>
+        <!-- page-header-col1-row1-col2 close// -->
+        <div class="page-header-col1-row1-col3"> 
+          <!-- page-header-col1-row1-col3 start -->
+          <div id="google_translate_element"></div>
+          <script type="text/javascript">
+                  function googleTranslateElementInit() {
+                      new google.translate.TranslateElement({
+                          pageLanguage: 'en',
+                          layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+                      }, 'google_translate_element');
+                  }
+               </script> 
+          <script type="text/javascript"
+                  src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+          <p class="cb"></p>
+        </div>
+        <!-- page-header-col1-row1-col3 close// -->
+        <div class="page-header-col1-row1-col4 col-xs-12" style="padding:0;"> 
+          <!-- page-header-col1-row1-col4 start -->
+          <div class="page-header-col1-row1-col4-row1 col-xs-6 home-ba"> <!--<img src="images/busine.png" width="100%"/> -->
+                
+           <h3 style="font-size:20px;"><img class="img-responsive " src="images/bell.png" width="18
+           
+           px">&nbsp;Business Alerts</h3>
+           <p class="text-center;" style="width:180px;">Get timely updates in your inbox <br> for favorite products & services</p>
+          </div>
+          <script>
+                  function sub(){
+                      var location ="";
+                      if (document.getElementById('radio1').checked) {
+                        location = document.getElementById("radio1").value;
+                      }
+                      if (document.getElementById('radio2').checked) {
+                        location = document.getElementById("radio2").value;
+                      }
+                      window.location=location;
+                  }
+               </script>
+          <div class="page-header-col1-row1-col4-row2  col-xs-6">
+            <div class="page-header-col1-row1-col4-row2-checkbox">
+              <label class="radio">
+                <input id="radio1" type="radio" name="radios" value="manage-selloffer-alert.php">
+                <span class="outer"><span class="inner"></span></span><a href="#" style="color: black">Buyer</a> </label>
+              <label class="radio" style="margin-left:0px; font-size: 17px">
+                <input id="radio2" type="radio" name="radios" value="manage-buylead-alert.php" checked>
+                <span class="outer"><span class="inner"></span></span><a href="#" style="color: black">Supplier</a> </label>
+            </div>
+            <div class="page-header-col1-row1-col4-row2-link"><a id="sub" onclick="return sub();" href="#">Subscribe Now</a></div>
+       <h1 class="justclick">Just a click away</h1>
+          </div>
+        </div>
+        <!-- page-header-col1-row1-col4 close// --> 
+      </div>
+
+              <div class=" header-mid header-mid-custom-box"> 
+    
+      <div class="clear"></div><!--<br><br>-->
+      <div class="page-header-col1-row2"> 
+        <!-- page-header-col1-row2 start -->
+        
+        
+        <div class="col-lg-7 col-md-6 col-xs-12 margintop">
+          <div class="srchBx">
+            <h2 class="cd-headline clip is-full-width text-center"> <span style="width: 100%; overflow: hidden; color:gray; font-family: Arial narrow;" class="cd-words-wrapper" > <b class="is-hidden">Find anything for your business instantly<span class="blinking-cursor" style="color: gray">!</span></b> <b class="is-hidden">Source >> Supply >> Grow  your Business <span class="blinking-cursor" style="color: gray">!</span> </b> <b class="is-visible">Create your Domestic &amp; Global website <span class="blinking-cursor" style="color: gray">!</span></b> </span> </h2>
+          </div>
+          <!-- <script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script> --> 
+          <script>
+                 $(document).ready(function(){
+           
+           $('.searchTabs').click(function(){       
+             var TabVal = $(this).attr('alt'); //alert(TabVal);
+            var optionValue  = $(this).attr('alt');
+            $('#rctyp option').removeAttr('selected');
+            
+            $('#rctyp option[value='+optionValue+']').attr('selected', 'selected');
+            
+            var PlaceholdVAl = "";
+            
+            if( TabVal == 'Products' ){
+              
+              PlaceholdVAl = "Source Products / Services to find suppliers";
+            }else if( TabVal == 'Suppliers' ){
+              
+              PlaceholdVAl = "Find Suppliers for your business";
+            }else if( TabVal == 'buy_lead' ){
+              
+              PlaceholdVAl = "Find Buy Requests for your business";
+            }else if( TabVal == 'tender' ){
+              
+              PlaceholdVAl = "Find Tenders/ Auctions for your business";
+            }
+            $("#search-box1").attr("placeholder", PlaceholdVAl);
+            
+           });
+           
+  $("#search-box1").keyup(function(){ 
+    var getDrpDwnVal = $("ul.search_tab li.active").text();    
+    if(getDrpDwnVal == 'Suppliers'){
+      var fileName = "readsuppliers.php";
+    }
+    else if(getDrpDwnVal == 'Products'){
+      var fileName = "readproducts.php";      
+    }
+    else if(getDrpDwnVal == 'Buy Leads'){
+      var fileName = "read_leads.php";
+      }
+    else{
+      var fileName = "read_tenders.php";
+      }   
+     //alert(getDrpDwnVal+' '+fileName);return false;
+    $.ajax({
+    type: "POST",
+    url: fileName,
+    data:'keyword='+$(this).val(),
+    beforeSend: function(){
+      $(".search-box").css("background","#FFF url(377.gif) no-repeat 165px");
+    },
+    success: function(data){  //alert(data);return false;
+      $("#suggesstionBoxs").show();
+      $("#suggesstionBoxs").html(data);
+      $("#search-box1").css("background","#FFF");
+    }
+    });
+  });
+});
+function selectCountry(val) {
+  //alert(val); return false; 
+$("#search-box1").val(val);
+$("#suggesstionBoxs").hide();
+}
+               </script>
+         
+          <div class="page-header-col1-row2-col2-form">
+            
+      <!-- Nav tabs -->
+        <ul class="nav nav-tabs search_tab" role="tablist" id="rctyp">
+         <li role="presentation" class="active"><a href="#products" alt="Products" class="searchTabs" aria-controls="products" role="tab" data-toggle="tab">Products</a></li>
+        <li role="presentation"><a href="#supplier" alt="Suppliers" class="searchTabs" aria-controls="supplier" role="tab" data-toggle="tab">Suppliers</a></li>
+        <li role="presentation"><a href="#leads" alt="buy_lead" class="searchTabs" aria-controls="leads" role="tab" data-toggle="tab">Buy Leads</a></li>
+        <li role="presentation"><a href="#tender" alt="tender" class="searchTabs" aria-controls="tender" role="tab" data-toggle="tab">Tenders</a></li>
+        </ul>
+
+        <!-- Tab panes -->   
+        <div class="tab-content search_cont">
+        <div role="tabpanel" class="tab-pane active" id="supplier">
+        <form autocomplete="off" name="searchForm" action="search.php" onSubmit="return validsearch()" method="GET" id="hdr_frm">
+            <select id="rctyp" name="rctyp" class="page-header-col1-row2-col2-form-select">
+            <option value="Suppliers">Suppliers fdf df</option>
+            <option  value="Products" selected>Products</option>
+            <option value="buy_lead">Buy Leads</option>
+            <option value="tender">Tender</option>
+            <!--<option value="auction">Auction</option>-->
+                    </select>
+            <input type="text" id="search-box1" name="keywords" style="text-align:left; border:1px solid;" placeholder="Source Product / Services to find suppliers"
+                        class="page-header-col1-row2-col2-form-input topsearch_placeholder_cont search-box"  onfocus="gotFocus();" onblur="lostFocus()" value="<?php echo $_GET['keywords']; ?>"
+                       style="border: 1px solid #000;width:90%" />
+              <div id="suggesstionBoxs" class="suggesstionBoxs"></div>
+              <input type="submit" id="btnSearch" value="" class="page-header-col1-row2-col2-form-btn"/>
+          </form>
+        </div>
+        
+        </div>
+            
+      
+          
+            <div class="clear"></div>
+          </div>
+         
+        </div>
+    
+        <div class="page-header-col1-row2-col4 "> 
+          <!-- page-header-col1-row2-col4 start -->
+         
+          <a href="post-buy-req.php" class="post-buy-req-btn" style="margin-top: 56px;">
+         Post Buy Requirements<small>Get <strong>Quotes</strong> from <strong>Verified Suppliers</strong></small>          
+         </a> 
+          
+        </div>
+        <!-- page-header-col1-row2-col4 close// -->
+        <div class="clear"></div>
+      </div>
+     
+     
+    </div>
+
+      </div>
+
+      <div class="headertop-custom-box-right">
+         <div class="">
+          <div class="page-header-col2-head">
+             <i class="fa fa-mobile"></i> <span>Android - Apple - Windows - Blackberry</span> 
+          </div>
+          <div class="page-header-col2-intro">
+              <div class="page-header-col2-intro-pic">
+                <img src="images/page-header-col2-intro-pic.jpg" alt=""/>
+               </div>
+            <div class="page-header-col2-intro-texts">
+              <a href="product-sel-cat.php?select=bs" class="post-product-btn" id="business-btn">
+             Post Business Services<small>Get <strong>Domestic</strong> or <strong>Global</strong> Enquiries</small>          
+             </a>
+            <!-- <a href="product-sel-cat.php" class="zoomin3"> <img src="images/PostServise.jpg "  /> </a>--> 
+              <!--<h2><a href="product-sel-cat.php">Post Your Services</a></h2>
+                      <p>Get <span>Domestic</span> or <span>Global</span> Enquiries</p> --> 
+            </div>
+        </div>
+      </div>
+
+    
+
+    <!-- page-header-col1 close// -->
+   
+      <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    </div>
+  </header>
+  <!-- page-header close // --> 
+</div>
+<!-- Start of rowbanner -->
+<div class="toplist">
+  <div class="middle-bar"> 
+    <!-- Start of rowbanner -->
+    <div class="centertopbanner">
+      <?php
+            $banner=GetHomeBanner('top',$strconutnry);
+            if($banner!="")
+            {
+                 echo '<div class="middle mid-content" style="padding:0;">';
+              echo $banner;
+              echo '</div>';
+            }
+            else
+            {
+            	//echo '<div class="middle mid-content">';
+            	//echo ' <h3>Banner Place</h3>';
+            	// echo '</div>';
+            }
+            ?>
+            
+      <div class="clear"></div>
+      
+    </div>
+    <!-- End of rowbanner // --> 
+  </div>
+</div>
+<!-- End of rowbanner // -->
+<style>
+.img-responsive
+{
+	/*width:14px;*/
+    float:left;
+}
+.maincontainertop
+{
+	z-index:1003 !important;
+}
+.page-header-col1-row2-col2-form
+{
+/*	display:none;*/
+}
+.page-header-col1-row1-col4-row2-checkbox
+{
+	width:100% !important;
+}
+.justclick {
+    font-size: 14px;
+    font-weight: 900;
+    color: #7e7e7e;
+    word-spacing: 0;
+    letter-spacing: 0;
+	margin-top: 8px;
+}
+
+</style>
+<!--<script>
+$(window).scroll(function() {
+
+    if ($(this).scrollTop()>0)
+     {
+        $('.page-header-col1-row2-col2-form').fadeIn();
+		$('.srchBx').css('margin-top','3px');
+     }
+    else
+     {
+      $('.page-header-col1-row2-col2-form').fadeOut();
+	  $('.srchBx').css('margin-top','66px');
+     }
+ });
+</script>-->

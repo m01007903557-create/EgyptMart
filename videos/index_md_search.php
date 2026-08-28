@@ -1,0 +1,2710 @@
+<?php
+ini_set('default_socket_timeout', 300);
+?>
+<script src="https://<?php echo $_SERVER['HTTP_HOST']; ?>/js/jquery.colorbox.js"></script>
+<link href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/css/colorbox.css" type="text/css" rel="stylesheet">
+<style>
+    #mask {
+        position:absolute;
+        left:0;
+        top:0;
+        z-index:9000;
+        background-color:#000;
+        display:none;
+    }  
+    #boxes .window {
+        position:absolute;
+        left:0;
+
+
+        top:0;
+        width:440px;
+        height:200px;
+        display:none;
+        z-index:9999;
+        padding:20px;
+        border-radius: 15px;
+        text-align: center;
+    }
+    #boxes #dialog {
+        width:450px; 
+        height:auto;
+        padding:10px;
+        background-color:#ffffff;
+    }
+    .maintext{
+        text-align: center;
+        text-decoration: none;
+    }
+    .modal.in .modal-dialog {
+        transform: translate3d(0px, 0px, 0px);
+    }
+    .modal-lg{ width:38% !important;}
+    h3 { font-weight:bold !important; margin-bottom:0px !important; margin-top:0px !important; font-size:20px !important;}
+    .btn-warning {
+        background-color: #f26a22;
+    }
+    .email-close {
+        background: #FF0000 none repeat scroll 0 0;
+        border: 2px solid #FFF;
+        border-radius: 50%;
+        box-shadow: 0 0 4px 1px rgb(0, 0, 0);
+        cursor: pointer;
+        font-size: 18px;
+        height: 30px;
+        position: absolute;
+        right: -4px;
+        text-align: center;
+        top: 44px;
+        width: 30px;
+        z-index: 999;
+        color:#FFFFFF;
+        font-weight:bold;
+    }
+    .zoomthis:hover img {
+        -moz-transform: scale(1.2);
+        -webkit-transform: scale(1.2);
+        transform: scale(1.2);
+    }
+    .zoomthis{
+        overflow: hidden;
+    }
+
+    .zoomthis:hover ~ .zk {
+        display : none;
+    }
+    .zoomthis:hover ~ .ribbon {
+        display : none;
+    }
+/*    #search_result .big-img-box .zoomthis img {
+        height: auto !important;
+        max-height:253px;
+
+
+    }
+    .box .zoomthis {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        transform: translate(-50%,-50%);
+    }
+    .inner-search-right-img {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+    }
+    .wrapper-product-searchright {
+        position: relative;
+    }*/
+   
+</style>
+<script type="text/javascript">
+    function openInNewTab(url) {
+        var win = window.open(url, '_blank');
+        //win.focus();
+    }
+
+    function createCookie(name, value, days) {
+        //if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (60 * 30 * 1000));
+        var expires = "; expires=" + date.toGMTString();
+        //}
+        // else var expires = "";
+        document.cookie = name + "=" + value + expires + "; path=/";
+    }
+    function readCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ')
+                c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0)
+                return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+    function showfavorite(userid, product_id)
+    {
+      /*  var existingids = readCookie("fpids");
+        if (existingids == '') {
+            createCookie("fpids", userid + "-" + product_id);
+
+        } else {
+            createCookie("fpids", existingids + "," + userid + '-' + product_id);
+            alert('Added to favorite');
+        }*/
+       	$.ajax({                              
+         type: 'POST',
+         url: "favourite_add.php",
+		data:{"pro_id":product_id},
+         success:function(response){
+         	if(response==true){
+				alert('Added to favorite');
+			}
+         }
+         });
+    }
+    function addcompare(product_id)
+    {
+
+        var existingids = readCookie("productids");
+        createCookie("productids", existingids + "," + product_id);
+
+        var prod = $("#div-" + product_id).next('.box-2').find(".txt-blue").children('a').text();
+
+        alert(prod + " added to compare list.");
+		$('.side_compare_list').show();
+        $(".comp-list").append("<h5 class='text-center'>" + prod + "</h5>");
+        return false;
+
+
+        //alert(readCookie("productids"));
+        /*$.ajax({                              
+         type: 'POST',
+         url: "compare_add_product.php?product_id="+product_id,
+         success:function(response){
+         if(response.trim()!='')
+         {
+         //window.location="compare.php";
+         }
+         }
+         });*/
+    }
+    function showcompare(product_id)
+    {
+        var existingids = readCookie("productids");
+        if (existingids == '') {
+            createCookie("productids", product_id);
+            window.location = "compare.php";
+        } else {
+
+            window.location = "compare.php";
+        }
+        //alert(readCookie("productids"));
+        /*$.ajax({                              
+         type: 'POST',
+         url: "compare_add_product.php?product_id="+product_id,
+         success:function(response){
+         if(response.trim()!='')
+         {
+         //window.location="compare.php";
+         }
+         }
+         });*/
+    }
+</script>
+<script>
+    $(document).ready(function () {
+		
+        var id = '#dialog';
+        var limit = 150;
+        var idleTime = 0;
+        //Get the screen height and width
+        var maskHeight = $(document).height();
+        var maskWidth = $(window).width();
+        var keyrcType = $("#keyrcType").val();
+        function timerIncrement() {
+            idleTime = idleTime + 1;
+            if (idleTime > limit) {
+                //Set heigth and width to mask to fill up the whole screen
+                $('#mask').css({'width': maskWidth, 'height': maskHeight});
+                //transition effect		
+                $('#mask').fadeIn(500);
+                $('#mask').fadeTo("slow", 0.5);
+                //Get the window height and width
+                var winH = $(window).height();
+                var winW = $(window).width();
+                $(id).css('top', winH / 2 - $(id).height() / 2);
+                $(id).css('left', winW / 2 - $(id).width() / 2);
+                //transition effect
+                $(id).fadeIn(2000);
+                idleTime = 0;
+                $('.email-close').click(function () {
+                    $('#mask').hide();
+                    $('.window').hide();
+                    limit = 150;
+                });
+            }
+        }
+        if (keyrcType == 'Products') { 
+            var idleInterval = setInterval(timerIncrement, 1000); // 1 second
+        }
+        //Set the popup window to center
+        // Zero the idle timer on mouse movement.
+        $(this).mousemove(function (e) {
+            idleTime = 0;
+        });
+        $(this).keypress(function (e) {
+            idleTime = 0;
+        });
+        $(this).click(function () {
+            idleTime = 0;
+        });
+        //if close button is clicked
+        $('.window .close').click(function (e) {
+            //Cancel the link behavior
+            e.preventDefault();
+            $('#mask').hide();
+            $('.window').hide();
+        });
+        //if mask is clicked
+        $('#mask').click(function () {
+            $(this).hide();
+            $('.window').hide();
+        });
+      <?php /* $(document).on('click', '.ajax', function () {
+            // $('#colorbox').remove();
+            //$('#cboxOverlay').remove();
+            $.colorbox(
+                    {
+                        href: $(this).attr('href'), open: true, iframe: true, width: '750px', height: '600px',
+                       
+                    }
+            );
+            return false;
+        }); */ ?>
+        $(document).on('click', '#table-input1', function () {
+            $("#sideAdTable1").hide();
+            $("body").click(function () {
+
+                var tabvin = document.getElementById("table-input1").value;
+
+
+                if (tabvin == '')
+                {
+                    $("#sideAdTable1").show();
+                }
+
+            });
+        });
+        $(document).on('click', '#getInstaQuote', function () {
+            $("#sideAdTable1").hide();
+            //$('#mask').hide();
+            //$('.window').hide();
+            //limit = 60;
+            //idleTime = 0;
+            /*$("body").click(function(){
+             $("#sideAdTable1").show();
+             });*/
+        });
+    });
+</script>
+<input type="hidden" value="<?php echo $_GET['keywords']; ?>" id="serachWallkeyword">
+<?php
+$uid = $_SESSION['uid_indm'];
+if (isset($_COOKIE['loc_id'])) {
+    $sql_pd_ck = " and (
+	(pd_preferred_buyer_location='domestic' and pd_uid in(select distinct usr_id from user where country='" . $_COOKIE['loc_id'] . "')) 
+	or 
+	(pd_preferred_buyer_location='any' and pd_uid in(select distinct usr_id from user where country='" . $_COOKIE['loc_id'] . "'))
+	or
+	(pd_preferred_buyer_location='my_city' and pd_uid in(select distinct bnsprof_uid from business_profile where bnsprof_city in (select ct_id from city where ct_cn_id='" . $_COOKIE['loc_id'] . "'))))";
+    /*
+      (pd_preferred_buyer_location='my_city' and pd_uid in(select distinct bnsprof_uid from business_profile where bnsprof_city=(select ct_id from city where ct_name like '".getCityCode()."')) and pd_uid in(select distinct usr_id from user where country='".$_COOKIE['loc_id']."'))
+      or
+      (pd_preferred_buyer_location='abroad' and pd_uid not in(select distinct usr_id from user where country='".$_COOKIE['loc_id']."'))
+     */
+    $sql_br_ck = " and ((br_preferred_supplier_location='domestic' and br_u_id in(select distinct usr_id from user where country='" . $_COOKIE['loc_id'] . "')) 
+	or 
+	(br_preferred_supplier_location='any' and br_u_id in(select distinct usr_id from user where country='" . $_COOKIE['loc_id'] . "'))
+	or
+	(br_preferred_supplier_location='my_city' and br_u_id in(select distinct bnsprof_uid from business_profile where bnsprof_city in (select ct_id from city where ct_cn_id='" . $_COOKIE['loc_id'] . "'))))";
+    /*
+      (br_preferred_supplier_location='my_city' and br_u_id in(select distinct bnsprof_uid from business_profile where bnsprof_city=(select ct_id from city where ct_name like '".getCityCode()."')) and br_u_id in(select distinct usr_id from user where country='".$_COOKIE['loc_id']."'))
+      or
+      (br_preferred_supplier_location='abroad' and br_u_id not in(select distinct usr_id from user where country='".$_COOKIE['loc_id']."'))
+     */
+    $sql_so_ck = " and (
+	(so_preferred_buyer_location='domestic' and so_usr_id in(select distinct usr_id from user where country='" . $_COOKIE['loc_id'] . "')) 
+	or 
+	(so_preferred_buyer_location='any' and so_usr_id in(select distinct usr_id from user where country='" . $_COOKIE['loc_id'] . "'))
+	or
+	(so_preferred_buyer_location='my_city' and so_usr_id in(select distinct bnsprof_uid from business_profile where bnsprof_city in(select ct_id from city where ct_cn_id='" . $_COOKIE['loc_id'] . "'))))";
+    /*
+      (so_preferred_buyer_location='my_city' and so_usr_id in(select distinct bnsprof_uid from business_profile where bnsprof_city=(select ct_id from city where ct_name like '".getCityCode()."')) and so_usr_id in(select distinct usr_id from user where country='".$_COOKIE['loc_id']."'))
+      or
+      (so_preferred_buyer_location='abroad' and so_usr_id not in(select distinct usr_id from user where country='".$_COOKIE['loc_id']."'))
+     */
+    $sql_tnd_ck = " and ((tnd_preferred_location='domestic' and tnd_usr_id in(select distinct usr_id from user where country='" . $_COOKIE['loc_id'] . "')) 
+	or 
+	(tnd_preferred_location='any' and tnd_usr_id in(select distinct usr_id from user where country='" . $_COOKIE['loc_id'] . "'))
+	or
+	(tnd_preferred_location='my_city' and tnd_usr_id in(select distinct bnsprof_uid from business_profile where bnsprof_city in (select ct_id from city where ct_cn_id='" . $_COOKIE['loc_id'] . "'))))";
+    $sql_auc_ck = " and ((auc_preferred_location='domestic' and auc_usr_id in(select distinct usr_id from user where country='" . $_COOKIE['loc_id'] . "')) 
+	or 
+	(auc_preferred_location='any' and auc_usr_id in(select distinct usr_id from user where country='" . $_COOKIE['loc_id'] . "'))
+	or
+	(auc_preferred_location='my_city' and auc_usr_id in(select distinct bnsprof_uid from business_profile where bnsprof_city in (select ct_id from city where ct_cn_id='" . $_COOKIE['loc_id'] . "'))))";
+} else {
+    $sql_pd_ck = " and (
+	(pd_preferred_buyer_location='any')
+	or
+	(pd_preferred_buyer_location='abroad' and pd_uid not in(select distinct usr_id from user where country=(select cn_id from country where cn_code='" . $location_geo_country[0] . "')))
+	)";
+    /* (pd_preferred_buyer_location='domestic' and pd_uid in(select distinct usr_id from user where country=(select cn_id from country where cn_code='".$location_geo_country."')))
+      or
+      or
+      (pd_preferred_buyer_location='my_city' and pd_uid in(select distinct bnsprof_uid from business_profile where bnsprof_city=(select ct_id from city where ct_name like '".getCityCode()."')))
+     */
+    $sql_br_ck = " and (
+	(br_preferred_supplier_location='any')
+	or
+	(br_preferred_supplier_location='abroad' and br_u_id not in(select distinct usr_id from user where country=(select cn_id from country where cn_code='" . $location_geo_country[0] . "')))
+	)";
+    /* (br_preferred_supplier_location='domestic' and br_u_id in(select distinct usr_id from user where country=(select cn_id from country where cn_code='".$location_geo_country."')))
+      or
+      or
+      (br_preferred_supplier_location='my_city' and br_u_id in(select distinct bnsprof_uid from business_profile where bnsprof_city=(select ct_id from city where ct_name like '".getCityCode()."')))
+     */
+    $sql_so_ck = " and (
+	(so_preferred_buyer_location='any')
+	or
+	(so_preferred_buyer_location='abroad' and so_usr_id not in(select distinct usr_id from user where country=(select cn_id from country where cn_code='" . $location_geo_country[0] . "')))
+	)";
+    /* (so_preferred_buyer_location='domestic' and so_usr_id in(select distinct usr_id from user where country=(select cn_id from country where cn_code='".$location_geo_country."')))
+      or
+      or
+      (so_preferred_buyer_location='my_city' and so_usr_id in(select distinct bnsprof_uid from business_profile where bnsprof_city=(select ct_id from city where ct_name like '".getCityCode()."')))
+     */
+    $sql_tnd_ck = " and (
+	(tnd_preferred_location='any')
+	or
+	(tnd_preferred_location='abroad' and tnd_usr_id not in(select distinct usr_id from user where country=(select cn_id from country where cn_code='" . $location_geo_country[0] . "')))
+	)";
+    $sql_auc_ck = " and (
+	(auc_preferred_location='any')
+	or
+	(auc_preferred_location='abroad' and auc_usr_id not in(select distinct usr_id from user where country=(select cn_id from country where cn_code='" . $location_geo_country[0] . "')))
+	)";
+}
+if (isset($_GET['pageno'])) {
+    $pageno = $_GET['pageno'];
+} else {
+    $pageno = 1;
+}
+$rctyp = addslashes(trim($_GET['rctyp']));
+if (substr($_GET['keywords'], 0, 1) == '"') {
+
+    $keywords = substr(substr(trim($_GET['keywords']), 1), 0, strlen((substr(trim($_GET['keywords']), 1))) - 1);
+} else {
+    $keywords = trim($_GET['keywords']);
+}
+if ($rctyp == "Products") {
+    if ($_GET['keywords'] == '') {
+        $keywords = 'all';
+    }
+	/* added by Hetal on Date - 24 Feb 2018 */
+    
+	$key=str_replace("+"," ",$_GET["keywords"]);
+    if($_SESSION['uid_indm']!=''){
+	$sql_key="select * from products join product_category on product_category.pc_id=products.pd_subcat_id where pd_title like '%".$key."%' and pc_status='1'";
+//echo $sql_key;die;
+	$query_key = mysql_query($sql_key);
+	$row_key=mysql_fetch_object($query_key);
+		$key_cat_id='';
+		if(mysql_num_rows($query_key)>0){
+			$key_cat_id = $row_key->pc_id;
+		}
+		else{
+			
+			$sql_second_query=mysql_query("SELECT pc.* FROM product_category pc LEFT OUTER JOIN product_category spc ON pc.pc_id = spc.pc_parent_id WHERE pc.pc_name like '%".str_replace(array("+","%20"),array(" "," "),$_GET['keywords'])."%' AND pc.pc_parent_id!='0' and pc.pc_status='1'");
+			$fetch_records=mysql_fetch_object($sql_second_query);
+			if(mysql_num_rows($sql_second_query) > 0){
+			$sub_cat_id_get=$fetch_records->pc_id;
+				$sql_second_query1=mysql_query("SELECT * FROM product_category WHERE pc_parent_id='".$sub_cat_id_get."'");
+				$fetch_records1=mysql_fetch_object($sql_second_query1);
+				if(mysql_num_rows($sql_second_query1) > 0){
+					$key_cat_id=$fetch_records1->pc_id;
+				}
+				else{
+					$key_cat_id=$fetch_records->pc_id;
+				}
+
+			}
+		}
+		if($key_cat_id!=''){
+			$sql2="select * from selloffer_alert_category where sac_pc_id='".$key_cat_id."' AND sac_usr_id='".$_SESSION['uid_indm']."'";
+			$res2=mysqli_query($con, $sql2);
+			if($res2->num_rows==0){
+				$sql_ins="insert into selloffer_alert_category
+					set
+						sac_usr_id='".$_SESSION['uid_indm']."',
+						sac_pc_id='".$key_cat_id."',
+						sac_updated_date=now()";
+				mysqli_query($con, $sql_ins);
+
+
+			}
+		}
+    }
+	/* added by Hetal */
+    //echo 'yes i am searching product'.'<br>';
+    $Col = 'products.pd_uid,business_profile.bnsprof_state,measurement_unit.*';
+
+    //echo count($_POST['state_id']).'<pre>';print_r($_POST['state_id']);exit;
+    if (count($_POST['state_id']) > 1) {
+        foreach ($_POST['state_id'] as $key => $value) {
+            $stateid .= $value . ',';
+        }
+        $stateid = rtrim($stateid, ',');
+    } else {
+        $stateid = isset($_POST['state_id'][0]) ? $_POST['state_id'][0] : '';
+    }
+    if (isset($_GET['exmatch'])) {
+        if (isset($_POST['state_id'])) {
+            $sqltk = "select " . $Col . " from products,measurement_unit,business_profile where bnsprof_uid=pd_uid and (pd_title LIKE '%" . $keywords . "%') " . $sql_pd_ck . " and bnsprof_state in (" . $stateid . ") and pd_status='1' GROUP BY pd_id order by pd_title asc limit 0,6";
+            //echo $sqltk;	 echo '___111';
+        } else {
+            $sqltk = "select " . $Col . " from products,measurement_unit,business_profile where bnsprof_uid=pd_uid and (pd_title LIKE '%" . $keywords . "%') " . $sql_pd_ck . " and pd_status='1' GROUP BY pd_id order by pd_title asc limit 0,6";
+
+            //echo $sqltk;	 echo '___222';	exit
+        }
+    } else {
+        $keywords_string = generateProdSearchString($keywords);
+        if (isset($_POST['state_id'])) {
+            $sqltk = "select " . $Col . " from products,measurement_unit,business_profile where bnsprof_uid=pd_uid and (pd_title LIKE " . $keywords_string . ") " . $sql_pd_ck . " and pd_status='1' and bnsprof_state in (" . $stateid . ") GROUP BY pd_id order by pd_title asc limit 0,6";
+            //echo $sqltk;	 echo '___333';
+        } else {
+            $sqltk = "select " . $Col . " from measurement_unit,products,business_profile where bnsprof_uid=pd_uid and (pd_title LIKE " . $keywords_string . ") " . $sql_pd_ck . " and pd_status='1' GROUP BY pd_id order by pd_title asc limit 0,6";
+            //echo $sqltk;	echo '___444';
+        }
+    }
+    //echo $sqltk;
+    $restk = mysql_query($sqltk);
+    $totitems = mysql_num_rows($restk);
+    $limits = 6;
+    $total_pages = ceil($totitems / $limits);
+    $start_limit = $limits * ($pageno - 1);
+    if (isset($_GET['exmatch'])) {
+        if (isset($_POST['state_id'])) {
+            $sqlk = "select " . $Col . " from products,measurement_unit,business_profile where bnsprof_uid=pd_uid and (pd_title LIKE '%" . $keywords . "%') " . $sql_pd_ck . " and pd_status='1' and bnsprof_state in (" . $stateid . ") GROUP BY pd_id order by pd_title asc limit " . $start_limit . "," . $limits;
+
+            //echo $sqltk;	 echo '___555';
+        } else {
+            $sqlk = "select " . $Col . " from products,measurement_unit,business_profile where bnsprof_uid=pd_uid and (pd_title LIKE '%" . $keywords . "%') " . $sql_pd_ck . " and pd_status='1' GROUP BY pd_id order by pd_title asc limit " . $start_limit . "," . $limits;
+
+            //	echo $sqltk;	 echo '___666';
+        }
+    } else {
+        $keywords_string = generateProdSearchString($keywords);
+        if (isset($_POST['state_id'])) {
+            $sqlk = "select " . $Col . " from products,measurement_unit,business_profile where bnsprof_uid=pd_uid and (pd_title LIKE " . $keywords_string . ") " . $sql_pd_ck . " and pd_status='1' and bnsprof_state in (" . $stateid . ") GROUP BY pd_id order by pd_title asc limit " . $start_limit . "," . $limits;
+
+            //////echo $sqltk;	 echo '___777';	
+        } else {
+            $sqlk = "select " . $Col . " from products,measurement_unit,business_profile where bnsprof_uid=pd_uid and (pd_title LIKE " . $keywords_string . ") " . $sql_pd_ck . " and pd_status='1' GROUP BY pd_id order by pd_title asc limit " . $start_limit . "," . $limits;
+
+            //echo $sqltk;	 echo '___888';	
+        }
+    }
+    $resk = mysql_query($sqlk);
+} else if ($rctyp == "Suppliers") {
+
+    if (isset($_COOKIE['loc_id'])) {
+        if (isset($_GET['exmatch'])) {
+            $sqltk = "SELECT * FROM products INNER JOIN business_profile ON business_profile.bnsprof_uid = products.pd_uid INNER JOIN user on user.usr_id = products.pd_uid INNER JOIN country ON user.country = country.cn_id INNER JOIN city ON business_profile.bnsprof_city = city.ct_id JOIN plan_member_id pm ON pm.b_id =business_profile.bnsprof_id  WHERE (bnsprof_compname LIKE '%" . $keywords . "%') AND ((pd_preferred_buyer_location =  'domestic' AND user.country =  '" . $_COOKIE['loc_id'] . "') OR (pd_preferred_buyer_location =  'any' AND user.country =  '" . $_COOKIE['loc_id'] . "') OR (pd_preferred_buyer_location =  'my_city' AND user.country =  '" . $_COOKIE['loc_id'] . "'))  AND pm.expiry_date > " . time() . "   and pd_status='1' GROUP BY products.pd_id ORDER BY business_profile.bnsprof_compname DESC ";
+            //echo "1 ".$sqltk;
+        } else {
+            $keywords_string = generateSupplierSearchString($keywords);
+            $sqltk = "SELECT * FROM products INNER JOIN business_profile ON business_profile.bnsprof_uid = products.pd_uid INNER JOIN user on user.usr_id = products.pd_uid INNER JOIN country ON user.country = country.cn_id INNER JOIN city ON business_profile.bnsprof_city = city.ct_id JOIN plan_member_id pm ON pm.b_id =business_profile.bnsprof_id WHERE (bnsprof_compname LIKE '%" . $keywords . "%') AND ((pd_preferred_buyer_location =  'domestic' AND user.country =  '" . $_COOKIE['loc_id'] . "') OR (pd_preferred_buyer_location =  'any' AND user.country =  '" . $_COOKIE['loc_id'] . "') OR (pd_preferred_buyer_location =  'my_city' AND user.country =  '" . $_COOKIE['loc_id'] . "'))  AND pm.expiry_date > " . time() . "   and pd_status='1' GROUP BY products.pd_id ORDER BY business_profile.bnsprof_compname DESC";
+//echo "2 ".$sqltk;
+        }
+        $supptotalpage = 30;
+        $suppstartpage = 0;
+        if ($_GET['page'] > 1) {
+            $supplimit = ($_GET['page'] - 1) * $supptotalpage;
+            $suppsetLimit = " LIMIT " . $supplimit . "," . $supptotalpage;
+        } else {
+            $supplimit = $suppstartpage;
+            $suppsetLimit = " LIMIT " . $supplimit . "," . $supptotalpage;
+        }
+
+        $restk = mysql_query($sqltk);
+        $totitems = mysql_num_rows($restk);
+        $limits = 6;
+        $total_pages = ceil($totitems / $limits);
+        $start_limit = $limits * ($pageno - 1);
+        if (isset($_GET['exmatch'])) {
+            $keywords_string = generateSupplierSearchString($keywords);
+            $sqlk = "SELECT *, MATCH (bnsprof_compname) AGAINST ('" . $keywords . "'  IN BOOLEAN MODE) AS title_relevance  FROM products INNER JOIN business_profile ON business_profile.bnsprof_uid = products.pd_uid INNER JOIN user on user.usr_id = products.pd_uid INNER JOIN country ON user.country = country.cn_id INNER JOIN city ON business_profile.bnsprof_city = city.ct_id JOIN plan_member_id pm ON pm.b_id =business_profile.bnsprof_id  WHERE (business_profile.bnsprof_compname LIKE " . $keywords_string . ") AND ((products.pd_preferred_buyer_location =  'domestic' AND user.country =  '" . $_COOKIE['loc_id'] . "') OR (products.pd_preferred_buyer_location =  'any' AND user.country =  '" . $_COOKIE['loc_id'] . "') OR (products.pd_preferred_buyer_location =  'my_city' AND user.country =  '" . $_COOKIE['loc_id'] . "'))  AND pm.expiry_date > " . time() . "  and pd_status='1' GROUP BY products.pd_id ORDER BY title_relevance DESC, business_profile.bnsprof_compname ASC " . $suppsetLimit;
+            //echo "3 ".$sqlk;
+        } else {
+            // $keywords_string=generateSupplierSearchString($keywords);
+            $keywords_string = generateSupplierSearchString($keywords);
+            $sqlk = "SELECT *, MATCH (bnsprof_compname) AGAINST ('" . $keywords . "'  IN BOOLEAN MODE) AS title_relevance  FROM products INNER JOIN business_profile ON business_profile.bnsprof_uid = products.pd_uid INNER JOIN user on user.usr_id = products.pd_uid INNER JOIN country ON user.country = country.cn_id INNER JOIN city ON business_profile.bnsprof_city = city.ct_id JOIN plan_member_id pm ON pm.b_id =business_profile.bnsprof_id WHERE (business_profile.bnsprof_compname LIKE " . $keywords_string . ") AND ((products.pd_preferred_buyer_location =  'domestic' AND user.country =  '" . $_COOKIE['loc_id'] . "') OR (products.pd_preferred_buyer_location =  'any' AND user.country =  '" . $_COOKIE['loc_id'] . "') OR (products.pd_preferred_buyer_location =  'my_city' AND user.country =  '" . $_COOKIE['loc_id'] . "'))  AND pm.expiry_date > " . time() . "  and pd_status='1' GROUP BY products.pd_id ORDER BY  title_relevance DESC, business_profile.bnsprof_compname ASC " . $suppsetLimit;
+            //echo "4 ".$sqlk;
+        }
+        $resk = mysql_query($sqlk);
+        //echo $sqlk; echo '___Cookies';
+    } else {
+        if (isset($_GET['exmatch'])) {
+            $keywords_string = generateSupplierSearchString($keywords);
+            $sqltk = "SELECT *, MATCH (bnsprof_compname) AGAINST ('" . $keywords . "'  IN BOOLEAN MODE) AS title_relevance  FROM products INNER JOIN business_profile ON business_profile.bnsprof_uid = products.pd_uid INNER JOIN user on user.usr_id = products.pd_uid INNER JOIN country ON user.country = country.cn_id INNER JOIN city ON business_profile.bnsprof_city = city.ct_id JOIN plan_member_id pm ON pm.b_id =business_profile.bnsprof_id  WHERE (business_profile.bnsprof_compname LIKE " . $keywords_string . ") AND ((products.pd_preferred_buyer_location =  'domestic') OR (products.pd_preferred_buyer_location =  'any') OR (products.pd_preferred_buyer_location =  'my_city'))  AND pm.expiry_date > " . time() . "  and pd_status='1' GROUP BY products.pd_id ORDER BY title_relevance DESC, business_profile.bnsprof_compname ASC ";
+            //echo "5 ".$sqltk;
+        } else {
+            $keywords_string = generateSupplierSearchString($keywords);
+            $sqltk = "SELECT *, MATCH (bnsprof_compname) AGAINST ('" . $keywords . "'  IN BOOLEAN MODE) AS title_relevance  FROM products INNER JOIN business_profile ON business_profile.bnsprof_uid = products.pd_uid INNER JOIN user on user.usr_id = products.pd_uid INNER JOIN country ON user.country = country.cn_id INNER JOIN city ON business_profile.bnsprof_city = city.ct_id JOIN plan_member_id pm ON pm.b_id =business_profile.bnsprof_id  WHERE (business_profile.bnsprof_compname LIKE " . $keywords_string . ") AND ((products.pd_preferred_buyer_location =  'domestic') OR (products.pd_preferred_buyer_location =  'any') OR (products.pd_preferred_buyer_location =  'my_city'))  AND pm.expiry_date > " . time() . " and pd_status='1'  GROUP BY products.pd_id ORDER BY title_relevance DESC, business_profile.bnsprof_compname ASC ";
+            //echo "6 ".$sqltk;
+        }
+        $supptotalpage = 30;
+        $suppstartpage = 0;
+        if ($_GET['page'] > 1) {
+            $supplimit = ($_GET['page'] - 1) * $supptotalpage;
+            $suppsetLimit = " LIMIT " . $supplimit . "," . $supptotalpage;
+        } else {
+            $supplimit = $suppstartpage;
+            $suppsetLimit = " LIMIT " . $supplimit . "," . $supptotalpage;
+        }
+
+        $restk = mysql_query($sqltk);
+        $totitems = mysql_num_rows($restk);
+        $limits = 6;
+        $total_pages = ceil($totitems / $limits);
+        $start_limit = $limits * ($pageno - 1);
+        if (isset($_GET['exmatch'])) {
+            $keywords_string = generateSupplierSearchString($keywords);
+            $sqlk = "SELECT *, MATCH (bnsprof_compname) AGAINST ('" . $keywords . "'  IN BOOLEAN MODE) AS title_relevance  FROM products INNER JOIN business_profile ON business_profile.bnsprof_uid = products.pd_uid INNER JOIN user on user.usr_id = products.pd_uid INNER JOIN country ON user.country = country.cn_id INNER JOIN city ON business_profile.bnsprof_city = city.ct_id JOIN plan_member_id pm ON pm.b_id =business_profile.bnsprof_id WHERE (bnsprof_compname LIKE " . $keywords_string . ") AND ((pd_preferred_buyer_location =  'domestic') OR (pd_preferred_buyer_location =  'any') OR (pd_preferred_buyer_location =  'my_city'))  AND pm.expiry_date > " . time() . "  and pd_status='1' GROUP BY pd_id ORDER BY title_relevance DESC, business_profile.bnsprof_compname ASC " . $suppsetLimit;
+            //echo "7 ".$sqlk;
+        } else {
+            $keywords_string = generateSupplierSearchString($keywords);
+            $sqlk = "SELECT *, MATCH (bnsprof_compname) AGAINST ('" . $keywords . "'  IN BOOLEAN MODE) AS title_relevance  FROM products INNER JOIN business_profile ON business_profile.bnsprof_uid = products.pd_uid INNER JOIN user on user.usr_id = products.pd_uid INNER JOIN country ON user.country = country.cn_id INNER JOIN city ON business_profile.bnsprof_city = city.ct_id JOIN plan_member_id pm ON pm.b_id =business_profile.bnsprof_id  WHERE (bnsprof_compname LIKE " . $keywords_string . ") AND ((pd_preferred_buyer_location =  'domestic') OR (pd_preferred_buyer_location =  'any') OR (pd_preferred_buyer_location =  'my_city'))  AND pm.expiry_date > " . time() . "  and pd_status='1' GROUP BY pd_id ORDER BY title_relevance DESC, business_profile.bnsprof_compname ASC " . $suppsetLimit;
+            //	echo "8 ".$sqlk;
+        }
+
+        $keywords_string = generateSupplierSearchString($keywords);
+
+        //echo $keywords_string;
+        //echo $sqlk; echo '___Cookies not set';
+
+        $resk = mysql_query($sqlk);
+    }
+} else if ($rctyp == "buy_lead") {
+
+/* added by Hetal */
+	if(isset($_GET['keywords']) && $_GET['rctyp'] == 'buy_lead'){
+		//$sql_key="select * from buy_requirement join product_category on product_category.pc_id=buy_requirement.br_pc_id where br_pd_name = '".$_GET['keywords']."' and pc_status='1'";
+		 $sql_key="select * from buy_requirement join product_category on product_category.pc_id=buy_requirement.br_pc_id where (br_pd_name like '%".str_replace("+"," ",$_GET['keywords'])."%' OR pc_name like '%".str_replace("+"," ",$_GET['keywords'])."%') and pc_status='1'  and pc_parent_id!='0'";
+		//echo $sql_key;die;
+		$query_key = mysql_query($sql_key);
+		$row_key=mysql_fetch_object($query_key);
+		$key_cat_id='';
+		if(mysql_num_rows($query_key)>0){
+		$key_cat_id = $row_key->pc_id;
+		}
+		else{
+			$sql_second_query=mysql_query("SELECT pc.* FROM product_category pc LEFT OUTER JOIN product_category spc ON pc.pc_id = spc.pc_parent_id WHERE pc.pc_name like '%".str_replace(array("+","%20"),array(" "," "),$_GET['keywords'])."%' AND pc.pc_parent_id!='0' and pc.pc_status='1'");
+			$fetch_records=mysql_fetch_object($sql_second_query);
+			if(mysql_num_rows($sql_second_query) > 0){
+			$sub_cat_id_get=$fetch_records->pc_id;
+				$sql_second_query1=mysql_query("SELECT * FROM product_category WHERE pc_parent_id='".$sub_cat_id_get."' and pc_status='1'");
+				$fetch_records1=mysql_fetch_object($sql_second_query1);
+				if(mysql_num_rows($sql_second_query1) > 0){
+					$key_cat_id=$fetch_records1->pc_id;
+				}
+				else{
+					$key_cat_id=$fetch_records->pc_id;
+				}
+			}
+		}
+		if($key_cat_id!=''){
+			$query = "SELECT * FROM buylead_alert_category WHERE bac_pc_id=".$key_cat_id." AND bac_usr_id=".$uid;	
+			$r=mysql_query($query);	
+			if(mysql_num_rows($r) == 0){		
+				$SQL_BUY_ALERT="insert  into buylead_alert_category SET 
+												  bac_usr_id=".$uid.",
+												  bac_pc_id=".$key_cat_id.",
+												  bac_updated_date=now()";
+				$r=mysql_query($SQL_BUY_ALERT);
+			}
+		}
+	}
+	/* added by Hetal */
+    if ($_GET['bbidd'] != '') {
+        $MasterCategoryArrayAA = "";
+        $queryNewAlphaA = "SELECT  * FROM  buy_requirement WHERE br_pc_id  ='" . $_GET['bbidd'] . "'";
+        $queryResultNewAlphaA = mysql_query($queryNewAlphaA);
+        while ($ResultsNewAlphaA = mysql_fetch_object($queryResultNewAlphaA)) {
+            $pc_id_arrNewNewAA[] = $ResultsNewAlphaA->br_id;
+        }
+        $MasterCategoryArrayAA = join("','", $pc_id_arrNewNewAA);
+        $iCategoryMatchNee = " and br_id IN ('$MasterCategoryArrayAA')";
+
+
+         $sqlk = "select * , MATCH (br_pd_name) AGAINST ('" . $keywordsssSS . "'  IN BOOLEAN MODE) AS title_relevance from buy_requirement,measurement_unit where br_estimate_qty_unit=mu_id   and  (" . $keywords_string . ") and br_approval_status = '1' and br_display_status = '1'  $iCategoryMatchNee  and br_status = '1' " . $sql_br_ck . " " . $sql_extra . " order by title_relevance desc  ";
+
+        //$sqlk = "select * , MATCH (br_pd_name) AGAINST ('".$keywordsssSS."'  IN BOOLEAN MODE) AS title_relevance from buy_requirement,measurement_unit where br_estimate_qty_unit=mu_id    ".$keywords_string."  and br_approval_status = '1' and br_display_status = '1' and br_status = '1' ".$sql_br_ck." ".$sql_extra." $iCategoryMatchNee order by title_relevance desc  " ;
+        //$sqlk = "select * , MATCH (br_pd_name) AGAINST ('".$keywordsssSS."'  IN BOOLEAN MODE) AS title_relevance from buy_requirement,measurement_unit where br_estimate_qty_unit=mu_id   $iCategoryMatchNee  and br_approval_status = '1' and br_display_status = '1' and br_status = '1'  order by title_relevance desc  " ;
+    } else {
+
+        if (isset($_GET['adv_quantity']) && $_GET['adv_quantity'] != '' || $_GET['adv_quantity'] != '0' && isset($_GET['adv_qty_list']) && $_GET['adv_qty_list'] != '') {
+            $sql_extra = " and br_estimate_qty='" . trim($_GET['adv_quantity']) . "' and br_estimate_qty_unit='" . trim($_GET['adv_qty_list']) . "'";
+            //echo "1111".$sql_extra;
+        } else {
+            $sql_extra = "";
+        }
+        if (isset($_GET['exmatch'])) {
+            $sqltk = "select * from buy_requirement,measurement_unit where br_estimate_qty_unit=mu_id and (br_pd_name LIKE '%" . $keywords . "%' or br_requirement LIKE '%" . $keywords . "%') and br_approval_status = '1' and br_display_status = '1' " . $sql_br_ck . " " . $sql_extra . " order by br_pd_name asc";
+            //echo "9 ".$sqltk;
+            // br_id desc
+            //echo "2222".$sqltk;
+        } else {
+            $keywords_string = generateBuyleadSearchString($keywords);
+            $sqltk = "select * from buy_requirement,measurement_unit where br_estimate_qty_unit=mu_id and (" . $keywords_string . ") and br_approval_status = '1' and br_display_status = '1' " . $sql_br_ck . " " . $sql_extra . " order by br_pd_name asc";
+            //echo "10 ".$sqltk;
+            // br_id desc
+            //echo "3333".$sqltk;
+        }
+        $restk = mysql_query($sqltk);
+        $totitems = mysql_num_rows($restk);
+        $limits = 6;
+        $total_pages = ceil($totitems / $limits);
+        $start_limit = $limits * ($pageno - 1);
+        if (isset($_GET['exmatch'])) {
+            $sqlk = "select * , MATCH (br_pd_name) AGAINST ('" . $keywords . "'  IN BOOLEAN MODE) AS title_relevance  from buy_requirement,measurement_unit where br_estimate_qty_unit=mu_id and (br_pd_name LIKE '" . $keywords . "' or br_requirement LIKE '" . $keywords . "') and br_approval_status = '1'  and br_status = '1' and br_display_status = '1' " . $sql_br_ck . " " . $sql_extra . " order by title_relevance desc limit " . $start_limit . "," . $limits;
+            //echo "11 ".$sqltk;
+            //echo "4444".$sqlk;
+        } else {
+            $keywords_string = generateBuyleadSearchString($keywords);
+            $sqlk = "select * , MATCH (br_pd_name) AGAINST ('" . $keywords . "'  IN BOOLEAN MODE) AS title_relevance from buy_requirement,measurement_unit where br_estimate_qty_unit=mu_id and (" . $keywords_string . ") and br_approval_status = '1' and br_display_status = '1' and br_status = '1' " . $sql_br_ck . " " . $sql_extra . " order by title_relevance desc limit " . $start_limit . "," . $limits;
+            //echo "12 ".$sqltk;
+            //echo "5555".$sqlk;
+        }
+    }
+
+
+
+
+    $resk = mysql_query($sqlk);
+} else if ($rctyp == "tender") {
+	/* added by programmer5  */
+		if(isset($_GET['keywords'])){
+			$_GET['keywords']=str_replace("+"," ",$_GET['keywords']); 
+			$sql_key="select * from tender join product_category on product_category.pc_id=tender.tnd_pc_id where tnd_heading like  '%".str_replace("+"," ",$_GET['keywords'])."%' and pc_status='1'";
+			//echo $sql_key;
+			$query_key = mysql_query($sql_key);
+			$row_key=mysql_fetch_object($query_key);
+			$key_cat_id = $row_key->pc_id;
+
+			if($key_cat_id != '') {
+			$query = "SELECT * FROM tender_alert_category WHERE tac_pc_id=".$key_cat_id." AND tac_usr_id=".$_SESSION['uid_indm'];	
+				$r=mysql_query($query);	
+				if(mysql_num_rows($r) == 0){		
+					$SQL_BUY_ALERT="insert  into tender_alert_category SET 
+													  tac_usr_id=".$_SESSION['uid_indm'].",
+													  tac_pc_id=".$key_cat_id.",
+													  tac_updated_date=now()";
+					//echo $SQL_BUY_ALERT;
+					$r=mysql_query($SQL_BUY_ALERT);
+				}
+				$query1 = "SELECT * FROM auction_alert_category WHERE aac_pc_id=".$key_cat_id." AND aac_usr_id=".$uid;	
+					$r1=mysql_query($query1);	
+					if(mysql_num_rows($r1) == 0){		
+						$SQL_BUY_ALERT="insert  into auction_alert_category SET 
+														  aac_usr_id=".$_SESSION['uid_indm'].",
+														  aac_pc_id=".$key_cat_id.",
+														  aac_updated_date=now()";
+						//echo $SQL_BUY_ALERT;
+						$r=mysql_query($SQL_BUY_ALERT);
+					}
+			}
+			else{
+				$_GET['keywords']=str_replace("+"," ",$_GET['keywords']); 
+					$sql_key="select * from auction join product_category on product_category.pc_id=auction.auc_pc_id where auc_heading like  '%".str_replace("+"," ",$_GET['keywords'])."%' and pc_status='1'";
+				//echo $sql_key;
+				$query_key = mysql_query($sql_key);
+				$row_key=mysql_fetch_object($query_key);
+				if(mysql_num_rows($query_key)>0){
+					$key_cat_id = $row_key->pc_id;
+				}
+				else{
+					$sql_second_query=mysql_query("SELECT pc.* FROM product_category pc LEFT OUTER JOIN product_category spc ON pc.pc_id = spc.pc_parent_id WHERE pc.pc_name like '%".str_replace(array("+","%20"),array(" "," "),$_GET['keywords'])."%' AND pc.pc_parent_id!='0' and pc.pc_status='1'");
+					$fetch_records=mysql_fetch_object($sql_second_query);
+					if(mysql_num_rows($sql_second_query) > 0){
+					$sub_cat_id_get=$fetch_records->pc_id;
+						$sql_second_query1=mysql_query("SELECT * FROM product_category WHERE pc_parent_id='".$sub_cat_id_get."' and pc_status='1'");
+						$fetch_records1=mysql_fetch_object($sql_second_query1);
+						if(mysql_num_rows($sql_second_query1) > 0){
+							$key_cat_id=$fetch_records1->pc_id;
+						}
+						else{
+							$key_cat_id=$fetch_records->pc_id;
+						}
+					}
+				}
+
+				if($key_cat_id != '') {
+				$query = "SELECT * FROM auction_alert_category WHERE aac_pc_id=".$key_cat_id." AND aac_usr_id=".$uid;	
+					$r=mysql_query($query);	
+					if(mysql_num_rows($r) == 0){		
+						$SQL_BUY_ALERT="insert  into auction_alert_category SET 
+														  aac_usr_id=".$uid.",
+														  aac_pc_id=".$key_cat_id.",
+														  aac_updated_date=now()";
+						//echo $SQL_BUY_ALERT;
+						$r=mysql_query($SQL_BUY_ALERT);
+					}
+					$query1 = "SELECT * FROM tender_alert_category WHERE tac_pc_id=".$key_cat_id." AND tac_usr_id=".$uid;	
+						$r1=mysql_query($query1);	
+						if(mysql_num_rows($r1) == 0){		
+							$SQL_BUY_ALERT="insert  into tender_alert_category SET 
+															  tac_usr_id=".$uid.",
+															  tac_pc_id=".$key_cat_id.",
+															  tac_updated_date=now()";
+							//echo $SQL_BUY_ALERT;
+							$r=mysql_query($SQL_BUY_ALERT);
+						}
+				}
+			}
+		}
+		
+			
+		
+	/* added by programmer5  */
+    $sql_extra = "";
+    if (isset($_COOKIE['loc_id'])) {
+        $auctionCondition = " AND ((auc_preferred_location='domestic' AND auc_usr_id in(SELECT DISTINCT usr_id FROM user WHERE country='" . $_COOKIE['loc_id'] . "')) OR (auc_preferred_location='any' AND auc_usr_id in(SELECT DISTINCT usr_id FROM user WHERE country='" . $_COOKIE['loc_id'] . "')) OR (auc_preferred_location='my_city' AND auc_usr_id in(SELECT DISTINCT bnsprof_uid FROM business_profile WHERE bnsprof_city in (SELECT ct_id FROM city WHERE ct_cn_id='" . $_COOKIE['loc_id'] . "'))))";
+
+        $tenderCondition = " AND ((tnd_preferred_location='domestic' AND tnd_usr_id in(SELECT DISTINCT usr_id FROM user WHERE country='" . $_COOKIE['loc_id'] . "')) OR (tnd_preferred_location='any' AND tnd_usr_id in(SELECT DISTINCT usr_id FROM user WHERE country='" . $_COOKIE['loc_id'] . "')) OR (tnd_preferred_location='my_city' AND tnd_usr_id in(SELECT DISTINCT bnsprof_uid FROM business_profile WHERE bnsprof_city in (SELECT ct_id FROM city WHERE ct_cn_id='" . $_COOKIE['loc_id'] . "'))))";
+
+        //echo '___001';
+
+        $isCountrySelect = '';
+    } else {
+        $auctionCondition = " AND ((auc_preferred_location='domestic') OR (auc_preferred_location='any') OR (auc_preferred_location='my_city'))";
+
+        $tenderCondition = " AND ((tnd_preferred_location='domestic') OR (tnd_preferred_location='any') OR (tnd_preferred_location='my_city'))";
+
+        $isCountrySelect = '';
+    }
+
+
+
+    if ($_GET['ttidd'] != '') {
+        $MasterCategoryArrayAA = "";
+        $queryNewAlphaA = "SELECT  * FROM  tender WHERE tnd_pc_id  ='" . $_GET['ttidd'] . "'";
+        $queryResultNewAlphaA = mysql_query($queryNewAlphaA);
+        while ($ResultsNewAlphaA = mysql_fetch_object($queryResultNewAlphaA)) {
+            $pc_id_arrNewNewAA[] = $ResultsNewAlphaA->tnd_id;
+        }
+        $MasterCategoryArrayAA = join("','", $pc_id_arrNewNewAA);
+        $iCategoryMatchNee = " and tnd_id IN ('$MasterCategoryArrayAA')";
+        $tendsqlk = "select * from tender,product_category,user,business_profile where tnd_pc_id=pc_id and tnd_usr_id=usr_id and usr_id=bnsprof_uid and tnd_approval_status='1' and TO_DAYS(tnd_due_date)>=TO_DAYS(now())  and tnd_status='1'    $iCategoryMatchNee order by tnd_id ";
+    } elseif ($_GET['ccidd'] != '') {
+        $MasterCategoryArrayAA = "";
+        $queryNewAlphaA = "SELECT  * FROM   auction WHERE auc_pc_id  ='" . $_GET['ccidd'] . "'";
+        $queryResultNewAlphaA = mysql_query($queryNewAlphaA);
+        while ($ResultsNewAlphaA = mysql_fetch_object($queryResultNewAlphaA)) {
+            $pc_id_arrNewNewAA[] = $ResultsNewAlphaA->auc_id;
+        }
+        $MasterCategoryArrayAA = join("','", $pc_id_arrNewNewAA);
+        $iCategoryMatchNee = " and auc_id IN ('$MasterCategoryArrayAA')";
+        $aucsqlk = "select * from auction,product_category,user,business_profile where auc_pc_id=pc_id and auc_usr_id=usr_id and usr_id=bnsprof_uid and auc_approval_status='1' and TO_DAYS(auc_due_date)>=TO_DAYS(now())  and auc_status='1' $iCategoryMatchNee order by auc_id";
+    } else {
+
+
+
+        if (isset($_GET['exmatch'])) {
+            $tendsqltk = "SELECT * FROM tender, product_category, user, business_profile WHERE tnd_pc_id=pc_id AND tnd_usr_id=usr_id AND usr_id=bnsprof_uid AND tnd_approval_status='1' AND TO_DAYS(tnd_docSaleEnd_date)>=TO_DAYS(now()) and tnd_due_date>='" . date('Y-m-d') . "' AND tnd_status='1' AND tnd_heading='%" . $keywords . "%' " . $tenderCondition . " ORDER BY tnd_heading ASC";
+
+            $aucsqltk = "SELECT * FROM auction, product_category, user, business_profile WHERE auc_pc_id=pc_id AND auc_usr_id=usr_id AND usr_id=bnsprof_uid AND auc_approval_status = '1' AND TO_DAYS(auc_docSaleEnd_date)>=TO_DAYS(now()) and auc_due_date>='" . date('Y-m-d') . "' AND auc_status='1' AND auc_heading='%" . $keywords . "%' " . $auctionCondition . " ORDER BY auc_id DESC";
+
+            //echo '___002';
+        } else {
+            $tender_keywords_string = generateTenderSearchString($keywords);
+            $auction_keywords_string = generateAuctionSearchString($keywords);
+
+            $tendsqltk = "SELECT * FROM tender,product_category,user,business_profile WHERE tnd_pc_id=pc_id AND tnd_usr_id=usr_id AND usr_id=bnsprof_uid AND (" . $tender_keywords_string . ") AND tnd_approval_status='1' AND TO_DAYS(tnd_docSaleEnd_date)>=TO_DAYS(now()) and tnd_due_date>='" . date('Y-m-d') . "' AND tnd_approval_status = '1'" . $tenderCondition;
+
+            $aucsqltk = "SELECT * FROM auction,product_category,user,business_profile WHERE auc_pc_id=pc_id AND auc_usr_id=usr_id AND usr_id=bnsprof_uid AND (" . $auction_keywords_string . ") and auc_due_date>='" . date('Y-m-d') . "' AND auc_approval_status = '1' AND TO_DAYS(auc_docSaleEnd_date)>=TO_DAYS(now()) AND auc_approval_status = '1'" . $auctionCondition;
+
+            //echo '___003';
+        }
+        //echo $tendsqltk;
+        $tend_restk = mysql_query($tendsqltk);
+        $auction_restk = mysql_query($aucsqltk);
+
+        $totitems = mysql_num_rows($tend_restk);
+        $limits = 6;
+        $total_pages = ceil($totitems / $limits);
+        $start_limit = $limits * ($pageno - 1);
+        if (isset($_GET['exmatch'])) {
+
+
+
+
+
+
+
+            $tendsqlk = "SELECT * FROM tender,product_category,user,business_profile WHERE   tnd_pc_id=pc_id AND tnd_usr_id=usr_id AND usr_id=bnsprof_uid AND tnd_heading LIKE '" . $keywords . "' OR tnd_details LIKE '" . $keywords . "')  and tnd_due_date>='" . date('Y-m-d') . "' AND tnd_approval_status = '1' AND TO_DAYS(tnd_docSaleEnd_date)>=TO_DAYS(now()) " . $tenderCondition . " ORDER BY tnd_heading ASC";
+
+
+            $aucsqlk = "SELECT * FROM auction,product_category,user,business_profile WHERE auc_pc_id=pc_id AND auc_usr_id=usr_id AND usr_id=bnsprof_uid AND (auc_heading LIKE '" . $keywords . "' or auc_details LIKE '" . $keywords . "') and auc_due_date>='" . date('Y-m-d') . "' AND auc_approval_status = '1' AND TO_DAYS(auc_docSaleEnd_date)>=TO_DAYS(now()) " . $auctionCondition . " ORDER BY auc_id DESC";
+
+            //echo '___004';
+        } else {
+            $tender_keywords_string = generateTenderSearchString($keywords);
+            $auction_keywords_string = generateAuctionSearchString($keywords);
+
+            $tendsqlk = "SELECT * FROM tender,product_category,user,business_profile WHERE tnd_pc_id=pc_id AND tnd_usr_id=usr_id AND usr_id=bnsprof_uid AND (" . $tender_keywords_string . ")  and tnd_due_date>='" . date('Y-m-d') . "' AND tnd_approval_status = '1'" . $tenderCondition . " ORDER BY tnd_heading ASC"; //AND tnd_approval_status='1' AND TO_DAYS(tnd_docSaleEnd_date)>=TO_DAYS(now()) 
+
+            $aucsqlk = "SELECT * FROM auction,product_category,user,business_profile WHERE auc_pc_id=pc_id AND auc_usr_id=usr_id AND usr_id=bnsprof_uid AND (" . $auction_keywords_string . ") and auc_due_date>='" . date('Y-m-d') . "' AND auc_approval_status = '1'" . $auctionCondition . " ORDER BY auc_id DESC"; //AND auc_approval_status = '1' AND TO_DAYS(auc_docSaleEnd_date)>=TO_DAYS(now()) 
+            ////echo '___005';
+        }
+    }
+    //echo $tendsqlk;
+    //echo $aucsqlk;
+    $tender_resk = mysql_query($tendsqlk);
+    $auction_resk = mysql_query($aucsqlk);
+} else if ($rctyp == "auction") {
+	
+	/* added by programmer5 */
+	if(isset($_GET['keywords'])){
+		$_GET['keywords']=str_replace("+"," ",$_GET['keywords']); 
+		$sql_key="select * from auction join product_category on product_category.pc_id=auction.auc_pc_id where auc_heading = '".$_GET['keywords']."' and pc_status='1'";
+		//echo $sql_key;
+		$query_key = mysql_query($sql_key);
+		$row_key=mysql_fetch_object($query_key);
+		$key_cat_id = $row_key->pc_id;
+
+		if($key_cat_id == '') {
+			$sql_key="select * from auction join product_category on product_category.pc_id=auction.auc_pc_id where auc_heading = '".$_GET['keywords']."' and pc_status='1'";
+			//echo $sql_key;
+			$query_key = mysql_query($sql_key);
+			$row_key=mysql_fetch_object($query_key);
+			$key_cat_id = $row_key->pc_id;
+		}
+		if($key_cat_id != '') {
+		$query = "SELECT * FROM auction_alert_category WHERE aac_pc_id=".$key_cat_id." AND aac_usr_id=".$uid;	
+			$r=mysql_query($query);	
+			if(mysql_num_rows($r) == 0){		
+				$SQL_BUY_ALERT="insert  into auction_alert_category SET 
+												  aac_usr_id=".$uid.",
+												  aac_pc_id=".$key_cat_id.",
+												  aac_updated_date=now()";
+				//echo $SQL_BUY_ALERT;
+				$r=mysql_query($SQL_BUY_ALERT);
+			}
+		}
+	}
+	/* added by programmer5 */
+	
+    $sql_extra = "";
+    if (isset($_GET['exmatch'])) {
+        $sqltk = "select * from auction,product_category,user,business_profile where auc_pc_id=pc_id and auc_usr_id=usr_id and usr_id=bnsprof_uid and auc_approval_status='1' and TO_DAYS(auc_docSaleEnd_date)>=TO_DAYS(now()) " . $sql_auc_ck . " and auc_status='1' and auc_heading='%" . $keywords . "%' order by auc_id desc";
+        //$sqltk = "select * from tender where br_estimate_qty_unit=mu_id and (br_pd_name LIKE '%".$keywords."%' or br_requirement LIKE '%".$keywords."%') and br_approval_status = '1' and br_display_status = '1' ".$sql_br_ck." ".$sql_extra." order by br_id desc";
+    } else {
+//			$sqltk = "select * from auction,product_category,user,business_profile where auc_pc_id=pc_id and auc_usr_id=usr_id and usr_id=bnsprof_uid and auc_approval_status='1' and TO_DAYS(auc_docSaleEnd_date)>=TO_DAYS(now()) ".$sql_auc_ck." and auc_status='1' and auc_heading='%".$keywords."%' order by auc_id desc";
+        $keywords_string = generateAuctionSearchString($keywords);
+        $sqltk = "select * from auction,product_category,user,business_profile where auc_pc_id=pc_id and auc_usr_id=usr_id and usr_id=bnsprof_uid and (" . $keywords_string . ") and auc_approval_status = '1' and TO_DAYS(auc_docSaleEnd_date)>=TO_DAYS(now()) " . $sql_auc_ck . " " . $sql_extra . " order by auc_id desc";
+    }
+    $restk = mysql_query($sqltk);
+    $totitems = mysql_num_rows($restk);
+    $limits = 6;
+    $total_pages = ceil($totitems / $limits);
+    $start_limit = $limits * ($pageno - 1);
+    if (isset($_GET['exmatch'])) {
+        $sqlk = "select * from auction,product_category,user,business_profile where auc_pc_id=pc_id and auc_usr_id=usr_id and usr_id=bnsprof_uid and auc_heading LIKE '" . $keywords . "' or auc_details LIKE '" . $keywords . "' and auc_approval_status = '1' and TO_DAYS(auc_docSaleEnd_date)>=TO_DAYS(now()) " . $sql_auc_ck . " " . $sql_extra . " order by auc_id desc limit " . $start_limit . "," . $limits;
+    } else {
+        $keywords_string = generateAuctionSearchString($keywords);
+        $sqlk = "select * from auction,product_category,user,business_profile where auc_pc_id=pc_id and auc_usr_id=usr_id and usr_id=bnsprof_uid and (" . $keywords_string . ") and auc_approval_status = '1' and TO_DAYS(auc_docSaleEnd_date)>=TO_DAYS(now()) " . $sql_auc_ck . " " . $sql_extra . " order by auc_id desc limit " . $start_limit . "," . $limits;
+    }
+    $resk = mysql_query($sqlk);
+
+    //echo $resk;
+}
+?>
+<?
+//echo $sqlk;die;
+?>
+<?php
+if (($rctyp != "Products") && (isset($_GET['rctyp']))) {
+    //echo "<pre>"; print_r($rowk);
+    ?>
+    <div class="wl-list" id="m">
+        <?php
+        if (mysql_num_rows($resk) > 0) {
+            ?>
+            <p class="flt_wd" style="float:right; color: #666666;font-family: Tahoma;font-size: 13px;padding: 0 0 3px 3px;">
+                <?php
+                if ($_GET['rctyp'] == 'buy_lead') {
+                    echo $totitems . " Buy Leads";
+                } elseif ($_GET['rctyp'] == 'Products') {
+                    echo $totitems . " " . $_GET['rctyp'];
+                } else if ($_GET['rctyp'] == 'tender') {
+                    echo $totitems . " Tenders";
+                } else if ($_GET['rctyp'] == 'auction') {
+                    echo $totitems . " Auctions";
+                } else {
+                    echo $totitems . " Suppliers";
+                    // echo $totSup." ".$_GET['rctyp'];
+                }
+                ?> available
+            </p>
+            <?php /* ?><div class="shw-dv"><h1>"<?php echo $_GET['keywords'];?>"<?php */ ?>
+        </h1></div> <p style="clear:both"></p>
+    <?php } ?>
+    <?php
+    if ($rctyp == "Suppliers") {
+        //echo $resk; //die;
+        $suppTotalRow = mysql_num_rows($resk);
+        $suppRowCount = 1;
+        if (mysql_num_rows($resk) > 0) {
+            while ($rowk = mysql_fetch_object($resk)) {
+                //echo "<pre>"; print_r($rowk); echo "</pre>";
+                ?>         
+                <?php
+                $fevrow_icon = 0;
+                //var_dump($row['pd_title']);
+                $data = $userArrayRow_Result[$rowk->pd_uid];
+                if ($data) {
+                    $sql_icon = "select smembership_plan.mst_icon as sponsericon , plan_member_id.* , smembership_icon_plan.mst_icon as producticon,smembership_icon_plan.mst_name as pplan
+                 from smembership_plan,plan_member_id , smembership_icon_plan where smembership_icon_plan.mp_id =plan_member_id.p_id and smembership_plan.mp_id =plan_member_id.p_id  and plan_member_id.b_id = " . $rowk->bnsprof_id;
+                    $get_icon = mysql_query($sql_icon) or die(mysql_error());
+                    if (mysql_num_rows($get_icon)) {
+                        $fevrow_icon = mysql_fetch_array($get_icon, MYSQL_ASSOC);
+                        // print_r($fevrow_icon); exit;
+                    }
+                }
+                $munit = "SELECT * FROM `measurement_unit` WHERE mu_id='$rowk->pd_unit'";
+                $get_unit = mysql_query($munit) or die(mysql_error());
+                if (mysql_num_rows($get_unit)) {
+                    $row_unit = mysql_fetch_array($get_unit, MYSQL_ASSOC);
+                    // print_r($fevrow_icon); exit;
+                }
+                ?>
+                <div class="row ar-mid-box">
+                    <div class="col-lg-12 ar-box-1  margin-top-10 ">
+                        <div class="row">
+                            <div class="col-lg-3 big-img-box box-1">
+                                <header><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+                                    <?php if (isset($_SESSION['uid_indm']) && $_SESSION['uid_indm'] != '') { ?>
+                                        <a href="javascript:void(0)" class="product_fav_btn" data="<?php echo $rowk->pd_id; ?>"  onclick="return showfavorite(<?php echo $_SESSION['uid_indm']; ?>,<?php echo $rowk->pd_id; ?>)" class="ar-star"><i class="fa fa-star star" style="color:<?php echo (in_array($rowk->pd_id, $myfev)) ? '#E48F23' : '#808080'; ?>"></i> Favourite</a>
+                                    <?php } else { ?>
+                                        <a href="sign-in.php" class="product_fav_btn" data="<?php echo $rowk->pd_id; ?>" class="ar-star"><i class="fa fa-star star"></i> Favourite</a>
+                                    <?php } ?>
+                                    <i class="fa fa-plus star"></i><a href="javascript:void(0)" class="ar-star product_compare" data-prod_img="<?php echo '/upload/myproduct/' . $rowk->pd_image; ?>"  onclick="return showcompare(<?php echo $rowk->pd_id; ?>)" data-prod_id="<?php echo $rowk->pd_id; ?>" title="<?php echo $rowk->pd_title; ?>" > Compare</a> </header>
+                                <figure class="box" >
+
+                                    <?php $pimg1 = explode(',', $rowk->pd_image); ?>
+                                    <div class="zoomthis">
+                                        <?php if ($fevrow_icon) { ?>
+                                            <div class="ribbon"><img src="./admin/images/<?php echo $fevrow_icon['sponsericon']; ?>"/> </div>
+                                        <?php } ?> <?php if($pimg1[0]!=''){ echo "<img src='/upload/myproduct/" . $pimg1[0] . "'>"; }else{ echo "<img src='/images/noimage.jpg'>"; } ?></div>
+                                    <?php
+                                    if (!empty($rowk->pd_imagelogo)) {
+                                        $limg1 = explode(',', $rowk->pd_imagelogo);
+                                        ?>
+                                        <div class="zk" style=" border: 1px solid #267abf;height: 77px; width: 77px;position: absolute;bottom: 1px;left: 1px;">
+                                            <?php echo "<img style='width: 77px; height: 77px;' src='/upload/myproduct/" . $limg1[0] . "'>"; ?></div>
+                                    <?php } ?>   
+
+
+                                </figure>
+                            </div>
+                            <?php $rand = rand(1000, 9999); ?>
+                            <div class="col-lg-5 box-2" style="width:100%">
+                                <ul>
+                                    <li class="margin-bottom-10">
+                                        <h4 class="txt-blue">
+                                            <a class="txt-blue" target="_blank" <?php if (user_info($rowk->bnsprof_uid, 'bnsprof_compname') != '') { ?>href="company/product-details.php?token=<?php echo rand(1000, 9999) . md5($rowk->pd_id); ?>&c=<?php echo rand(1000, 9999) . md5($rowk->bnsprof_id); ?>"<?php } ?> ><?php echo ucwords($rowk->pd_title); ?></a>
+                                        </h4>
+                                    </li>
+                                    <li>
+                                        <?php echo htmlentities(substr($rowk->pd_desc, 0, 132)); ?>
+                                    </li>
+                                    <li class="text-right">
+                                        <a <?php if (user_info($rowk->bnsprof_uid, 'bnsprof_compname') != '') { ?> href="company/products.php?c=<?php echo rand(1000, 9999) . md5($rowk->bnsprof_id); ?>&sc=<?php echo rand(10000, 99999) . $rowk->pd_subcat_id; ?>#<?php echo $rowk->pd_id; ?>"<?php } ?>>+  More</a>
+                                    </li>
+                                    <li> Min Order &nbsp;<big class="txt-bold txt-red" ><?php echo $rowk->pd_min_order_qty; ?></big>&nbsp; <?php echo $row_unit['mu_name']; ?> </li>
+                                    <script>
+                                        /*$(document).ready(function () {
+                                            var uid_ind = '<?php echo $_SESSION['uid_indm']; ?>';
+                                            $("#btn_ajax<?php echo $rowk->pd_id; ?>").colorbox({iframe: true, width: "62%", height: "89%"});
+                                            $("#btn_ajax_send<?php echo $rowk->pd_id; ?>").colorbox({iframe: true, width: "62%", height: "89%"});
+                                        });*/
+                                    </script>
+                                    <?php
+                                    $d = getCurrency($row['pd_currency']);
+                                    $locale = 'en-US'; //browser or user locale
+                                    $currency = $d;
+                                    $fmt = new NumberFormatter($locale . "@currency=$currency", NumberFormatter::CURRENCY);
+                                    $symbol = $fmt->getSymbol(NumberFormatter::CURRENCY_SYMBOL);
+                                    header("Content-Type: text/html; charset=UTF-8;");
+                                    $symbol;
+                                    ?>         
+
+
+
+
+                                    <li> Fob Price  &nbsp; <big class="txt-bold txt-red"><a style="color: #d22027" href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/product-add.php"><?php echo $symbol . $rowk->pd_fob_price . '~' . $symbol . $rowk->pd_fob_price2; ?> </a></big> &nbsp;  
+                                    <?php if (($_SESSION['uid_indm'] ) == '') { ?>
+                                        <a data-enquiry="" href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/sign-in.php">
+                                            <button type="button" class="btn btn-link border-radius-0 btn-enquiry" style="font-weight:bold;">(Get Latest Price)</button></a> 
+                                        <?php
+                                    } else {
+                                        if (($_GET['grid']) == 'active') {
+                                            ?>
+                                            <a  class="ajax" data-price="" href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/company/quotationRequest.php?id=<?php echo $rand . md5($rowk->bnsprof_id); ?>&pid=<?php echo $rowk->pd_id; ?>&keywords=<?php echo urlencode($_GET['keywords']); ?>&geo=<?php echo $geo_loc; ?>&conty=<?php echo $countryyyy; ?>&search=1" class="txt-bold txt-black pull-right inquiry_but" id="btn_ajax_send<?php echo $rowk->pd_id; ?>" rel="product-send-inquiry">
+                                                <button type="button" class="btn btn-link border-radius-0 btn-enquiry" style="font-weight:bold;">(Get Latest Price)</button>
+                                            </a>
+                                        <?php } else { ?>
+                                            <a  style="font-weight:bold; color: black;" class="ajax" data-price="" href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/company/quotationRequest_supplier.php?id=<?php echo $rand . md5($rowk->bnsprof_id); ?>&pid=<?php echo $rowk->pd_id; ?>&keywords=<?php echo urlencode($_GET['keywords']); ?>&geo=<?php echo $geo_loc; ?>&conty=<?php echo $countryyyy; ?>&search=1" class="txt-bold txt-black pull-right inquiry_but" id="btn_ajax_send<?php echo $rowk->pd_id; ?>" rel="product-send-inquiry">
+                                                <button type="button" class="btn btn-link border-radius-0 btn-enquiry" style="font-weight:bold; color: black;">(Get Latest Price)</button>
+                                            </a>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
+                                    </li>
+                                    <li class="margin-top-5">
+                                        <table class="table">
+                                            <tr>
+                                                <!--------------------- CT EDITS -------------------->
+                                                <?php $compName = explode(" ", $row_comp->bnsprof_compname); ?>
+                                                <?php
+                                                $compnamers = "";
+                                                foreach ($compName as $result) {
+                                                    $compnamers .= $result;
+                                                }
+                                                $compnamers;
+                                                ?>
+                                                <td style="padding-left:0px;"><a href="/company/index.php?c=<?php echo rand(1000, 9999) . md5($rowk->bnsprof_id); ?>" class="txt-blue txt-bold"><img src="images/users.png" width="25px" target="_blank"> About Us</a></td>
+                                                <td class=""><a href="/company/products.php?c=<?php echo rand(1000, 9999) . md5($rowk->bnsprof_id); ?>&flaag=whsuccess" class="txt-blue  txt-bold"><img src="images/icon.png" width="20px"/> View Products</a></td>
+                                               <!-- <td class=""><a href="<?php echo $rowk->bnsprof_comp_url; ?>/products.php?c=<?php echo rand(1000, 9999) . md5($rowk->bnsprof_id); ?>&sc=<?php echo rand(10000, 99999) . $rowk->pd_subcat_id; ?>#<?php echo $rowk->pd_id; ?>" class="txt-black txt-bold"><img src="images/chat.png" width="20px"/> Chat Now</a></td>-->
+                                            </tr>
+                                        </table>
+                                    </li>
+                                    <li>
+                                        <table class="table enquiry-tb margin-bottom-0">
+                                            <tr class="bg-gray">
+                                                <?php /* ?> <td class="padding-0"><big class=""><img src="images/mobile.png" width="25px"/> &nbsp;<a href="#" class="txt-black txt-lg"><b><?php echo $rowk->country_ph_code;?>-<?php echo $rowk->mobile1;?> </b></a></big></td><?php */ ?>
+                                                <?php $Countryphone = mysql_fetch_array(mysql_query("SELECT * FROM `country` where cn_id = " . $data['country'])); ?>
+                                                <td class="padding-0"><big class=""><img src="images/mobile.png" width="25px"/> &nbsp;<a href="tel:<?php echo '+'.user_info($data['bnsprof_uid'], 'country_ph_code'); ?><?php echo user_info($data['bnsprof_uid'], 'mobile1'); //echo $data['bnsprof_mobile2']; //echo user_info($data['bnsprof_uid'],'mobile1');   ?>" class="txt-black txt-lg"><b><?php echo $Countryphone['cn_ph']; //echo user_info($data['bnsprof_uid'],'country_ph_code');   ?>-<?php echo user_info($data['bnsprof_uid'], 'mobile1'); //echo $data['bnsprof_mobile2']; //echo user_info($data['bnsprof_uid'],'mobile1');   ?> </b></a></big></td>
+                                            <td class="text-right padding-0">
+                                                <?php if (($_SESSION['uid_indm'] ) == '') { ?>
+                                                    <a data-enquiry="" href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/sign-in.php"><button type="button" class="btn btn-sm btn-warning border-radius-0 btn-enquiry" style="font-weight:bold;">Send Enquiry</button></a> 
+                                                    <?php
+                                                } else {
+                                                    if (($_GET['grid']) == 'active') {
+                                                        ?>
+                                                        <a  class="ajax" data-price="" href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/company/quotationRequest.php?id=<?php echo $rand . md5($rowk->bnsprof_id); ?>&pid=<?php echo $rowk->pd_id; ?>&keywords=<?php echo urlencode($_GET['keywords']); ?>&geo=<?php echo $geo_loc; ?>&conty=<?php echo $countryyyy; ?>&search=1" class="txt-bold txt-black pull-right inquiry_but" id="btn_ajax_send<?php echo $rowk->pd_id; ?>" rel="product-send-inquiry">
+                                                            <button type="button" class="btn btn-sm btn-warning border-radius-0 btn-enquiry" style="font-weight:bold;">Send Enquiry</button>
+                                                        </a>
+                                                    <?php } else { ?>
+                                                        <a  class="ajax" data-price="" href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/company/quotationRequest_supplier.php?id=<?php echo $rand . md5($rowk->bnsprof_id); ?>&pid=<?php echo $rowk->pd_id; ?>&keywords=<?php echo urlencode($_GET['keywords']); ?>&geo=<?php echo $geo_loc; ?>&conty=<?php echo $countryyyy; ?>&search=1" class="txt-bold txt-black pull-right inquiry_but" id="btn_ajax_send<?php echo $rowk->pd_id; ?>" rel="product-send-inquiry">
+                                                            <button type="button" class="btn btn-sm btn-warning border-radius-0 btn-enquiry" style="font-weight:bold;">Send Enquiry</button>
+                                                        </a>
+                                                        <?php
+                                                    }
+                                                }
+                                                ?>          
+                                            </td>
+                                            </tr>
+                                        </table>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-4 box-3">
+                                <div class="ar-box-1 ar-box padding-5 margin-bottom-5 bg-gray" style="overflow-x: hidden;">
+                                    <header class="sub-box"> <?php if ($fevrow_icon) { ?> <a href="https://www.egyptmart.online/membership_plans.php"><img src="https://www.egyptmart.online/admin/images/<?php echo $fevrow_icon['producticon']; ?>" title="<?php echo $fevrow_icon['pplan']; ?>" width="25px" height="25px"/></a> <?php } ?><b class="txt-dark-gray"> 
+                                            <a href="/company/profile.php?c=<?php echo rand(1000, 9999) . md5($rowk->bnsprof_id); ?>" class="titleLim" target="_blank" title="<?php echo ucfirst($rowk->bnsprof_compname); ?>"><?php echo ucfirst(substr($rowk->bnsprof_compname, 0, 20) . '...'); ?></a></b> </header>
+                                    <img src="https://www.egyptmart.online/images/country_flag/<?php echo $rowk->cn_flag; ?>" alt="<?php echo $rowk->cn_flag; ?>" style=" width:21.6px; height:21.6px;"/>
+                                    <b class="txt-bold" style="color:#302670; margin-left:10px;"> <?php
+                                        //$countryId = $rowk->country;
+                                        $countryId = $rowk->cn_id;
+                                        //echo $countryId ; //die;
+                                        $getCountryName = mysql_fetch_array(mysql_query("SELECT * FROM `country` where cn_id='" . $countryId . "'"));
+                                        $stateId = $rowk->ct_state;
+                                        $getStateName = mysql_fetch_array(mysql_query("SELECT * FROM `states` where state_id='" . $stateId . "'"));
+                                        $address = "";
+                                        if ($getCountryName['cn_name'] != "") {
+                                            $address .= $getCountryName['cn_name'] . "-";
+                                        }
+                                        if ($getStateName['state_name'] != "") {
+                                            $address .= $getStateName['state_name'] . "-";
+                                        }
+                                        if ($data['ct_name'] != "") {
+                                            $address .= $rowk->ct_name;
+                                        }
+                                        if ($address != "") {
+                                            echo $address;
+                                        } else {
+                                            echo "Not available";
+                                        }
+                                        ?></b>
+                                    <table class="table margin-top-5">
+                                        <tr >
+                                            <td class="txt-light-gray padding-0"> Business Type : </td>
+											<?php
+                                            $bnsprof_businesstype = $data['bnsprof_businesstype'];
+                                            //  print_r($bnsprof_businesstype); die;
+                                            $dataC = explode(",", $bnsprof_businesstype);
+                                            //print_r($dataC);
+                                            //print_r($userArrayRow_Type); die;
+                                            //if(in_array($dataC))
+                                            if ($bnsprof_businesstype != '') {
+                                                //print_r($dataC);
+												$bus_type='';$bus_type1='';
+                                                $i = 1;
+												$j=1;
+                                                foreach ($dataC as $r) {
+                                                    //echo $r ;
+                                                    //if($r!='')
+													if($i<=2){
+                                                    $bus_type.= $userArrayRow_Type[$r];
+                                                    if ($i < count($dataC)) {
+                                                        $bus_type.= ", ";
+                                                    }
+                                                    $i++;
+													}
+													$bus_type1.= $userArrayRow_Type[$r];
+                                                    if ($j < count($dataC)) {
+                                                        $bus_type1.= ", ";
+                                                    }
+                                                    $j++;
+                                                }
+												$bus_type.='...';
+                                            } else {
+                                                $bus_type= "Not available";
+                                            }
+                                            //$userArrayRow_Type 
+                                            ?>
+                                        <td class="padding-0 txt-bold" title="<?php echo $bus_type1; ?>"> <?php echo $bus_type; ?> </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="txt-light-gray padding-0"> <a style="font-size:12px;font-weight:100;color:#8a8a8a" href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/egyptmart.online/product-add.php">Trade Location:</a> </td>
+                                                <td class="padding-0 txt-bold"> <a style="font-size:12px;color:#242424" href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/egyptmart.online/product-add.php"><?php
+                                                        if (($rowk->pd_preferred_buyer_location) == 'abroad') {
+                                                            echo "Abroad Only";
+                                                        } else if (($rowk->pd_preferred_buyer_location) == 'any') {
+                                                            echo "Abroad + Domestic";
+                                                        } else if (($row->pd_preferred_buyer_location) == 'domestic') {
+                                                            echo "Domestic Only";
+                                                        } else if (($row->pd_preferred_buyer_location) == 'my_city') {
+                                                            echo "My City Only";
+                                                        }
+                                                        ?></a> </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="txt-light-gray padding-0" width="95"> Member Since : </td>
+                                                <td class="padding-0 txt-bold"> <?php echo date("Y", strtotime($rowk->bnsprof_creation_date)); ?> </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="txt-light-gray " colspan="2"><a href="<?php echo $rowk->bnsprof_website_alt; ?>"><?php echo $rowk->bnsprof_website_alt; ?></a></td>
+                                                <td class="padding-0"></td>
+                                            </tr>
+                                    </table>
+                                </div>
+                                <div class="small-box">
+                                    <table class="table margin-bottom-0">
+                                        <tr>
+                                            <?php
+                                            $rqury = 'select pd_id,pd_title, pd_image from products where pd_image!="" and pd_uid = ' . $rowk->pd_uid . ' and pd_status != 0 and pd_id !=' . $row->pd_id . ' ORDER by pd_id DESC limit 2';
+                                            $rresult = mysql_query($rqury);
+                                            $rcoun = 1;
+                                            $releted_pro = '';
+                                            while ($rrow = mysql_fetch_array($rresult, MYSQL_ASSOC)) {
+                                                if ($rcoun == 1) {
+                                                    $releted_pro .= '<td class="padding-0 small-box-td1"><div class="thumb" style="padding-right:3px; width:106px;"></div>
+                     <a class="image-thumb1" href="search.php?keyword_type=' . $_GET['keyword_type'] . '&keywords=' . $rrow['pd_title'] . '&rctyp=Products"><img  data-toggle="tooltip" data-placement="top" title="' . $rrow['pd_title'] . '" class="photo" src="./upload/myproduct/' . $rrow['pd_image'] . '" data-large_photo="upload/myproduct/' . $rrow['pd_image'] . '"/></a></td>';
+                                                } else {
+                                                    $releted_pro .= '<td class="padding-0 text-right small-box-td2"><div class="thumb" style="padding-left:3px; width:106px;"></div>
+                      <a class="image-thumb1" href="search.php?keyword_type=' . $_GET['keyword_type'] . '&keywords=' . $rrow['pd_title'] . '&rctyp=Products"><img data-toggle="tooltip" data-placement="top" title="' . $rrow['pd_title'] . '" class="photo" src="./upload/myproduct/' . $rrow['pd_image'] . '"  data-large_photo="upload/myproduct/' . $rrow['pd_image'] . '"/></a></td>';
+                                                } $rcoun++;
+                                            }
+                                            echo $releted_pro;
+                                            ?>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="clearfix"> </div>
+                        </div>
+                    </div>
+                </div>
+                <?php
+                if ($suppRowCount == $suppTotalRow) {
+                    if ($_GET['page'] > 1 || $_GET['page'] == 1) {
+                        $pages = $_GET['page'] + 1;
+                    } else {
+                        $pages = 2;
+                    }
+                    if ($totitems > 10) {
+                        echo '<div class="col-lg-12 text-center" style="padding:30px;"><a href="https://egyptmart.online/search.php?rctyp=' . $_GET['rctyp'] . '&keywords=' . $_GET['keywords'] . '&page=' . $pages . '"><button type="button" class="btn btn-md btn-warning border-radius-0 btn-enquiry" style="font-size:16px; font-weight:bolder;">Display More Products / Services </button></a></div>';
+                    }
+                }
+                $suppRowCount ++;
+            }
+            ?>
+            <br>
+            <?php
+            /*
+              ?>
+              <div class="pagination">
+              <?php
+              if ($pageno>1){
+              ?>
+              <a href="" style="width:65px;">� Prev</a>
+              <?php
+              }
+              for ($i = 1; $i <= $total_pages; $i++){
+              if ($pageno == $i)
+              {
+              ?>
+              <span id="pageno" style="background-color: #7DC7FC; border: 1px solid #72ACE3; color: #FFFFFF; cursor: default;"><?php echo $i;?></span>
+              <?php } else { ?>
+              <a href=""><?php echo $i;?></a>
+              <?php
+              }
+              }
+              if ($pageno<$total_pages)
+              {
+              ?>
+              <a style="width:65px;" href="" >Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+              <?php }?>
+              </div>
+              <?php
+             */
+        } else {
+            ?>
+            <!--<div class="wl-list" id="m">-->
+            <div style="width: 72%; font-size: 17px; font-weight: bold; color: #000; padding: 0px 0px 5px 0px;">"<?php echo $_GET['keywords']; ?>"</div> 
+            <p style="clear:both"></p><p class="error-cty bo">Sorry, your search for <span style="font-weight: bold;color: #C30000;"><?php echo $_GET['keywords']; ?></span> did not match any Supplier.</p><br><table align="left" border="0" cellpadding="0" cellspacing="0" width="663px"><tbody><tr><td valign="TOP" width="480"><div class="sug"><b style="font-size: 13px; padding-bottom: 5px; color: rgb(28, 28, 28);  display:block;">Suggestions:</b><ul><li>Check spellings of your search words </li><li>Try a different set of search words </li><?php if ($rctyp == "Suppliers") { ?><li>Search only one Supplier at a time </li><?php } else { ?><li>Search only one product or service at a time </li><?php } ?><li>Do not use very long search phrase </li><li>Use two or three words for best search results </li><li>Do not use special characters in your search </li><li>Do not use search words that are very specific (e.g., 20x25 mm tone tiles) </li><li>Select any other country to find your product.</li></ul> </div><div id="autosuggest1" style="width: 145px; display: none; cursor: pointer;z-index:100;"><ul><li><!-- Suggestion --></li></ul></div></td></tr></tbody></table>
+            <!--</div>-->
+            </div>
+            <?php
+        }
+    } elseif ($rctyp == "buy_lead") {
+        if (mysql_num_rows($resk) > 0) {
+            $iHaiOme = 1;
+            ?>
+            <link rel="stylesheet" href="css/trade-7.2.css"/>
+            <?php
+            while ($rowk = mysql_fetch_object($resk)) {
+                ?>
+                <div class="m2 n-4 p_34" onMouseOut="removeColor(this, 2, 'B');">
+                    <div class="a1" style="width:100%;padding-left:8px;padding-bottom:20px;">
+                        <div>
+                            <p class="as g5 w2 z1 p4">Updated: <?php echo date('d M, Y', strtotime($rowk->br_updated_date)); ?></p>
+                            <p class="b-u a1" style="overflow:visible;width:38px;height:22px;">&nbsp;</p>
+                            &nbsp;
+                            <a href="buyleads-details.php?id=<?php echo rand(1000, 9999) . md5($rowk->br_id); ?>" class="fs bo clst"><font size="5px"><?php echo $rowk->br_pd_name; ?></font></a>
+                            &nbsp;&nbsp;
+
+                            <?php if ($rowk->br_approval_status == '1') { ?>
+                                <span class="vlogoBN">
+                                    <span class="vlogo g9 bo d1">Verified</span>
+                                </span>
+                            <?php } ?>
+                            <p class="m2"></p>
+                        </div>
+                        <p class="l1 p_33 pt1 wb"> <?php echo substr($rowk->br_requirement, 0, 100); ?>  <?php if (strlen($rowk->br_requirement) > 100) { ?><a class="g9" href="buyleads-details.php?id=<?php echo rand(1000, 9999) . md5($rowk->br_id); ?>">more...</a>  <?php } ?>
+                        </p>
+                        <div id="div_2" class="g9 lstb w1 nnn w3 w4"> 
+                            <div class="pb1 bo g9 k7">
+                                <p class="m2"></p>
+                            </div>
+                            <p class="g9 k7">
+                                <b class="x1">Location:</b> <?php echo get_city_name(user_info($rowk->br_u_id, 'bnsprof_city')); ?> (<?php echo ucfirst(city_to_country(user_info($rowk->br_u_id, 'bnsprof_city'))); ?>)</p>
+                        </div>
+                        <div id="div6369351846" class="rn2 m2 z1 vu bo w1  d1 g9"  style="background:url(images/c_button.png) no-repeat; height:30px;
+                             position:relative; top:-30px;" onClick="javascript:location.href = 'buyleads-details.php?id=<?php echo rand(1000, 9999) . md5($rowk->br_id); ?>';">&nbsp;Contact Now</div>
+                    </div><!-- IST -->
+                    <p class="m2" style="background: #CCC;"><img alt="Buy Enquiry" src="images/zero.gif"></p>
+
+
+                    <?php if (isset($_COOKIE['loc_id'])) {
+                        ?><!--</div>--><?php } else {
+                        ?>
+                    </div>
+                    <?php
+                }//location
+            }
+            ?>
+            <br />
+            <div class="pagination">
+                <?php
+                if ($pageno > 1) {
+                    ?>	
+                    <a href="" style="width:65px;">� Prev</a>
+                    <?php
+                }
+                for ($i = 1; $i <= $total_pages; $i++) {
+                    if ($pageno == $i) {
+                        ?>
+                        <span id="pageno"><?php echo $i; ?></span>
+                    <?php } else { ?>
+                        <a href=""><?php echo $i; ?></a>       
+                        <?php
+                    }
+                }
+                if ($pageno < $total_pages) {
+                    ?>     
+                    <a style="width:65px;" href="" >Next �</a>
+                <?php } ?>
+            </div>
+            <?php
+        } else {
+            ?>
+            <table cellspacing="0" cellpadding="0" border="0" align="CENTER" width="100%">
+                <tr style="width:100%">
+                    <td valign="TOP" style="width:100%"><div class="sor">Sorry, your search for <b class="cb1"><?php echo $_GET['keywords']; ?></b> did not match any Buy Leads.</div><div class="sug"><b>Suggestions:</b><ul><li>Check spellings of your search words </li><li>Try a different set of search words </li><li>Do not use very long search phrase </li><li>Use two or three words for best search results </li><li>Do not use special characters in your search </li><li>Do not use search words that are very specific (e.g., 20x25 mm tone &nbsp;&nbsp;tiles) </li><li>Select any other country to find your product.</li></ul> </div><div style="clear: both;"><br><br></div></td>
+                </tr>
+            </table>
+            <?php
+        } if (isset($_COOKIE['loc_id'])) {
+            ?><!--</div>--><?php
+        }//location
+    } elseif ($rctyp == "tender") {
+        //print_r(mysql_fetch_array($tender_resk));
+        if (mysql_num_rows($tender_resk) > 0) {
+            ?>
+            <link rel="stylesheet" href="css/trade-7.2.css"/>
+            <?php
+            while ($tendRowk = mysql_fetch_object($tender_resk)) {
+                // print_r($tendRowk[0]);
+                ?>
+                <div class="m2 n-4 p_34" onMouseOut="removeColor(this, 2, 'B');">
+                    <div class="a1" style="width:100%;padding-left:8px;padding-bottom:20px;"><div>
+                            <p class="as g5 w2 z1 p4">Updated: <?php echo date('d M, Y', strtotime($tendRowk->tnd_updated_date)); ?></p>
+                            <p class="b-u a1" style="overflow:visible;width:38px;height:22px;">&nbsp;</p>
+                            &nbsp;
+                            <a href="tender-details.php?id=<?php echo rand(1000, 9999) . md5($tendRowk->tnd_id); ?>" class="fs bo clst">
+                                <font size="5px"><?php echo $tendRowk->tnd_heading; ?></font>
+                            </a>
+                            &nbsp;&nbsp;
+                            <?php if ($tendRowk->tnd_approval_status == '1') { ?>
+                            <?php } ?>
+                            <p class="m2"></p>
+                        </div>
+                        <p class="l1 p_33 pt1 wb"> <?php echo substr($tendRowk->tnd_details, 0, 100); ?>  <?php if (strlen($tendRowk->tnd_details) > 100) { ?><a class="g9" href="tender-details.php?id=<?php echo rand(1000, 9999) . md5($tendRowk->tnd_id); ?>">more...</a>  <?php } ?>
+                        </p>
+                        <div id="div_2" class="g9 lstb w1 nnn w3 w4"> 
+                            <div class="pb1 bo g9 k7">
+                                <p class="m2"></p>
+                            </div>
+                            <p class="g9 k7">
+                             <b class="x1">Location:</b> <?php echo get_city_name(user_info($tendRowk->tnd_usr_id, 'bnsprof_city')); ?> <!--(<?php //echo ucfirst(city_to_country(user_info($tendRowk->tnd_usr_id,'bnsprof_city')));   ?>)--></p>
+                        </div>
+                        <div id="div6369351846" class=" rn2 m2 z1 vu bo w1  d1 g9" style="background:url(images/c_button.png) no-repeat; height:30px;
+                             position:relative; top:-30px;" onClick="openInNewTab('tender-details.php?id=<?php echo rand(1000, 9999) . md5($tendRowk->tnd_id); ?>');"><button class="btn btn-md btn-warning border-radius-0 btn-enquiry" type="button" style="height: 33px; margin-left: -17px; margin-top: -9px; margin-top: -9px; width: 110px; font-weight:bold; padding-left:10px;">Contact Now</button></div>
+                    </div><!-- IST -->
+                    <p class="m2" style="background: #CCC;"><img alt="Buy Enquiry" src="images/zero.gif"></p>
+                    <?php if (isset($_COOKIE['loc_id'])) {
+                        ?></div><?php } else {
+                        ?>
+                    </div>
+
+                    <!--  </div>-->
+                    <?php
+                }//location
+            }
+            ?>
+            <?php /*
+              <div class="pagination">
+              <?php
+              if ($pageno>1){
+              ?>
+              <a href="" style="width:65px;">� Prev</a>
+              <?php
+              }
+              for ($i = 1; $i <= $total_pages; $i++){
+              if ($pageno == $i)
+              {
+              ?>
+              <span id="pageno"><?php echo $i;?></span>
+              <?php } else { ?>
+              <a href=""><?php echo $i;?></a>
+              <?php
+              }
+              }
+              if ($pageno<$total_pages)
+              {
+              ?>
+              <a style="width:65px;" href="" >Next �</a>
+              <?php }?>
+              </div>
+             */ ?>
+            <?php
+        }
+        if (mysql_num_rows($auction_resk) > 0) {
+            ?>
+            <link rel="stylesheet" href="css/trade-7.2.css"/>
+            <?php
+            while ($auctionRowk = mysql_fetch_object($auction_resk)) {
+                ?>
+                <div class="m2 n-4 p_34" onMouseOut="removeColor(this, 2, 'B');">
+                    <div class="a1" style="width:100%;padding-left:8px;padding-bottom:20px;"><div>
+                            <p class="as g5 w2 z1 p4">Updated: <?php echo date('d M, Y', strtotime($auctionRowk->auc_updated_date)); ?></p>
+                            <p class="b-u a1" style="overflow:visible;width:38px;height:22px;">&nbsp;</p>
+                            &nbsp;
+                            <a href="auction-details.php?id=<?php echo rand(1000, 9999) . md5($auctionRowk->auc_id); ?>" class="fs bo clst"><font size="5px"><?php echo $auctionRowk->auc_heading; ?></font></a>
+                            &nbsp;&nbsp;
+                            <?php if ($auctionRowk->auc_approval_status == '1') { ?>
+                            <?php } ?>
+                            <p class="m2"></p>
+                        </div>
+                        <p class="l1 p_33 pt1 wb"> <?php echo substr($auctionRowk->auc_details, 0, 100); ?>  <?php if (strlen($auctionRowk->auc_details) > 100) { ?><a class="g9" href="auction-details.php?id=<?php echo rand(1000, 9999) . md5($auctionRowk->auc_id); ?>">more...</a>  <?php } ?>
+                        </p>
+                        <div id="div_2" class="g9 lstb w1 nnn w3 w4"> 
+                            <div class="pb1 bo g9 k7">
+                                <p class="m2"></p>
+                            </div>
+                            <p class="g9 k7">
+                             <b class="x1">Location:</b> <?php echo get_city_name(user_info($auctionRowk->auc_usr_id, 'bnsprof_city')); ?> <!--(<?php //echo ucfirst(city_to_country(user_info($auctionRowk->auc_usr_id,'bnsprof_city')));   ?>)--></p>
+                        </div>
+                        <div id="div6369351846" class="rn2 m2 z1 vu bo w1  d1 g9" style="background:url(images/c_button.png) no-repeat; height:30px;
+                             position:relative; top:-30px;" onClick="openInNewTab('auction-details.php?id=<?php echo rand(1000, 9999) . md5($auctionRowk->auc_id); ?>');"><button class="btn btn-md btn-warning border-radius-0 btn-enquiry" type="button" style="height: 33px; margin-left: -17px; margin-top: -9px; margin-top: -9px; width: 110px; font-weight:bold; padding-left:10px;">Contact Now</button></div>
+                    </div><!-- IST -->
+                    <p class="m2" style="background: #CCC;"><img alt="Buy Enquiry" src="images/zero.gif"></p>
+                </div>
+            <?php } ?>
+            <?php /*
+              <div class="pagination">
+              <?php
+              if ($pageno>1){
+              ?>
+              <a href="" style="width:65px;">� Prev</a>
+              <?php
+              }
+              for ($i = 1; $i <= $total_pages; $i++){
+              if ($pageno == $i)
+              {
+              ?>
+              <span id="pageno"><?php echo $i;?></span>
+              <?php } else { ?>
+              <a href=""><?php echo $i;?></a>
+              <?php
+              }
+              }
+              if ($pageno<$total_pages)
+              {
+              ?>
+              <a style="width:65px;" href="" >Next �</a>
+              <?php }?>
+              </div>
+             */ ?>
+            <?php
+        }
+        if (mysql_num_rows($tender_resk) == 0 && mysql_num_rows($auction_resk) == 0) {
+            ?><br />
+            <table cellspacing="0" cellpadding="0" border="0" align="CENTER" width="100%">
+                <tr style="width:100%">
+                    <td valign="TOP" style="width:100%"><div class="sor">Sorry, your search for <b class="cb1"><?php echo $_GET['keywords']; ?></b> did not match any Tender & Auction.</div><div class="sug"><b>Suggestions:</b><ul><li>Check spellings of your search words </li><li>Try a different set of search words </li><li>Do not use very long search phrase </li><li>Use two or three words for best search results </li><li>Do not use special characters in your search </li><li>Do not use search words that are very specific (e.g., 20x25 mm tone &nbsp;&nbsp;tiles) </li><li>Select any other country to find your product.</li></ul> </div><div style="clear: both;"><br><br></div></td>
+                </tr>
+            </table>
+            <?php
+        } if (isset($_COOKIE['loc_id'])) {
+            ?><!--</div>--><?php
+        }//location
+    } elseif ($rctyp == "auction") {
+        if (mysql_num_rows($resk) > 0) {
+            ?>
+            <link rel="stylesheet" href="css/trade-7.2.css"/>
+            <?php
+            while ($rowk = mysql_fetch_object($resk)) {
+                ?>
+                <div class="m2 n-4 p_34" onMouseOut="removeColor(this, 2, 'B');">
+                    <div class="a1" style="width:100%;padding-left:8px;padding-bottom:20px;"><div>
+                            <p class="as g5 w2 z1 p4">Updated: <?php echo date('d M, Y', strtotime($rowk->auc_updated_date)); ?></p>
+                            <p class="b-u a1" style="overflow:visible;width:38px;height:22px;">&nbsp;</p>
+                            &nbsp;
+                            <a href="auction-details.php?id=<?php echo rand(1000, 9999) . md5($rowk->auc_id); ?>" class="fs bo clst"><font size="5px"><?php echo $rowk->auc_heading; ?></font></a>
+                            &nbsp;&nbsp;
+                            <?php if ($rowk->auc_approval_status == '1') { ?>
+                            <?php } ?>
+                            <p class="m2"></p>
+                        </div>
+                        <p class="l1 p_33 pt1 wb"> <?php echo substr($rowk->auc_details, 0, 100); ?>  <?php if (strlen($rowk->auc_details) > 100) { ?><a class="g9" href="auction-details.php?id=<?php echo rand(1000, 9999) . md5($rowk->auc_id); ?>">more...</a>  <?php } ?>
+                        </p>
+                        <div id="div_2" class="g9 lstb w1 nnn w3 w4"> 
+                            <div class="pb1 bo g9 k7">
+                                <p class="m2"></p>
+                            </div>
+                            <p class="g9 k7">
+                                <b class="x1">Location:</b> <?php echo get_city_name(user_info($rowk->auc_usr_id, 'bnsprof_city')); ?> (<?php echo ucfirst(city_to_country(user_info($rowk->auc_usr_id, 'bnsprof_city'))); ?>)</p>
+                        </div>
+                        <div id="div6369351846" class="rn2 m2 z1 vu bo w1  d1 g9" style="background:url(images/c_button.png) no-repeat; height:30px;
+                             position:relative; top:-30px;" onClick="javascript:location.href = 'auction-details.php?id=<?php echo rand(1000, 9999) . md5($rowk->auc_id); ?>';">&nbsp;Contact Now</div>
+                    </div><!-- IST -->
+                    <p class="m2" style="background: #CCC;"><img alt="Buy Enquiry" src="images/zero.gif"></p>
+                </div>
+            <?php } ?>
+            <br />
+            <div class="pagination">
+                <?php
+                if ($pageno > 1) {
+                    ?>	
+                    <a href="" style="width:65px;">� Prev</a>
+                    <?php
+                }
+                for ($i = 1; $i <= $total_pages; $i++) {
+                    if ($pageno == $i) {
+                        ?>
+                        <span id="pageno"><?php echo $i; ?></span>
+                    <?php } else { ?>
+                        <a href=""><?php echo $i; ?></a>       
+                        <?php
+                    }
+                }
+                if ($pageno < $total_pages) {
+                    ?>     
+                    <a style="width:65px;" href="" >Next �</a>
+                <?php } ?>
+            </div>
+            <?php
+        } else {
+            ?>
+            <table cellspacing="0" cellpadding="0" border="0" align="CENTER" width="100%">
+                <tr style="width:100%">
+                    <td valign="TOP" style="width:100%"><div class="sor">Sorry, your search for <b class="cb1"><?php echo $_GET['keywords']; ?></b> did not match any Auction.</div><div class="sug"><b>Suggestions:</b><ul><li>Check spellings of your search words </li><li>Try a different set of search words </li><li>Do not use very long search phrase </li><li>Use two or three words for best search results </li><li>Do not use special characters in your search </li><li>Do not use search words that are very specific (e.g., 20x25 mm tone &nbsp;&nbsp;tiles) </li><li>Select any other country to find your product.</li></ul> </div><div style="clear: both;"><br><br></div></td>
+                </tr>
+            </table>
+            <?php
+        }
+    }
+    ?>
+    <br>
+    <div id="autosuggest" style="width: 393px;position: absolute; left: 245px; top: 10407px;cursor: pointer;max-height: 202px;overflow-y: auto;overflow-x: hidden;z-index:1000 !important; display: none;">
+        <ul>
+            <li><!-- Suggestion --></li>
+        </ul></div><br>
+    </div>
+    <?php
+} else {
+
+    //$prod_col='products.pd_id,products.pd_subcat_id,products.pd_title,products.pd_image,products.pd_imagelogo,products.pd_desc,products.pd_min_order_qty,products.pd_currency,products.pd_fob_price,products.pd_fob_price2,products.pd_currency,products.pd_currency,products.pd_currency,products.pd_currency';	
+    $prod_col = 'products.*';
+    $bus_col = 'business_profile.*';
+    //$bus_col='business_profile.bnsprof_id,business_profile.bnsprof_compname';
+    $usr_col = 'user.usr_id,user.email,user.fname,user.website,user.country,user.image,user.country_ph_code,user.profileImage';
+
+    //echo 'yes i am here';
+    if ($_GET['grid'] != 'active') {
+        ?>
+        <div id="search_result" class="list-grid-active" style="postion:relative;">
+			
+            <?php
+            /* $sql_prd="select * from products,measurement_unit,country where mu_id=pd_unit ".$keywords_string." and pd_currency=cn_id ".$sql_pd_ck." and pd_status='1' and pd_image!='' order by pd_id desc limit 0,5";
+             */
+            /*  $sql_prd="select * from products,measurement_unit,country where mu_id=pd_unit and (pd_title LIKE '%".$_GET['keywords']."%') and pd_currency=cn_id ".$sql_pd_ck." and pd_status='1' and pd_image!='' order by pd_id desc limit 0,5";
+             */
+            if ($_GET['idd'] != "") {
+                //$sql_prd="SELECT * FROM `products` WHERE `pd_subcat_id` = ".$_GET['idd']." ORDER BY pd_id DESC";
+                // 	  
+                // $sql_prd="select measurement_unit.*,country.*,".$prod_col." from products,measurement_unit,country where mu_id=pd_unit and pd_subcat_id = ".$_GET['idd']." and pd_currency=cn_id ".$sql_pd_ck." and pd_status='1' and pd_image!='' GROUP BY pd_id order by pd_title asc limit 0,15";
+                $newkw = generateProdSearchString($keywords);
+                //$sql_prd="select measurement_unit.*,country.*,".$prod_col.", MATCH (pd_title) AGAINST ('".$keywords."'  IN BOOLEAN MODE) AS title_relevance  from products,measurement_unit,country,business_profile,plan_member_id where bnsprof_uid = pd_uid and b_id = bnsprof_id and mu_id=pd_unit and pd_subcat_id = ".$_GET['idd']."  and (pd_title LIKE ".$newkw.") and pd_currency=cn_id ".$sql_pd_ck." and pd_status='1' and pd_image!='' AND plan_member_id.expiry_date > ". time() ."   GROUP BY pd_id ORDER BY title_relevance DESC, FIELD(plan_member_id.p_id,'5','4','3','15'), pd_title asc LIMIt 0, 15"; 
+
+                $sql_prd = "select * from products,measurement_unit,country, business_profile, plan_member_id, smembership_plan
+ where mu_id=pd_unit and pd_currency=cn_id " . $sql_pd_ck . " and  business_profile.bnsprof_uid = products.pd_uid and plan_member_id.b_id = business_profile.bnsprof_id and pd_status='1'  ANd smembership_plan.mp_id = plan_member_id.p_id and pd_image!='' and plan_member_id.expiry_date > " . time() . " and pd_subcat_id = '" . $_GET['idd'] . "' ORDER BY FIELD(p_id,'5','4','3','15') ";
+
+
+                // exit;
+                //OLD ---  ORDER BY FIELD(pd_title,'5','4','3','15')
+                //echo $sql_prd;
+            } else {
+                //Array ( [bsn_type] => Array ( [0] => 1 [1] => 2 ) [min_qty] => 1 ) 
+                //print_r($_POST); 
+                if (isset($_POST['srchbustype'])) {
+                    $bsn_type = $_POST['bsn_type'];
+                    $keyword = "";
+                    $scity = "";
+                    $sql_pd_country = "";
+                    /* $keyy= "pd_status='1'";
+                      if($min_qty > 0){ $keyy .= " and pd_min_order_qty = '".$min_qty."'";  }
+                     */
+                    $i = 1;
+                    if (isset($_POST['bsn_type'])) {
+                        foreach ($bsn_type as $key => $value) {
+                            if ($i == 1) {
+                                $keyword .= "(bnsprof_businesstype='" . $value . "'  or bnsprof_businesstype like '" . $value . ",%' or bnsprof_businesstype like '%," . $value . "'  or bnsprof_businesstype like '%," . $value . ",%' ";
+                            } else {
+                                $keyword .= " or bnsprof_businesstype='" . $value . "'  or bnsprof_businesstype like '" . $value . ",%' or bnsprof_businesstype like '%," . $value . "' OR bnsprof_businesstype like '%," . $value . ",%' ";
+                            }
+                            $i++;
+                        }
+                        if (strlen($keyword) > 0) {
+                            $keyword = " and " . $keyword . " ) ";
+                        }
+
+                        //echo $keyword;die;
+                    }
+                    if (isset($_POST['mst_type'])) {
+                        $k = 1;
+                        $mst_type = $_POST['mst_type'];
+                        foreach ($mst_type as $key => $value) {
+                            if ($k == 1) {
+                                $keywordmem .= "  ( p_id = '" . $value . "'";
+                            } else {
+                                $keywordmem .= " or p_id = '" . $value . "'";
+                            }
+                            $k++;
+                        }
+                        if (isset($_COOKIE['loc_id'])) {
+                            $checkCountry = " AND cn_id = '" . $_COOKIE['loc_id'] . "'";
+                            if (isset($_POST['scity']) && strlen($_POST['scity']) > 0) {
+                                $scity = "(bnsprof_city IN(SELECT ct_id from city where ct_name like '%" . $_POST['scity'] . "%' and ct_cn_id=" . $_COOKIE['loc_id'] . " )) and";
+                            }
+                            if (strlen($scity) > 0)
+                                $sql_pd_country = " and  ( " . $scity . " ( pd_uid in(select distinct usr_id from user where country='" . $_COOKIE['loc_id'] . "')))";
+                        }
+                        else {
+                            $checkCountry = "";
+                            if (isset($_POST['scity']) && strlen($_POST['scity']) > 0) {
+                                $scity = "(bnsprof_city IN(SELECT ct_id from city where ct_name like '%" . $_POST['scity'] . "%' )) ";
+                            }
+                            if (strlen($scity) > 0)
+                                $sql_pd_country = " and  (  " . $scity . " )";
+                        }
+
+                        $newkw = generateProdSearchString($keywords);
+                        $sql_prd = "select measurement_unit.*,country.*," . $bus_col . "," . $prod_col . " , MATCH (pd_title) AGAINST ('" . $keywords . "'  IN BOOLEAN MODE) AS title_relevance  from products,measurement_unit,business_profile,country, plan_member_id where bnsprof_uid=pd_uid and mu_id=pd_unit   and (pd_title LIKE " . $newkw . ") and pd_currency=cn_id " . $sql_pd_country . "  and pd_status='1'  and pd_image!=''" . $checkCountry . " and  bnsprof_id =b_id and " . $keywordmem . ") AND plan_member_id.expiry_date > " . time() . $keyword . " GROUP BY pd_id ORDER BY title_relevance DESC, FIELD(plan_member_id.p_id,'5','4','3','15'), pd_title asc limit 0,20";
+
+                        //echo $sql_prd.'________11';
+                    }
+                    else {
+                        if (isset($_COOKIE['loc_id'])) {
+                            $checkCountry = " AND cn_id = '" . $_COOKIE['loc_id'] . "'";
+                            if (isset($_POST['scity']) && strlen($_POST['scity']) > 0) {
+                                $scity = "(bnsprof_city IN(SELECT ct_id from city where ct_name like '%" . $_POST['scity'] . "%' and ct_cn_id=" . $_COOKIE['loc_id'] . " )) and";
+                            }
+                            if (strlen($scity) > 0)
+                                $sql_pd_country = " and  ( " . $scity . "
+					( pd_uid in(select distinct usr_id from user where country='" . $_COOKIE['loc_id'] . "')))";
+                        }
+                        else {
+                            $checkCountry = "";
+                            if (isset($_POST['scity']) && strlen($_POST['scity']) > 0) {
+                                $scity = "(bnsprof_city IN(SELECT ct_id from city where ct_name like '%" . $_POST['scity'] . "%' ) ) ";
+                            }
+                            if (strlen($scity) > 0)
+                                $sql_pd_country = " and  (  " . $scity . ")";
+                        }
+                        $newkw = generateProdSearchString($keywords);
+                        $sql_prd = "select measurement_unit.*,country.*," . $bus_col . "," . $prod_col . ", MATCH (pd_title) AGAINST ('" . $keywords . "'  IN BOOLEAN MODE) AS title_relevance  from products,measurement_unit,country,business_profile,plan_member_id where bnsprof_uid=pd_uid and b_id = bnsprof_id  and mu_id=pd_unit   and (pd_title LIKE " . $newkw . ") and pd_currency=cn_id " . $sql_pd_country . " AND pd_status='1'" . $checkCountry . " AND pd_image!=''  " . $keyword . " AND plan_member_id.expiry_date > " . time() . " GROUP BY pd_id ORDER BY title_relevance DESC, FIELD(plan_member_id.p_id,'5','4','3','15'), pd_title asc limit 0,20";
+
+
+
+                        //echo $sql_prd.'________22';
+                    }
+                }
+                else {
+
+
+                    $min_qty = '';
+
+                    $minQty = $_POST['min_qty'];
+
+                    if (isset($minQty) && $minQty > 0) {
+                        $min_qty = " AND products.pd_min_order_qty <= " . $minQty;
+                    }
+                    if (count($_POST['state_id']) > 1) {
+                        foreach ($_POST['state_id'] as $key => $value) {
+                            $stateid .= $value . ',';
+                        }
+                        $stateid = rtrim($stateid, ',');
+                    } else {
+                        $stateid = isset($_POST['state_id'][0]) ? $_POST['state_id'][0] : '';
+                    }
+
+                    //$stateid = isset($_POST['state_id'])?$_POST['state_id']:'';	
+                    $countryid = isset($_POST['country_id']) ? $_POST['country_id'] : '';
+                    if ($_GET['keywords'] != "") {
+
+                        if (isset($_POST['country_id'])) {
+                            $p = 1;
+                            foreach ($countryid as $key => $value) {
+                                if ($p == 1) {
+                                    $cntryval .= " and (country.cn_name = '" . $value . "'";
+                                } else {
+                                    $cntryval .= " or country.cn_name = '" . $value . "'";
+                                }
+                                $p++;
+                            }
+                            $newkw = generateProdSearchString($keywords);
+                            $sql_prd = "select measurement_unit.*,country.*," . $bus_col . "," . $prod_col . "," . $usr_col . ", MATCH (pd_title) AGAINST ('" . $keywords . "'  IN BOOLEAN MODE) AS title_relevance  from products,measurement_unit,country,business_profile,user,plan_member_id where user.usr_id = bnsprof_uid and  bnsprof_uid=pd_uid and b_id = bnsprof_id  and mu_id=pd_unit and (pd_title LIKE " . $newkw . ") " . $cntryval . ") and pd_currency=cn_id and pd_status='1' and pd_image!=''" . $min_qty . " AND plan_member_id.expiry_date > " . time() . " GROUP BY pd_id ORDER BY title_relevance DESC, FIELD(plan_member_id.p_id,'5','4','3','15'), pd_title asc limit 0,20";
+
+                            //echo $sql_prd.'________33';
+                        } elseif (isset($_POST['state_id'])) {
+                            $newkw = generateProdSearchString($keywords);
+                            $sql_prd = "select measurement_unit.*,country.*," . $bus_col . "," . $prod_col . ", MATCH (pd_title) AGAINST ('" . $keywords . "'  IN BOOLEAN MODE) AS title_relevance  from products,measurement_unit,country,business_profile,plan_member_id where bnsprof_uid=pd_uid and mu_id=pd_unit and b_id = bnsprof_id  and (pd_title LIKE " . $newkw . ") and pd_currency=cn_id " . $sql_pd_ck . " and pd_status='1' and pd_image!=''" . $min_qty . " and bnsprof_state IN (" . $stateid . ") AND plan_member_id.expiry_date > " . time() . " GROUP BY pd_id ORDER BY title_relevance DESC, FIELD(plan_member_id.p_id,'5','4','3','15'), pd_title asc limit 0,20";
+
+                            //	 echo $sql_prd.'________44';
+                        } else {
+                            $totalpage = 30;
+                            $startpage = 0;
+                            if ($_GET['page'] > 1) {
+                                $limit = ($_GET['page'] - 1) * $totalpage;
+                                $setLimit = " LIMIT " . $limit . "," . $totalpage;
+                            } else {
+                                $limit = $startpage;
+                                $setLimit = " LIMIT " . $limit . "," . $totalpage;
+                            }
+                            $newkw = generateProdSearchString($keywords);
+                            //LIKE '%".mysql_real_escape_string($_GET['keywords'])."%'
+                            $sql_prd = "select measurement_unit.*,country.*," . $bus_col . "," . $prod_col . ", MATCH (pd_title) AGAINST ('" . $keywords . "'  IN BOOLEAN MODE) AS title_relevance  from products,measurement_unit,country,business_profile,plan_member_id where bnsprof_uid = pd_uid and b_id = bnsprof_id and mu_id=pd_unit and (pd_title LIKE " . $newkw . ") and pd_currency=cn_id " . $sql_pd_ck . " and pd_status='1' and pd_image!=''" . $min_qty . " AND plan_member_id.expiry_date > " . time() . "   GROUP BY pd_id ORDER BY  FIELD(plan_member_id.p_id,'5','4','3','15'),title_relevance DESC, pd_title asc" . $setLimit; //OLD ---  ORDER BY FIELD(pd_title,'5','4','3','15')
+                            //echo $sql_prd.'________55';
+                        }
+                    } else {
+                        // and (pd_title LIKE '%".$_GET['keywords']."%')
+                        if (isset($_POST['country_id'])) {
+                            $p = 1;
+                            foreach ($countryid as $key => $value) {
+                                if ($p == 1) {
+                                    $cntryval .= " and (country.cn_name = '" . $value . "'";
+                                } else {
+                                    $cntryval .= " or country.cn_name = '" . $value . "'";
+                                }
+                                $p++;
+                            }
+                            $newkw = generateProdSearchString($keywords);
+                            $sql_prd = "select measurement_unit.*,country.*," . $bus_col . "," . $prod_col . "," . $usr_col . ", MATCH (pd_title) AGAINST ('" . $keywords . "'  IN BOOLEAN MODE) AS title_relevance  from products,measurement_unit,country,business_profile,user,plan_member_id where user.usr_id = bnsprof_uid and  bnsprof_uid=pd_uid and b_id = bnsprof_id  and mu_id=pd_unit and (pd_title LIKE " . $newkw . ") " . $cntryval . ") and pd_currency=cn_id and pd_status='1' and pd_image!=''" . $min_qty . " AND plan_member_id.expiry_date > " . time() . " GROUP BY pd_id ORDER BY title_relevance DESC, FIELD(plan_member_id.p_id,'5','4','3','15'), pd_title asc limit 0,20";
+
+                            //	echo $sql_prd.'________66';
+                        } elseif (isset($_POST['state_id'])) {
+                            $sql_prd = "select measurement_unit.*,country.*," . $bus_col . "," . $prod_col . ", MATCH (pd_title) AGAINST ('" . $keywords . "'  IN BOOLEAN MODE) AS title_relevance  from products,measurement_unit,country,business_profile,plan_member_id where bnsprof_uid=pd_uid and mu_id=pd_unit and b_id = bnsprof_id and pd_currency=cn_id " . $sql_pd_ck . " and pd_status='1' and pd_image!=''" . $min_qty . " and bnsprof_state IN (" . $stateid . ") AND plan_member_id.expiry_date > " . time() . " GROUP BY pd_idORDER BY title_relevance DESC, FIELD(plan_member_id.p_id,'5','4','3','15'), pd_id dessc limit 0,20";
+
+                            //	 echo $sql_prd.'________77';
+                        } else {
+                            $sql_prd = "select measurement_unit.*,country.*," . $prod_col . ", MATCH (pd_title) AGAINST ('" . $keywords . "'  IN BOOLEAN MODE) AS title_relevance  from products,measurement_unit,country where mu_id=pd_unit and pd_currency=cn_id " . $sql_pd_ck . " and pd_status='1' and pd_image!=''" . $min_qty . " GROUP BY pd_id order by title_relevance DESC, pd_title asc limit 0,20";
+
+
+                            // echo $sql_prd.'________88';
+                        }
+						
+                    }
+                }
+            }
+			
+			
+
+///---santosh number for produycts
+
+
+            $rss1_temp= mysql_query($sql_prd."00000") or die(mysql_error());
+			$number_of_products=mysql_num_rows($rss1_temp);
+			
+			
+			
+echo $sql_prd;
+echo "san:".$number_of_products;
+
+            //print_r($location_geo_country);
+            // print_r($countryid;)
+            //echo print_r(mysql_fetch_array($resk)); echo 'ffffff';
+            $run_query = mysql_query($sql_prd) or die(mysql_error());
+            // echo '<pre>';
+            //echo $sql_prd;
+//echo "**********************************";
+//echo "<pre>"; print_r($run_query); 
+            //   $run_query= mysql_query($view_product);
+            // $rows=mysql_fetch_array($run_query);
+            // var_dump(mysql_fetch_array($run_query));
+            //if(mysql_num_rows($run_query))
+            //  var_dump($_SESSION);  // H S RATHORE removed Error
+            $getSearchCount = mysql_num_rows($run_query);
+			 $getSearchCount1 = mysql_num_rows($run_query);
+            //echo "<br>Count".$getSearchCount;exit;
+            if ($getSearchCount > 0) {
+                $myfev = array();
+                if (isset($_SESSION['uid_indm']) && $_SESSION['uid_indm'] != '') {
+                    
+                }
+                $related = array();
+                $countRec = 1;
+                $catTopBanner = "";
+                $catBottomBanner = "";
+                $i = 0;
+
+
+                while ($row = mysql_fetch_array($run_query, MYSQL_ASSOC)) {
+                    $related[] = $row['pd_subcat_id'];
+                    $fevrow_icon = 0;
+
+                    //echo "<pre>"; print_r($userArrayRow_Result); die;
+                    $data = $userArrayRow_Result[$row['pd_uid']];
+                    //echo "<pre>"; print_r($data); die;
+                    /* $arra_country[]=$data['country'];	
+                      print_r($arra_country); die; */
+                    /* $buss_details = "SELECT * FROM products, business_profile, city, states WHERE business_profile.bnsprof_uid =".$row['pd_uid']." AND products.pd_subcat_id =".$_GET['idd']." AND bnsprof_city = ct_id AND bnsprof_state = state_id AND pd_status =  '1' AND pd_image !=  '' ";
+                      echo $buss_details; die; */
+                    if ($data) {
+                        $sql_icon = "select smembership_plan.mst_icon as sponsericon , plan_member_id.* , smembership_icon_plan.mst_icon as producticon,smembership_icon_plan.mst_name as pplan
+                 from smembership_plan,plan_member_id , smembership_icon_plan where smembership_icon_plan.mp_id =plan_member_id.p_id and smembership_plan.mp_id =plan_member_id.p_id  and plan_member_id.b_id = " . $data['bnsprof_id'];
+                        $get_icon = mysql_query($sql_icon) or die(mysql_error());
+                        if (mysql_num_rows($get_icon)) {
+                            $fevrow_icon = mysql_fetch_array($get_icon, MYSQL_ASSOC);
+                            //  print_r($fevrow_icon);
+                        }
+                    }
+                    ?>
+
+                    <div class="row ar-mid-box" style="width: 100%">
+                        <div class="col-lg-12 col-sm-11 col-md-11 ar-box-1  margin-top-10 ">
+                            <div class="row">
+                                <div class="col-lg-3 big-img-box box-1" id="div-<?php echo $row['pd_id']; ?>">
+                                    <header>
+                                        <?php if (isset($_SESSION['uid_indm']) && $_SESSION['uid_indm'] != '') { ?>
+                                            <a href="javascript:void(0)" class="product_fav_btn" data="<?php echo $row['pd_id']; ?>"  onclick="return showfavorite(<?php echo $_SESSION['uid_indm']; ?>,<?php echo $row['pd_id']; ?>)" class="ar-star"><i class="fa fa-star star" style="color:<?php echo (in_array($row['pd_id'], $myfev)) ? '#E48F23' : '#808080'; ?>"></i> Favourite</a>
+                                        <?php } else {
+                                            ?>
+                                            <a href="sign-in.php" class="product_fav_btn" data="<?php echo $row['pd_id']; ?>" class="ar-star"><i class="fa fa-star star"></i> Favourite</a>
+                                        <?php } ?>
+                                        <a href="javascript:void(0)" class="ar-star product_compare" data-prod_img="<?php echo 'https://www.egyptmart.online/upload/myproduct/' . $row['pd_image']; ?>" onClick="return addcompare(<?php echo $row['pd_id']; ?>)" data-prod_id="<?php echo $row['pd_id']; ?>" title="<?php echo $row['pd_title']; ?>" ><i class="fa fa-plus star" ></i> Add Compare</a> </header>
+                                    <figure class="box" >
+                                        <?php if ($fevrow_icon) { ?>
+                                            <div class="ribbon">  <img src="./admin/images/<?php echo $fevrow_icon['sponsericon']; ?>"/> </div>
+                                        <?php } ?>
+                            <!--<img src="images/3.png"  class="zoomthis" alt="Rice"/>-->
+                                        <?php
+                                        $pimg = explode(',', $row['pd_image']);
+                                        $limg = explode(',', $row['pd_imagelogo'])
+                                        ?>
+                                        <div class="zoomthis"> <a class="txt-blue" href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/company/product-details.php?token=<?php echo rand(1000, 9999) . md5($row['pd_id']) ?>&c=<?php echo rand(1000, 9999) . md5($data['bnsprof_id']); ?>" target="_blank"><?php echo "<img src='/upload/myproduct/" . $pimg[0] . "'>"; ?></a></div>
+                                        <?php if (!empty($row['pd_imagelogo'])) { ?>
+                                            <div class="zk" style=" border: 1px solid #267abf;height: 77px; width: 77px;position: absolute;top: 172px; left: 5px;">
+                                                <?php echo "<img style='width: 77px; height: 77px;' src='/upload/myproduct/" . $limg[0] . "'>"; ?></div>
+                                        <?php } ?>             </figure>
+                                </div>
+                                <div class="col-lg-5 box-2">
+                                    <ul>
+                                        <li class="margin-bottom-10">
+                                            <h4 class="txt-blue"><a class="txt-blue" href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/company/product-details.php?token=<?php echo rand(1000, 9999) . md5($row['pd_id']) ?>&c=<?php echo rand(1000, 9999) . md5($data['bnsprof_id']); ?>" target="_blank"><?php echo $row['pd_title']; ?></a></h4>
+                                        </li>
+                                        <li>
+                                            <?php echo substr($row['pd_desc'], 0, 132); ?>
+                                        </li>
+                                        <li class="text-right"> <a href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/company/product-details.php?token=<?php echo rand(1000, 9999) . md5($row['pd_id']) ?>&c=<?php echo rand(1000, 9999) . md5($data['bnsprof_id']); ?>" target="_blank">+  More</a> </li>
+                                        <li> Min Order &nbsp;<big class="txt-bold txt-red"><?php echo $row['pd_min_order_qty']; ?></big>&nbsp; <?php echo measurement_unit($row['pd_unit']); ?> </li>
+                                        <script>
+                                          /*  $(document).ready(function () {
+                                                $("#btn_ajax<?php echo $row['pd_id']; ?>").colorbox({iframe: true, width: "62%", height: "89%"});
+                                                $("#btn_ajax_send<?php echo $row['pd_id']; ?>").colorbox({
+                                                    iframe: true, width: "62%", height: "89%"});
+                                            });*/
+                                        </script>
+                                        <?php
+                                        $d = getCurrency($row['pd_currency']);
+                                        $locale = 'en-US'; //browser or user locale
+                                        $currency = $d;
+                                        $fmt = new NumberFormatter($locale . "@currency=$currency", NumberFormatter::CURRENCY);
+                                        $symbol = $fmt->getSymbol(NumberFormatter::CURRENCY_SYMBOL);
+                                        header("Content-Type: text/html; charset=UTF-8;");
+                                        $symbol;
+                                        ?>                                                        
+                                        <li> Fob Price  &nbsp; <big class="txt-bold txt-red"><a style="color: #d22027" href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/product-add.php"><?php echo $symbol . $row['pd_fob_price'] . '<span style="color:black">~ </span>' . $symbol . $row['pd_fob_price2']; ?> </a></big> &nbsp;  
+                                        <?php if (($_SESSION['uid_indm'] ) == '') { ?>
+                                            <a data-price="" href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/egyptmart.online/sign-in.php">(Get Letest Price)</a> 
+                                            <?php
+                                        } else {
+                                            $geo_loc = $location_geo_country[0];
+                                            $countryyyy = $_COOKIE['loc_id'];
+                                            if ($_GET['keywords'] != "") {
+                                                ?>
+                                                <a  class="ajax" data-enquiry="" id="btn_ajax_send<?php echo $row['pd_id']; ?>" href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/company/quotationRequest_supplier.php?id=<?php echo rand(1000, 9999) . md5($data['bnsprof_id']); ?>&pid=<?php echo $row['pd_id']; ?>&keywords=<?php echo urlencode($_GET['keywords']); ?>&geo=<?php echo $geo_loc; ?>&conty=<?php echo $countryyyy; ?>&search=1">(Get Letest Price)</a>
+                                                <?php
+                                            }//keyword 
+                                            else {
+                                                ?>
+                                                <a data-enquiry=""  class="ajax" id="btn_ajax_send<?php echo $row['pd_id']; ?>" href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/company/quotationRequest_supplier.php?id=<?php echo rand(1000, 9999) . md5($data['bnsprof_id']); ?>&pid=<?php echo $row['pd_id']; ?>&keywords=<?php echo urlencode($_GET['keywords']); ?>&geo=<?php echo $geo_loc; ?>&conty=<?php echo $countryyyy; ?>&search=1">(Get Letest Price)</a> 
+                                                <?php
+                                            }//no keyword
+                                        }
+                                        ?> 
+                                        </li>
+                                        <li class="margin-top-5">
+                                            <table class="table">
+                                                <tr>
+                                                    <!--------------------- CT EDITS -------------------->
+                                                                       <!--  <td style="padding-left:0px;"><a href="<?php echo $data['bnsprof_compname'] ?>/products.php?c=<?php echo rand(1000, 9999) . md5($data['bnsprof_id']); ?>&sc=<?php echo rand(10000, 99999) . $data['pd_subcat_id']; ?>#<?php echo $row['pd_id']; ?>" class="txt-blue txt-bold"><img src="images/users.png" width="25px"/> About Us</a></td>
+                                                    -->
+                                                    <?php $compName = explode(" ", $data['bnsprof_compname']); ?>
+                                                    <?php
+                                                    $compnamers = "";
+                                                    foreach ($compName as $result) {
+                                                        $compnamers .= $result;
+                                                    }
+                                                    $compnamers;
+                                                    ?>
+                                                    <td style="padding-left:0px;"><a href="/company/index.php?c=<?php echo rand(1000, 9999) . md5($data['bnsprof_id']); ?>" target="_blank" class="txt-blue txt-bold"><img src="images/users.png" width="25px"/> About Us</a></td>
+                                                    <td class=""><a href="/company/products.php?c=<?php echo rand(1000, 9999) . md5($data['bnsprof_id']); ?>&flaag=whsuccess" target="_blank" class="txt-blue  txt-bold"><img src="images/icon.png" width="20px"/> View Products</a></td>
+                                                    <!--<td class=""><a href="/company/products.php?c=<?php echo rand(1000, 9999) . md5($data['bnsprof_id']); ?>&sc=<?php echo rand(10000, 99999) . $data['pd_subcat_id']; ?>#<?php echo $row['pd_id']; ?>" target="_blank" class="txt-black txt-bold"><img src="images/chat.png" width="20px"/> Chat Now</a></td>-->
+                                                </tr>
+                                            </table>
+                                        </li>
+                                        <li>
+                                            <table class="table enquiry-tb margin-bottom-0">
+                                                <tr class="bg-gray">
+                                                    <?php /* ?> <td class="padding-0"><big class=""><img src="images/mobile.png" width="25px"/> &nbsp;<a href="#" class="txt-black txt-lg"><b><?php echo user_info($data['bnsprof_uid'],'bnsprof_phcode1');?>-<?php echo user_info($data['bnsprof_uid'],'mobile1');?> </b></a></big></td><?php */ ?>
+                                                    <?php $Countryphone = mysql_fetch_array(mysql_query("SELECT * FROM `country` where cn_id = " . $data['country'])); ?>
+                                                    <td class="padding-0"><big class=""><img src="images/mobile.png" width="25px"/> &nbsp;<a href="tel:<?php echo '+'.user_info($data['bnsprof_uid'],'country_ph_code');  ?><?php echo user_info($data['bnsprof_uid'], 'mobile1'); //echo $data['bnsprof_mobile2']; //echo user_info($data['bnsprof_uid'],'mobile1');  ?>" class="txt-black txt-lg"><b><?php echo $Countryphone['cn_ph']; //echo user_info($data['bnsprof_uid'],'country_ph_code');  ?>-<?php echo user_info($data['bnsprof_uid'], 'mobile1'); //echo $data['bnsprof_mobile2']; //echo user_info($data['bnsprof_uid'],'mobile1');  ?> </b></a></big></td>
+                                                <td class="text-right padding-0">
+                                                    <?php if (($_SESSION['uid_indm'] ) == '') { ?>
+                                                        <a data-enquiry="" href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/sign-in.php"><button type="button" class="btn btn-sm btn-warning border-radius-0 btn-enquiry" style="font-weight:bold;">Send Enquiry</button></a> 
+                                                        <?php
+                                                    } else {
+                                                        if (($_GET['grid']) == 'active') {
+                                                            ?>
+                                                            <a data-enquiry="" id="btn_ajax_send<?php echo $row['pd_id']; ?>" href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/?&keywords=<?php echo $_GET['keywords']; ?>&grid=active"><button type="button" class="btn btn-sm btn-warning border-radius-0 btn-enquiry" style="font-weight:bold;">Send Enquiry</button></a>
+                                                            <?php
+                                                        } else {
+                                                            $geo_loc = $location_geo_country[0];
+                                                            $countryyyy = $_COOKIE['loc_id'];
+                                                            if ($_GET['keywords'] != "") {
+                                                                ?>
+                                                                <a data-enquiry=""  class="ajax" id="btn_ajax_send<?php echo $row['pd_id']; ?>" href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/company/quotationRequest.php?id=<?php echo rand(1000, 9999) . md5($data['bnsprof_id']); ?>&pid=<?php echo $row['pd_id']; ?>&keywords=<?php echo urlencode($_GET['keywords']); ?>&geo=<?php echo $geo_loc; ?>&conty=<?php echo $countryyyy; ?>&search=1"><button type="button" class="btn btn-sm btn-warning border-radius-0 btn-enquiry" style="font-weight:bold;">Send Enquiry</button></a>
+                                                            <?php } else { ?>
+                                                                <a data-enquiry=""  class="ajax" id="btn_ajax_send<?php echo $row['pd_id']; ?>" href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/company/quotationRequest.php?id=<?php echo rand(1000, 9999) . md5($data['bnsprof_id']); ?>&pid=<?php echo $row['pd_id']; ?>&geo=<?php echo $geo_loc; ?>&conty=<?php echo $countryyyy; ?>&search=1"><button type="button" class="btn btn-sm btn-warning border-radius-0 btn-enquiry" style="font-weight:bold;">Send Enquiry</button></a>                                    
+                                                            <?php } ?>
+                                                            <?php
+                                                        }
+                                                    }
+                                                    ?>          
+                                                </td>
+                                                </tr>
+                                            </table>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-4 box-3">
+                                    <div class="ar-box-1 ar-box padding-5 margin-bottom-5 bg-gray" style="overflow-x: hidden;">
+                                        <header class="sub-box"><?php if ($fevrow_icon) { ?><a href="https://www.egyptmart.online/membership_plans.php"><img src="./admin/images/<?php echo $fevrow_icon['producticon']; ?>" width="25px" height="25px" title="<?php echo $fevrow_icon['pplan']; ?>"/></a> <?php } ?><b class="txt-dark-gray"> 
+                                                <a href="/company/profile.php?c=<?php echo rand(1000, 9999) . md5($data['bnsprof_id']); ?>" target="_blank" style="white-space:nowrap;" title="<?php echo ucfirst($data['bnsprof_compname']); ?>"><?php echo ucfirst(substr($data['bnsprof_compname'], 0, 20) . '...'); ?></a></b> </header>
+                                        <?php /* ?>  <img src="images/country_flag/<?php echo $row['cn_flag']; ?>" alt="<?php echo $row['cn_flag']; ?>" style=" width:21.6px; height:21.6px;"/>
+                                          <b class="txt-bold" style="color:#302670; margin-left:10px;"><?php */ ?> 
+                                        <?php
+                                        $countryId = $data['country'];
+                                        //echo"<pre>";	print_r($countryId); //die;
+                                        $getCountryName = mysql_fetch_array(mysql_query("SELECT * FROM `country` where cn_id='" . $countryId . "'"));
+                                        $stateId = $data['ct_state'];
+                                        $getStateName = mysql_fetch_array(mysql_query("SELECT * FROM `states` where state_id='" . $stateId . "'"));
+                                        /*
+                                          echo $getCountryName['cn_name'];
+                                          echo $getStateName['state_name']; */
+                                        if ($getCountryName['cn_flag'] != "") {
+                                            ?>
+                                            <img src="images/country_flag/<?php echo $getCountryName['cn_flag']; ?>" alt="<?php echo $getCountryName['cn_flag']; ?>" style=" width:21.6px; height:21.6px;"/>
+                                            <?
+                                        } else {
+                                            $getCountryflag = mysql_fetch_array(mysql_query("SELECT * FROM `country` where cn_id='" . $_COOKIE['loc_id'] . "'"));
+                                            ?>
+                                            <img src="images/country_flag/<?php echo $getCountryflag['cn_flag']; ?>" alt="<?php echo $getCountryflag['cn_flag']; ?>" style=" width:21.6px; height:21.6px;"/>
+                                        <?php } ?>
+                                        <b class="txt-bold" style="color:#302670; margin-left:10px;"><?php
+                                            $address = "";
+                                            if ($getCountryName['cn_name'] != "") {
+                                                $address .= $getCountryName['cn_name'] . "-";
+                                            }
+                                            if ($getStateName['state_name'] != "") {
+                                                $address .= $getStateName['state_name'] . "-";
+                                            }
+                                            if ($data['ct_name'] != "") {
+                                                $address .= $data['ct_name'];
+                                            }
+                                            if ($address != "") {
+                                                echo $address;
+                                            } else {
+                                                echo "Not available";
+                                            }
+                                            ?></b>
+                                        <table class="table margin-top-5">
+                                            <tr >
+												<?php
+                                                    $bnsprof_businesstype = $data['bnsprof_businesstype'];
+                                                    //  print_r($bnsprof_businesstype); die;
+                                                    $dataC = explode(",", $bnsprof_businesstype);
+                                                    if ($bnsprof_businesstype != '') {
+														$busn_type='';
+														$busn_type1='';
+                                                        //print_r($dataC);
+                                                        $i = 1;
+														$j=1;
+                                                        foreach ($dataC as $r) {
+                                                            //echo $r ;
+															if($i<=2){
+                                                            $busn_type.= $userArrayRow_Type[$r];
+                                                            if ($i < count($dataC)) {
+                                                                $busn_type.= ", ";
+                                                            }
+                                                            $i++;
+															}
+															
+                                                            $busn_type1.= $userArrayRow_Type[$r];
+                                                            if ($j < count($dataC)) {
+                                                                $busn_type1.= ", ";
+                                                            }
+                                                            $j++;
+                                                        }
+														$busn_type.= '...';
+                                                    } else {
+                                                        $busn_type= "Not available";
+                                                    }
+                                                    //$userArrayRow_Type 
+                                                    ?> 
+                                                <td class="txt-light-gray padding-0"> Business Type : </td>
+                                                <td class="padding-0 txt-bold" title="<?php echo $busn_type1; ?>"> <?php echo $busn_type; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="txt-light-gray padding-0"> <a style="font-size:12px;font-weight:100;color:#8a8a8a" href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/egyptmart.online/product-add.php" target="_blank">Trade Location :</a> </td>
+                                                <td class="padding-0 txt-bold"> <a style="font-size:12px;color:#242424" href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/egyptmart.online/product-add.php"><?php
+                                                        if ($row['pd_preferred_buyer_location'] == 'abroad') {
+                                                            echo "Abroad Only";
+                                                        } else if ($row['pd_preferred_buyer_location'] == 'any') {
+                                                            echo "Abroad + Domestic";
+                                                        } else if ($row['pd_preferred_buyer_location'] == 'domestic') {
+                                                            echo "Domestic Only";
+                                                        } else if ($row['pd_preferred_buyer_location'] == 'my_city') {
+                                                            echo "My City Only";
+                                                        }
+                                                        ?></a> </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="txt-light-gray padding-0" width="95"> Member Since : </td>
+                                                <td class="padding-0 txt-bold"> <?php echo date("Y", strtotime($data['bnsprof_creation_date'])); ?> </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="txt-light-gray " colspan="2"><a href="<?php echo $data['bnsprof_website_alt']; ?>" target="_blank"><?php echo $data['bnsprof_website_alt']; ?></a></td>
+                                                <td class="padding-0"></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="small-box">
+                                        <div class="box-under-twoimage">
+                                            <div>
+                                                <?php
+//$row['pd_uid']
+                                                /* $rqury = 'select pd_title, pd_image from products where pd_image!="" and pd_uid = '.$row['pd_uid'].' and pd_status = 1 and pd_id !='.$row['pd_id'].' ORDER by pd_id DESC limit 2'; */
+                                                $rqury = 'select pd_id,pd_title,pd_imagelogo, pd_image,pd_subcat_id from products where pd_image!="" and pd_uid = ' . $row['pd_uid'] . ' and pd_status = "1" and pd_id !=' . $row['pd_id'] . ' ORDER by pd_id DESC limit 2';
+                                                $rresult = mysql_query($rqury);
+                                                $rcoun = 1;
+                                                $releted_pro = '';
+                                                while ($rrow = mysql_fetch_array($rresult, MYSQL_ASSOC)) {
+                                                    if ($rcoun == 1) {
+                                                        $imgarr = explode(',', $rrow['pd_image']);
+                                                        $releted_pro .= '<div class="padding-0 small-box-td1"><div class="thumb" style="padding-right:3px;"></div>
+                                                               <div class="wrapper-product-searchright">
+<a class="thumb-images" href="search.php?keyword_type=' . $_GET['keyword_type'] . '&keywords=' . $rrow['pd_title'] . '&rctyp=Products"><img data-toggle="tooltip" data-placement="top" title="' . $rrow['pd_title'] . '" class="photo" src="./upload/myproduct/' . $imgarr[0] . '"  data-large_photo="upload/myproduct/' . $imgarr[0] . '"/></a>';
+
+                                                        if ($rrow['pd_imagelogo']) {
+
+                                                            $logoarr = explode(',', $rrow['pd_imagelogo']);
+
+                                                            $releted_pro .= '<a class="inner-search-right-img" href="search.php?keyword_type=' . $_GET['keyword_type'] . '&keywords=' . $rrow['pd_title'] . '&rctyp=Products"><img data-toggle="tooltip" data-placement="top" title="' . $rrow['pd_title'] . '" style="width: 42px;height: 41px;" class="photo" src="./upload/myproduct/' . $logoarr[0] . '" data-large_photo="upload/myproduct/' . $logoarr[0] . '"/></a>';
+                                                        }
+
+
+                                                        $releted_pro .= '</div></div>';
+                                                    } else {
+                                                        $imgarr = explode(',', $rrow['pd_image']);
+                                                        $releted_pro .= '<div class="padding-0 text-right small-box-td2"><div class="thumb" style="padding-left:3px;"></div>
+      <div class="wrapper-product-searchright">                                                        
+    <a class="thumb-images" href="search.php?keyword_type=' . $_GET['keyword_type'] . '&keywords=' . $rrow['pd_title'] . '&rctyp=Products"><img data-toggle="tooltip" data-placement="top" title="' . $rrow['pd_title'] . '" class="photo" src="./upload/myproduct/' . $imgarr[0] . '"  data-large_photo="upload/myproduct/' . $imgarr[0] . '"/></a>';
+
+                                                        if ($rrow['pd_imagelogo']) {
+
+                                                            $logoarr = explode(',', $rrow['pd_imagelogo']);
+                                                            $releted_pro .= '<a class="inner-search-right-img" href="search.php?keyword_type=' . $_GET['keyword_type'] . '&keywords=' . $rrow['pd_title'] . '&rctyp=Products"><img data-toggle="tooltip" data-placement="top" title="' . $rrow['pd_title'] . '" style="width: 42px;height: 41px;" class="photo" src="./upload/myproduct/' . $logoarr[0] . '" data-large_photo="upload/myproduct/' . $logoarr[0] . '"/></a>';
+                                                        }
+
+
+                                                        $releted_pro .= '</div></div>';
+                                                    }
+                                                    $rcoun++;
+                                                }
+                                                echo $releted_pro;
+                                                ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"> </div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php
+                    if (empty($catTopBanner)) {
+                        if (isset($_COOKIE['loc_id'])) {
+                            $catTopBanner = categoryAdsBanner($_COOKIE['loc_id'], $row['pd_subcat_id'], "", "top");
+                            $checkTopCatBan = explode('~~', $catTopBanner);
+                        } else {
+                            $catTopBanner = categoryAdsBanner('', $row['pd_subcat_id'], "", "top");
+                            //echo '<pre>';print_r($catBanner);
+                            $checkTopCatBan = explode('~~', $catTopBanner);
+                        }
+                    }
+                    if (empty($catBottomBanner)) {
+                        if (isset($_COOKIE['loc_id'])) {
+                            $catBottomBanner = categoryAdsBanner($_COOKIE['loc_id'], $row['pd_subcat_id'], "", "bottom");
+                            $checkBottomCatBan = explode('~~', $catBottomBanner);
+                        } else {
+                            $catBottomBanner = categoryAdsBanner('', $row['pd_subcat_id'], "", "bottom");
+                            //echo '<pre>';print_r($catBanner);
+                            $checkBottomCatBan = explode('~~', $catBottomBanner);
+                        }
+                    }
+                    if ($getSearchCount > 4) {
+                        if ($catTopBanner != "" && $checkTopCatBan[0] == 'top') {
+                            if ($countRec == 4) {
+                                echo '<div class="row text-center" style="margin-top:20px; margin-bottom:20px;"><div class="advertise-div">';
+                                echo $checkTopCatBan[1] . '<div class="clearfix"> </div></div></div>';
+                            }
+                        }
+                        if ($catBottomBanner != "" && $checkBottomCatBan[0] == 'bottom') {
+                            if ($countRec == $getSearchCount) {
+                                echo '<div class="row text-center" style="margin-top:20px; margin-bottom:20px;"><div class="advertise-div">';
+                                echo $checkBottomCatBan[1] . '<div class="clearfix"> </div></div></div>';
+                            }
+                        }
+                        if ($countRec == $getSearchCount) {
+                            if ($_GET['page'] > 1 || $_GET['page'] == 1) {
+                                $pages = $_GET['page'] + 1;
+                            } else {
+                                $pages = 2;
+                            }
+							//echo 'tot'.$getSearchCount1;
+							//echo 'totcount'.$countRec;
+							if ($number_of_products > $getSearchCount) {
+                            echo '<div class="col-lg-12 text-center" style="padding:30px;"><a href="https://egyptmart.online/search.php?rctyp=' . $_GET['rctyp'] . '&keywords=' . $_GET['keywords'] . '&page=' . $pages . '"><button type="button" class="btn btn-md btn-warning border-radius-0 btn-enquiry" style="font-size:16px; font-weight:bolder;">Display More Products / Services </button></a></div>';
+							}
+						}
+                    } else {
+                        if ($catTopBanner != "" && $countRec == $getSearchCount) {
+                            echo '<div class="row text-center" style="margin-top:20px; margin-bottom:20px;"><div class="advertise-div">';
+                            echo $checkTopCatBan[1] . '<div class="clearfix"> </div></div></div>';
+                        }
+                        if ($catBottomBanner != "" && $countRec == $getSearchCount) {
+                            echo '<div class="row text-center" style="margin-top:20px; margin-bottom:20px;"><div class="advertise-div">';
+                            echo $checkBottomCatBan[1] . '<div class="clearfix"> </div></div></div>';
+                            if ($_GET['page'] > 1 || $_GET['page'] == 1) {
+                                $pages = $_GET['page'] + 1;
+                            } else {
+                                $pages = 1;
+                            }
+							if ($number_of_products > $getSearchCount) {
+                            echo '<div class="col-lg-12 text-center" style="padding:30px;"><a href="https://egyptmart.online/search.php?rctyp=' . $_GET['rctyp'] . '&keywords=' . $_GET['keywords'] . '&page=' . $pages . '"><button type="button" class="btn btn-md btn-warning border-radius-0 btn-enquiry" style="font-size:16px; font-weight:bolder;">Display More Products / Services </button></a></div>';
+							}
+					    }
+                    }
+                    $countRec++;
+                }
+            } else { //echo '<pre>';print_r($_POST);
+                /* echo "<p style='    color: red;
+                  font-size: 30px;
+                  margin-top: 20px;'>this product is not available !!</p>"; */
+                if (isset($_POST['scity']) && $_POST['scity'] != '') {
+                    ?>
+                    <table cellspacing="0" cellpadding="0" border="0" align="CENTER" width="100%">
+                        <tr style="width:100%">
+                            <td valign="TOP" style="width:100%"><div class="sor">Sorry, your search for <b class="cb1"><?php echo $_POST['scity']; ?></b> did not match any Supplier.</div><div class="sug"><b>Suggestions:</b><ul><li>Check spellings of your search words </li><li>Try a different set of search words </li></ul> </div><div style="clear: both;"><br><br></div></td>
+                        </tr>
+                    </table>
+                <?php } else if (isset($_POST['bsn_type'])) { ?>
+                    <table cellspacing="0" cellpadding="0" border="0" align="CENTER" width="100%">
+                        <tr style="width:100%">
+                            <td valign="TOP" style="width:100%"><div class="sor">Sorry, your search for <b class="cb1">Business Type</b> did not match any Supplier.</div><div class="sug"><b>Suggestions:</b><ul><li>Try a different business type of search </li><li>Try to check more than one business types</li></ul> </div><div style="clear: both;"><br><br></div></td>
+                        </tr>
+                    </table>	 
+                <?php } else { ?>
+                    <table cellspacing="0" cellpadding="0" border="0" align="CENTER" width="100%">
+                        <tr style="width:100%">
+                            <td valign="TOP" style="width:100%"><div class="sor">Sorry, your search for <b class="cb1"><?php echo $_GET['keywords']; ?></b> did not match any Product.</div><div class="sug"><b>Suggestions:</b><ul><li>Check spellings of your search words </li><li>Try a different set of search words </li><li>Do not use very long search phrase </li><li>Use two or three words for best search results </li><li>Do not use special characters in your search </li><li>Do not use search words that are very specific (e.g., 20x25 mm tone &nbsp;&nbsp;tiles) </li><li>Select any other country to find your product.</li></ul> </div><div style="clear: both;"><br><br></div></td>
+                        </tr>
+                    </table>
+                    <?php
+                }//End City Text Condition
+            }
+            ?>
+        </div>
+        </div>
+    <?php } else { ?>
+har:
+        <div class="row fond active-grid-option" >
+            <?php
+            /* if(substr($_GET['keywords'],0,1)=='"')
+              {
+              $keywords=substr(substr(trim($_GET['keywords']),1),0,strlen((substr(trim($_GET['keywords']),1)))-1);
+              }
+              else
+              {
+              $keywords=trim($_GET['keywords']);
+              }
+              $keywords_string=generateProdSearchString($_GET['keywords']); */
+            //$sql_prd="select * from products,measurement_unit,country where mu_id=pd_unit ".$keywords_string." and pd_currency=cn_id ".$sql_pd_ck." and pd_status='1' and pd_image!='' order by pd_id desc limit 0,5";
+            $keywords = $_GET['keywords'];
+            $totalgridpage =30;
+            $startgridpage = 0;
+            if ($_GET['page'] > 1) {
+                $gridlimit = ($_GET['page'] - 1) * $totalgridpage;
+                $gridsetLimit = " LIMIT " . $gridlimit . "," . $totalgridpage;
+            } else {
+                $gridlimit = $startgridpage;
+                $gridsetLimit = " LIMIT " . $gridlimit . "," . $totalgridpage;
+            }
+            $newkw = generateProdSearchString($keywords);
+
+
+             $sql_prd = "select *,  MATCH (pd_title) AGAINST ('" . $keywords . "'  IN BOOLEAN MODE) AS title_relevance  from products as prod,measurement_unit,country,business_profile,plan_member_id where bnsprof_uid = pd_uid and b_id = bnsprof_id and mu_id=pd_unit and (pd_title LIKE " . $newkw . ") and pd_currency=cn_id " . $sql_pd_ck . " and pd_status='1' and pd_image!=''  AND plan_member_id.expiry_date > " . time() . " ORDER BY  title_relevance DESC, FIELD(p_id,'5','4','3','15'), pd_title asc ";
+            /* $sql_prd="select * from products,measurement_unit,country where mu_id=pd_unit and pd_title LIKE '%".urldecode($keywords)."%'  and pd_currency=cn_id ".$sql_pd_ck." and pd_status='1' and pd_image!='' order by pd_id desc".$gridsetLimit; */
+
+
+            $run_query = mysql_query($sql_prd) or die(mysql_error());
+            $getSearchCount = mysql_num_rows($run_query);
+             echo 'count'. $getSearchCount;
+            if ($getSearchCount > 0) {
+                $myfev = array();
+                if (isset($_SESSION['uid_indm']) && $_SESSION['uid_indm'] != '') {
+                    //don nothing
+                }
+                $gridRecCount = 1;
+                $sql_prd .= $gridsetLimit;
+                // echo $sql_prd;
+                $run_query = mysql_query($sql_prd) or die(mysql_error());
+                while ($row = mysql_fetch_array($run_query, MYSQL_ASSOC)) {
+                    $fevrow_icon = 0;
+                    //var_dump($row['pd_title']);
+                    $data = $userArrayRow_Result[$row['pd_uid']];
+                    if ($data) {
+                        $sql_icon = "select smembership_plan.mst_icon as sponsericon , plan_member_id.* , smembership_icon_plan.mst_icon as producticon,smembership_icon_plan.mst_name as pplan
+                 from smembership_plan,plan_member_id , smembership_icon_plan where smembership_icon_plan.mp_id =plan_member_id.p_id and smembership_plan.mp_id =plan_member_id.p_id  and plan_member_id.b_id = " . $data['bnsprof_id'];
+                        $get_icon = mysql_query($sql_icon) or die(mysql_error());
+                        if (mysql_num_rows($get_icon)) {
+                            $fevrow_icon = mysql_fetch_array($get_icon, MYSQL_ASSOC);
+                            //  print_r($fevrow_icon);
+                        }
+                    }
+                    ?>
+
+                    <div class="col-md-4 compared-box compared-box1 style_prevu_kit">
+                        <div class="text-right" id="div-<?php echo $row['pd_id']; ?>"></div>
+                        <header style="padding: 15px 0;width: 100% !important;" class="titleLim box-2">
+                                <!--<a href="<?php echo $data['bnsprof_comp_url'] ?>/profile.php?c=<?php echo rand(1000, 9999) . md5($data['bnsprof_id']); ?>" target="_blank" class="h4">-->
+
+
+                            <span class="txt-blue">
+                                <a href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/<?php echo 'company'; ?>/product-details.php?token=<?php echo rand(1000, 9999) . md5($row['pd_id']) ?>&c=<?php echo rand(1000, 9999) . md5($data['bnsprof_id']); ?>" target="_blank" class="h4" style="font-weight:bold;"><?php echo $row['pd_title']; ?></a>
+                            </span>
+
+                        </header>
+
+                        <figure class="img-box" >
+
+
+                            <div class="ara-links">
+                                <?php if (isset($_SESSION['uid_indm']) && $_SESSION['uid_indm'] != '') { ?>            
+                                    <a href="javascript:void(0)" class="product_fav_btn" data="<?php echo $row['pd_id']; ?>"  onclick=" showfavorite(<?php echo $_SESSION['uid_indm']; ?>,<?php echo $row['pd_id']; ?>);
+                                            addfavorite(<?php echo $row['pd_id']; ?>)" data-prod_id="<?php echo $row['pd_id']; ?>" title="<?php echo $row['pd_title']; ?>"><i class="fa fa-star" aria-hidden="true"></i> Favourite</a>
+                                   <?php } else { ?>
+                                    <a  href="sign-in.php"  class="product_fav_btn" title="<?php echo $row['pd_title']; ?>"><i class="fa fa-star" aria-hidden="true"></i> Favourite</a>
+
+                                <?php } ?>
+
+
+                                <a href="javascript:void(0)" onClick="return addcompare(<?php echo $row['pd_id']; ?>)" data-prod_id="<?php echo $row['pd_id']; ?>" title="<?php echo $row['pd_title']; ?>"><i class="fa fa-plus"></i> Compare</a>
+
+
+                            </div>
+                            <?php $pimg2 = explode(',', $row['pd_image']); ?>
+                            <div class="zoomthis">
+                                <?php if ($fevrow_icon) { ?>
+                                    <div class="ribbon"><img src="./admin/images/<?php echo $fevrow_icon['sponsericon']; ?>"/> </div>
+                                <?php } ?> 
+                                    <a href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/<?php echo 'company'; ?>/product-details.php?token=<?php echo rand(1000, 9999) . md5($row['pd_id']) ?>&c=<?php echo rand(1000, 9999) . md5($data['bnsprof_id']); ?>" target="_blank" class="h4" style="font-weight:bold;"><span style="display: inline-block;height: auto; vertical-align: middle;"></span>
+<?php echo "<img src='/upload/myproduct/" . $pimg2[0] . "' class='zoomthis' style='height:auto !important' alt='/upload/myproduct/" . $pimg2[0] . "'>"; ?> <!--<img src="images/3.png" class="zoomthis" alt="Rice"/>--> </a></div>
+                                <?php
+                                if (!empty($row['pd_imagelogo'])) {
+                                    $limg2 = explode(',', $row['pd_imagelogo']);
+                                    ?>
+                                <div class="zk" style=" border: 1px solid #267abf;height: 77px; width:77px;position: absolute;top: 121px;left: 1px;">
+                                    <?php echo "<img style='width: 77px; height: 77px;' src='/upload/myproduct/" . $limg2[0] . "'>"; ?></div>
+                            <?php } ?>   
+                        </figure>
+                        <section>
+
+                            <table style="text-align: left;">
+                                <?php if ($data['bnsprof_compname'] != "") { ?>
+                                    <tr>
+                                        <td><?php if ($fevrow_icon) { ?><img src="./admin/images/<?php echo $fevrow_icon['producticon']; ?>"  /><?php } ?></td>
+                                        <td colspan="1" style="float:left; white-space:nowrap;"><a href="company/profile.php?c=<?php echo rand(1000, 9999) . md5($data['bnsprof_id']); ?>" target="_blank" style="font-weight:bold;" title="<?php echo ucfirst($data['bnsprof_compname']); ?>"><?php echo ucfirst(substr($data['bnsprof_compname'], 0, 20) . '...'); ?></a></td>
+                                    </tr>
+                                <?php } ?>
+                                <tr>
+                                    <td>
+                                        <?
+                                        $countryId = $data['country'];
+                                        $getCountryName = mysql_fetch_array(mysql_query("SELECT * FROM `country` where cn_id='" . $countryId . "'"));
+                                        $stateId = $data['ct_state'];
+                                        $getStateName = mysql_fetch_array(mysql_query("SELECT * FROM `states` where state_id='" . $stateId . "'"));
+                                        if ($getCountryName['cn_flag'] != "") {
+                                            ?>
+                                            <img src="images/country_flag/<?php echo $getCountryName['cn_flag']; ?>" alt="<?php echo $getCountryName['cn_flag']; ?>"  />
+                                            <?
+                                        } else {
+                                            $getCountryflag = mysql_fetch_array(mysql_query("SELECT * FROM `country` where cn_id='" . $_COOKIE['loc_id'] . "'"));
+                                            ?>
+                                            <img src="images/country_flag/<?php echo $getCountryflag['cn_flag']; ?>" alt="<?php echo $getCountryflag['cn_flag']; ?>"  />
+                                        <?php } ?>
+                                        <?php /* ?>  <img src="images/country_flag/<?php echo $row['cn_flag']; ?>" alt="<?php echo $row['cn_flag']; ?>" /><?php */ ?>
+                                    </td>
+                                    <td >
+
+                                        <a href="javascript:void(0)" class="h5" style="font-weight:bold;" ><?php
+                                            /*
+                                              echo $getCountryName['cn_name'];
+                                              echo $getStateName['state_name']; */
+                                            $address = "";
+                                            if ($getCountryName['cn_name'] != "") {
+                                                $address .= $getCountryName['cn_name'] . "-";
+                                            }
+                                            if ($getStateName['state_name'] != "") {
+                                                $address .= $getStateName['state_name'] . "-";
+                                            }
+                                            if ($data['ct_name'] != "") {
+                                                $address .= $data['ct_name'];
+                                            }
+                                            if ($address != "") {
+                                                echo $address;
+                                            } else {
+                                                echo "Not available";
+                                            }
+                                            ?>
+                                        </a></td>
+                                </tr>
+                                <tr>
+                                        <!--<td>Business Type</td>-->
+                                    <td colspan="2" style="color:#00F"><?php
+                                        /* $bnsprof_businesstype = $data['bnsprof_businesstype'];
+                                          $dataC =  explode(",",$bnsprof_businesstype);
+                                          if(in_array($dataC))
+                                          foreach($dataC as $r)
+                                          echo $userArrayRow_Type[$r].", " ;
+
+                                          else
+                                          echo "Not available";
+                                         */
+                                        $bnsprof_businesstype = $data['bnsprof_businesstype'];
+                                        //  print_r($bnsprof_businesstype); die;
+                                        $dataC = explode(",", $bnsprof_businesstype);
+                                        //print_r($dataC);
+                                        //print_r($userArrayRow_Type); die;
+                                        //if(in_array($dataC))
+                                        if ($bnsprof_businesstype != '') {
+                                            //print_r($dataC);
+                                            $i = 1;
+                                            foreach ($dataC as $r) {
+                                                //echo $r ;
+                                                //if($r!='')
+                                                echo $userArrayRow_Type[$r];
+                                                if ($i < count($dataC)) {
+                                                    echo ", ";
+                                                }
+                                                $i++;
+                                            }
+                                        } else {
+                                            echo "Not available";
+                                        }
+                                        //$userArrayRow_Type 
+                                        ?></td>
+                                </tr>
+                                <tr>
+                                    <td><a href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/egyptmart.online/product-add.php"><!--Trade Location:--></a> </td>
+                                    <td colspan="2"></td>
+                                <!-- <td colspan="2"><a href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/arabyos/product-add.php" style="color:#777"><?php
+                                    if ($row['pd_preferred_buyer_location'] == 'abroad') {
+                                        echo "Abroad Only";
+                                    } else if ($row['pd_preferred_buyer_location'] == 'any') {
+                                        echo "Abroad + Domestic";
+                                    } else if ($row['pd_preferred_buyer_location'] == 'domestic') {
+                                        echo "Domestic Only";
+                                    } else if ($row['pd_preferred_buyer_location'] == 'my_city') {
+                                        echo "My City Only";
+                                    }
+                                    ?></a></td> -->
+                                </tr>
+                                <?php /* ?><tr>
+                                  <td width="95">Member Since:</td>
+                                  <td colspan="2"><?php echo date("Y",strtotime($data['bnsprof_creation_date'])); ?> </td>
+                                  </tr><?php */ ?>
+                                <tr>
+                                    <td class="txt-light-gray " colspan="2"><a href="<?php echo $data['bnsprof_website_alt']; ?>"><?php echo $data['bnsprof_website_alt']; ?></a></td>
+                                    <td class="padding-0"></td>
+                                </tr>
+                                <?php /* ?><tr>
+                                  <td class="txt-light-gray " colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-right"> <a href="<?php echo $data['bnsprof_comp_url']?>/products.php?c=<?php echo rand(1000,9999).md5($data['bnsprof_id']); ?>&sc=<?php echo rand(10000,99999).$data['pd_subcat_id']; ?>#<?php echo $row['pd_id']; ?>">+  More</a></span></td>
+                                  </tr><?php */ ?>
+                                <?php /* ?><tr>
+                                  <td>Min Order :<big class="txt-bold txt-red"><?php echo $row['pd_min_order_qty'];?></big> Ton </td>
+                                  </tr>
+                                  <?php */ ?>
+                                <tr>
+                                    <td></td>
+                                    <td><big class="txt-bold txt-red">
+                                    <?php echo $row['pd_min_order_qty']; ?></big> 
+                                <?php echo measurement_unit($row['pd_unit']); ?>(Min Order)</td>
+                                </tr>
+                                <tr>
+                                    <td><!--Fob Price:-->  </td>
+                                    <td>
+                                        <?php
+                                        $d = getCurrency($row['pd_currency']);
+                                        $locale = 'en-US'; //browser or user locale
+                                        $currency = $d;
+                                        $fmt = new NumberFormatter($locale . "@currency=$currency", NumberFormatter::CURRENCY);
+                                        $symbol = $fmt->getSymbol(NumberFormatter::CURRENCY_SYMBOL);
+                                        header("Content-Type: text/html; charset=UTF-8;");
+                                        $symbol;
+                                        ?>
+                                <big class="txt-bold txt-red"><a style="color: #d22027" href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/egyptmart.online/product-add.php"> <?php echo $symbol . $row['pd_fob_price'] . '~ ' . $symbol . $row['pd_fob_price2']; ?></a></big>
+                                <!--<a href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/company/quotationRequest_supplier.php?id=<?php echo rand(1000, 9999) . md5($data['bnsprof_id']); ?>&pid=<?php echo $row['pd_id']; ?>" class="txt-bold txt-black pull-right" id="btn_ajax<?php echo $row['pd_id']; ?>">(Get Letest Price)</a>-->
+                                <?php /* ?>                
+                                  <?php if(($_SESSION['uid_indm'] )==''){ ?>
+                                  <a href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/arabyos/sign-in.php">(Get Letest Price)</a>
+                                  <?php }else{
+                                  $geo_loc= $location_geo_country[0];
+                                  $countryyyy = $_COOKIE['loc_id'];
+                                  ?>
+                                  <a href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/company/quotationRequest_supplier.php?id=<?php echo rand(1000, 9999) . md5($data['bnsprof_id']); ?>&pid=<?php echo $row['pd_id']; ?>&geo=<?php echo $geo_loc;?>&conty=<?php echo $countryyyy;?>" class="txt-bold txt-black pull-right" id="btn_ajax<?php echo $row['pd_id']; ?>">(Get Letest Price)</a>
+                                  <?php } ?>   <?php */ ?>       
+                                </td>
+                                </tr>
+                                <tr>
+                                    <!--------------------- CT EDITS -------------------->
+                                                       <!--  <td style="padding-left:0px;"><a href="company/products.php?c=<?php echo rand(1000, 9999) . md5($data['bnsprof_id']); ?>&sc=<?php echo rand(10000, 99999) . $data['pd_subcat_id']; ?>#<?php echo $row['pd_id']; ?>" class="txt-blue txt-bold"><img src="images/users.png" width="25px"/> About Us</a></td>
+                                    -->
+                                    <?php $compName = explode(" ", $data['bnsprof_compname']); ?>
+                                    <?php
+                                    $compnamers = "";
+                                    foreach ($compName as $result) {
+                                        $compnamers .= $result;
+                                    }
+                                    $compnamers;
+                                    ?>
+                                    <?php /* ?> <td><a href="<?php echo $data['bnsprof_comp_url']?>/index.php?c=<?php echo rand(1000,9999).md5($data['bnsprof_id']); ?>" class="txt-blue txt-bold"><img src="images/users.png" width="25px"/> About Us</a></td><?php */ ?>
+                                    <?php /* ?>                                              <td ><a href="<?php echo $data['bnsprof_comp_url']?>/products.php?c=<?php echo rand(1000,9999).md5($data['bnsprof_id']); ?>&flaag=whsuccess" class="txt-blue  txt-bold"><img src="images/icon.png" width="20px"/> View Products</a></td>
+                                      <?php */ ?>						</tr>
+                                <tr>
+                                        <!--<td><img src="images/mobile.122097png"/></td>-->
+                                    <?php /* ?> <td colspan="2"><img src="images/mobile.png" width="25px"/>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="txt-black h4"><?php echo user_info($data['bnsprof_uid'],'bnsprof_phcode1');?>-<?php echo user_info($data['bnsprof_uid'],'mobile1');?></a> </td><?php */ ?>
+                                    <?php /* ?><td colspan="2"><img src="images/mobile.png" width="25px"/>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="txt-black h4"><?php echo user_info($data['bnsprof_uid'],'country_ph_code');?>-<?php echo user_info($data['bnsprof_uid'],'mobile1');?></a> </td><?php */ ?>
+                                    <?php $Countryphone = mysql_fetch_array(mysql_query("SELECT * FROM `country` where cn_id = " . $data['country'])); ?>
+                                    <td colspan="2"><img src="images/mobile.png" width="25px"/> &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="txt-black h4"><b><?php echo '+'.user_info($data['bnsprof_uid'], 'country_ph_code'); ?>-<?php echo user_info($data['bnsprof_uid'], 'mobile1'); //$data['bnsprof_mobile2'];   ?> </b></a></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <script>
+                                           /* $(document).ready(function () {
+                                                var uid_ind = '<?php echo $_SESSION['uid_indm']; ?>';
+                                                $("#btn_ajax_send<?php echo $row['pd_id']; ?>").colorbox({iframe: true, width: "62%", height: "89%"});
+                                            });*/
+                                        </script>
+                                        <?php if (($_SESSION['uid_indm'] ) == '') { ?>
+                                            <a data-enquiry="" href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/sign-in.php"><button class="btn btn-sm btn-default btn-enquiry1 border-radius-0"><span style="font-weight:bold;">Send Enquiry</span></button></a> 
+                                            <?php
+                                        } else {
+                                            $geo_loc = $location_geo_country[0];
+                                            $countryyyy = $_COOKIE['loc_id'];
+                                            if (($_GET['grid']) == 'active') {
+                                                ?>
+                                                <a data-enquiry=""  class="ajax" href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/company/quotationRequest.php?id=<?php echo rand(1000, 9999) . md5($data['bnsprof_id']); ?>&pid=<?php echo $row['pd_id']; ?>&geo=<?php echo $geo_loc; ?>&conty=<?php echo $countryyyy; ?>&search=1" id="btn_ajax_send<?php echo $row['pd_id']; ?>"><button type="button" class="btn btn-sm btn-warning border-radius-0 btn-enquiry" style="font-weight:bold;">Send Enquiry</button></a>
+                                            <?php } else { ?>
+                                                <a data-enquiry=""  class="ajax" href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/company/quotationRequest_supplier.php?id=<?php echo rand(1000, 9999) . md5($data['bnsprof_id']); ?>&pid=<?php echo $row['pd_id']; ?>&geo=<?php echo $geo_loc; ?>&conty=<?php echo $countryyyy; ?>&search=1"><button type="button" class="btn btn-sm btn-warning border-radius-0 btn-enquiry"  id="btn_ajax_send<?php echo $row['pd_id']; ?>" style="font-weight:bold;">Send Enquiry</button></a>
+                                                <?php
+                                            }
+                                        }
+                                        ?>  
+                                    </td>
+
+                                </tr>
+                            </table>
+                            <div class="chat-button"><a href="company/products.php?c=<?php echo rand(1000, 9999) . md5($data['bnsprof_id']); ?>&sc=<?php echo rand(10000, 99999) . $data['pd_subcat_id']; ?>#<?php echo $row['pd_id']; ?>"><!--Chat<img src="images/chat.png" style="width:20px; height:20px; margin-left:5px;"/>--></a></div>
+                        </section>
+                    </div>
+                    <?php
+                    if ($gridRecCount == $totalgridpage) {
+                        if ($_GET['page'] > 1 || $_GET['page'] == 1) {
+                            $pages = $_GET['page'] + 1;
+                        } else {
+                            $pages = 2;
+                        }
+                        echo '<div class="col-lg-12 text-center" style="padding:30px;"><a href="https://egyptmart.online/search.php?keywords=' . $_GET['keywords'] . '&grid=' . $_GET['grid'] . '&page=' . $pages . '"><button type="button" class="btn btn-md btn-warning border-radius-0 btn-enquiry" style="font-size:16px; font-weight:bolder;">Display More Products / Services </button></a></div>';
+                    }
+                    $gridRecCount++;
+                }
+                ?>
+            <?php } else {
+                ?>
+                <table cellspacing="0" cellpadding="0" border="0" align="CENTER" width="100%">
+                    <tr style="width:100%; text-align:left;">
+                        <td valign="TOP" style="width:100%"><div class="sor">Sorry, your search for <b class="cb1"><?php echo $_GET['keywords']; ?></b> did not match any Product.</div><div class="sug"><b>Suggestions:</b><ul><li>Check spellings of your search words </li><li>Try a different set of search words </li><li>Do not use very long search phrase </li><li>Use two or three words for best search results </li><li>Do not use special characters in your search </li><li>Do not use search words that are very specific (e.g., 20x25 mm tone &nbsp;&nbsp;tiles) </li></ul> </div><div style="clear: both;"><br><br></div></td>
+                    </tr>
+                </table>
+            <?php }
+            ?> 
+            <div class="clearfix"></div>  
+        </div>
+        </div>
+        <!-- </div>-->
+        <?php
+    }
+}
+?>
+
+
+
+
+
+
+
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                hii
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<?php
+$userAgent = $_SERVER['HTTP_USER_AGENT'];
+$chrome = strpos($userAgent, 'Chrome') ? true : false;
+if ($chrome) {
+    if ($_SESSION['uid_indm'] != '') {
+        $style = 'style="left:-149px;z-index: 99999;"';
+    } else {
+        $style = 'style="left:-109px;z-index: 99999;"';
+    }
+} else {
+    if ($_SESSION['uid_indm'] != '') {
+        $style = 'style="left:-149px;z-index: 99999;"';
+    } else {
+        $style = 'style="left:-116px;z-index: 99999;"';
+    }
+}
+?>
+<input type="hidden" name="keyrcType" id="keyrcType" value="<?php echo $_GET['rctyp']; ?>" />
+<input type="hidden" name="checkLoginUser" id="checkLoginUser" value="<?php echo $_SESSION['uid_indm']; ?>" />
+<div id="boxes">
+    <div style="left: 551.5px; width:10%; display: none; background-color: transparent;" id="dialog" class="window">
+        <form action="/post-buy-req.php" method="post" id="post_buy_req" name="post_buy_req">
+            <input name="keywords" value="<?php echo trim($_GET['keywords']); ?>" type="hidden">
+            <div class="modal postRequirement" tabindex="-1" aria-labelledby="myLargeModalLabel" style="display:block !important;">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content" style="background-color:transparent !important; height:0px !important; border:0px !important;">
+                        <div class="email-close">x</div>
+                        <div class="col-lg-12 popup-box" style="float:none;">
+                            <img class="girl-img" <?php echo $style; ?> src="images/girl1.png"/> 
+                            <div class="col-lg-12 popup-sub-box">
+                                <header>
+                                    <h3 style="color:#fff;">Submit Buy Requirement For</h3>
+                                    <h3 style="color:#f58238;">"<?php echo trim($_GET['keywords']); ?>"</h3>
+                                </header>
+                                <section class="col-lg-12">
+                                    <div class="col-lg-12" style="padding:0px; border:1px solid #a094c7; position:relative;" ><!--style="border:1px solid #a094c7;"-->
+                                        <textarea required style="width:100%; max-width:100%; min-height:150px; max-height:150px; border:none; background-color:transparent; position:relative; z-index:5; font-size:12px;" id="table-input1" name="textAreaField"></textarea>
+                                        <table  id="sideAdTable1" style="width:100%; position:absolute; top:0px;">
+                                            <tr>
+                                                <td><i class="fa fa-exclamation-triangle" style="color:#ba2025; font-size:18px;"></i></td>
+                                                <td class="h4 " style="font-weight: bold; font-size: 15px;"> Enter Product/Service Specifications </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td style="font-size: 13px;">- Application of Product</td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td style="font-size: 13px;">- Product Features</td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td style="font-size: 13px;">- Material - Product Packaging</td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td style="font-size: 13px;">- Any Special Requirement</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col-lg-12 margin-top-10 margin-bottom-10" style="padding: 0px; text-align: left;white-space: nowrap;z-index:9999;">
+                                        <input name="recommendation" type="checkbox" value="1">
+                                        <b style="padding:3px 5px; font-size:15px; font-weight:normal;">Send this category updates to my inbox. <!--If these supplier don't contact me, recommend matching suppliers.--></b>
+                                    </div>
+                                    <div class="col-lg-12 margin-top-10 margin-bottom-10">
+
+                                        <button class="btn btn-lg btn-warning" style="padding:3px 5px; font-size:17px;" id="getInstaQuote"> <b class="txt-bold">Get Instant Quote Now</b><br>
+                                            <small>For many verified Suppliers </small> </button>
+                                    </div>
+                                    <?php if (isset($_SESSION['uid_indm'])) { ?>
+                                        <div>
+                                            <ul>
+                                                <li style="font-size:17px;">Your Contact Information</li>
+                                                <li><?php echo user_info($_SESSION['uid_indm'], 'fname'); ?>&nbsp;<?php echo user_info($_SESSION['uid_indm'], 'lanme'); ?></li>
+                                                <li><?php echo ucfirst(city_to_country(user_info($_SESSION['uid_indm'], 'bnsprof_city'))); ?> - <?php echo get_city_name(user_info($_SESSION['uid_indm'], 'bnsprof_city')); ?></li>
+                                                <li>+<?php echo user_info($_SESSION['uid_indm'], 'country_ph_code'); ?> <?php echo user_info($_SESSION['uid_indm'], 'mobile1'); ?></li>
+                                                <li><?php echo user_info($_SESSION['uid_indm'], 'email'); ?></li>
+                                            </ul>
+                                        </div>
+                                    <?php } ?>
+                                </section>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>	
+        </form>
+    </div>
+    <div style="width: 1478px; font-size: 32pt; color:white; height: 602px; display: none; opacity: 0.5;" id="mask"></div>
+</div>
+<style type="text/css">
+
+    .zk:hover .zk{
+        display : none;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        $('input[name=mst_type\\[\\]]').change(function () {
+            var check = $(this).is(':checked');
+            if (check) {
+
+                $(".sor").html('Sorry, your search for business type did not match');
+                $(".sug").append("");
+                $(".sug").html("<b>Suggestions:</b><ul><li>Check other business type to filter</li><li>Check one by one type</li></ul>");
+            }
+        });
+		
+      
+    });
+	 $(document).on('click', '.ajax', function () {
+            // $('#colorbox').remove();
+            //$('#cboxOverlay').remove();
+            $.colorbox(
+                    {
+                        href: $(this).attr('href'), open: true, iframe: true, width: '750px', height: '600px',
+                       
+                    }
+            );
+            return false;
+        });
+
+</script>
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>

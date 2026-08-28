@@ -1,0 +1,69 @@
+2026-05-30 15:49:32 - POST: Array
+(
+)
+
+SESSION: Array
+(
+    [created] => 1780152926
+    [ad_username_indm] => ARABYOS
+    [ad_email_indm] => info@egyptmart.shop
+    [ad_id_indm] => 1
+    [admin_logged_in] => 1
+    [popup] => 2
+    [last_page] => my-enquiries.php
+    [uid_indm] => 6634
+)
+
+2026-05-30 15:52:31 - POST: Array
+(
+    [rfq_id] => 6263
+    [unit_price] => 1
+    [moq] => 2
+    [delivery_time] => 15
+    [supplier_message] => TEST 555555 666666
+)
+
+SESSION: Array
+(
+    [created] => 1780152926
+    [ad_username_indm] => ARABYOS
+    [ad_email_indm] => info@egyptmart.shop
+    [ad_id_indm] => 1
+    [admin_logged_in] => 1
+    [popup] => 2
+    [last_page] => my-enquiries.php
+    [uid_indm] => 6634
+)
+
+2026-05-30 15:53:05 - POST: Array
+(
+)
+
+SESSION: Array
+(
+    [created] => 1780152926
+    [ad_username_indm] => ARABYOS
+    [ad_email_indm] => info@egyptmart.shop
+    [ad_id_indm] => 1
+    [admin_logged_in] => 1
+    [popup] => 2
+    [last_page] => my-enquiries.php
+    [uid_indm] => 6634
+)
+
+2026-05-30 15:53:08 - POST: Array
+(
+)
+
+SESSION: Array
+(
+    [created] => 1780152926
+    [ad_username_indm] => ARABYOS
+    [ad_email_indm] => info@egyptmart.shop
+    [ad_id_indm] => 1
+    [admin_logged_in] => 1
+    [popup] => 2
+    [last_page] => my-enquiries.php
+    [uid_indm] => 6634
+)
+

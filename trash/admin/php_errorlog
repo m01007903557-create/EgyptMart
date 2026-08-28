@@ -1,0 +1,61 @@
+[24-Aug-2018 06:55:58 CST6CDT] PHP Parse error:  syntax error, unexpected end of file in /home/arabyos4/public_html/egyptmart.online/admin/product-view-response.php on line 138
+[24-Aug-2018 06:56:09 CST6CDT] PHP Parse error:  syntax error, unexpected end of file in /home/arabyos4/public_html/egyptmart.online/admin/product-view-response.php on line 138
+[31-Aug-2018 14:38:57 CST6CDT] PHP Parse error:  syntax error, unexpected '/' in /home/arabyos4/public_html/egyptmart.online/admin/product-view-response.php on line 46
+[19-Aug-2019 16:14:48 CST6CDT] PHP Parse error:  syntax error, unexpected 'if' (T_IF) in /home/egyptmar/public_html/admin/product-view-response.php on line 179
+[19-Aug-2019 16:15:02 CST6CDT] PHP Parse error:  syntax error, unexpected 'if' (T_IF) in /home/egyptmar/public_html/admin/product-view-response.php on line 179
+[19-Aug-2019 16:15:32 CST6CDT] PHP Parse error:  syntax error, unexpected 'if' (T_IF) in /home/egyptmar/public_html/admin/product-view-response.php on line 179
+[19-Aug-2019 16:16:35 CST6CDT] PHP Parse error:  syntax error, unexpected 'if' (T_IF) in /home/egyptmar/public_html/admin/product-view-response.php on line 179
+[19-Aug-2019 16:18:55 CST6CDT] PHP Parse error:  syntax error, unexpected 'if' (T_IF) in /home/egyptmar/public_html/admin/product-view-response.php on line 179
+[22-Aug-2019 05:20:25 CST6CDT] PHP Parse error:  syntax error, unexpected 'if' (T_IF) in /home/egyptmar/public_html/admin/splan-badd.php on line 75
+[22-Aug-2019 05:25:14 CST6CDT] PHP Parse error:  syntax error, unexpected end of file in /home/egyptmar/public_html/admin/splan-badd.php on line 67
+[22-Aug-2019 06:58:17 CST6CDT] PHP Parse error:  syntax error, unexpected ')' in /home/egyptmar/public_html/admin/product-view-response.php on line 179
+[24-Aug-2019 09:49:13 CST6CDT] PHP Parse error:  syntax error, unexpected ':' in /home/egyptmar/public_html/admin/product-view-response.php on line 177
+[24-Aug-2019 09:49:32 CST6CDT] PHP Parse error:  syntax error, unexpected ':' in /home/egyptmar/public_html/admin/product-view-response.php on line 177
+[25-Aug-2019 05:58:45 CST6CDT] PHP Parse error:  syntax error, unexpected 'endif' (T_ENDIF) in /home/egyptmar/public_html/admin/product-view-response.php on line 82
+[25-Aug-2019 05:58:47 CST6CDT] PHP Parse error:  syntax error, unexpected 'endif' (T_ENDIF) in /home/egyptmar/public_html/admin/product-view-response.php on line 82
+[25-Aug-2019 05:58:48 CST6CDT] PHP Parse error:  syntax error, unexpected 'endif' (T_ENDIF) in /home/egyptmar/public_html/admin/product-view-response.php on line 82
+[25-Aug-2019 05:58:48 CST6CDT] PHP Parse error:  syntax error, unexpected 'endif' (T_ENDIF) in /home/egyptmar/public_html/admin/product-view-response.php on line 82
+[25-Aug-2019 05:58:49 CST6CDT] PHP Parse error:  syntax error, unexpected 'endif' (T_ENDIF) in /home/egyptmar/public_html/admin/product-view-response.php on line 82
+[25-Aug-2019 05:58:51 CST6CDT] PHP Parse error:  syntax error, unexpected 'endif' (T_ENDIF) in /home/egyptmar/public_html/admin/product-view-response.php on line 82
+[26-Aug-2019 04:45:01 CST6CDT] PHP Parse error:  syntax error, unexpected end of file, expecting variable (T_VARIABLE) or ${ (T_DOLLAR_OPEN_CURLY_BRACES) or {$ (T_CURLY_OPEN) in /home/egyptmar/public_html/admin/newsletter-edit.php on line 156
+[26-Aug-2019 04:46:40 CST6CDT] PHP Parse error:  syntax error, unexpected end of file, expecting variable (T_VARIABLE) or ${ (T_DOLLAR_OPEN_CURLY_BRACES) or {$ (T_CURLY_OPEN) in /home/egyptmar/public_html/admin/newsletter-edit.php on line 156
+[26-Aug-2019 04:46:48 CST6CDT] PHP Parse error:  syntax error, unexpected end of file, expecting variable (T_VARIABLE) or ${ (T_DOLLAR_OPEN_CURLY_BRACES) or {$ (T_CURLY_OPEN) in /home/egyptmar/public_html/admin/newsletter-edit.php on line 184
+[26-Aug-2019 05:22:38 CST6CDT] PHP Parse error:  syntax error, unexpected ';' in /home/egyptmar/public_html/admin/newsletter-edit.php on line 160
+[26-Aug-2019 05:47:41 CST6CDT] PHP Parse error:  syntax error, unexpected 'echo' (T_ECHO) in /home/egyptmar/public_html/admin/newsletter-edit.php on line 203
+[02-Sep-2019 03:35:25 CST6CDT] PHP Parse error:  syntax error, unexpected 'echo' (T_ECHO) in /home/egyptmar/public_html/admin/newsletter-send.php on line 200
+[02-Sep-2019 03:35:29 CST6CDT] PHP Parse error:  syntax error, unexpected 'echo' (T_ECHO) in /home/egyptmar/public_html/admin/newsletter-send.php on line 200
+[24-Sep-2019 17:19:03 CST6CDT] PHP Parse error:  syntax error, unexpected '{' in /home/egyptmar/public_html/admin/company-list-response.php on line 6
+[24-Sep-2019 17:19:34 CST6CDT] PHP Parse error:  syntax error, unexpected '{' in /home/egyptmar/public_html/admin/company-list-response.php on line 6
+[24-Sep-2019 17:20:54 CST6CDT] PHP Parse error:  syntax error, unexpected '{' in /home/egyptmar/public_html/admin/company-list-response.php on line 6
+[24-Sep-2019 17:21:30 CST6CDT] PHP Parse error:  syntax error, unexpected '{' in /home/egyptmar/public_html/admin/company-list-response.php on line 6
+[24-Sep-2019 17:24:29 CST6CDT] PHP Parse error:  syntax error, unexpected '{' in /home/egyptmar/public_html/admin/company-list-response.php on line 6
+[24-Sep-2019 17:25:45 CST6CDT] PHP Parse error:  syntax error, unexpected '{' in /home/egyptmar/public_html/admin/company-list-response.php on line 6
+[25-Sep-2019 05:48:57 Asia/Kolkata] PHP Fatal error:  Call to undefined function user_pref() in /home/egyptmar/public_html/email/emailVerification.php on line 1
+[25-Sep-2019 05:54:00 Asia/Kolkata] PHP Fatal error:  Call to undefined function user_pref() in /home/egyptmar/public_html/email/emailVerification.php on line 25
+[25-Sep-2019 06:03:53 Asia/Kolkata] PHP Notice:  Undefined property: stdClass::$mst_name in /home/egyptmar/public_html/admin/company-list-response.php on line 106
+[25-Sep-2019 06:04:05 Asia/Kolkata] PHP Notice:  Undefined property: stdClass::$mst_name in /home/egyptmar/public_html/admin/company-list-response.php on line 106
+[25-Sep-2019 06:04:31 Asia/Kolkata] PHP Notice:  Undefined property: stdClass::$mst_name in /home/egyptmar/public_html/admin/company-list-response.php on line 106
+[25-Sep-2019 06:07:25 Asia/Kolkata] PHP Fatal error:  Call to undefined function user_pref() in /home/egyptmar/public_html/email/emailVerification.php on line 25
+[25-Sep-2019 06:09:38 Asia/Kolkata] PHP Fatal error:  Call to undefined function user_pref() in /home/egyptmar/public_html/email/emailVerification.php on line 25
+[25-Sep-2019 06:11:10 Asia/Kolkata] PHP Fatal error:  Call to undefined function user_pref() in /home/egyptmar/public_html/email/emailVerification.php on line 25
+[25-Sep-2019 06:14:23 Asia/Kolkata] PHP Fatal error:  Call to undefined function user_pref() in /home/egyptmar/public_html/email/emailVerification.php on line 25
+[25-Sep-2019 06:15:24 Asia/Kolkata] PHP Fatal error:  Call to undefined function user_pref() in /home/egyptmar/public_html/email/emailVerification.php on line 25
+[25-Sep-2019 06:55:04 Asia/Kolkata] PHP Fatal error:  Call to undefined function user_pref() in /home/egyptmar/public_html/email/emailVerification.php on line 25
+[25-Sep-2019 12:20:30 Asia/Kolkata] PHP Fatal error:  Call to undefined function user_pref() in /home/egyptmar/public_html/email/emailVerification.php on line 25
+[25-Sep-2019 14:42:09 Asia/Kolkata] PHP Fatal error:  Call to undefined function user_pref() in /home/egyptmar/public_html/email/emailVerification.php on line 25
+[26-Sep-2019 02:27:38 Asia/Kolkata] PHP Fatal error:  Call to undefined function getCountryCode() in /home/egyptmar/public_html/common.php on line 31
+[26-Sep-2019 02:27:56 Asia/Kolkata] PHP Fatal error:  Call to undefined function getCountryCode() in /home/egyptmar/public_html/common.php on line 31
+[25-Sep-2019 17:02:22 CST6CDT] PHP Parse error:  syntax error, unexpected 'verifyId' (T_STRING) in /home/egyptmar/public_html/admin/company-list-response.php on line 9
+[26-Sep-2019 03:33:54 Asia/Kolkata] PHP Fatal error:  Cannot redeclare getWebSiteName() (previously declared in /home/egyptmar/public_html/admin/lib/function.php:20) in /home/egyptmar/public_html/lib/function.php on line 83
+[26-Sep-2019 03:34:37 Asia/Kolkata] PHP Fatal error:  Call to undefined function user_pref() in /home/egyptmar/public_html/email/emailVerification.php on line 25
+[26-Sep-2019 03:37:16 Asia/Kolkata] PHP Fatal error:  Cannot redeclare getWebSiteName() (previously declared in /home/egyptmar/public_html/admin/lib/function.php:20) in /home/egyptmar/public_html/lib/function.php on line 83
+[26-Sep-2019 03:38:25 Asia/Kolkata] PHP Fatal error:  Cannot redeclare get_page_settings() (previously declared in /home/egyptmar/public_html/admin/lib/function.php:72) in /home/egyptmar/public_html/lib/function.php on line 92
+[26-Sep-2019 03:44:56 Asia/Kolkata] PHP Fatal error:  Cannot redeclare getSiteLogo() (previously declared in /home/egyptmar/public_html/admin/lib/function.php:62) in /home/egyptmar/public_html/lib/function.php on line 169
+[26-Sep-2019 03:48:08 Asia/Kolkata] PHP Fatal error:  Cannot redeclare measurement_unit() (previously declared in /home/egyptmar/public_html/admin/lib/function.php:140) in /home/egyptmar/public_html/lib/function.php on line 205
+[26-Sep-2019 03:50:05 Asia/Kolkata] PHP Fatal error:  Cannot redeclare getEmailVerificationStatus() (previously declared in /home/egyptmar/public_html/admin/lib/function.php:82) in /home/egyptmar/public_html/lib/function.php on line 237
+[26-Sep-2019 03:51:50 Asia/Kolkata] PHP Fatal error:  Cannot redeclare getUserInfo() (previously declared in /home/egyptmar/public_html/admin/lib/function.php:88) in /home/egyptmar/public_html/lib/function.php on line 282
+[26-Sep-2019 03:55:03 Asia/Kolkata] PHP Fatal error:  Cannot redeclare getCountryCode() (previously declared in /home/egyptmar/public_html/admin/lib/function.php:122) in /home/egyptmar/public_html/lib/function.php on line 408
+[26-Sep-2019 03:56:14 Asia/Kolkata] PHP Fatal error:  Cannot redeclare getCurrency() (previously declared in /home/egyptmar/public_html/admin/lib/function.php:131) in /home/egyptmar/public_html/lib/function.php on line 466
+[26-Sep-2019 03:57:16 Asia/Kolkata] PHP Fatal error:  Cannot redeclare getWebSiteName() (previously declared in /home/egyptmar/public_html/admin/lib/function.php:20) in /home/egyptmar/public_html/lib/function.php on line 72
+[26-Sep-2019 03:59:02 Asia/Kolkata] PHP Notice:  Undefined variable: state_others in /home/egyptmar/public_html/email/emailVerification.php on line 50
+[26-Sep-2019 03:59:02 Asia/Kolkata] PHP Notice:  Undefined variable: postal_code in /home/egyptmar/public_html/email/emailVerification.php on line 50

@@ -1,0 +1,186 @@
+﻿<?php include "includes/header.php"; 
+$sql_own="select * from user,business_profile where usr_id='".$_SESSION['uid_indm']."' and bnsprof_uid=usr_id limit 1";
+$res_own=mysql_query($sql_own);
+$row_own=mysql_fetch_object($res_own);
+
+
+?>
+
+<div id="body">
+	<ul class="cb">
+	
+	<li id="wideColumn"title=" إرسل أى إستفسار للشركة">
+	<div id="h1"><h1>Send Inquiry</h1></div>
+	
+	<div id="breadcrumb">
+	<ul>
+	<li><a href="https://greensolz.com/hosted_sites/emh/EgyptMART/<?php echo $row->bnsprof_comp_url;?>/index.php?c=<?php echo $c; ?>">Home</a><b>»</b></li>
+	<li>Send Inquiry</li>
+	</ul>
+	</div>
+	<br><br>	
+<script type="text/javascript">
+function sendEnquiry()
+{
+	var msg_from=document.getElementById('msg_from');
+	var msg_to=document.getElementById('msg_to');
+	var msg_subject=document.getElementById('msg_subject');
+	var msg_message=document.getElementById('msg_message');
+	var msg="";
+	var valid=true;
+	
+	if(msg_message.value == '' || msg_message.value == null)
+	{
+		msg="Kindly type your message.";
+
+		valid=false;
+	}
+	else if(msg_message.value.length < 50)
+	{
+		msg="Message must be atleast 50 characters length.";
+		msg_message.focus();
+		valid=false;
+	}
+	
+	if(valid==false)
+	{
+//		$("#errmsg").html(msg);
+//		$("#errmsg").css("display","block");
+		alert(msg);
+		msg_message.focus();
+	}
+	else
+	{
+		$("#msg_message").attr('readonly','readonly');
+		$("#inp_butt").css("display","block");
+		$("#loading").css("display","block");
+		
+		$.post("../email/contactsendMessage.php", {msg_from:msg_from.value,msg_to:msg_to.value,msg_subject:msg_subject.value,msg_message:msg_message.value}, function(data){
+			if(data==1)
+			{
+				setTimeout(function () {
+					$("#loading").css("display","none");
+					$("#succ_result").css("display","block");
+				}, 500);
+			}
+			else
+			{
+				setTimeout(function () {
+					$("#loading").css("display","none");
+					$("#err_result").css("display","block");
+				}, 500);
+			}
+		});	
+	}
+}
+function wrng_sendEnquiry()
+{
+	alert("You cannot send enquiry to yourself.");	
+}
+</script>
+<form action=""  METHOD="POST" NAME="dataform" ONSUBMIT="return set('Service Enquiry page')" ENCTYPE="multipart/form-data">
+
+    <input type="hidden" id="msg_from" name="msg_from" value="<?php echo $_SESSION['uid_indm']; ?>" />
+    <input type="hidden" id="msg_to" name="msg_to" value="<?php echo $row->usr_id; ?>" />
+    <input type="hidden" id="msg_subject" name="msg_subject" value="Business Enquiry" />
+
+	<div id="inq" class="cb">
+	<h1>To : <b><?php echo $row->bnsprof_compname; ?></b> - <span> <?php echo get_country_name($row->country); ?></span></h1><br>
+	<ul class="cb inqT">
+	<li>
+        <div style="float: left">Name<span class="star">*</span> 
+            <select name="S_salute" readonly="readonly" >
+		<option value="Mr." <?php if($row_own->name_prefix=="Mr."){ ?>selected ="SELECTED"<?php } ?>>Mr. </option>
+		<option value="Ms." <?php if($row_own->name_prefix=="Ms."){ ?>selected ="SELECTED"<?php } ?>>Ms. </option>
+		<option value="Mrs." <?php if($row_own->name_prefix=="Mrs."){ ?>selected ="SELECTED"<?php } ?>>Mrs. </option>
+		<option value="Dr." <?php if($row_own->name_prefix=="Dr."){ ?>selected ="SELECTED"<?php } ?>>Dr. </option>
+            </select>
+	</div>
+        <div style="float: left; width: 200px; margin-left: 10px;">   
+            <input style="float: left;width: 80px;"name="S_name"   id="S_name" value="<?php echo $row_own->fname; ?>" placeholder="First Name" CLASS="txtfn_p" readonly="readonly" style="width:70px;height:18px;">
+            <input style="float: left;width: 80px;margin-left: 10px;" name="S_lname"  id="S_lname" value="<?php echo $row_own->lname; ?>" placeholder="Last Name" type="text" readonly="readonly" CLASS="txtfn_p" style="width:70px;height:18px;">
+	</div>
+            
+	<p style="float: left">Requirement Details <span class="star">*</span> </p>
+	<p><textarea name="msg_message" id="msg_message" rows="5" class="w30" ></textarea></p>
+
+	</li>
+	<li>
+	
+	<h2>Describe your requirement:</h2>
+	<ul>
+	<li>Product requirement</li>
+	<li>Specifications needed</li>
+	<li>Packaging &amp; delivery</li>
+	<li>Your company details etc.</li>
+	</ul>
+	</li>
+	</ul>	
+		
+	<div class="w100 dt ac-dtr acac-dtc acac-p5px acac-vat">
+	<ul>
+	<li class="w120px">
+	<label for="email"><b class="fr">:</b> E-mail Id <span class="star">*</span> </label>
+	</li>
+	<li>
+	<input name="S_email" value="<?php echo $row_own->email; ?>" readonly="readonly" CLASS="txtfn_p"><span id="loader"></span>
+	</li>
+	</ul>
+	<ul>
+	<li class="w120px">
+	<label for="name"><b class="fr">:</b> Company <span class="star">*</span> </label>
+	</li>
+	<li>
+<input name="S_organization" value="<?php echo $row_own->bnsprof_compname; ?>" readonly="readonly" CLASS="txtfn_p">	</li>
+	</ul>
+	
+	
+	<ul>
+	<li class="w120px">
+	<label for="company"><span class="star"></span><b class="fr">:</b> Country</label>
+	</li>
+	<li>
+<input type="text"  style="width:201px;height:18px;" class="ui-autocomplete-input txtfn_p" value="<?php echo get_country_name($row_own->country); ?>" readonly="readonly" autocomplete="off" id="S_country" name="S_country"  role="textbox" aria-autocomplete="list" aria-haspopup="true">	</li>
+	</ul>
+	
+	
+	<ul>
+	<li class="w120px">
+	<label for="country"><b class="fr">:</b> City <span class="star">*</span> </label>
+	</li>
+	<li>
+	<input name="S_city"  id="S_city" value="<?php if($row_own->bnsprof_city!='0'){ echo get_city_name($row_own->bnsprof_city).", "; } ?>" readonly="readonly" CLASS="txtfn_p">
+	</li>
+	</ul>
+	
+	
+	<ul id="state-container" style="display:none;">
+	<li class="w120px">
+	<label for="state"><b class="fr">:</b> Mobile <span class="star">*</span> </label>
+	</li>
+	<li>	
+	<input type="TEXT" name="S_cmobile"  id="S_cmobile"   SIZE="5" READONLY="READONLY" STYLE="width:50px;height:18px;" CLASS="txtfn_p" value="<?php echo $row_own->country_ph_code; ?>">
+	<input name="S_mobile" type="text"     ONFOCUS="javascript:CellValue(this);" ONBLUR="javascript:CellValue1(this);" SIZE="15" value="<?php echo $row_own->mobile1; ?>" readonly="readonly" CLASS="txtfn_p" STYLE="width:138px;height:18px;">
+	</li>
+	</ul>
+	<ul>
+	<li class="w120px">&nbsp;</li><li>
+	                <?php if(isset($_SESSION['uid_indm']) && $_SESSION['uid_indm']!='' && $_SESSION['uid_indm']!=$row->bnsprof_uid){ ?>
+				<div ALIGN="CENTER" id="inp_butt"><p class="jSea"><a href="javascript:sendEnquiry();" rel="product-send-inquiry" class="dib b darkbg2 gbibt white bdr darkbdr2 xlarge p7px15px br5px ml5px">SEND INQUIRY</a></p><br><br>
+</div>
+				<div align="center" style="padding-top:10px; padding-bottom:10px;display:none;" id="loading"><img src="../images/indicator.gif"/></div>
+                <div id="succ_result" style="display:none; font-weight: bold;" align="center"><font color="#009900">Enquiry sent successfully.</font></div>
+                <div id="err_result" style="display:none;" align="center"><font color="#FF0000">Error on Enquiry sending! Please try after some time.</font></div>
+                <?php	}else{	?>
+                <div ALIGN="CENTER"><p class="jSea"><a href="javascript:wrng_sendEnquiry();" rel="product-send-inquiry" class="dib b darkbg2 gbibt white bdr darkbdr2 xlarge p7px15px br5px ml5px">SEND INQUIRY</a></p><br><br>
+</div>
+                <?php } ?>
+	</li>
+	</ul>
+	</div>
+	</div></form></li>	
+		<?php include "includes/right.php"; ?>
+</ul>
+</div><BR><BR>
+	<?php include "includes/footer.php"; ?>
+</body></html>

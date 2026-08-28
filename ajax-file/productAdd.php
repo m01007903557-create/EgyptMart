@@ -1,0 +1,185 @@
+<?php
+ob_start();
+session_start();
+include "../common.php";
+$_SESSION['uid_indm']=$_POST['uid'];
+$pd_subcat_id=addslashes(trim($_POST['pd_subcat_id']));
+$pd_title=addslashes(trim($_POST['pd_title']));
+$pd_code=addslashes(trim($_POST['pd_code']));
+$pd_desc=addslashes(trim($_POST['pd_desc']));
+$uid=addslashes(trim($_POST['uid']));
+
+$pd_min_order_qty=addslashes(trim($_POST['pd_min_order_qty']));
+$pd_unit=addslashes(trim($_POST['pd_unit']));
+$pd_fob_price=addslashes(trim($_POST['pd_fob_price']));
+$pd_fob_price2=addslashes(trim($_POST['pd_fob_price2']));
+$pd_currency=addslashes(trim($_POST['pd_currency']));
+
+$pd_preferred_buyer_location=addslashes(trim($_POST['pd_preferred_buyer_location']));
+
+$pd_status=$_POST['pd_status'];
+//webcast
+$pd_brand_name=trim(addslashes($_POST['pd_brand']));
+$pd_payment=trim(addslashes($_POST['pd_payment']));
+$pd_pod=trim(addslashes($_POST['pd_pod']));
+$pd_pn_capct=trim(addslashes($_POST['pd_pn_capct']));
+$pd_dlv_time=trim(addslashes($_POST['pd_dlv_time']));
+$pd_pck_dets=trim(addslashes($_POST['pd_pck_dets']));
+$valid=true;
+$data=array();
+
+$sqlrpl = "select bd_word from bad_word";
+$resrpl = mysqli_query($con, $sqlrpl);
+$letters = array();
+while($rowrpl = mysqli_fetch_object($resrpl))
+{
+	$letters[] = strtoupper($rowrpl->bd_word);
+}
+$title=strtoupper($pd_title);
+$desc=strtoupper($pd_desc);
+
+if($pd_subcat_id == "")
+{
+	$data[0]="0";
+	$data[1]='<font color="#CC0000">Please choose the Product subcategory here.</font>';
+	$valid=false;
+}
+else if($pd_title == "")
+{
+	$data[0]="0";
+	$data[1]='<font color="#CC0000">Please enter the Product Name.</font>';
+	$valid=false;
+}
+else if($pd_title != "")
+{
+	foreach($letters as $val)
+	{
+		$pos = strpos($title, $val);
+		if ($pos !== false)
+		{
+			$data[0]="0";
+			$data[1]="<font color='#CC0000'>You can't post words like '".$val."' in Product Name.</font>";
+			$valid=false;
+		}
+	}
+}
+else if(strlen($pd_desc)>4000)
+{
+	$data[0]="0";
+	$data[1]='<font color="#CC0000">Please check that Product Description cannot have more than 4000 characters.</font>';
+	$valid=false;
+}
+else if($pd_desc != "")
+{
+	foreach($letters as $val)
+	{
+		$pos = strpos($desc, $val);
+		if ($pos !== false)
+		{
+			$data[0]="0";
+			$data[1]='<font color="#CC0000">You can\'t post words like '.$val.' in Product Description.</font>';
+			$valid=false;
+		}
+	}
+}
+else if($pd_min_order_qty == "")
+{
+	$data[0]="0";
+	$data[1]='<font color="#CC0000">Please enter Minimum Order Quantity.</font>';
+	$valid=false;
+}
+else if($pd_unit == "")
+{
+	$data[0]="0";
+	$data[1]='<font color="#CC0000">Please choose Measurement Unit for Minimum Order Quantity.</font>';
+	$valid=false;
+}
+else if($pd_fob_price == "")
+{
+	$data[0]="0";
+	$data[1]='<font color="#CC0000">Please enter FOB Price.</font>';
+	$valid=false;
+}
+else if($pd_fob_price2 == "")
+{
+	$data[0]="0";
+	$data[1]='<font color="#CC0000">Please enter FOB Price.</font>';
+	$valid=false;
+}
+else if($pd_currency == "")
+{
+	$data[0]="0";
+	$data[1]='<font color="#CC0000">Please choose Currency.</font>';
+	$valid=false;
+}
+else
+{
+	$valid=true;
+}
+
+if($valid==true)
+{
+	// ✅ جلب صورة المنتج الرئيسية
+	$pd_image = '';
+	$sql_img = "SELECT tpi_image FROM temp_product_image WHERE tpi_usr_id='".$uid."' AND (tpi_type IS NULL OR tpi_type = '' OR tpi_type = 'product') ORDER BY tpi_id DESC LIMIT 1";
+	$res_img = mysqli_query($con, $sql_img);
+	if ($res_img && mysqli_num_rows($res_img) > 0) {
+		$row_img = mysqli_fetch_object($res_img);
+		$pd_image = $row_img->tpi_image;
+	}
+	
+	// ✅ جلب صورة اللوجو
+	$pd_logo = '';
+	$sql_logo = "SELECT tpi_image FROM temp_product_image WHERE tpi_usr_id='".$uid."' AND tpi_type = 'logo' ORDER BY tpi_id DESC LIMIT 1";
+	$res_logo = mysqli_query($con, $sql_logo);
+	if ($res_logo && mysqli_num_rows($res_logo) > 0) {
+		$row_logo = mysqli_fetch_object($res_logo);
+		$pd_logo = $row_logo->tpi_image;
+	}
+
+	$sql="insert into products
+		set
+			pd_subcat_id='".$pd_subcat_id."',
+			pd_uid='".$uid."',
+			pd_title='".$pd_title."',
+			pd_code='".$pd_code."',
+			pd_min_order_qty='".$pd_min_order_qty."',
+			pd_unit='".$pd_unit."',
+			pd_fob_price='".$pd_fob_price."',
+			pd_fob_price2='".$pd_fob_price2."',
+			pd_currency='".$pd_currency."',
+			pd_desc='".$pd_desc."',
+			pd_image='".$pd_image."',
+            pd_imagelogo='".$pd_logo."',
+			pd_date=now(),
+			pd_preferred_buyer_location='".$pd_preferred_buyer_location."',
+            pd_hot='".$pd_status."',
+            brand_name = '".$pd_brand_name."',
+            pd_payment ='".$pd_payment."',
+            pd_pod ='".$pd_pod."',
+			pd_pn_capct ='".$pd_pn_capct."',
+			pd_dlv_time ='".$pd_dlv_time."',
+			pd_pck_dets ='".$pd_pck_dets."'";
+
+	mysqli_query($con, $sql) or die(mysqli_error($con));
+	mysqli_query($con, "delete from temp_product_image where tpi_usr_id='".$uid."' ");
+
+
+	$sql_exist="select * from buylead_alert_category where bac_usr_id='".$uid."' AND bac_pc_id='".$pd_subcat_id."'";
+	$res12=mysqli_query($con, $sql_exist);
+	if(mysqli_num_rows($res12)==0){
+		$sql_ins="insert into buylead_alert_category
+			set
+				bac_usr_id='".$uid."',
+				bac_pc_id='". $pd_subcat_id."',
+				bac_updated_date=now()";
+
+		mysqli_query($con, $sql_ins);
+	}
+
+	$data[0]="1";
+	$data[1]='Product added successfully! Please wait for Admin Approval.';
+}
+
+echo $data[0]."|".$data[1];
+?>

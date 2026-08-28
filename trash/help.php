@@ -1,0 +1,146 @@
+<?php
+include 'common.php';
+
+/*$_SESSION['last_page']="conatct_us.php";
+if(!isset($_SESSION['uid_indm']) || $_SESSION['uid_indm']=='')
+{
+	header("Location:sign-in.php");	
+}*/
+
+?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+<title><?php echo getSiteTitle(); ?></title>
+<meta name="google-translate-customization" content="fef4c372cb8ae5a0-ab3c7604c23f3803-gde364a5c12cf0b8a-25"></meta>
+<meta name="title" content="<?php echo getSiteTitle(); ?>">
+<meta name="keywords" content="<?php echo get_page_settings(2); ?>">
+<meta name="description" content="<?php echo get_page_settings(3); ?>">
+
+
+<link rel="shortcut icon" type="/x-icon" href="images/favicon.ico">
+<link href="css/style.css" rel="stylesheet" type="text/css">
+<!--include-->
+<link rel="stylesheet" type="text/css" href="css/header-style.css">
+<!--include end-->
+<!--navigation-->
+<link rel="stylesheet" type="text/css" href="css/ddsmoothmenu1.css">
+
+<script language="javascript" type="text/javascript" src="js/jquery.js"></script>
+
+<!--navigation-->
+
+
+
+<style type="text/css">
+<!--
+.style2 {font-weight: bold}
+-->
+</style>
+</head>
+<body class="search-show-box">
+
+<div style="left: 1180px; top: 330px;" class="ddshadow toplevelshadow"></div><div style="left: 1042px; top: 330px;" class="ddshadow toplevelshadow"></div><div style="left: 904px; top: 330px;" class="ddshadow toplevelshadow"></div><div style="left: 749px; top: 330px;" class="ddshadow toplevelshadow"></div><div style="left: 611px; top: 330px;" class="ddshadow toplevelshadow"></div><div style="left: 473px; top: 330px;" class="ddshadow toplevelshadow"><div style="left: 170px; top: 125px;" class="ddshadow"></div></div>
+<div id="main_container">
+
+
+<div class="hm1 bbc">
+<!-- Header start Here::-->
+
+<?php include 'includes/header_new.php';?>
+
+<div class="bt"><img src="images/z.gif" alt="<?php echo getWebSiteName(); ?>" height="1" width="1"></div>
+<!-- Header End Here::-->
+
+</div>
+<div class="clr"></div>
+
+  <div id="middle_container">
+      <div>
+       <img src="images/banner-solution.jpg" width="100%" />
+        <!--navigation start-->
+      <span class="left-cor"></span>
+        <span class="right-cor"></span>
+      
+<?php include 'includes/contact_head_menu.php';?>
+</div>
+<!--navigation close-->
+<div class="clr"></div>
+<div id="content_area">
+	<?php include 'includes/contact_left_menu.php';?>
+    
+    	<script> 
+        function ShowCategory(id)
+		{
+			$(".allCat").hide();
+			
+			$.post('ajax-file/showSupportCategory.php',{id:id},function(data){
+						$("#arrow_style_"+id).css('background','url(images/icons-toggle.png) no-repeat scroll 90% 18px rgb(248, 248, 248)');
+						$("#category_header_"+id).attr('onClick','HideCategory("'+id+'")');
+						$("#categoryDiv_"+id).html(data);
+						$("#categoryDiv_"+id).slideDown(200);	
+																							 
+			});
+		}
+		
+		function HideCategory(id)
+		{		
+			$("#categoryDiv_"+id).slideUp(200);
+			$("#categoryDiv_"+id).html("");	
+			$("#category_header_"+id).attr('onClick','ShowCategory("'+id+'")');		
+			$("#arrow_style_"+id).css('background','url(images/icons-toggle.png) no-repeat scroll 90% -37px rgb(248, 248, 248)');		
+		}
+		
+	
+        </script>
+  
+    <div class="right-side2">
+    <div class="fl shd">
+<p class="sh1 eto-bg"></p>
+</div>
+
+     <a name="top" id="top"></a>
+          <h2>Help & <span>Support</span></h2>
+      
+      <?php 
+	  $res = mysqli_query($con, "select * from faq_categories_arabyos");
+	  while($row = mysqli_fetch_object($res)){
+	  ?>
+          <div class="news-h"  style="cursor: pointer;" id="category_header_<?php echo $row->fc_id;?>" onClick="ShowCategory('<?php echo $row->fc_id;?>');">
+         <img src="images/site_map_bullet.png"/> <?php echo $row->fc_name;?>
+          </div>
+  
+        <div style="display: none; padding-left: 40px" class="category allCat" id="categoryDiv_<?php echo $row->fc_id;?>"></div>
+     
+   <?php }?>
+ 
+  
+
+          
+ 
+        
+        </div>
+    
+    
+</div>
+
+
+        
+  </div>
+     
+     
+</div>
+
+
+<!--footer start-->
+<!--media4trade add starts-->    
+
+
+
+
+<!--footer close-->
+
+<!--footer close1-->
+<!--footer new-->
+<?php include 'includes/footer.php';?>

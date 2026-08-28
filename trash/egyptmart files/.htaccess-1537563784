@@ -1,0 +1,22 @@
+LimitRequestBody 99999999999
+SubstituteMaxLineLength 20m
+
+<IfModule mod_dtimeout.c>
+<Files ~ ".php">
+SetEnvIf Request_URI "index.php" DynamicTimeout=300
+SetEnvIf Request_URI "products.php" DynamicTimeout=300
+SetEnvIf Request_URI "admin-ajax.php" DynamicTimeout=300
+SetEnvIf Request_URI "product-details.php" DynamicTimeout=300
+</Files>
+</IfModule>
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+
+AddHandler application/x-httpd-php56 .php .php5 .php4 .php3

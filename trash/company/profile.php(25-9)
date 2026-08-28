@@ -1,0 +1,165 @@
+﻿<?php include "includes/header.php"; 
+?>
+<div id="body">
+	<ul class="cb">
+<?php 
+$sql_wc="select * from website_content where wc_usr_id='".$row->usr_id."'";
+$res_wc=mysql_query($sql_wc);
+$row_wc=mysql_fetch_object($res_wc);
+?>
+
+
+	<li id="wideColumn">
+		<?php if($row_wc->wc_homepage_key_desc != '') : ?>
+		<section class="box1">
+		
+		<div class="h2"><h2>Company Description</h2></div>
+		<nav class="comPro">
+		
+<p><?php echo $row_wc->wc_homepage_key_desc; ?></p>
+		</p>
+		</nav>
+		
+</section>
+<?php endif; ?>
+<br>
+			
+		</p>
+		</nav>
+
+		</section><br/>
+
+
+<?php
+$bfact = '';
+$exta = $row->bnsprof_yoe;
+$noe = '';
+$lesta = $row->owntyp_title;
+$tern = $row->revturnover_title;
+$regno = $row->bnsprof_regno;
+$serTax = $row->bnsprof_svtax_no;
+
+$sql="select * from business_profile,user,ownership_type,revenue_turnover where bnsprof_uid=usr_id and bnsprof_owntype=owntyp_id and bnsprof_turnover=revturnover_id and md5(bnsprof_id)='".$id."'";
+$res=mysql_query($sql);
+$row=mysql_fetch_object($res);
+
+$bnsprof_businesstype=array();
+$bnsprof_businesstype=explode(",",$row->bnsprof_businesstype);
+$sql_btype="select * from business_type where bsntyp_id in(".$row->bnsprof_businesstype.")";
+$res_btype=mysql_query($sql_btype);
+if(mysql_num_rows($res_btype)>0)
+{
+?>
+<?php while($row_btype=mysql_fetch_object($res_btype)){	
+	$bfact = $row_btype->bsntyp_title;
+}
+}
+$noempsql=mysql_query("select * from employee_range where emprange_status='1' AND emprange_id='".$row->bnsprof_comemp."'");
+$noemprow=mysql_fetch_object($noempsql);
+$noe = $noemprow->emprange_type;
+?>
+<?php
+	if($bfact != '' || $exta != '' || $noe != '' || $lesta != '' || $tern != '' || $regno != '' || $serTax != '')
+	{
+		?>
+		<section class="box1">
+		<div class="h2"><h2>Company Facts</h2></div>
+		<nav class="comFact">		
+		<?php 
+		if($bfact != '') {	
+			echo '<p><span>Business Type </span><span>'.$bfact.'<span></p>';
+		}
+		if($exta != '') {	
+			echo '<p><span>Establishment </span><span>'.$exta.'<span></p>';
+		}
+		if($noe != '') {	
+			echo '<p><span>No. of Employees </span><span>'.$noe.'<span></p>';
+		}
+		if($lesta != '') {	
+			echo '<p><span>Legal Status </span><span>'.$lesta.'<span></p>';
+		}
+		if($tern != '') {	
+			echo '<p><span>Turnover </span><span>'.$tern.'<span></p>';
+		}
+				
+if($row->bnsprof_designation!=''){
+	$sql_desig="select * from designation where desig_id='".$row->bnsprof_designation."'";
+	$res_desig=mysql_query($sql_desig);
+	
+if(mysql_num_rows($res_desig)>0){ 
+$row_desig=mysql_fetch_object($res_desig);
+?>
+<P><span><?php echo $row_desig->desig_title; ?></span><span><?php echo $row->name_prefix." ".$row->fname." ".$row->lname; ?></span></p>
+<?php	}
+}
+if($regno != '') {	
+			echo '<p><span>Registration No. </span><span>'.$regno.'<span></p>';
+		}
+		if($serTax != '') {	
+			echo '<p><span>Service Tax No. </span><span>'.$serTax.'<span></p>';
+		}
+?>
+
+
+					</nav>
+	    </section>
+	<?php } ?>
+		
+	<br>
+		
+<br>
+<style>
+    
+.info_table_right img{
+    border: 1px solid #bac3fc;
+    }
+    </style>
+   
+   <?php
+   $abtsql=mysql_query("select * from about_us,profile_heading where abtus_ph_id=ph_id and abtus_wc_id='".$row_wc->wc_id."'"); 
+   $totalabt=mysql_num_rows($abtsql);
+   if($totalabt>0)
+   {	 
+		while($abtrow=mysql_fetch_object($abtsql))
+		{
+			?>
+			
+			<section class="box1">
+		<div class="h2"><h2><?php echo $abtrow->ph_title; ?> </h2></div>	
+                <div class="info_table">
+					<div class="info_table_left">
+						<?php echo $abtrow->abtus_desc; ?>
+					</div>
+					<div class="info_table_right" style='border:none;'>
+						<?php
+						  if($abtrow->abtus_image!="")
+						  {
+							?>
+	                            <img src="<?php echo BASE_URL ?>/upload/myprofile/<?php echo $abtrow->abtus_image; ?>" id="img_small_form_1671511">
+                       <?php } else { ?>
+       
+                         <img src="<?php echo BASE_URL ?>/images/noimage.jpg" id="img_small_form_1671511" >
+	
+        <?php } ?>
+					</div>
+					
+				</div>
+		</section>
+   <br>
+   <?php
+		
+		}
+	}
+	
+	?>
+	
+<?php
+$sql="select * from business_profile,user,ownership_type,revenue_turnover where bnsprof_uid=usr_id and md5(bnsprof_id)='".$id."'";
+$res=mysql_query($sql);
+$row=mysql_fetch_object($res);
+?>
+	</li><?php include "includes/right.php"; ?>
+</ul>
+	</div>
+	<?php include "includes/footer.php"; ?>
+</body></html>

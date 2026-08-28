@@ -1,0 +1,76 @@
+*{padding:0; margin:0}
+body{font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#222222}
+.clr{clear:both;}
+#bnfts {padding-top:5px}
+#bnfts ul{margin-left:5px/0;}
+#bnfts ul{padding-left: 10px; }
+#bnfts ul li{padding-bottom:10px;  font-size:14px; list-style-position: inside; color:#972c46;}
+.pt10{padding-top:10px;}
+.txtfname,.txtlname, .prd1,.prd2,.prd3,.prd4{width:165px;
+}
+
+.city_o{color:#000000;}
+.btnbg{background-color:#DF0000;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#DF0000', endColorstr='#DF0000');background:-webkit-gradient(linear, left top, left bottom, from(#DF0000), to(#DF0000));background:-moz-linear-gradient(top,  #DF0000,  #DF0000);  border: 1px solid #DF0000;
+margin:0 auto; 
+margin-top:0px;
+    border-radius: 5px;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;  width: 150px;"><a style="color:#ffffff; text-decoration:none;}
+.label{   -moz-box-sizing: border-box;   -webkit-box-sizing: border-box; box-sizing: border-box; width:120px; *width:112px; text-align:right !important; font-size:13px !important; padding-right:8px !important;    line-height: 30px !important;   color: #000 !important;font-weight: normal !important;}
+.f1  {float:left;}
+.f2{float:right;}
+.p6{padding:6px !important;}
+.nt{background-image:url('../images/at-new1.png')}
+
+.edup{color:#cd0000;background-position:-56px -67px;padding-left:16px;margin-top:4px}
+.edup1{color:#cd0000;background-position:-56px -68px;padding-left:16px;margin-top:4px}
+.et1{color:#4d8301;background-position:-55px -107px}
+.et2{color:#4d8301;background-position:-54px -107px}
+.blfs{-webkit-box-shadow:0px 0px 5px #74B9F0;-moz-box-shadow:0px 0px 5px #74B9F0;box-shadow:0px 0px 5px #74B9F0; border:solid 1px #74B9F0 !important}
+#hintbox {
+position: absolute;
+top: 0;
+background-color: #FFF7D4;
+width: 190px;
+padding: 4px;
+padding-left: 6px;
+border: 1px solid #F7DB96;
+font: normal 11px Verdana;
+line-height: 15px;
+z-index: 100;
+border-right: 3px solid #F1CE7B;
+border-bottom: 3px solid #F1CE7B;
+visibility: hidden;
+color: #583A0E;
+}
+.busy
+{
+		background:url('../images/spinner.gif') no-repeat right center;
+}
+
+
+/*Script Error Css*/
+.help_script
+{
+background-color:#FFFAF1;
+font-family:arial, verdana;
+font-size:15px;
+color:#C40000;
+border:4px solid #F9E5C5;
+padding-top:10px;
+padding-bottom:10px;
+line-height:19px;
+}
+
+.help_script a
+{
+color:#0000FF;
+}
+/*Script Error Css*/
+

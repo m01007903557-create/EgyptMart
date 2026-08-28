@@ -1,0 +1,36 @@
+#topbar{width:100%;}
+
+
+@media screen and (min-width: 1024px){
+.n-hdrn{
+    display: flex;
+}
+.n-hdrn li:first-child{
+    order: 1;
+}
+.n-hdrn li span{
+    right: auto;
+}
+ul.n-hdrn li{
+    flex: 1;
+    white-space: nowrap;
+}
+}
+
+
+@media screen and (min-width: 1221px) {
+#topbar {
+    position: fixed !important;
+}
+.maincontainertop {
+    margin-top: 46px !important;
+}
+}
+@media screen and (min-device-width: 1024) and (max-device-width: 1220px) { 
+#topbar {
+    position: fixed !important;
+}
+.maincontainertop {
+    margin-top: 91px !important;
+}
+}

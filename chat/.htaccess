@@ -1,0 +1,6 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # السماح بالوصول المباشر إلى chat.php
+    RewriteRule ^chat\.php$ - [L]
+</IfModule>

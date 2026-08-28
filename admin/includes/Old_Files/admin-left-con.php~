@@ -1,0 +1,20 @@
+<?php ob_start(); ?>
+<div id="sidebar-left-container">
+<div id="sidebar-left"> 
+
+<div class="portlet" id="top-contacts">
+<div class="portlet-decoration">
+<div class="portlet-title">My Account</div>
+</div>
+<div class="portlet-content">
+	<ul>
+	    <li><a href="change-user.php">Change User Name</a></li>
+	    <li><a href="change-email.php">Change Email</a></li>
+	    <li><a href="change-pass.php">Change Password</a></li>
+	    <li><a href="product-list.php">View Product</a></li>
+       </ul>
+</div>
+</div>
+<div class="portlet" id="top-contacts">
+</div>
+</div></div>

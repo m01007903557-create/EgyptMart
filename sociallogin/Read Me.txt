@@ -1,0 +1,59 @@
+
+>>>>>>>>>>>>> Ambit Social Media Login Plugin  <<<<<<<<<<<<<<
+
+
+-------------------------------------------------------------------------
+Include this function to your common.php file if it is not exist in your sociallogin/function.php file.
+
+function social_login_settings($x)
+{
+	$sql = "select * from social_media_login_info where smli_id='".$x."'";
+	$qry = mysql_query($sql);
+	$arr = mysql_fetch_array($qry);	
+	return stripslashes($arr['smli_value']);
+}
+-------------------------------------------------------------------------
+
+
+
+######  FaceBook Login  #######
+
+1. Include fb_log.php page in your login page for facebook login
+   button.(change design as per requirement)
+2. Make changes in fb_sql.php page for data insertion in 
+   database
+3. Make changes in fb_session.php page for session data storing
+   and redirection into main page.
+4. Callback URL wil be sociallogin\loginwithfb\login-facebook.php
+
+
+######  Gmail Login  #######
+  
+1. Include google_log.php page in your login page for google login
+   button.(change design as per requirement)
+2. Make changes in google_log_session.php page for data insertion in 
+   database and session data storing and redirection into main page.
+3. Callback URL wil be sign-in.php (Your Login Page where the code was implemented) 
+
+
+######  LinkedIn Login  #######
+
+  
+1. Include linkedin_log.php page in your login page for LinkedIn login
+   button.(change design as per requirement)
+2. Make changes in linkedin_log_session.php page for data insertion in 
+   database and session data storing and redirection into main page.
+3. Callback URL wil be sociallogin\loglink\demo.php
+
+
+
+######  Twitter Login  #######
+
+  
+1. Include Twit_log.php page in your login page for Twitter login
+   button.(change design as per requirement)
+2. Make changes in twit_log_session.php page for data insertion in 
+   database and session data storing and redirection into main page.
+3. Callback URL wil be sociallogin\twitteroauth\twitter_callback_oauth.php 
+
+ 

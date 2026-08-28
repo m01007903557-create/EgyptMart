@@ -1,0 +1,118 @@
+/*for Freelist form*/
+
+.free-point
+{
+font-size:11px;
+color:#000000;
+line-height:13px;
+font-family: ms sans serif,arial;
+padding-left:8px;
+margin-top:5px;
+}
+
+.background-globe
+{
+background-image:url('../images/globe1.gif');
+background-repeat:no-repeat;
+background-position:bottom left;
+}
+
+
+.f-listing {font-weight: bold; font-size: 14px; color: #0286df; font-family: ms sans serif,arial; padding-left:5px;margin-top:2px;}
+.f-listing a {color: #0286df; text-decoration: none;}
+.f-listing a:hover {color: #000;}
+
+.list-text {font-weight: bold; font-size: 12px; color: #262626; font-family: ms sans serif,arial; padding-left:20px; margin-top:7px; background-image:url('../images/arrow2.gif'); background-repeat:no-repeat; margin-left:28px;}
+.list-text a {color: #262626; text-decoration: none;}
+.list-text a:hover {color: #000;}
+
+.list-text2 {font-weight: bold; font-size: 12px; color: #262626; font-family: ms sans serif,arial; padding-left:20px; margin-top:7px; background-image:url('../images/arrow2.gif'); background-repeat:no-repeat; margin-left:10px;}
+.list-text2 a {color: #262626; text-decoration: none;}
+.list-text2 a:hover {color: #000;}
+
+.list-text1 {font-weight: bold; font-size: 12px; color: #262626; font-family: ms sans serif,arial; padding-left:20px; padding-top:1px; background-image:url('../images/arrow2.gif'); background-repeat:no-repeat; margin-left:28px;}
+.list-text1 a {color: #262626; text-decoration: none;}
+.list-text1 a:hover {color: #000;}
+
+.list-text3 {font-weight: bold; font-size: 12px; color: #262626; font-family: ms sans serif,arial;}
+.list-text3 a {color: #262626; text-decoration: none;}
+.list-text3 a:hover {color: #000;}
+
+.f-listing1 {font-weight: bold; font-size: 14px; color: #0286df; font-family: ms sans serif,arial; padding-left:14px;}
+.f-listing1 a {color: #0286df; text-decoration: none;}
+.f-listing1 a:hover {color: #000;}
+
+.f-listing11 {font-weight: bold; font-size: 14px; color: #0175C3; font-family: ms sans serif,arial; padding-left:8px;}
+.f-listing11 a {color: #0286df; text-decoration: none;}
+.f-listing11 a:hover {color: #000;}
+
+
+.sign {font-weight: bold; font-size: 12px; color: #262626; font-family: ms sans serif,arial; padding-left:8px; margin-top:7px; line-height:14px;}
+.sign a {color: #ff9000; text-decoration: underline;}
+.sign a:hover {color: #ff9000;}
+
+.input{border-right: #b3b9be 1px solid; border-top: #b3b9be 1px solid; border-left: #b3b9be 1px solid; border-bottom: #b3b9be 1px solid;}
+
+.inputnew{border-right: #b3b9be 1px solid; border-top: #b3b9be 1px solid; border-left: #b3b9be 1px solid; border-bottom: #b3b9be 1px solid;}
+
+
+.email {font-weight: bold; font-size: 12px; color: #262626; font-family: ms sans serif,arial; padding-left:8px; padding-right:5px;}
+
+.forgot {font-size: 12px; color: #0435A3; font-family: ms sans serif,arial;}
+.forgot a {color: #0435A3; text-decoration: underline;}
+
+.bg-panel {background-image:url('../images/bg-p.gif'); background-repeat:repeat-x; background-position:bottom;}
+
+.id-1 {font-size: 12px; color: #262626; font-family: ms sans serif,arial; padding-left:8px; padding-right:13px;}
+
+/*for Freelist form*/
+
+
+
+.gltext {COLOR: #000000; font-family:ms sans serif,arial; FONT-SIZE: 10px; LINE-HEIGHT: 15px; MARGIN-LEFT: 5px;}
+.gltext a{COLOR: #0000ff;}
+.glftext {COLOR: #333; font-family:ms sans serif,arial; FONT-SIZE: 10px;line-height:16px;padding-left:15px;}
+.glftext b{padding-left:5px;}
+.glbody A{COLOR: #0033CC; font-family:ms sans serif,arial; FONT-SIZE: 15px; FONT-WEIGHT: bold; LINE-HEIGHT: 17px}
+.glheadlink {font-family:ms sans serif,arial;color:#000;font-size:13px;font-weight:bold;padding-left:8px;padding-top:12px;padding-bottom:8px;line-height:20px;}
+.glheadlink a{color:#0000FF;}
+.glheadlink b{color:#004275;}
+.glformhead {COLOR: #000; font-family:arial; FONT-SIZE: 15px;padding-left:5px;}
+.glformtext {COLOR: #333; font-family:ms sans serif,arial; FONT-SIZE: 10px;}
+.glhead {COLOR: #800000; font-family:ms sans serif,arial; FONT-SIZE: 12px;}
+.glthanksadlink {FONT-SIZE: 11px; COLOR: #000;FONT-FAMILY: ms sans serif,arial;}
+.glthanksadlink a{FONT-SIZE: 13px; COLOR: #00395F;TEXT-DECORATION: none}
+.glthankscathead {FONT-SIZE: 13px; COLOR: #000; PADDING: 4px;FONT-FAMILY: ms sans serif,arial; }
+.glthanksmsg {FONT-SIZE: 13px; COLOR: #333;FONT-FAMILY: ms sans serif,arial;}
+.glthanksmsg a{COLOR: #00f;FONT-SIZE: 13px;}
+.glimlinks A {FONT-FAMILY:MS sans serif,verdana,arial; FONT-SIZE: 11px; color:0000ff}
+
+
+
+/*small fotter css developed on 30-12-06 starts*/
+.smallfooter-link {
+	FONT-SIZE: 11px; COLOR: #000000; FONT-FAMILY: arial,MS sans serif,verdana; line-height:17px; padding-left:5px; padding-right:5px;
+}
+.smallfooter-link A{
+	COLOR: #0000FF;
+}
+.smallfooter-link A:hover {
+	COLOR: #ff0000
+}
+/*small fotter css developed on 30-12-06 ends*/
+
+
+/*message boxes:start*/
+h1{font-size:18px; font-weight:normal; color:#fa5901}
+.c{background-image:url(../images/c.png)}
+.ma{padding:1% 1% 1% 7%; margin-top:10px}
+.ebox{background-color:#ffecec; border:1px solid #ffd1d1; background-position:-574px -421px; color:#c93332}
+.ebox span{color:#333; font-weight:normal}
+.w56{width:65%; height:auto; text-align:left}
+.fp{background-color:#F8F0FF; padding:1%; border:1px solid #F5ECFF;}
+.note{background-color:#fffcf3; font-size:11px; color:#7b7b79; border:1px dashed #fdf2d6; line-height:16px; padding:8px; background-image:url(../images/pn-hand.png); background-position:8px 9px; padding-left:30px; background-repeat:no-repeat; text-align:justify}
+.mu11{width:40%; border:1px solid #a2c3d4; padding:4px}
+.bpo{background-position:-574px -417px!important;padding:1% 1% 1% 6%!important}
+/*message boxes:ends*/
+
+

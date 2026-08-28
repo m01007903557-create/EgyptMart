@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteBase /auth/google/
+RewriteRule ^callback$ callback.php [L,QSA]

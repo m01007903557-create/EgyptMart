@@ -1,0 +1,1026 @@
+<style>
+	#country-list{
+	float: left;
+list-style: none;
+margin: 0;
+padding: 0;
+width: 325px;
+position: absolute;
+left: 31em !important;
+top: 9em !important;
+height: 200 px !important;
+overflow-y: scroll;
+width: 32% !important;
+border-bottom: 2px solid #006bb1;
+border-left: 2px solid #006bb1;
+border-right: 2px solid #006bb1;
+z-index: 1;
+background-color: white;
+border-radius: 3px;
+}
+/*span,p,li{line-height:30px!important;*/}
+</style>
+<?php
+ 
+   include 'common.php';
+   $uid=$_SESSION['uid_indm'];
+   $globalcntid = 241;
+    //GET user details
+	   $sql = "SELECT u.*, bp.bnsprof_compname, bp.bnsprof_city FROM `user` u LEFT JOIN business_profile bp ON u.usr_id = bp.bnsprof_uid WHERE `usr_id` = '".$uid."'  LIMIT 1";
+	   $qry = mysqli_query($con, $sql) or die(mysql_error());
+	   $user_detail = mysqli_fetch_array( $qry);
+	   //echo "<pre>"; print_r($_SESSION); echo"</pre>";
+	   $usqlcountry = "select cn_name from country where cn_id='". $user_detail['country']."'";
+	   $urscountry = mysqli_query($con,$usqlcountry);
+	   if(mysqli_num_rows($urscountry) > 0)
+	   {
+		  $urowcountrty = mysqli_fetch_object($urscountry);
+		  $user_cn_name = $urowcountrty->cn_name;
+	   }
+
+	   $usqlcity = "select ct_name from city where ct_id='". $user_detail['bnsprof_city']."'";
+	   $usqlcity = mysqli_query($con,$usqlcity);
+	   if(mysqli_num_rows($usqlcity) > 0)
+	   {
+		  $urowcity = mysqli_fetch_object($usqlcity);
+		  $user_ct_name = $urowcity->ct_name;
+	   }
+
+
+   if(isset($_COOKIE['loc_id']))
+   {
+   	## get Country id by
+   	$cn_id = $_COOKIE['loc_id'];
+   	$sqlcountry = "select cn_name from country where cn_id='$cn_id'";
+   	$rscountry = mysqli_query($con,$sqlcountry);
+   	if(mysqli_num_rows($rscountry) > 0)
+   	{
+   	  $rowcountrty = mysqli_fetch_object($rscountry);
+   	  $cn_name = $rowcountrty->cn_name;
+   	}
+   }
+   else
+   {
+   	$cn_id = 0;$cn_name="Global";
+   }
+   ini_set('display_errors', 1);
+   error_reporting(E_ALL & ~E_NOTICE);
+   ## query for country
+   if($cn_id!="")
+    {
+   	 //$strconutnry=" AND (adv_country LIKE '%$cn_id,%' OR adv_country LIKE '%,$cn_id%' OR adv_country LIKE '%,$cn_id,%' OR adv_country='$cn_id')";
+   	 $strconutnry=" AND (adv_country LIKE '%,$cn_id,%' OR adv_country LIKE '%,$cn_id' OR adv_country LIKE '$cn_id,%' OR adv_country='$cn_id')";
+    }
+    else
+    {
+   	 //$strconutnry =" AND (adv_country LIKE '%$globalcntid,%' OR adv_country LIKE '%,$globalcntid%' OR adv_country='$globalcntid')";
+   	 $strconutnry=" AND (adv_country LIKE '%,$globalcntid,%' OR adv_country LIKE '%,$globalcntid' OR adv_country LIKE '$globalcntid,%' OR adv_country='$globalcntid')";
+    }
+		if(isset($_SESSION['m_msg'])){	$msg=$_SESSION['m_msg'];	unset($_SESSION['m_msg']); }
+		if(isset($_SESSION['m_membership_plan'])){	$membership_plan=$_SESSION['m_membership_plan'];	unset($_SESSION['m_membership_plan']);	}
+		if(isset($_SESSION['m_cname'])){	$cname=$_SESSION['m_cname'];	unset($_SESSION['m_cname']);	}else { $cname=$user_detail['bnsprof_compname']; }
+		//echo $cname;
+		if(isset($_SESSION['m_fullname'])){	$fullname=$_SESSION['m_fullname'];	unset($_SESSION['m_fullname']);	}else { $fullname=$user_detail['fname'].' '.$user_detail['lname']; }
+		if(isset($_SESSION['m_mobile'])){	$mobile=$_SESSION['m_mobile'];	unset($_SESSION['m_mobile']);	}else { $mobile=$user_detail['mobile1']; }
+		if(isset($_SESSION['m_email'])){	$email=$_SESSION['m_email'];	unset($_SESSION['m_email']);	}else { $email=$user_detail['email']; }
+		if(isset($_SESSION['m_country'])){	$country=$_SESSION['m_country'];	unset($_SESSION['m_country']);	}else { $country=$user_cn_name; }
+		if(isset($_SESSION['m_city'])){	$city=$_SESSION['m_city'];	unset($_SESSION['m_city']);	}else { $city= $user_ct_name; }
+		if(isset($_SESSION['m_address'])){	$address=$_SESSION['m_address'];	unset($_SESSION['m_address']);	}else { $address=''; }
+		if(isset($_SESSION['m_requirement'])){	$requirement=$_SESSION['m_requirement'];	unset($_SESSION['m_requirement']);	}else { $requirement=''; }
+
+class addMembershipRequirement{
+
+	var $cname;
+	var $fullname;
+	var $email;
+	var $mobile;
+	var $country;
+	var $city;
+	var $address;
+	var $requirement;
+	var $membership_plan;
+	var $msg;
+	var $plans;
+
+	function __construct($membership_plan, $cname, $fullname, $email, $mobile, $country, $city, $address, $requirement)
+	{
+		global $con;
+		$this->membership_plan=$membership_plan;
+		$this->cname=$cname;
+		$this->fullname=$fullname;
+		$this->email=$email;
+		$this->mobile=$mobile;
+		$this->country=$country;
+		$this->city=$city;
+		$this->address=$address;
+		$this->requirement=$requirement;
+		$this->plans = '';
+	}
+
+	function valid(){
+
+		$valid=true;
+
+		if($this->membership_plan=="" || $this->membership_plan==",")
+		{
+			$this->msg='<font color="#CC0000">Please select at least a membership plan.</font>';
+			$valid=false;
+		}
+		else if($this->cname=="")
+		{
+			$this->msg='<font color="#CC0000">Please enter company name.</font>';
+			$valid=false;
+		}
+		else if($this->fullname=="")
+		{
+			$this->msg='<font color="#CC0000">Please enter your name.</font>';
+			$valid=false;
+		}
+		else if($this->email=="")
+		{
+			$this->msg= '<font color="#CC0000">Please enter your email address</font>';
+			$valid=false;
+		}
+		else if (!validate::is_email($this->email))
+		{
+			$this->msg= '<font color="#CC0000">Please enter valid email address</font>';
+			$valid=false;
+		}
+		else if($this->mobile=="")
+		{
+			$this->msg= '<font color="#CC0000">Please enter your mobile number</font>';
+			$valid=false;
+		}
+		else if($this->country=="")
+		{
+			$this->msg= '<font color="#CC0000">Please enter country</font>';
+			$valid=false;
+		}
+		else if($this->city=="")
+		{
+			$this->msg= '<font color="#CC0000">Please enter city</font>';
+			$valid=false;
+		}
+
+		else if($this->requirement=="")
+		{
+			$this->msg= '<font color="#CC0000">Please enter the requirement</font>';
+			$valid=false;
+		}
+
+		return $valid;
+	}
+
+	function set_session()
+	{
+		$_SESSION['m_membership_plan']=$this->membership_plan;
+		$_SESSION['m_cname']=$this->cname;
+		$_SESSION['m_fullname']=$this->fullname;
+		$_SESSION['m_email']=$this->email;
+		$_SESSION['m_mobile']=$this->mobile;
+		$_SESSION['m_country']=$this->country;
+		$_SESSION['m_city']=$this->city;
+		$_SESSION['m_address']=$this->address;
+		$_SESSION['m_requirement']=$this->requirement;
+	}
+
+	function add()
+	{
+        global $con;
+		$uid = isset($_SESSION['uid_indm'])?$_SESSION['uid_indm']:0;
+		$sql="insert into membership_requirements
+				set
+					mp_user_id=".$uid.",
+					mp_id='".$this->membership_plan."',
+					company_name='".$this->cname."',
+					name='".$this->fullname."',
+					email='".$this->email."',
+					mobile='".$this->mobile."',
+					country='".$this->country."',
+					city='".$this->city."',
+					address='".$this->address."',
+					requirement='".$this->requirement."',
+					status=1,updated_date=now()";
+					//echo $sql;exit;
+		mysqli_query($con, $sql) or die(mysql_error());
+		$this->msg='<font color="#087017">Your requirements have been sent successfully, sales team will contact you shortly</font>';
+		$this->plans = '';
+		$membership_plans = explode(",", $this->membership_plan);
+		foreach($membership_plans as $plan) {
+		$sql = "SELECT * FROM `smembership_plan_arabyos` WHERE `mp_id` = ". $plan;
+		$membership_qry = mysqli_query($con, $sql) or die(mysql_error());
+		$membership_detail = mysqli_fetch_array( $membership_qry);
+		$this->plans .= $membership_detail['mst_name'].',';
+		}
+		$this->plans = substr($this->plans, 0, strlen($this->plans)-1);
+
+		/********************* Email sending code start here **********************/
+
+		$to = $this->email;  /*Put Your Email Adress Here*/
+		$subject = "Membership Plan Requirement on ".get_page_settings(4);
+		$from_name = get_page_settings(4);
+		$from_email = get_adminemail();
+
+		include "email/membership_req.php"; //email design with content included
+
+		/*$message = "Dear ".ucfirst(user_info($_SESSION['uid_indm'],'fname'))." ".ucfirst(user_info($_SESSION['uid_indm'],'lname')).",<br /><br />";
+		$message .= "We are happy you joined. Please click on folowing link to verify your email with us : ".$link;
+		$message .= "<br /><br />".get_page_settings(4)." Team";*/
+		$headers  = "MIME-Version: 1.0\r\n";
+	    $headers .= "Content-type: text/html; charset=iso-8859-1\r\n";
+    	$headers .= "From: $from_name < $from_email >\r\n";
+    	$headers .= "Reply-To: $from_email";
+
+		mail($to, $subject, $message1, $headers);
+
+		/********************* Email sending code end here **********************/
+
+		/********************* Email sending code to admin start here **********************/
+
+		$to = get_adminemail();  /*Put Your Email Adress Here*/
+		$subject = "Membership Plan Requirement on ".get_page_settings(4);
+		$from_name = get_page_settings(4);
+		$from_email = get_adminemail();
+
+		include "email/membership_req.php"; //email design with content included
+
+		/*$message = "Dear ".ucfirst(user_info($_SESSION['uid_indm'],'fname'))." ".ucfirst(user_info($_SESSION['uid_indm'],'lname')).",<br /><br />";
+		$message .= "We are happy you joined. Please click on folowing link to verify your email with us : ".$link;
+		$message .= "<br /><br />".get_page_settings(4)." Team";*/
+		$headers  = "MIME-Version: 1.0\r\n";
+	    $headers .= "Content-type: text/html; charset=iso-8859-1\r\n";
+    	$headers .= "From: $from_name < $from_email >\r\n";
+
+		mail($to, $subject, $message2, $headers);
+
+		//echo $message1;
+		//echo $message2;
+		//exit;
+		/********************* Email sending code to admin end here **********************/
+
+	}
+}
+if(isset($_POST['Mb_Submit']))
+{
+	$membership_plan = '';
+	//echo "<pre>"; print_r($_POST); echo "</pre>";
+	//echo "<pre>"; print_r(array_values($_POST['membership_plan'])); echo "</pre>";
+
+	if(isset($_POST['membership_plan'])) {
+		$membership_plan = trim(implode(",",array_values($_POST['membership_plan'])));
+	}
+	//echo $membership_plan;
+	//exit;
+	$adn=new addMembershipRequirement($membership_plan,addslashes(trim($_POST['cname'])),addslashes(trim($_POST['fullname'])), $_POST['email'], addslashes(trim($_POST['mobile'])),	addslashes(trim($_POST['country'])),addslashes(trim($_POST['city'])),addslashes(trim($_POST['address'])),addslashes(trim($_POST['requirement'])));
+
+
+	if($adn->valid())
+	{
+
+		$adn->add();
+		//echo "<pre>"; print_r($adn); echo "</pre>";exit;
+	}
+	else
+	{
+		$adn->set_session();
+	}
+	$_SESSION['m_msg']=$adn->msg;
+	$msg = $adn->msg;
+	if(strpos($adn->msg, 'shortly') > 0 && $from == 1){
+		header("location:thankyou.php?from=2");
+	}
+   else if($from > 0)	{
+		header("location:why_ARBYOS.php?from=".$from);
+   }
+}
+//echo $msg;
+
+   ?>
+<!DOCTYPE HTML>
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+      <meta name="renderer" content="webkit">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="title" content="<?php echo getSiteTitle(); ?>">
+      <meta name="keywords" content="<?php echo get_page_settings(2); ?>">
+      <meta name="description" content="<?php echo get_page_settings(3); ?>">
+      <title><?php echo getSiteTitle(); ?></title>
+      <link href="css/bootstrap.css" rel='stylesheet' type='text/css'/>
+      <script src="js/jquery.min.js" type="text/javascript"></script>
+      <!-- Custom Theme files -->
+      <link href="css/style.css" rel="stylesheet" type="text/css"/>
+      <link href="css/responsive1.css" rel="stylesheet" type="text/css"/>
+      <!-- Custom Theme files //  -->
+      <link href="fonts/font-awesome.css" rel="stylesheet" type="text/css"/>
+      <link href="css/im-style-v1.css" rel="stylesheet" type="text/css"/>
+      <!--[if IE]>
+      <script src="js/html5.js"></script> <![endif]-->
+      <!-- start of verticle menu -->
+      <link href="css/verticle-menu.css" rel="stylesheet" type="text/css"/>
+      <!-- End of verticle menu -->
+      <!-- Start of yahoo slider -->
+      <link type="text/css" rel="stylesheet" href="css/theme.css"/>
+      <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+      <script type="text/javascript" src="js/jquery.accessible-news-slider.js"></script>
+      <link href="css/type.css" rel="stylesheet" type="text/css"/>
+      <!-- Start of video/testimonial slider -->
+      <script src="js/responsiveslides.min.js"></script>
+      <script>
+         $(function () {
+             // Slideshow 1
+             $("#slider").responsiveSlides({
+                 auto: true,
+                 nav: false,
+                 speed: 500,
+                 namespace: "callbacks",
+                 pager: true
+             });
+
+         });
+      </script>
+      <!-- End of video/testimonial slider // -->
+      <script type="text/javascript">
+         // when the DOM is ready, conv the feed anchors into feed content
+         jQuery(document).ready(function () {
+
+             jQuery('#newsslider').accessNews({});
+
+             jQuery('#newsslider2').accessNews({
+                 title: "BREAKING NEWS:",
+                 subtitle: "stories from the internet",
+                 speed: "slow",
+                 slideBy: 5,
+                 slideShowInterval: 100000,
+                 slideShowDelay: 100000
+             });
+
+         });
+      </script>
+      <!-- End of yahoo slider // -->
+      <style>
+      </style>
+   </head>
+   <body style='background: #8b89c3;'>
+      <div id="fb-root"></div>
+      <script>
+         (function(d, s, id) {
+             var js, fjs = d.getElementsByTagName(s)[0];
+             if (d.getElementById(id)) return;
+             js = d.createElement(s); js.id = id;
+             js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=266965666821363&version=v2.0";
+             fjs.parentNode.insertBefore(js, fjs);
+         }(document, 'script', 'facebook-jssdk'));
+      </script>
+      <?php
+         if(get_page_settings('25')=='manual')
+         {
+             $sql_order=" order by pc_order,pc_name";
+         }
+         else
+         {
+             $sql_order=" order by pc_name";
+         }
+         ?>
+      <!-- Start of wrapper -->
+      <div class="wrapper">
+         <script type="text/javascript">
+            function showmymenu() {
+                $("#mn1").show();
+            }
+            function hidemymenu() {
+                $("#mn1").hide();
+            }
+            function showLocMenu() {
+                $("#changeLocation").show();
+            }
+            function hideLocMenu() {
+                $("#changeLocation").hide();
+            }
+            function showbuymenu() {
+                $("#buymnu").show();
+            }
+            function hidebuymenu() {
+                $("#buymnu").hide();
+            }
+            function showsellmenu() {
+                $("#sellmnu").show();
+            }
+            function hidesellmenu() {
+                $("#sellmnu").hide();
+            }
+         </script>
+         <script>
+            function showsrchm() {
+                $("#smnu").show();
+            }
+
+            function hidesrchm() {
+                $("#smnu").hide();
+            }
+
+            function OutboundLink(type) {
+                if (type == 'buy_lead') {
+                    $("#a1").html("Buy Leads");
+                }
+                else if (type == 'tender') {
+                    $("#a1").html("Tender");
+                }
+                else if (type == 'auction') {
+                    $("#a1").html("Auction");
+                }
+                else {
+                    $("#a1").html(type);
+                }
+
+                $("#rctyp").val(type);
+                $("#smnu").hide();
+            }
+         </script>
+         <script>
+            function validsearch() {
+                var keywords = document.getElementById('keywords');
+                if (keywords.value == '' || keywords.value == null) {
+                    alert("Please enter a valid text to search.");
+                    return false;
+                }
+            }
+
+            function gotFocus() {
+                var keywords = $("input#keywords").val();
+                if (keywords == 'Enter product / service to search' || keywords == 'Enter Buy Lead to search' || keywords == 'Enter Supplier to search') {
+                    $("input#keywords").val('')
+                }
+            }
+            function lostFocus() {
+                var type = $("#keyword_type").val();
+                var keywords = $("input#keywords").val();
+                if (type == 'Products' && (keywords == '' || keywords == 'Enter Buy Lead to search' || keywords == 'Enter Supplier to search')) {
+                    $("input#keywords").val('Search Product');
+                }
+                else if (type == 'Buy Leads' && (keywords == '' || keywords == 'Enter product / service to search' || keywords == 'Enter Supplier to search')) {
+                    $("input#keywords").val('Enter Buy Lead to search');
+                }
+                else if (type == 'Suppliers' && (keywords == '' || keywords == 'Enter product / service to search' || keywords == 'Enter Buy Lead to search')) {
+                    $("input#keywords").val('Enter Supplier to search');
+                }
+            }
+
+            function setCountryLocation(id)
+            {
+                $.post("setCountryLocation.php", {loc_id: id}, function (data)
+            {
+                    if (data != 0) {
+                        //	$("#cnlocation").html('<img src="images/country_flag/'+data+'" alt="" class="w4" align="top" height="15" width="20"/>');
+                        location.reload();
+                    }
+                });
+            }
+            function unsetCountryLocation() {
+                $.post("unsetCountryLocation.php", function (data) {
+                    //	$("#cnlocation").html('<img src="images/country_flag/'+data+'" alt="" class="w4" align="top" height="15" width="20"/>');
+                    location.reload();
+                });
+            }
+
+         </script>
+         <style type="text/css">
+            .zoomin1 img { height: 78px; width: 219px; -webkit-transition: all 0.5s ease; -moz-transition: all 0.5s ease; -ms-transition: all 0.5s ease; transition: all 0.5s ease; }
+            .zoomin1 img:hover { width: 229px; height: 88px;  }
+            .zoomin2 img { height: 66px; width: 200px; -webkit-transition: all 0.5s ease; -moz-transition: all 0.5s ease; -ms-transition: all 0.5s ease; transition: all 0.5s ease; }
+            .zoomin2 img:hover { width: 210px; height:77px; }
+            .zoomin3 img { height: 41px; width: 235px; -webkit-transition: all 0.5s ease; -moz-transition: all 0.5s ease; -ms-transition: all 0.5s ease; transition: all 0.5s ease; }
+            .zoomin3 img:hover { width: 245px; height:50px; }
+         </style>
+         <?php
+            /**
+             * Created by PhpStorm.
+             * User: Long
+             * Date: 12/18/2015
+             * Time: 11:49 PM
+             */
+            ?>
+<?php	include "includes/header_new.php";	?>
+         
+         <link type="text/css" rel="stylesheet" href="css/style123.css"/>
+         <!-- Start of middlesection -->
+         <div class="middlesection1">
+            <div class="maincontainer">
+               <div class="maincontent1">
+                  <div class="maincontent1top">  </div>
+
+                  <div class="section0_pager1">
+                 <!--    <img src="images/M2logo.png" style=" margin: 23px 1px 21px 34px;">-->
+
+                   <div class=" page2-header2-div1">
+                       <!-- <div class="why_ara"  > Why  ARABYOS ?</div>-->
+                        <div class="list_page2">
+                           <ul id="nav">
+                              <li class="active" ><a href="why_ARABYOS.php">Why  ARABYOS  ?</a></li>
+                              <li ><a  href="membership_plans.php">Membership Plans</a></li>
+                              <li><a href="advertise-with-us.php">Advertise  with  Us</a></li>
+                           </ul>
+                        </div>
+                     </div>
+                     <div class="page2-header2-div2">
+                        <div class="imagesec" style="width: 73%;margin-left: 1%;float: left;" >
+                           <img  src="images/people.png" style="width: 100%;"/>
+
+                        <p class="good_resp" style="margin-top: -25px"> Good Reasons to subscribe to <span><img src=" images/arlogo.png" style="width: 42px;height: 32px;"> ARABYOS  </span></p>
+                        </div>
+                              <?php
+                    $sql_testi3 = "select * from testimonials WHERE testi_type='supplier' and testi_status='1' order by rand() desc limit 1";
+                    $res_testi3 = mysqli_query($con, $sql_testi3);
+                    if (mysqli_num_rows($res_testi3) > 0) {
+
+                    ?>
+
+                        <div class="testimonialbox12">
+                           <div class="testimonialbg">
+                              <h2>Supplier Speaks  &nbsp;&nbsp; <img src="images/cir.png" width="25px"></h2>
+                                 <?php
+							 while($row_testi3 = mysqli_fetch_object($res_testi3))
+							 {
+							 ?>
+                              <div class="arrow_box">
+                                <p> <i><span>&ldquo;</span><?php echo stripslashes($row_testi3->testi_details); ?><span class="spacecomma">&rdquo;</span></i>
+                                    </p>
+                                 <!--<p> <i><span>&ldquo;</span>I am happy that I am a buyer member in ARABYOS , I could finally find my domestic and global requirement, it was great support to my business.<span class="spacecomma">&rdquo;</span></i>
+                                 </p>-->
+                              </div>
+                              <div class="clear"></div>
+                              <div class="testiwriter">
+                                 <div class="pic1"><img src="upload/testimonial_img/<?php echo $row_testi3->testi_image; ?>"  alt=""/></div>
+                                 <div class="pic-info">
+                                    <h5><?php echo $row_testi3->testi_name; ?></h5>
+                                    <p><a href="#"><?php echo get_country_name($row_testi3->testi_cn_id); ?></a></p>
+                                 </div>
+                              </div>
+                               <?php }?>
+                           </div>
+                        </div>
+                         <?php }?>
+                     </div>
+                  </div>
+		<div class="clear"></div>
+ 		  <div class="sections_page">
+                  <div class="section1_pager1">
+                  <p style="font-size: 22px;text-decoration: underline;margin-bottom: 14px; font-weight: bold">Key Strengths</p>
+                     <div class="section2_div1_pager1" >
+
+                        <div class="secdiv1">
+                           <div class="secdiv1_para1"><img src="images/calen.png"/></div>
+                           <div class="secdiv1_para2">
+                              <p id="h">Source & Supply Products/Services in domestic cities, Arab Countries & Worldwide<br/><br/>
+                                 <span> Powerful business platform enables suppliers to display their business products and services to their potential buyers in Arabs and global markets and allows genuine buyers to post their buying requests/auctions to select the best quotes / bidders for their offers and more .. </span>  </p>
+                           </div>
+                        </div>
+
+                        <div class="secdiv1">
+                           <div class="secdiv1_para1"><img src="images/largest.png"/></div>
+                           <div class="secdiv1_para2">
+                              <p id="h">Join Arabs and Global Manufacturers, Wholesalers, Exporters!<br/><br/>
+                                 <span> Join first emerging online Arabs marketplaces. Become the first supplier / buyer leader subscriber. Get the maximum privileges. Target more than 40 different Arabian and Global industries and trades and more ...</span>
+                              </p>
+                           </div>
+                        </div>
+ <div class="secdiv1">
+                           <div class="secdiv1_para1"><img src="images/globakl1.png"/></div>
+                           <div class="secdiv1_para2">
+                              <p id="h">Let your Business Targets Particular Cities, Countries & Global Locations<br/><br/>
+                                 <span>It is safe and simple trade solution to target specific countries & cities suppliers and buyers , as an easy platform to target specific domestic or global trade locations :
+ <ul style="list-style-type:square">
+ <li>Global Marketplaces</li>
+ 						  	<li>Arabian Countries Marketplaces</li>
+							  	<li>Domestic Countries Markets</li>
+							  	<li>Domestic Cities Markets</li>
+							  </ul>
+ </span>  </p>
+
+
+                           </div>
+                        </div>
+                         <div class="secdiv1">
+                           <div class="secdiv1_para1"><img src="images/searchk.png"/></div>
+                           <div class="secdiv1_para2">
+                              <p id="h">Find any Product/Service for your business in just a click away<br/><br/>
+                                 <span>In just one click, find any ( Products / Business Services / Suppliers / Buy requests / Tenders ) for your business requirements immediately in your domestic country or all over the globe markets!
+</span>  </p>
+<br/>
+                           </div>
+                        </div>
+                         <div class="secdiv1">
+                           <div class="secdiv1_para1"><img src="images/pyra.png"/></div>
+                           <div class="secdiv1_para2">
+
+                              <p id="h"> Get a Trust Verified Sign as a JUNIOR Member<br/><br/>
+
+                                 <span>Join FREE, become authenticated supplier to increase buyers' confidence, it is mainly FREE for leader suppliers while there may be some token administrative charges in few cases due to: 1. On Site Verification Cost 2. Product Edit Services.
+<br/>
+  <span style="color: black; font-weight: bold">Benefits of Verified:</span>
+    <ul style="list-style-type:square">
+		<li>Onsite Verified Sign report</li>
+		<li>Edge over non-certified competitors online</li>
+		<li>Certified members attract genuine buyers & more business enquiries</li>
+		<li>Credibility through Verified Sign</li>
+	</ul>
+
+</span>  </p>
+                           </div>
+                        </div>
+                         <div class="secdiv1">
+                           <div class="secdiv1_para1"><img src="images/sqr.png"/></div>
+                           <div class="secdiv1_para2">
+                              <p id="h">Become a SPONSOR Member. Get All Our Platform Privileges<br/><br/>
+                                 <span style="color: black; font-weight: bold"> Why you should take this service right now?
+                                 <ol type="1">
+                                                                        <li>Become Our Platform Leader Supplier Member</li>
+								 	<li>Unique Showcase as an Industry / Trade Leader</li>
+								 	<li>Get Top Priority Premium Listing</li>
+								 	<li>Exclusive access to Buy Leads/Tenders worth</li>
+								 	<li>Prestigious Sliders, Videos and Logo Image</li>
+								 	<li>Special exposure for sponsor member products</li>
+								 	<li>Link to the original company website</li>
+								 	<li>Premium Sponsor Supplier Sign</li>
+								 	<li> FREE e.mail Marketing </li>
+								 	<li> FREE  Advertising Banners </li>
+								 	<li>Product Posting Service</li>
+								 		<li> Premium Customized Unique Website / URL</li>
+								 		<li> Rank of Buyers to Find Your Products</li>
+								 		<li>  FREE  Trade Show Promotions</li>
+								 		<li> Target More Domestic & Global Buyers</li>
+								 		<li>  Post Unlimited Ads/Sell Offers    </li>
+								 							 </ol>
+
+
+
+
+
+ </span>  </p>
+                           </div>
+                        </div>
+                         <div class="secdiv1">
+                           <div class="secdiv1_para1"><img src="images/resp.png"/></div>
+                           <div class="secdiv1_para2">
+                              <p id="h">A Responsive Website to all Devices Sizes!<br/><br/>
+                                 <span> 360 degree visibility through all screens wide of mobiles,
+tablets and laptops to target all your business audiences.. 
+</span>  </p>
+                           </div>
+                        </div>
+                         <div class="secdiv1">
+                           <div class="secdiv1_para1"><img style="height:35px; width:50px;" src="images/free.png"/></div>
+                           <div class="secdiv1_para2">
+                              <p id="h"> FREE  Online Ads. Banners, Skyscrapers etc..<br/><br/>
+                                 <span><ul  style="list-style-type:square">
+									   	<li>Maximize your brand awareness</li>
+									   	<li>Connect with your business professionals</li>
+									   </ul>
+ </span>  </p>
+                           </div>
+                        </div>
+                         <div class="secdiv1">
+                           <div class="secdiv1_para1"><img src="images/publish.png"/></div>
+                           <div class="secdiv1_para2">
+                              <p id="h">Publish Tenders / Auctions FREE  & Set Alerts <br/><br/>
+                                 <span> Publish your Tenders / Auctions FREE and set categories to get latest Tenders ALERTS notifications to your mail inbox.
+</span>  </p>
+                           </div>
+                        </div>
+
+                          
+
+                     </div>
+
+                     <div class="section2_div2_pager1">
+
+            <div class="secdiv1">
+                           <div class="secdiv1_para1"><img src="images/sal.png"/></div>
+                           <div class="secdiv1_para2">
+                              <p id="h">Join The Online Business Growth At Latest Years!<br/><br/>
+                                 <span>  In the belief that the Internet would level the playing field. Join online B2B2C sales growth all over the world. At the latest years, buyers became more responding to the internet promotions & offers and gained online credibility. </span>  </p>
+                           </div>
+                        </div>
+                         <div class="secdiv1">
+                           <div class="secdiv1_para1"><img src="images/dynamic.png"/></div>
+                           <div class="secdiv1_para2">
+                              <p id="h">Get Online Supplier Dynamic Mini-website <br/><br/>
+                                 <span> Promote your business in a huge online presence. Make use for new channels to promote your business in domestic and global markets <br/>
+<span style="color: black; font-weight: bold">Benefits of Dynamic Mini- WebSite:</span>
+<ul style="list-style-type:square">
+	<li>Comprehensive overview of your business </li>
+	<li>Buyers find your business details at the click of a button</li>
+	<li>Zoom Up Window for a detailed product view</li>
+<li>Live showcase for your products/services enables buyers wholesale contacts. </li>
+</ul>
+
+</span>  </p>
+                           </div>
+                        </div>
+                         <div class="secdiv1">
+                           <div class="secdiv1_para1"><img src="images/support.png"/></div>
+                           <div class="secdiv1_para2">
+                              <p id="h">Get Access to Buyers Requests and Contacts <br/><br/>
+                                 <span> Get easy access to domestic and global buy requests in Arabs and Global markets as a Low cost business solution.  <br/>
+ <span style="color: black; font-weight: bold">Benefits of Buy Leads:</span>
+ <ul style="list-style-type:square">
+ 	<li>Safe storage of purchased buy leads history</li>
+ 	<li>Use your customer Buyers information database</li>
+ 	<li>Maintain your own customer contact list </li>
+ </ul>
+
+ </span>  </p>
+                           </div>
+                        </div>
+                         <div class="secdiv1">
+                           <div class="secdiv1_para1"><img src="images/product.png"/></div>
+                           <div class="secdiv1_para2">
+                              <p id="h">Business Showcase Catalog / Wholesale Contact<br/><br/>
+                                 <span><span style="color: black; font-weight: bold">Benefits of Showcase Catalog: </span>
+<ul style="list-style-type:square">
+<li>List your products / services to your showcase</li>
+<li>Product and potential buyers easy searching</li>
+<li>Company profile and product image zoom-ups</li>
+<li>Online URL easy business address </li>
+								 </ul>
+
+
+</span>  </p>
+                           </div>
+                        </div>
+                         <div class="secdiv1">
+                           <div class="secdiv1_para1"><img src="images/get.png"/></div>
+                           <div class="secdiv1_para2">
+                              <p id="h">Get latest Business Offers Notifications<br/><br/>
+                                 <span>Suppliers & Buyers can get latest updates for latest Products,Services, buy requests and Tenders in their email inbox according to their relevant selected products categories and to their selected location preferences as well.
+</span>  </p>
+                           </div>
+                        </div>
+                         <div class="secdiv1">
+                           <div class="secdiv1_para1"><img src="images/cir.png"></div>
+                           <div class="secdiv1_para2">
+                              <p id="h">Upgrade to a SENIOR Premium Supplier<br/><br/>
+                                 <span style="color: black; font-weight:bold">Why you should upgrade?
+                                 <ol type="1">
+								 	<li> Get a Higher Business Listing up to 100 </li>
+								 	<li> Get Full Access to Buy Leads / Tenders worth</li>
+								 	<li> Special High Rank Products Exposure</li>
+								 	<li> Company Mini-WebSite / New Online URL adress </li>
+								 	<li> Business Showcase/ Catalog</li>
+								 	<li> On Site Company Photos & Video</li>
+								 	<li> Premium SENIOR Supplier Sign</li>
+								 	<li> Private Client Service </li>
+                                                                        <li> FREE Business Newsletters and Site Ads </li>
+								 	<li> Trade Show Promotions </li>
+
+								 </ol>
+
+
+</span>  </p>
+                           </div>
+                        </div>
+                         <div class="secdiv1">
+                           <div class="secdiv1_para1"><img src="images/view.png"/></div>
+                           <div class="secdiv1_para2">
+                              <p id="h">Connect Business Partners & Get Daily Responses <br/><br/>
+                                 <span> Contact your suppliers or buyers and create daily successful interaction with Arabian & Global business professionals, receive daily responses into your account inbox.
+
+ </span>  </p>
+                           </div>
+                        </div> <div class="secdiv1">
+                           <div class="secdiv1_para1"><img src="images/company.png"/></div>
+                           <div class="secdiv1_para2">
+                              <p id="h">
+Effective Business Videos, PDF, Favorite Products!<br/><br/>
+                                 <span> 360 degree visibility through effective PDF / Mobile Video / Company Video / Favorite Products feature.</span>  </p>
+                           </div>
+                        </div> <div class="secdiv1">
+                           <div class="secdiv1_para1"><img src="images/email.png"/></div>
+                           <div class="secdiv1_para2">
+                              <p id="h">Get Benefits of Sending Marketing Newsletters by Category / Country <br/><br/>
+                                 <span> Make use of premium newsletters campaigns to target your wide audience clients. Target your audiences effectively by industry , by country and by category .. </span>  </p>
+                           </div>
+                        </div>
+                         <div class="secdiv1">
+                           <div class="secdiv1_para1"><img src="images/money.png"/></div>
+                           <div class="secdiv1_para2">
+                              <p id="h">Not Satisfied ? Money-back guarantee !<br/><br/>
+                                 <span>When you are not satisfied with getting any of our above mentioned premium membership privileges, we ensure serious money-back guarantee,that will be after studying  your sent complaint by our admins!.</span>  </p>
+                           </div>
+                        </div>
+                        <div class="secdiv1">
+                           <div class="secdiv1_para2">
+                             <div class="secdiv1_para2_img">
+                              <img src="images/team.png" style="width: 270px;height: 45px;">
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+<div class="clear"></div>
+<!--<div class="" style="float: right;">
+	<img src="images/team.png" >
+</div>-->
+                  </div>
+                 <div class="clear"></div>
+                  <hr  style="border-top: 1px solid black;"/>
+                  <div class="section2_page" >
+                     <div class="suit_your_requirments">
+                        <div class="section2_page_div11" >
+                           <h4>Feel free to order a membership plan in convenience with your business requirements:</h4>
+                           <p>Verified JUNIOR Membership is FREE  while there be some token adminstrative charges in few cases due to:<br/>
+                              1. On Site Verification Cost &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	2. Product Edit Services.
+                           </p>
+                        </div>
+
+
+
+                        <?php
+                    $sql_testi = "select * from testimonials WHERE testi_type='buyer' and testi_status='1' order by rand() desc limit 1";
+                    $res_testi = mysqli_query($con, $sql_testi);
+                    if (mysqli_num_rows($res_testi) > 0) {
+
+                    ?>
+                        <div class="testimonialbox12">
+                           <div class="testimonialbg">
+                              <h2>Buyer Speaks&nbsp;&nbsp; <img src="images/sqr.png" width="25px"></h2>
+                                 <?php while($row_testi = mysqli_fetch_object($res_testi)){?>
+
+
+                              <div class="arrow_box">
+                                <p> <i><span>&ldquo;</span><?php echo stripslashes($row_testi->testi_details); ?><span class="spacecomma">&rdquo;</span></i>
+                                    </p>
+                                 <!--<p> <i><span>&ldquo;</span>I am happy that I am a buyer member in ARABYOS , I could finally find my domestic and global requirement, it was great support to my business..<span class="spacecomma">&rdquo;</span></i>-->
+                                 </p>
+                              </div>
+                              <div class="clear"></div>
+                              <div class="testiwriter">
+                                 <div class="pic1"><img src="upload/testimonial_img/<?php echo $row_testi->testi_image; ?>" alt=""/>
+
+                                 <!--<img src="upload/testimonial_img/TESTIIMG-9637120x120.jpg" alt=""/>--></div>
+                                 <div class="pic-info">
+
+                                    <h5> <?php echo $row_testi->testi_name; ?>
+                                   <!-- Ebraham Khodair--></h5>
+                                    <p><a href="#"><?php echo get_country_name($row_testi->testi_cn_id); ?><!--Germany--></a></p>
+                                 </div>
+                              </div>
+                              <?php }?>
+                           </div>
+                        </div>
+                         <?php } ?>
+                     </div>
+
+                    <?php
+					 // GET membership details
+	   $sql = "SELECT * FROM `smembership_plan_arabyos` WHERE `mp_status` = 1";
+	   $membership_qry = mysqli_query($con, $sql) or die(mysql_error());
+$senior_id = 0;
+$senior_amount = 0.00;
+$sponsor_id = 0;
+$sponsor_amount = 0.00;
+$membership_plans_array = array();
+$count = 0;
+while($row = mysqli_fetch_object($membership_qry)){
+	if($count < 3){
+		if(strpos(strtolower($row->mst_name), 'senior') !== false) {
+		$senior_id = $row->mp_id;
+		$senior_amount = $row->mp_amount;
+		$row->mst_name = 'SENIOR';
+		}
+		if(strpos(strtolower($row->mst_name), 'sponsor') !== false || strpos(strtolower($row->mst_name), 'sponser') !== false) {
+		$sponsor_id = $row->mp_id;
+		$sponsor_amount = $row->mp_amount;
+		$row->mst_name = 'SPONSOR';
+		}
+		else if(strpos(strtolower($row->mst_name), 'junior') !== false || strpos(strtolower($row->mst_name), 'verified') !== false) {
+		$row->mst_name = 'JUNIOR  <span style="font-weight: normal; color: grey;">FREE 10 Products - Leader Suppliers !</span>';
+		}
+
+		array_push($membership_plans_array, $row);
+	}
+$count++;
+} ?>
+
+						 <div class="upgrader">
+                                    <div class="upgrade1">
+                                        <h4><img src="images/pyra.png"> JUNIOR<br/><span style="font-size: 16px;">Supplier Member</span></h4>
+                                        <p  class="upgradepara1">$00<span> &nbsp;/month</span></p>
+                                        <p  class="upgradepara2" >$00<span>&nbsp;/year</span></p>
+                                       <!-- <input type="submit"  class="Mbtn1" value="Join NOW">-->
+                                        <p  class="Mbtn1" >
+                                            <a href="<?php echo ($uid > 0) ? '#shift' : 'http://arabyos.com/create_account.php'; ?>" >Join NOW</a>
+                                        </p>
+                                    </div>
+                                    <div class="upgrade2" >
+                                        <img src="images/ribbon.png" style="left:27.2em;position: absolute;bottom: 16.3em;" />
+                                        <h4> <img src="images/cir.png" > SENIOR <br/><span  style="font-size: 19px;">Supplier Member</span></h4>
+                                        <p class="upgradepara3"> $<?php echo round($senior_amount / 12, 2); ?> /month<br/><a href="#best"><span>Request For Best Quote ??</span></a></p>
+                                        <p class="upgradepara4"> $ <?php echo round($senior_amount, 2); ?> /year<br/><a href="#best"><span>Request For Best Quote ??</span></a></p>
+                                   <!--<input type="submit"  class="Mbtn3" value="Upgrade">-->
+<?php if (getUserInfo($uid, 'usr_mp_id') == $senior_id) { ?>
+                                            <p  class="Mbtn3" ><a href="" onClick="event.preventDefault();alert('Kindly be noted that you are already a SENIOR member');">Upgrade</a></p>
+<?php } else { ?>
+                                            <p  class="Mbtn3" ><a href="annual_subscription.php?id=<?php echo rand(10000, 99999) . md5($senior_id); ?>" >Upgrade</a></p>
+                                        <?php } ?>
+                                    </div>
+                                    <div class="upgrade1">
+                                        <h4><img src="images/sqr.png"> SPONSOR<br/><span style="font-size: 16px;">Supplier Member</span></h4>
+                                        <p class="upgradepara1"> $275<span>&nbsp;/month</span></p>
+                                        <p  class="upgradepara2"  > $ 3000<span>&nbsp;/year</span></p>
+                                        <!--<input type="submit"  class="Mbtn2" value="Upgrade">-->
+							   <p  class="Mbtn2" ><a href="annual_subscription.php?id=<?php echo rand(10000,99999).md5($sponsor_id ); ?>" >Upgrade</a></p>
+							</div>
+						 </div>
+                    <div class="clear"></div>
+                     <div class="verification_process ">
+                        <h4>Verification Process</h4>
+                        <div class=" verification_process_div1">
+                           <p>Step 1:<br/> &nbsp;&nbsp;<span>Check with the local government to verify your company &nbsp;&nbsp;is legally registerd and is currently operational</span></p>
+                        </div>
+                        <div class=" verification_process_div2">
+                           <p >Step 2:<br/>&nbsp;&nbsp; <span>Check if your designated contact person is an emplyee and &nbsp;&nbsp; is authorized to represent your company on arabyos.com</span></p>
+                        </div>
+                     </div>
+
+                  </div>
+            <div class="clear"></div>
+                  <hr  style="border-top: 1px solid black;"/>
+                  <div class="section3_page">
+				   <form  action="" method="post" name="membership_form">
+                     <h4>Feel free to tell us your price requirements to get the best of our offers subscription :</h4>
+                     <p id="section2_p1" >Kindly contact ARABYOS team in below form, we will reply your message shortly  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span ><a href="membership_plans.php" style="color: blue; font-weight: normal; font-size: 15px"> Learn about membership plans >></a></span>
+                     </p>
+                     <p id="section2_p2" >Select Membership Plan :&nbsp;&nbsp;&nbsp;
+                       <span>
+							<?php
+							if(!empty($membership_plans_array)) {
+								if(!empty($membership_plan)) {
+									$membership_plan = explode(",", $membership_plan);
+								}
+								foreach ($membership_plans_array as $row) {
+									if(is_array($membership_plan)){
+									if(in_array($row->mp_id, $membership_plan)) {
+							?>
+								<input type="checkbox" name="membership_plan[]" checked="checked" value="<?php echo $row->mp_id; ?>"> &nbsp;<?php echo $row->mst_name; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<?php } else { ?>
+								<input type="checkbox" name="membership_plan[]" value="<?php echo $row->mp_id; ?>"> &nbsp;<?php echo $row->mst_name; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<?php } } else { ?>
+								<input type="checkbox" name="membership_plan[]" value="<?php echo $row->mp_id; ?>"> &nbsp;<?php echo $row->mst_name; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<?php }} } ?></span>
+                     </p>
+                     <div class="membership_form" style="width: 77%;float: left; margin-bottom:30px">
+
+						
+                        <div class="bag" id="shift">
+                           <label> Company Name (required)</label></label><br>
+                           <input type="text" class="mtxtbx" name="cname"  id="cname" value="<?php echo $cname; ?>" required><br>
+                           <label> Name (required)</label><br>
+                           <input type="text" class="mtxtbx" name="fullname" id="fullname"  value="<?php echo $fullname; ?>" required><br/>
+                           <label>Email (required)</label><br>
+                           <input type="text" class="mtxtbx" name="email" id="email"  value="<?php echo $email; ?>" required><br>
+                           <label>Mobile (required)</label><br>
+                           <input type="text"  class="mtxtbx" name="mobile" id="mobile"  value="<?php echo $mobile; ?>"required><br/>
+                           <label> Country (required)</label><br>
+                           <input type="text"  class="mtxtbx" name="country" id="country" value="<?php echo $country; ?>" required><br>
+                           <label> City (required)</label><br>
+                           <input type="text" class="mtxtbx" name="city" id="city" value="<?php echo $city; ?>"  required><br/>
+                           <label> Address</label> <br>
+                           <input type="text"class="mtxtbx" name="address" id="address"  value="<?php echo $address; ?>"><br>
+                           <label> Requirements (required</label>)<br>
+                           <textarea rows="5" cols="5" name="requirement" id="requirement"  class="mtxtArea" required><?php echo $requirement; ?></textarea>
+                           <br/><br/>
+                           </div><br/>
+                           <input type="submit"   name="Mb_Submit" class="Mbtn" value="Submit your Request Now">
+
+                        <br/>
+                     </div>
+					 <div id="msg" style="width:65%;font-size:16px;"><?php echo $msg; ?></div>
+					 <?php
+		  if($msg != '' && $from == 0){
+		echo '<script>
+		jQuery(document).ready(function(){
+		jQuery("html,body").animate({ scrollTop: jQuery	(".Mbtn").offset().top}, "fast");
+		});
+		</script>';
+	} ?>
+                     <div class="wrmap" style="width: 23%; float: right; padding-left: 49px;">
+                       <img src="images/wrmap.png" style="    width: 229px;    height: 130px;    margin-top: 27px;" />
+                        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+
+                         <img src="images/shaik.png" style="padding-left: 16px;" />
+                     </div>
+					   </form>
+                  </div>
+</div>
+               </div>
+            </div>
+            <!-- End of contentpage // -->
+         </div>
+      </div>
+
+      <!-- End of middlesection // -->
+      <!-- End of wrapper // -->
+
+<!-- footer start -->
+
+<?php include('includes/footer.php'); ?>

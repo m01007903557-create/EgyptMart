@@ -1,0 +1,363 @@
+Date: 2016-09-06<br/>payment_status: Pending<br/>amount: 3.00<br/>txn_id: 96970382UV5760026<br/>scustom: 79||6<br/>update user
+		set
+			usr_credit='-40',
+			usr_mp_id='6'
+		where
+			usr_id='79'insert into billing_history
+		set 
+			bh_type = '1',
+			bh_usr_id = '79',
+			bh_from = 'Paypal',
+			bh_txn_id = '96970382UV5760026',
+			bh_amount = '3.00',
+			bh_currency_code = 'USD',
+			bh_credit_purchased = '20',
+			bh_user_balance = '-40',
+			bh_updated_date = now()Date: 2016-09-06<br/>payment_status: Pending<br/>amount: 3.00<br/>txn_id: 11284644DH177773W<br/>scustom: 2381||6<br/>update user
+		set
+			usr_credit='60',
+			usr_mp_id='6'
+		where
+			usr_id='2381'insert into billing_history
+		set 
+			bh_type = '1',
+			bh_usr_id = '2381',
+			bh_from = 'Paypal',
+			bh_txn_id = '11284644DH177773W',
+			bh_amount = '3.00',
+			bh_currency_code = 'USD',
+			bh_credit_purchased = '20',
+			bh_user_balance = '60',
+			bh_updated_date = now()Date: 2016-12-30<br/>payment_status: Pending<br/>amount: 3.00<br/>txn_id: 85B829461S1736104<br/>scustom: 2405||6<br/>update user
+		set
+			usr_credit='20',
+			usr_mp_id='6'
+		where
+			usr_id='2405'insert into billing_history
+		set 
+			bh_type = '1',
+			bh_usr_id = '2405',
+			bh_from = 'Paypal',
+			bh_txn_id = '85B829461S1736104',
+			bh_amount = '3.00',
+			bh_currency_code = 'USD',
+			bh_credit_purchased = '20',
+			bh_user_balance = '20',
+			bh_updated_date = now()<div class="b9_m2 b10_m2" id="detable">
+  <table class="lh2_m2" border="0" width="100%" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr class="f5_m2">
+        <td class="sh_m2">
+          <span style="width:750px;word-wrap:break-word;" id="wbr">
+            <div style="width: 90%;height: auto;border: 10px solid #92AED2;float: left;padding: 10px;margin-top:10px;">
+              <div style="height: 100px; width: 100%; float: left; ">
+                  <div style="height: 100px; width: 30%; float: left;">
+                      <img style="width: 100%;color: #00F;font-size: 22px;font-weight: bold;" alt="ARABYOS" src="http://arabyos.com/images/logo.png"/>
+                  </div>
+                  <div style="height:100px;width:43%;float:left;">
+                      <h2 style="font-size: 20px; color:#466da0; text-align: center; margin-top:0px; margin-bottom:0px;">Today's Latest<br> Credits Purchase Status
+                      </h2>
+                  </div>
+                  <div style="min-height: 100px; width: 27%; float: right; padding-top: 3px;">
+                      <span style="font-size: 15px; float: right; padding-bottom: 0px; clear: both; font-weight: bold;color:#000000;">Notification</span>
+                      <span style="float: right; font-size: 13px; padding-top: 0px; clear: both;color:#000000;">2016/12/30</span>
+                  </div>
+              </div>
+              <div style="width:100%;float:left;color:#000000;">
+                  <p style="font-size:16px;color:#000000"><strong>Dear Mrs. Riyalin Henry,</strong>
+              </p></div>
+              <div style="max-width:575px;line-height:18px;font-size:12px;font-family:Arial,Helvetica,sans-serif">
+                <p style="font-size:12px;margin:0;padding:.5em 0 0.5em;line-height:1.4em;text-align:left"><strong>Thanks!</strong>
+				Your online payment has been processed.
+                </p>
+				<p style="font-size:1.4em;margin:0;padding:.5em 0 0.5em;line-height:1.4em;text-align:center">
+                  <b><span style="color: blue">Please Check <a href="http://arabyos.com/transaction_history.php">Transaction History</a></span></b>
+                </p> 
+                <p style="line-height:1.5em;text-align:left;font-size:1.2em;background-color:#eaeaea;margin:0;font-family:Arial,Helvetica,sans-serif;font-weight:bold;padding:.4em .4em .4em">Your Transaction Details:</p>
+              <div style="width: 1000px; line-height:1.5em;font-size:12px;font-family:Arial,Helvetica,sans-serif;padding:0.5em 0 0.9em 1em">
+			  <p style="color:#000;font-size: 14px; line-height:22px; margin-top:0px; margin-bottom:0px; font-family: HelveticaNeue, sans-serif;" align="left"><label style="font-weight:bold;">Transaction Status:</label> PROCESSED</p>
+			   <p style="color:#000;font-size: 14px; line-height:22px; margin-top:0px; margin-bottom:0px; font-family: HelveticaNeue, sans-serif;" align="left"><label style="font-weight:bold;">Date:</label> 30-Dec-2016 15:12 IST</p>
+			  <p style="color:#000;font-size: 14px; line-height:22px; margin-top:0px; margin-bottom:0px; font-family: HelveticaNeue, sans-serif;" align="left"><label style="font-weight:bold;">Order Id:</label> 120</p>		  
+			  
+			  <p style="color:#000;font-size: 14px; line-height:22px; margin-top:0px; margin-bottom:0px; font-family: HelveticaNeue, sans-serif;" align="left"><label style="font-weight:bold;"> Amount:</label> 3.00</p>
+			  <p style="color:#000;font-size: 14px; line-height:22px; margin-top:0px; margin-bottom:0px; font-family: HelveticaNeue, sans-serif;" align="left"><label style="font-weight:bold;">Credits:</label> 20</p>			                                         
+              </div>
+              <div style="clear:both">
+                                                            
+              </div>
+             
+				<br>
+				<div style="clear:both">
+					<p style="line-height:1.5em;text-align:left;font-size:1.2em;background-color:#eaeaea;margin:0;font-family:Arial,Helvetica,sans-serif;font-weight:bold;padding:.4em .4em .4em">You can Reply :<a href="http://arabyos.com/my-enquiries.php" style="float: right">Reply NOW</a></p>
+				</div>
+                                                        <br>
+  <span style="color:rgb(171,172,172);font-size:11px">You are receiving this mailer as a registered member of <span style="color:blue">ARABYOS</span>.</span>
+              </div>
+              <div style="height:2px;width:100%;float:left;border-bottom: 3px dotted #D8AED8;">
+
+              </div>
+              <div style="width:100%;float:left;text-align:center;padding-top: 10px;padding-bottom: 10px;">
+                  <a href="http://arabyos.com/dir.php" style="color:#466da0;text-decoration:none;font-size:18px;font-weight:bold;">Product &amp; Suppliers</a> | <a href="http://arabyos.com/sale-offers.php" style="color:#466da0;text-decoration:none;font-size:18px;font-weight:bold;">Sale Offers</a> | <a href="http://arabyos.com/buyleads.php" style="color:#466da0;text-decoration:none;font-size:18px;font-weight:bold;">Buy Requests</a> | <a href="http://arabyos.com/tenders.php" style="color:#466da0;text-decoration:none;font-size:18px;font-weight:bold;">Tenders</a>| <a href="http://arabyos.com/auctions.php" style="color:#466da0;text-decoration:none;font-size:18px;font-weight:bold;">Auction</a>
+              </div>
+              <div style="width:100%;padding-left: 0px;float:left;color:#808080;"><p style="margin:10px 0px 2px">You have recived this mail virtue of your opt-in subscription for  Membership Plan on <font style="color:blue;">ARABYOS</font>.</p>
+              </div>
+			  <div style="width:100%;padding-left: 0px;float:left;color:#808080;"><p style="margin:10px 0px 2px;font-size:12px;">For any assistance, feel free to call us at +201220974444 or just reply to this mail.<br/><a href="mailto:Buyleads@ARABYOS.com">mailto:Buyleads@ARABYOS.com</a></p>
+              </div><br/><br/>
+			  <div style="width:100%;padding-left: 0px;text-align:center;color:#808080;"><p style="margin:10px 0px 2px;font-size:12px;">Thanks for choosing <b><span style="color: blue">ARABYOS</span></b> as your business platform,<br/>Buy leads Helpdesk<br/>ARABYOS.com</p>
+              </div>
+            </div>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>Date: 2016-12-30<br/>payment_status: Pending<br/>amount: 3.00<br/>txn_id: 2AE9250924681435A<br/>scustom: 2405||6<br/>update user
+		set
+			usr_credit='40',
+			usr_mp_id='6'
+		where
+			usr_id='2405'insert into billing_history
+		set 
+			bh_type = '1',
+			bh_usr_id = '2405',
+			bh_from = 'Paypal',
+			bh_txn_id = '2AE9250924681435A',
+			bh_amount = '3.00',
+			bh_currency_code = 'USD',
+			bh_credit_purchased = '20',
+			bh_user_balance = '40',
+			bh_updated_date = now()<div class="b9_m2 b10_m2" id="detable">
+  <table class="lh2_m2" border="0" width="100%" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr class="f5_m2">
+        <td class="sh_m2">
+          <span style="width:750px;word-wrap:break-word;" id="wbr">
+            <div style="width: 90%;height: auto;border: 10px solid #92AED2;float: left;padding: 10px;margin-top:10px;">
+              <div style="height: 100px; width: 100%; float: left; ">
+                  <div style="height: 100px; width: 30%; float: left;">
+                      <img style="width: 100%;color: #00F;font-size: 22px;font-weight: bold;" alt="ARABYOS" src="http://arabyos.com/images/logo.png"/>
+                  </div>
+                  <div style="height:100px;width:43%;float:left;">
+                      <h2 style="font-size: 20px; color:#466da0; text-align: center; margin-top:0px; margin-bottom:0px;">Today's Latest<br> Credits Purchase Status
+                      </h2>
+                  </div>
+                  <div style="min-height: 100px; width: 27%; float: right; padding-top: 3px;">
+                      <span style="font-size: 15px; float: right; padding-bottom: 0px; clear: both; font-weight: bold;color:#000000;">Notification</span>
+                      <span style="float: right; font-size: 13px; padding-top: 0px; clear: both;color:#000000;">2016/12/30</span>
+                  </div>
+              </div>
+              <div style="width:100%;float:left;color:#000000;">
+                  <p style="font-size:16px;color:#000000"><strong>Dear Mrs. Riyalin Henry,</strong>
+              </p></div>
+              <div style="max-width:575px;line-height:18px;font-size:12px;font-family:Arial,Helvetica,sans-serif">
+                <p style="font-size:12px;margin:0;padding:.5em 0 0.5em;line-height:1.4em;text-align:left"><strong>Thanks!</strong>
+				Your online payment has been processed.
+                </p>
+				<p style="font-size:1.4em;margin:0;padding:.5em 0 0.5em;line-height:1.4em;text-align:center">
+                  <b><span style="color: blue">Please Check <a href="http://arabyos.com/transaction_history.php">Transaction History</a></span></b>
+                </p> 
+                <p style="line-height:1.5em;text-align:left;font-size:1.2em;background-color:#eaeaea;margin:0;font-family:Arial,Helvetica,sans-serif;font-weight:bold;padding:.4em .4em .4em">Your Transaction Details:</p>
+              <div style="width: 1000px; line-height:1.5em;font-size:12px;font-family:Arial,Helvetica,sans-serif;padding:0.5em 0 0.9em 1em">
+			  <p style="color:#000;font-size: 14px; line-height:22px; margin-top:0px; margin-bottom:0px; font-family: HelveticaNeue, sans-serif;" align="left"><label style="font-weight:bold;">Transaction Status:</label> PROCESSED</p>
+			   <p style="color:#000;font-size: 14px; line-height:22px; margin-top:0px; margin-bottom:0px; font-family: HelveticaNeue, sans-serif;" align="left"><label style="font-weight:bold;">Date:</label> 30-Dec-2016 15:20 IST</p>
+			  <p style="color:#000;font-size: 14px; line-height:22px; margin-top:0px; margin-bottom:0px; font-family: HelveticaNeue, sans-serif;" align="left"><label style="font-weight:bold;">Order Id:</label> 121</p>		  
+			  
+			  <p style="color:#000;font-size: 14px; line-height:22px; margin-top:0px; margin-bottom:0px; font-family: HelveticaNeue, sans-serif;" align="left"><label style="font-weight:bold;"> Amount:</label> 3.00</p>
+			  <p style="color:#000;font-size: 14px; line-height:22px; margin-top:0px; margin-bottom:0px; font-family: HelveticaNeue, sans-serif;" align="left"><label style="font-weight:bold;">Credits:</label> 20</p>			                                         
+              </div>
+              <div style="clear:both">
+                                                            
+              </div>
+             
+				<br>
+				<div style="clear:both">
+					<p style="line-height:1.5em;text-align:left;font-size:1.2em;background-color:#eaeaea;margin:0;font-family:Arial,Helvetica,sans-serif;font-weight:bold;padding:.4em .4em .4em">You can Reply :<a href="http://arabyos.com/my-enquiries.php" style="float: right">Reply NOW</a></p>
+				</div>
+                                                        <br>
+  <span style="color:rgb(171,172,172);font-size:11px">You are receiving this mailer as a registered member of <span style="color:blue">ARABYOS</span>.</span>
+              </div>
+              <div style="height:2px;width:100%;float:left;border-bottom: 3px dotted #D8AED8;">
+
+              </div>
+              <div style="width:100%;float:left;text-align:center;padding-top: 10px;padding-bottom: 10px;">
+                  <a href="http://arabyos.com/dir.php" style="color:#466da0;text-decoration:none;font-size:18px;font-weight:bold;">Product &amp; Suppliers</a> | <a href="http://arabyos.com/sale-offers.php" style="color:#466da0;text-decoration:none;font-size:18px;font-weight:bold;">Sale Offers</a> | <a href="http://arabyos.com/buyleads.php" style="color:#466da0;text-decoration:none;font-size:18px;font-weight:bold;">Buy Requests</a> | <a href="http://arabyos.com/tenders.php" style="color:#466da0;text-decoration:none;font-size:18px;font-weight:bold;">Tenders</a>| <a href="http://arabyos.com/auctions.php" style="color:#466da0;text-decoration:none;font-size:18px;font-weight:bold;">Auction</a>
+              </div>
+              <div style="width:100%;padding-left: 0px;float:left;color:#808080;"><p style="margin:10px 0px 2px">You have recived this mail virtue of your opt-in subscription for  Membership Plan on <font style="color:blue;">ARABYOS</font>.</p>
+              </div>
+			  <div style="width:100%;padding-left: 0px;float:left;color:#808080;"><p style="margin:10px 0px 2px;font-size:12px;">For any assistance, feel free to call us at +201220974444 or just reply to this mail.<br/><a href="mailto:Buyleads@ARABYOS.com">mailto:Buyleads@ARABYOS.com</a></p>
+              </div><br/><br/>
+			  <div style="width:100%;padding-left: 0px;text-align:center;color:#808080;"><p style="margin:10px 0px 2px;font-size:12px;">Thanks for choosing <b><span style="color: blue">ARABYOS</span></b> as your business platform,<br/>Buy leads Helpdesk<br/>ARABYOS.com</p>
+              </div>
+            </div>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>Date: 2016-12-30<br/>payment_status: Pending<br/>amount: 3.00<br/>txn_id: 2AE9250924681435A<br/>scustom: 2405||6<br/>update user
+		set
+			usr_credit='60',
+			usr_mp_id='6'
+		where
+			usr_id='2405'insert into billing_history
+		set 
+			bh_type = '1',
+			bh_usr_id = '2405',
+			bh_from = 'Paypal',
+			bh_txn_id = '2AE9250924681435A',
+			bh_amount = '3.00',
+			bh_currency_code = 'USD',
+			bh_credit_purchased = '20',
+			bh_user_balance = '60',
+			bh_updated_date = now()<div class="b9_m2 b10_m2" id="detable">
+  <table class="lh2_m2" border="0" width="100%" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr class="f5_m2">
+        <td class="sh_m2">
+          <span style="width:750px;word-wrap:break-word;" id="wbr">
+            <div style="width: 90%;height: auto;border: 10px solid #92AED2;float: left;padding: 10px;margin-top:10px;">
+              <div style="height: 100px; width: 100%; float: left; ">
+                  <div style="height: 100px; width: 30%; float: left;">
+                      <img style="width: 100%;color: #00F;font-size: 22px;font-weight: bold;" alt="ARABYOS" src="http://arabyos.com/images/logo.png"/>
+                  </div>
+                  <div style="height:100px;width:43%;float:left;">
+                      <h2 style="font-size: 20px; color:#466da0; text-align: center; margin-top:0px; margin-bottom:0px;">Today's Latest<br> Credits Purchase Status
+                      </h2>
+                  </div>
+                  <div style="min-height: 100px; width: 27%; float: right; padding-top: 3px;">
+                      <span style="font-size: 15px; float: right; padding-bottom: 0px; clear: both; font-weight: bold;color:#000000;">Notification</span>
+                      <span style="float: right; font-size: 13px; padding-top: 0px; clear: both;color:#000000;">2016/12/30</span>
+                  </div>
+              </div>
+              <div style="width:100%;float:left;color:#000000;">
+                  <p style="font-size:16px;color:#000000"><strong>Dear Mrs. Riyalin Henry,</strong>
+              </p></div>
+              <div style="max-width:575px;line-height:18px;font-size:12px;font-family:Arial,Helvetica,sans-serif">
+                <p style="font-size:12px;margin:0;padding:.5em 0 0.5em;line-height:1.4em;text-align:left"><strong>Thanks!</strong>
+				Your online payment has been processed.
+                </p>
+				<p style="font-size:1.4em;margin:0;padding:.5em 0 0.5em;line-height:1.4em;text-align:center">
+                  <b><span style="color: blue">Please Check <a href="http://arabyos.com/transaction_history.php">Transaction History</a></span></b>
+                </p> 
+                <p style="line-height:1.5em;text-align:left;font-size:1.2em;background-color:#eaeaea;margin:0;font-family:Arial,Helvetica,sans-serif;font-weight:bold;padding:.4em .4em .4em">Your Transaction Details:</p>
+              <div style="width: 1000px; line-height:1.5em;font-size:12px;font-family:Arial,Helvetica,sans-serif;padding:0.5em 0 0.9em 1em">
+			  <p style="color:#000;font-size: 14px; line-height:22px; margin-top:0px; margin-bottom:0px; font-family: HelveticaNeue, sans-serif;" align="left"><label style="font-weight:bold;">Transaction Status:</label> PROCESSED</p>
+			   <p style="color:#000;font-size: 14px; line-height:22px; margin-top:0px; margin-bottom:0px; font-family: HelveticaNeue, sans-serif;" align="left"><label style="font-weight:bold;">Date:</label> 30-Dec-2016 15:21 IST</p>
+			  <p style="color:#000;font-size: 14px; line-height:22px; margin-top:0px; margin-bottom:0px; font-family: HelveticaNeue, sans-serif;" align="left"><label style="font-weight:bold;">Order Id:</label> 122</p>		  
+			  
+			  <p style="color:#000;font-size: 14px; line-height:22px; margin-top:0px; margin-bottom:0px; font-family: HelveticaNeue, sans-serif;" align="left"><label style="font-weight:bold;"> Amount:</label> 3.00</p>
+			  <p style="color:#000;font-size: 14px; line-height:22px; margin-top:0px; margin-bottom:0px; font-family: HelveticaNeue, sans-serif;" align="left"><label style="font-weight:bold;">Credits:</label> 20</p>			                                         
+              </div>
+              <div style="clear:both">
+                                                            
+              </div>
+             
+				<br>
+				<div style="clear:both">
+					<p style="line-height:1.5em;text-align:left;font-size:1.2em;background-color:#eaeaea;margin:0;font-family:Arial,Helvetica,sans-serif;font-weight:bold;padding:.4em .4em .4em">You can Reply :<a href="http://arabyos.com/my-enquiries.php" style="float: right">Reply NOW</a></p>
+				</div>
+                                                        <br>
+  <span style="color:rgb(171,172,172);font-size:11px">You are receiving this mailer as a registered member of <span style="color:blue">ARABYOS</span>.</span>
+              </div>
+              <div style="height:2px;width:100%;float:left;border-bottom: 3px dotted #D8AED8;">
+
+              </div>
+              <div style="width:100%;float:left;text-align:center;padding-top: 10px;padding-bottom: 10px;">
+                  <a href="http://arabyos.com/dir.php" style="color:#466da0;text-decoration:none;font-size:18px;font-weight:bold;">Product &amp; Suppliers</a> | <a href="http://arabyos.com/sale-offers.php" style="color:#466da0;text-decoration:none;font-size:18px;font-weight:bold;">Sale Offers</a> | <a href="http://arabyos.com/buyleads.php" style="color:#466da0;text-decoration:none;font-size:18px;font-weight:bold;">Buy Requests</a> | <a href="http://arabyos.com/tenders.php" style="color:#466da0;text-decoration:none;font-size:18px;font-weight:bold;">Tenders</a>| <a href="http://arabyos.com/auctions.php" style="color:#466da0;text-decoration:none;font-size:18px;font-weight:bold;">Auction</a>
+              </div>
+              <div style="width:100%;padding-left: 0px;float:left;color:#808080;"><p style="margin:10px 0px 2px">You have recived this mail virtue of your opt-in subscription for  Membership Plan on <font style="color:blue;">ARABYOS</font>.</p>
+              </div>
+			  <div style="width:100%;padding-left: 0px;float:left;color:#808080;"><p style="margin:10px 0px 2px;font-size:12px;">For any assistance, feel free to call us at +201220974444 or just reply to this mail.<br/><a href="mailto:Buyleads@ARABYOS.com">mailto:Buyleads@ARABYOS.com</a></p>
+              </div><br/><br/>
+			  <div style="width:100%;padding-left: 0px;text-align:center;color:#808080;"><p style="margin:10px 0px 2px;font-size:12px;">Thanks for choosing <b><span style="color: blue">ARABYOS</span></b> as your business platform,<br/>Buy leads Helpdesk<br/>ARABYOS.com</p>
+              </div>
+            </div>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>Date: 2016-12-30<br/>payment_status: Pending<br/>amount: 3.00<br/>txn_id: 9E9197963P6318525<br/>scustom: 2405||6<br/>update user
+		set
+			usr_credit='80',
+			usr_mp_id='6'
+		where
+			usr_id='2405'insert into billing_history
+		set 
+			bh_type = '1',
+			bh_usr_id = '2405',
+			bh_from = 'Paypal',
+			bh_txn_id = '9E9197963P6318525',
+			bh_amount = '3.00',
+			bh_currency_code = 'USD',
+			bh_credit_purchased = '20',
+			bh_user_balance = '80',
+			bh_updated_date = now()<div class="b9_m2 b10_m2" id="detable">
+  <table class="lh2_m2" border="0" width="100%" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr class="f5_m2">
+        <td class="sh_m2">
+          <span style="width:750px;word-wrap:break-word;" id="wbr">
+            <div style="width: 90%;height: auto;border: 10px solid #92AED2;float: left;padding: 10px;margin-top:10px;">
+              <div style="height: 100px; width: 100%; float: left; ">
+                  <div style="height: 100px; width: 30%; float: left;">
+                      <img style="width: 100%;color: #00F;font-size: 22px;font-weight: bold;" alt="ARABYOS" src="http://arabyos.com/images/logo.png"/>
+                  </div>
+                  <div style="height:100px;width:43%;float:left;">
+                      <h2 style="font-size: 20px; color:#466da0; text-align: center; margin-top:0px; margin-bottom:0px;">Today's Latest<br> Credits Purchase Status
+                      </h2>
+                  </div>
+                  <div style="min-height: 100px; width: 27%; float: right; padding-top: 3px;">
+                      <span style="font-size: 15px; float: right; padding-bottom: 0px; clear: both; font-weight: bold;color:#000000;">Notification</span>
+                      <span style="float: right; font-size: 13px; padding-top: 0px; clear: both;color:#000000;">2016/12/30</span>
+                  </div>
+              </div>
+              <div style="width:100%;float:left;color:#000000;">
+                  <p style="font-size:16px;color:#000000"><strong>Dear Mrs. Riyalin Henry,</strong>
+              </p></div>
+              <div style="max-width:575px;line-height:18px;font-size:12px;font-family:Arial,Helvetica,sans-serif">
+                <p style="font-size:12px;margin:0;padding:.5em 0 0.5em;line-height:1.4em;text-align:left"><strong>Thanks!</strong>
+				Your online payment has been processed.
+                </p>
+				<p style="font-size:1.4em;margin:0;padding:.5em 0 0.5em;line-height:1.4em;text-align:center">
+                  <b><span style="color: blue">Please Check <a href="http://arabyos.com/transaction_history.php">Transaction History</a></span></b>
+                </p> 
+                <p style="line-height:1.5em;text-align:left;font-size:1.2em;background-color:#eaeaea;margin:0;font-family:Arial,Helvetica,sans-serif;font-weight:bold;padding:.4em .4em .4em">Your Transaction Details:</p>
+              <div style="width: 1000px; line-height:1.5em;font-size:12px;font-family:Arial,Helvetica,sans-serif;padding:0.5em 0 0.9em 1em">
+			  <p style="color:#000;font-size: 14px; line-height:22px; margin-top:0px; margin-bottom:0px; font-family: HelveticaNeue, sans-serif;" align="left"><label style="font-weight:bold;">Transaction Status:</label> PROCESSED</p>
+			   <p style="color:#000;font-size: 14px; line-height:22px; margin-top:0px; margin-bottom:0px; font-family: HelveticaNeue, sans-serif;" align="left"><label style="font-weight:bold;">Date:</label> 30-Dec-2016 15:34 IST</p>
+			  <p style="color:#000;font-size: 14px; line-height:22px; margin-top:0px; margin-bottom:0px; font-family: HelveticaNeue, sans-serif;" align="left"><label style="font-weight:bold;">Order Id:</label> 123</p>		  
+			  
+			  <p style="color:#000;font-size: 14px; line-height:22px; margin-top:0px; margin-bottom:0px; font-family: HelveticaNeue, sans-serif;" align="left"><label style="font-weight:bold;"> Amount:</label> 3.00</p>
+			  <p style="color:#000;font-size: 14px; line-height:22px; margin-top:0px; margin-bottom:0px; font-family: HelveticaNeue, sans-serif;" align="left"><label style="font-weight:bold;">Credits:</label> 20</p>			                                         
+              </div>
+              <div style="clear:both">
+                                                            
+              </div>
+             
+				<br>
+				<div style="clear:both">
+					<p style="line-height:1.5em;text-align:left;font-size:1.2em;background-color:#eaeaea;margin:0;font-family:Arial,Helvetica,sans-serif;font-weight:bold;padding:.4em .4em .4em">You can Reply :<a href="http://arabyos.com/my-enquiries.php" style="float: right">Reply NOW</a></p>
+				</div>
+                                                        <br>
+  <span style="color:rgb(171,172,172);font-size:11px">You are receiving this mailer as a registered member of <span style="color:blue">ARABYOS</span>.</span>
+              </div>
+              <div style="height:2px;width:100%;float:left;border-bottom: 3px dotted #D8AED8;">
+
+              </div>
+              <div style="width:100%;float:left;text-align:center;padding-top: 10px;padding-bottom: 10px;">
+                  <a href="http://arabyos.com/dir.php" style="color:#466da0;text-decoration:none;font-size:18px;font-weight:bold;">Product &amp; Suppliers</a> | <a href="http://arabyos.com/sale-offers.php" style="color:#466da0;text-decoration:none;font-size:18px;font-weight:bold;">Sale Offers</a> | <a href="http://arabyos.com/buyleads.php" style="color:#466da0;text-decoration:none;font-size:18px;font-weight:bold;">Buy Requests</a> | <a href="http://arabyos.com/tenders.php" style="color:#466da0;text-decoration:none;font-size:18px;font-weight:bold;">Tenders</a>| <a href="http://arabyos.com/auctions.php" style="color:#466da0;text-decoration:none;font-size:18px;font-weight:bold;">Auction</a>
+              </div>
+              <div style="width:100%;padding-left: 0px;float:left;color:#808080;"><p style="margin:10px 0px 2px">You have recived this mail virtue of your opt-in subscription for  Membership Plan on <font style="color:blue;">ARABYOS</font>.</p>
+              </div>
+			  <div style="width:100%;padding-left: 0px;float:left;color:#808080;"><p style="margin:10px 0px 2px;font-size:12px;">For any assistance, feel free to call us at +201220974444 or just reply to this mail.<br/><a href="mailto:Buyleads@ARABYOS.com">mailto:Buyleads@ARABYOS.com</a></p>
+              </div><br/><br/>
+			  <div style="width:100%;padding-left: 0px;text-align:center;color:#808080;"><p style="margin:10px 0px 2px;font-size:12px;">Thanks for choosing <b><span style="color: blue">ARABYOS</span></b> as your business platform,<br/>Buy leads Helpdesk<br/>ARABYOS.com</p>
+              </div>
+            </div>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

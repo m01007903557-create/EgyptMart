@@ -1,0 +1,138 @@
+/* New work */
+* {
+    box-sizing: border-box;
+}
+
+.oval-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+    min-height: 46px !important;
+    max-width: 100% !important;
+    padding: 10px 24px !important;
+    /* margin: auto !important; */
+    border-radius: 50px !important;
+    text-decoration: none !important;
+    line-height: 1.35 !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    text-align: center !important;
+    cursor: pointer !important;
+    transition: all .25s ease !important;
+}
+
+.btns-group {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.btns-group .oval-btn {
+    flex: 0 1 auto;
+    max-width: 100%;
+}
+
+.whatsapp-btn {
+    background: #fff !important;
+    color: #008000 !important;
+    border: 1px solid #267abf !important;
+}
+
+.mail-btn {
+    background: #008000 !important;
+    color: #fff !important;
+    border: 1px solid #267abf !important;
+}
+
+.oval-btn:hover {
+    opacity: .9 !important;
+    text-decoration: none !important;
+}
+
+.whatsapp-btn:hover {
+    background: #f7f7f7 !important;
+    color: #008000 !important;
+}
+
+.mail-btn:hover {
+    background: #007300 !important;
+    color: #fff !important;
+}
+
+.oval-btn i,
+.oval-btn .fa,
+.oval-btn .fas,
+.oval-btn .fab {
+    margin-right: 7px !important;
+    font-size: 17px !important;
+}
+
+.oval-buttons-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    width: 100% !important;
+    margin-top: 15px !important;
+}
+
+/* Laptop - 1440px */
+@media screen and (max-width: 1599px) {
+   
+}
+
+/* Laptop - 1024px */
+@media screen and (max-width: 1199px) {
+   
+}
+
+/* Tablet - 768px */
+@media screen and (max-width: 777px) {
+
+    .oval-btn {
+        min-height: 46px !important;
+        padding: 9px 20px !important;
+        font-size: 15px !important;
+    }
+
+    .oval-buttons-wrapper {
+        gap: 7px !important;
+        margin-top: 16px !important;
+    }
+
+}
+
+
+/* Mobile */
+@media screen and (max-width: 575px) {
+    .oval-btn {
+        min-height: 48px !important;
+        padding: 8px 18px !important;
+        /* margin-top: 18px !important; */
+        /* margin-bottom: 10px !important; */
+        font-size: 14px !important;
+        border-radius: 50px !important;
+    }
+
+    .oval-buttons-wrapper {
+        gap: 8px !important;
+        margin-top: 18px !important;
+    }
+
+    .oval-btn i,
+    .oval-btn .fa,
+    .oval-btn .fas,
+    .oval-btn .fab {
+        margin-right: 6px !important;
+        font-size: 15px !important;
+    }
+}
+
+/* Small Size Mobilwe */
+@media screen and (min-width: 0px) and (max-width: 320px) {
+    
+}

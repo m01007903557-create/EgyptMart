@@ -1,0 +1,449 @@
+<?php
+include "common.php";
+
+$sqlemail="select * from admin_user where id='1'";
+$resemail=mysqli_query($con, $sqlemail);
+$rowemail=mysqli_fetch_object($resemail);
+
+$sql="select * from user where usr_mp_id>=0 and usr_credit<20 and status='1'";
+$res=mysqli_query($con, $sql);
+while($row=mysqli_fetch_object($res))
+{
+
+    /**** code for email sending start here ****/
+           
+    		
+           $to = stripslashes($row->email);  /*Put Your Email Adress Here*/
+           $subject= getWebSiteName()." notification";
+		   $from_email= get_adminemail();		
+		   $from_name = get_page_settings(4);
+		   $message='<div style="border:1px solid #999999; width:660px;float:left; padding-bottom:0px;">
+			    	<div style="width:650px;height:100px; padding-bottom:0;">
+					 This mail is to alert you about your '.get_page_settings(4).' credit. Please purchase credits for buying lead.
+					</div></div>'; 
+		   $header  = "MIME-Version: 1.0\n";
+	       $header .= "Content-type: text/html; charset=iso-8859-1\n";		
+		   $header .= "From: ".$from_name." <".$from_email.">";
+		   mail($to, $subject, $message, $header);
+			
+			
+            
+		/**** code for email sending end here ****/
+}
+
+
+/** START == Code for buylead alert email notification **/
+
+$sql_atert_usr="select * from user,business_profile where usr_id=bnsprof_uid and usr_id in(select distinct bac_usr_id from buylead_alert_category where bac_status='1') and status='1'";
+
+$res_alert_usr=mysqli_query($con, $sql_atert_usr);
+if(mysqli_num_rows($res_alert_usr)>0){
+	
+while($row_alert_usr=mysqli_fetch_object($res_alert_usr))
+{
+	$extra_sql_br=" and (
+					  (country='".$row_alert_usr->country."' and br_preferred_supplier_location='".$row_alert_usr->usr_br_prefLocation."' and br_preferred_supplier_location='domestic') 
+					  or
+					  (country!='".$row_alert_usr->country."' and br_preferred_supplier_location='".$row_alert_usr->usr_br_prefLocation."' and br_preferred_supplier_location='abroad')
+					  or
+					  (br_preferred_supplier_location='".$row_alert_usr->usr_br_prefLocation."' and br_preferred_supplier_location='any')
+					  or
+					  (bnsprof_city='".$row_alert_usr->bnsprof_city."' and br_preferred_supplier_location='".$row_alert_usr->usr_br_prefLocation."' and br_preferred_supplier_location='my_city'))";//for preferred location
+	
+	$sql_br="select * from buy_requirement,user,business_profile where br_u_id=usr_id and usr_id=bnsprof_uid and br_u_id!='".$row_alert_usr->usr_id."' and br_pc_id in(select bac_pc_id from buylead_alert_category where bac_usr_id='".$row_alert_usr->usr_id."') and br_approval_status='1' and br_display_status='1' and br_mailSent='0' and br_status='1'".$extra_sql_br;
+	
+	
+
+    $res_br=mysqli_query($con, $sql_br);
+	if(mysqli_num_rows($res_br)>0)
+	{
+		$msg='';
+	    while($row_br=mysqli_fetch_object($res_br))
+    	{
+        	$msg.='<tr><td>
+<table align="center" border="0" cellpadding="0" cellspacing="0" width="680">
+<tbody><tr><td style="vertical-align:top" width="340">		 
+		<div style="width:100%;overflow:hidden;background-color:rgb(243,243,243);border-top:1px solid rgb(225,36,0);padding:2px 2px 12px;min-height:50px;line-height:normal">
+		<div style="margin:0 0 5px 0;padding:0;min-height:26px">
+				<table border="0" cellpadding="0" cellspacing="0">
+				<tbody><tr><td style="width:650px;text-align:left" align="left">
+				<a href="//'.$_SERVER['HTTP_HOST'].'/buyleads-details.php?id='.rand(1000,9999).md5($row_br->br_id).'" style="color:#0000ff;font-family:Arial;font-size:13px;line-height:15px;word-wrap:break-word" target="_blank"><b>'.$row_br->br_pd_name.'</b></a>
+				</td>
+
+				</tr>
+				</tbody></table>
+		</div>
+
+		</div>
+		
+		</td></tr>
+</tbody></table>
+</td></tr>';
+			
+	    }
+		
+		$comment='<table align="center" border="0" cellpadding="0" cellspacing="0" width="680">
+<tbody><tr>
+  <td style="padding-top:10px;border-bottom:1px solid #bdd0f2">
+  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+  <tbody>
+  <tr>
+  <td style="padding-bottom:5px" valign="middle" width="32%">
+  <a rel="nofollow" href="//'.$_SERVER['HTTP_HOST'].'/index.php" target="_blank"><h2>'.getWebSiteName().'</h2></a></td>
+  <td style="font-family:\'Trebuchet MS\';font-size:13px;text-align:center" valign="middle" width="36%">
+  <b>Today\'s Latest <br>
+  <span style="font-size:18px">Buy Leads</span> </b></td>
+  <td style="padding:7px 5px 10px 0;font-size:13px" align="right" valign="middle" width="32%"><b>'.date("l, F d, Y").'</b></td>
+  </tr>
+  </tbody>
+  </table>
+  </td>
+  </tr><tr>
+  <td style="color:#7e7e7f;padding:15px 5px 15px 0;line-height:16px"><b>Dear '.$row_alert_usr->name_prefix.' '.$row_alert_usr->fname.' '.$row_alert_usr->lname.',</b><br><br>
+  Latest buylead offers relevant to your subscribed categories are listed below:</td>
+  </tr>'.$msg.'<tr> <td>
+<table align="left" width="690">
+<tbody><tr>
+  <td style="padding:10px 5px;font-size:10px;color:#888888;background-color:#ebebeb">You have received this email by virtue of your opt-in subscription for sell offers alert on <span style="color:#4163a2;text-decoration:underline"><a href="//'.$_SERVER['HTTP_HOST'].'/index.php" target="_blank">'.getWebSiteName().'.</a></span> 
+  <br>
+  <a href="//'.$_SERVER['HTTP_HOST'].'/manage-buylead-alert.php" target="_blank">Click here</a> if you wish to modify your buy lead alert categories.<br>
+
+  <br>
+   </td>
+  </tr>
+</tbody></table>
+</td>
+  </tr>
+</tbody></table>';
+//	echo $comment;
+		$from_mail=get_adminemail();
+	    $to=stripslashes($row_alert_usr->email);  
+		$from_name = get_page_settings(4);
+	    $subj="Latest Buyleads alert from ".getWebSiteName();
+	    $headers  = "MIME-Version: 1.0\n";
+		$headers .= "Content-type: text/html; charset=iso-8859-1\n";
+	 	$headers .= "From: ".$from_name." <".$from_mail.">";	
+		mail($to,$subj,$comment,$headers);
+	}
+    
+    mysqli_query($con, "update buy_requirement set br_mailSent = '1' where br_id='".$row_br->br_id."'");
+    
+}
+}
+
+/** END == Code for buylead alert email notification **/
+
+/** START == Code for sale offer alert email notification **/
+
+
+$sql_atert_usr="select * from user,business_profile where usr_id=bnsprof_uid and usr_id in(select distinct sac_usr_id from selloffer_alert_category where sac_status='1') and status='1'";
+$res_alert_usr=mysqli_query($con, $sql_atert_usr);
+if(mysqli_num_rows($res_alert_usr)>0){
+	
+while($row_alert_usr=mysqli_fetch_object($res_alert_usr))
+{
+	$extra_sql_so=" and (
+					  (country='".$row_alert_usr->country."' and so_preferred_buyer_location='".$row_alert_usr->usr_so_prefLocation."' and so_preferred_buyer_location='domestic') 
+					  or
+					  (country!='".$row_alert_usr->country."' and so_preferred_buyer_location='".$row_alert_usr->usr_so_prefLocation."' and so_preferred_buyer_location='abroad')
+					  or
+					  (so_preferred_buyer_location='".$row_alert_usr->usr_so_prefLocation."' and so_preferred_buyer_location='any')
+					  or
+					  (bnsprof_city='".$row_alert_usr->bnsprof_city."' and so_preferred_buyer_location='".$row_alert_usr->usr_so_prefLocation."' and so_preferred_buyer_location='my_city'))";//for preferred location
+	
+	$sql_so="select * from sale_offer,user,business_profile where so_usr_id=usr_id and usr_id=bnsprof_uid so_usr_id!='".$row_alert_usr->usr_id."' and so_pc_id in(select sac_pc_id from selloffer_alert_category where sac_usr_id='".$row_alert_usr->usr_id."') and so_approval_status='1' and DATE_ADD(so_approval_date,INTERVAL so_validity DAY)>= now() and so_mailSent = '0' and so_status='1'".$extra_sql_so;
+//	echo $sql_so;
+    $res_so=mysqli_query($con, $sql_so);
+	if(mysqli_num_rows($res_so)>0)
+	{
+		$msg='';
+	    while($row_so=mysqli_fetch_object($res_so))
+    	{
+        	$msg.='<tr><td>
+<table align="center" border="0" cellpadding="0" cellspacing="0" width="680">
+<tbody><tr><td style="vertical-align:top" width="340">		 
+		<div style="width:100%;overflow:hidden;background-color:rgb(243,243,243);border-top:1px solid rgb(225,36,0);padding:2px 2px 12px;min-height:50px;line-height:normal">
+		<div style="margin:0 0 5px 0;padding:0;min-height:26px">
+				<table border="0" cellpadding="0" cellspacing="0">
+				<tbody><tr><td style="width:650px;text-align:left" align="left">
+				<a href="//'.$_SERVER['HTTP_HOST'].'/saleoffer-details.php?id='.rand(1000,9999).md5($row_so->so_id).'" style="color:#0000ff;font-family:Arial;font-size:13px;line-height:15px;word-wrap:break-word" target="_blank"><b>'.$row_so->so_service.'</b></a>
+				</td>
+
+				</tr>
+				</tbody></table>
+		</div>
+
+		</div>
+		
+		</td></tr>
+</tbody></table>
+</td></tr>';
+			
+	    }
+		
+		$comment='<table align="center" border="0" cellpadding="0" cellspacing="0" width="680">
+<tbody><tr>
+  <td style="padding-top:10px;border-bottom:1px solid #bdd0f2">
+  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+  <tbody>
+  <tr>
+  <td style="padding-bottom:5px" valign="middle" width="32%">
+  <a rel="nofollow" href="//'.$_SERVER['HTTP_HOST'].'/index.php" target="_blank"><h2>'.getWebSiteName().'</h2></a></td>
+  <td style="font-family:\'Trebuchet MS\';font-size:13px;text-align:center" valign="middle" width="36%">
+  <b>Today\'s Latest <br>
+  <span style="font-size:18px">Sell Offers</span> </b></td>
+  <td style="padding:7px 5px 10px 0;font-size:13px" align="right" valign="middle" width="32%"><b>'.date("l, F d, Y").'</b></td>
+  </tr>
+  </tbody>
+  </table>
+  </td>
+  </tr><tr>
+  <td style="color:#7e7e7f;padding:15px 5px 15px 0;line-height:16px"><b>Dear '.$row_alert_usr->name_prefix.' '.$row_alert_usr->fname.' '.$row_alert_usr->lname.',</b><br><br>
+  Latest Sell offers relevant to your subscribed categories are listed below:</td>
+  </tr>'.$msg.'<tr> <td>
+<table align="left" width="690">
+<tbody><tr>
+  <td style="padding:10px 5px;font-size:10px;color:#888888;background-color:#ebebeb">You have received this email by virtue of your opt-in subscription for sell offers alert on <span style="color:#4163a2;text-decoration:underline"><a href="//'.$_SERVER['HTTP_HOST'].'/index.php" target="_blank">'.getWebSiteName().'.</a></span> 
+  <br>
+  <a href="//'.$_SERVER['HTTP_HOST'].'/manage-selloffer-alert.php" target="_blank">Click here</a> if you wish to modify your sell offers alert categories.<br>
+
+  <br>
+   </td>
+  </tr>
+</tbody></table>
+</td>
+  </tr>
+</tbody></table>';
+
+		$from_mail=get_adminemail();
+	    $to=stripslashes($row_alert_usr->email);  
+		$from_name = get_page_settings(4);
+	    $subj="Latest Sell Offer alert from ".getWebSiteName();
+	    $headers  = "MIME-Version: 1.0\n";
+		$headers .= "Content-type: text/html; charset=iso-8859-1\n";
+	 	$headers .= "From: ".$from_name." <".$from_mail.">";	
+		mail($to,$subj,$comment,$headers);
+	}
+    
+    mysqli_query($con, "update buy_requirement set br_mailSent = '1' where br_id='".$row_br->br_id."'");
+    
+}
+}
+
+/** END == Code for sale offer alert email notification **/
+
+
+/** START == Code for sale offer alert email notification **/
+
+	$sql_so_exp="select * from sale_offer where DATE_ADD(so_approval_date,INTERVAL (so_validity+".get_site_settings(27).") DAY)>=now()";
+	$res_so_exp=mysqli_query($con, $sql_so_exp);
+	while($row_so_exp=mysqli_fetch_object($res_so_emp))
+	{
+		mysqli_query($con, "delete from sale_offer where so_id='".$row_so_exp->so_id."'");
+	}
+
+/** END == Code for sale offer alert email notification **/
+
+
+/** START == Code for tender alert email notification **/
+
+$sql_atert_usr="select * from user,business_profile where usr_id=bnsprof_uid and usr_id in(select distinct tac_usr_id from tender_alert_category where tac_status='1') and status='1'";
+
+$res_alert_usr=mysqli_query($con, $sql_atert_usr);
+if(mysqli_num_rows($res_alert_usr)>0){
+	
+while($row_alert_usr=mysqli_fetch_object($res_alert_usr))
+{
+	$extra_sql_tnd=" and (
+					  (country='".$row_alert_usr->country."' and tnd_preferred_location='".$row_alert_usr->usr_tnd_prefLocation."' and tnd_preferred_location='domestic') 
+					  or
+					  (country!='".$row_alert_usr->country."' and tnd_preferred_location='".$row_alert_usr->usr_tnd_prefLocation."' and tnd_preferred_location='abroad')
+					  or
+					  (tnd_preferred_location='".$row_alert_usr->usr_tnd_prefLocation."' and tnd_preferred_location='any')
+					  or
+					  (bnsprof_city='".$row_alert_usr->bnsprof_city."' and tnd_preferred_location='".$row_alert_usr->usr_tnd_prefLocation."' and tnd_preferred_location='my_city'))";//for preferred location
+	
+	$sql_tnd="select * from tender,user,business_profile where tnd_usr_id=usr_id and usr_id=bnsprof_uid and tnd_usr_id!='".$row_alert_usr->usr_id."' and tnd_pc_id in(select tac_pc_id from tender_alert_category where tac_usr_id='".$row_alert_usr->usr_id."') and tnd_approval_status='1' and tnd_mailSent='0' and tnd_status='1'".$extra_sql_tnd;
+	
+	
+
+    $res_tnd=mysqli_query($con, $sql_tnd);
+	if(mysqli_num_rows($res_tnd)>0)
+	{
+		$msg='';
+	    while($row_tnd=mysqli_fetch_object($res_tnd))
+    	{
+        	$msg.='<tr><td>
+<table align="center" border="0" cellpadding="0" cellspacing="0" width="680">
+<tbody><tr><td style="vertical-align:top" width="340">		 
+		<div style="width:100%;overflow:hidden;background-color:rgb(243,243,243);border-top:1px solid rgb(225,36,0);padding:2px 2px 12px;min-height:50px;line-height:normal">
+		<div style="margin:0 0 5px 0;padding:0;min-height:26px">
+				<table border="0" cellpadding="0" cellspacing="0">
+				<tbody><tr><td style="width:650px;text-align:left" align="left">
+				<a href="//'.$_SERVER['HTTP_HOST'].'/tender-details.php?id='.rand(1000,9999).md5($row_tnd->tnd_id).'" style="color:#0000ff;font-family:Arial;font-size:13px;line-height:15px;word-wrap:break-word" target="_blank"><b>'.$row_tnd->tnd_heading.'</b></a>
+				</td>
+
+				</tr>
+				</tbody></table>
+		</div>
+
+		</div>
+		
+		</td></tr>
+</tbody></table>
+</td></tr>';
+			
+	    }
+		
+		$comment='<table align="center" border="0" cellpadding="0" cellspacing="0" width="680">
+<tbody><tr>
+  <td style="padding-top:10px;border-bottom:1px solid #bdd0f2">
+  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+  <tbody>
+  <tr>
+  <td style="padding-bottom:5px" valign="middle" width="32%">
+  <a rel="nofollow" href="//'.$_SERVER['HTTP_HOST'].'/index.php" target="_blank"><h2>'.getWebSiteName().'</h2></a></td>
+  <td style="font-family:\'Trebuchet MS\';font-size:13px;text-align:center" valign="middle" width="36%">
+  <b>Today\'s Latest <br>
+  <span style="font-size:18px">Tenders</span> </b></td>
+  <td style="padding:7px 5px 10px 0;font-size:13px" align="right" valign="middle" width="32%"><b>'.date("l, F d, Y").'</b></td>
+  </tr>
+  </tbody>
+  </table>
+  </td>
+  </tr><tr>
+  <td style="color:#7e7e7f;padding:15px 5px 15px 0;line-height:16px"><b>Dear '.$row_alert_usr->name_prefix.' '.$row_alert_usr->fname.' '.$row_alert_usr->lname.',</b><br><br>
+  Latest Tenders relevant to your subscribed categories are listed below:</td>
+  </tr>'.$msg.'<tr> <td>
+<table align="left" width="690">
+<tbody><tr>
+  <td style="padding:10px 5px;font-size:10px;color:#888888;background-color:#ebebeb">You have received this email by virtue of your opt-in subscription for sell offers alert on <span style="color:#4163a2;text-decoration:underline"><a href="//'.$_SERVER['HTTP_HOST'].'/index.php" target="_blank">'.getWebSiteName().'.</a></span> 
+  <br>
+  <a href="//'.$_SERVER['HTTP_HOST'].'/manage-tender-alert.php" target="_blank">Click here</a> if you wish to modify your Tender alert categories.<br>
+
+  <br>
+   </td>
+  </tr>
+</tbody></table>
+</td>
+  </tr>
+</tbody></table>';
+//	echo $comment;
+		$from_mail=get_adminemail();
+	    $to=stripslashes($row_alert_usr->email);  
+		$from_name = get_page_settings(4);
+	    $subj="Tender alert from ".getWebSiteName();
+	    $headers  = "MIME-Version: 1.0\n";
+		$headers .= "Content-type: text/html; charset=iso-8859-1\n";
+	 	$headers .= "From: ".$from_name." <".$from_mail.">";	
+		mail($to,$subj,$comment,$headers);
+	}
+    
+    mysqli_query($con, "update tender set tnd_mailSent = '1' where tnd_id='".$row_tnd->tnd_id."'");
+    
+}
+}
+
+/** END == Code for tender alert email notification **/
+
+/** START == Code for auction alert email notification **/
+
+$sql_atert_usr="select * from user,business_profile where usr_id=bnsprof_uid and usr_id in(select distinct aac_usr_id from auction_alert_category where aac_status='1') and status='1'";
+
+$res_alert_usr=mysqli_query($con, $sql_atert_usr);
+if(mysqli_num_rows($res_alert_usr)>0){
+	
+while($row_alert_usr=mysqli_fetch_object($res_alert_usr))
+{
+	$extra_sql_auc=" and (
+					  (country='".$row_alert_usr->country."' and auc_preferred_location='".$row_alert_usr->usr_auc_prefLocation."' and auc_preferred_location='domestic') 
+					  or
+					  (country!='".$row_alert_usr->country."' and auc_preferred_location='".$row_alert_usr->usr_auc_prefLocation."' and auc_preferred_location='abroad')
+					  or
+					  (auc_preferred_location='".$row_alert_usr->usr_auc_prefLocation."' and auc_preferred_location='any')
+					  or
+					  (bnsprof_city='".$row_alert_usr->bnsprof_city."' and auc_preferred_location='".$row_alert_usr->usr_auc_prefLocation."' and auc_preferred_location='my_city'))";//for preferred location
+	
+	$sql_auc="select * from auction,user,business_profile where auc_usr_id=usr_id and usr_id=bnsprof_uid and auc_usr_id!='".$row_alert_usr->usr_id."' and auc_pc_id in(select aac_pc_id from auction_alert_category where aac_usr_id='".$row_alert_usr->usr_id."') and auc_approval_status='1' and auc_mailSent='0' and auc_status='1'".$extra_sql_auc;
+	
+	
+
+    $res_auc=mysqli_query($con, $sql_auc);
+	if(mysqli_num_rows($res_auc)>0)
+	{
+		$msg='';
+	    while($row_auc=mysqli_fetch_object($res_auc))
+    	{
+        	$msg.='<tr><td>
+<table align="center" border="0" cellpadding="0" cellspacing="0" width="680">
+<tbody><tr><td style="vertical-align:top" width="340">		 
+		<div style="width:100%;overflow:hidden;background-color:rgb(243,243,243);border-top:1px solid rgb(225,36,0);padding:2px 2px 12px;min-height:50px;line-height:normal">
+		<div style="margin:0 0 5px 0;padding:0;min-height:26px">
+				<table border="0" cellpadding="0" cellspacing="0">
+				<tbody><tr><td style="width:650px;text-align:left" align="left">
+				<a href="//'.$_SERVER['HTTP_HOST'].'/auction-details.php?id='.rand(1000,9999).md5($row_auc->auc_id).'" style="color:#0000ff;font-family:Arial;font-size:13px;line-height:15px;word-wrap:break-word" target="_blank"><b>'.$row_auc->auc_heading.'</b></a>
+				</td>
+
+				</tr>
+				</tbody></table>
+		</div>
+
+		</div>
+		
+		</td></tr>
+</tbody></table>
+</td></tr>';
+			
+	    }
+		
+		$comment='<table align="center" border="0" cellpadding="0" cellspacing="0" width="680">
+<tbody><tr>
+  <td style="padding-top:10px;border-bottom:1px solid #bdd0f2">
+  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+  <tbody>
+  <tr>
+  <td style="padding-bottom:5px" valign="middle" width="32%">
+  <a rel="nofollow" href="//'.$_SERVER['HTTP_HOST'].'/index.php" target="_blank"><h2>'.getWebSiteName().'</h2></a></td>
+  <td style="font-family:\'Trebuchet MS\';font-size:13px;text-align:center" valign="middle" width="36%">
+  <b>Today\'s Latest <br>
+  <span style="font-size:18px">Auctions</span> </b></td>
+  <td style="padding:7px 5px 10px 0;font-size:13px" align="right" valign="middle" width="32%"><b>'.date("l, F d, Y").'</b></td>
+  </tr>
+  </tbody>
+  </table>
+  </td>
+  </tr><tr>
+  <td style="color:#7e7e7f;padding:15px 5px 15px 0;line-height:16px"><b>Dear '.$row_alert_usr->name_prefix.' '.$row_alert_usr->fname.' '.$row_alert_usr->lname.',</b><br><br>
+  Latest Auctions relevant to your subscribed categories are listed below:</td>
+  </tr>'.$msg.'<tr> <td>
+<table align="left" width="690">
+<tbody><tr>
+  <td style="padding:10px 5px;font-size:10px;color:#888888;background-color:#ebebeb">You have received this email by virtue of your opt-in subscription for sell offers alert on <span style="color:#4163a2;text-decoration:underline"><a href="//'.$_SERVER['HTTP_HOST'].'/index.php" target="_blank">'.getWebSiteName().'.</a></span> 
+  <br>
+  <a href="//'.$_SERVER['HTTP_HOST'].'/manage-auction-alert.php" target="_blank">Click here</a> if you wish to modify your Auction alert categories.<br>
+
+  <br>
+   </td>
+  </tr>
+</tbody></table>
+</td>
+  </tr>
+</tbody></table>';
+//	echo $comment;
+		$from_mail=get_adminemail();
+	    $to=stripslashes($row_alert_usr->email);  
+		$from_name = get_page_settings(4);
+	    $subj="Auction alert from ".getWebSiteName();
+	    $headers  = "MIME-Version: 1.0\n";
+		$headers .= "Content-type: text/html; charset=iso-8859-1\n";
+	 	$headers .= "From: ".$from_name." <".$from_mail.">";	
+		mail($to,$subj,$comment,$headers);
+	}
+    
+    mysqli_query($con, "update auction set auc_mailSent = '1' where auc_id='".$row_auc->auc_id."'");
+    
+}
+}
+
+/** END == Code for auction alert email notification **/
+?>

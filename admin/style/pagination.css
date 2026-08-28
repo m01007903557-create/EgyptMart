@@ -1,0 +1,6 @@
+div.pagination {padding: 0;margin: 0;}
+div.pagination a {padding: 2px 5px 2px 5px;margin: 2px;border: 1px solid #ccc;text-decoration: none;color: #000; border-radius: 8px}
+div.pagination a:hover, div.pagination a:active {border: 1px solid #767676;color: #000;}
+div.pagination span.current {padding:2px 5px 2px 5px;margin: 2px;border: 1px solid #000;font-weight:bold;background-color: #767676;color: #FFF; border-radius: 10px}
+div.pagination span.disabled {padding: 2px 5px 2px 5px;	margin: 2px;border: 1px solid #EEE;color: #DDD;}
+	

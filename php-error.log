@@ -1,0 +1,5 @@
+[03-Aug-2026 14:03:28 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'u397968200_arabuser'@'127.0.0.1' (using password: YES) in /home/u397968200/domains/egyptmart.shop/public_html/test_db.php:30
+Stack trace:
+#0 /home/u397968200/domains/egyptmart.shop/public_html/test_db.php(30): mysqli_connect()
+#1 {main}
+  thrown in /home/u397968200/domains/egyptmart.shop/public_html/test_db.php on line 30

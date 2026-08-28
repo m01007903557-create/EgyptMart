@@ -1,0 +1,20 @@
+<?php
+include "../common.php";
+
+$country =  $_REQUEST['country'];
+$q=$_GET['q'];
+$my_data=mysql_real_escape_string($q);
+  $sql="SELECT * FROM city where ct_cn_id='".$country."' and ct_name LIKE '$my_data%'";
+  
+$result = mysql_query($sql);
+if($result)
+	{
+		while($row=mysql_fetch_object($result))
+		{
+			$sqlstate="select * from states where state_id = '".$row->ct_state."' and state_status = '1'";
+			$restate=mysql_query($sqlstate);
+			$rowstate=mysql_fetch_object($restate);
+			echo ucfirst($row->ct_name).">>".ucfirst($rowstate->state_name)."|".$row->ct_id."|".$rowstate->state_id."\n";
+		}
+	}
+?>

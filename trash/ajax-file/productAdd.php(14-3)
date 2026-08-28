@@ -1,0 +1,145 @@
+<?php
+ob_start();
+session_start();
+include "../common.php";
+
+$pd_subcat_id=addslashes(trim($_POST['pd_subcat_id']));
+$pd_title=addslashes(trim($_POST['pd_title']));
+$pd_code=addslashes(trim($_POST['pd_code']));
+$pd_desc=addslashes(trim($_POST['pd_desc']));
+$uid=addslashes(trim($_POST['uid']));
+
+$pd_min_order_qty=addslashes(trim($_POST['pd_min_order_qty']));
+$pd_unit=addslashes(trim($_POST['pd_unit']));
+$pd_fob_price=addslashes(trim($_POST['pd_fob_price']));
+$pd_fob_price2=addslashes(trim($_POST['pd_fob_price2']));
+$pd_currency=addslashes(trim($_POST['pd_currency']));
+
+$pd_preferred_buyer_location=addslashes(trim($_POST['pd_preferred_buyer_location']));
+
+	$pd_status=$_POST['pd_status'];
+$valid=true;
+$data=array();
+
+$sqlrpl = "select bd_word from bad_word";
+$resrpl = mysql_query($sqlrpl);
+while($rowrpl = mysql_fetch_object($resrpl))
+{		
+	$letters[] = strtoupper($rowrpl->bd_word);
+}
+$title=strtoupper($pd_title);
+$desc=strtoupper($pd_desc);
+
+if($pd_subcat_id == "")
+{
+	$data[0]="0";
+	$data[1]='<font color="#CC0000">Please choose the Product subcategory here.</font>';
+	$valid=false;
+}
+else if($pd_title == "")
+{
+	$data[0]="0";
+	$data[1]='<font color="#CC0000">Please enter the Product Name.</font>';
+	$valid=false;
+}
+else if($pd_title != "")
+{		
+	foreach($letters as $val)
+	{
+		$pos = strpos($title, $val);
+		if ($pos !== false)
+		{
+			$data[0]="0";
+			$data[1]="<font color='#CC0000'>You can't post words like '".$val."' in Product Name.</font>";
+			$valid=false;
+		} 
+	}
+}
+else if(strlen($pd_desc)>4000)
+{
+	$data[0]="0";
+	$data[1]='<font color="#CC0000">Please check that Product Description cannot have more than 4000 characters.</font>';
+	$valid=false;
+}
+else if($pd_desc != "")
+{		
+	foreach($letters as $val)
+	{
+		$pos = strpos($desc, $val);
+		if ($pos !== false)
+		{
+			$data[0]="0";
+			$data[1]='<font color="#CC0000">You can\'t post words like '.$val.' in Product Description.</font>';
+			$valid=false;
+		} 
+	}
+}
+else if($pd_min_order_qty == "")
+{
+	$data[0]="0";
+	$data[1]='<font color="#CC0000">Please enter Minimum Order Quantity.</font>';
+	$valid=false;
+}
+else if($pd_unit == "")
+{
+	$data[0]="0";
+	$data[1]='<font color="#CC0000">Please choose Measurement Unit for Minimum Order Quantity.</font>';
+	$valid=false;
+}
+else if($pd_fob_price == "")
+{
+	$data[0]="0";
+	$data[1]='<font color="#CC0000">Please enter FOB Price.</font>';
+	$valid=false;
+}
+else if($pd_fob_price2 == "")
+{
+	$data[0]="0";
+	$data[1]='<font color="#CC0000">Please enter FOB Price.</font>';
+	$valid=false;
+}
+else if($pd_currency == "")
+{
+	$data[0]="0";
+	$data[1]='<font color="#CC0000">Please choose Currency.</font>';
+	$valid=false;
+}
+else
+{
+	$valid=true;	
+}
+	
+if($valid==true)
+{	
+	$tmpimgsql=mysql_query("select * from temp_product_image where tpi_usr_id='".$uid."'");
+	$tmpimagerow =mysql_fetch_object($tmpimgsql);
+	
+	
+	
+	$sql="insert into products
+		set 
+			pd_subcat_id='".$pd_subcat_id."',
+			pd_uid='".$uid."',
+			pd_title='".$pd_title."',
+			pd_code='".$pd_code."',
+			pd_min_order_qty='".$pd_min_order_qty."',
+			pd_unit='".$pd_unit."',
+			pd_fob_price='".$pd_fob_price."',
+			pd_fob_price2='".$pd_fob_price2."',
+			pd_currency='".$pd_currency."',
+			pd_desc='".$pd_desc."',
+			pd_image='".$tmpimagerow->tpi_image."',
+            pd_imagelogo='".$tmpimagerow->tpi_logo."',
+			pd_date=now(),
+			pd_preferred_buyer_location='".$pd_preferred_buyer_location."',
+            pd_hot='".$pd_status."'";
+			//mail('en.sarbeswar@gmail.com', 'My Subject', $sql);
+	mysql_query($sql) or die(mysql_error());
+		
+	mysql_query("delete from temp_product_image where tpi_usr_id='".$uid."' ");
+				
+	$data[0]="1";
+	$data[1]='Product added successfully! Please wait for Admin Approval.';	
+}
+echo $data[0]."|".$data[1];
+?>

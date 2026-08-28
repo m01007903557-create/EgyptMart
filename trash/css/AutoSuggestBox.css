@@ -1,0 +1,104 @@
+	.asbMenu 
+	{
+		border: 1px solid #0284DB;
+		background: #ffffff;
+		position: absolute;
+		padding: 5;
+		white-space: nowrap;
+		z-index: 1000;
+	}
+	
+	.asbMenuBase
+	{
+		position: absolute;
+		z-index: 1000;
+	}
+	  				
+	.asbMenuItem
+	{
+	    font-family:arial;
+	    font-size:12px;
+		color:#000000;
+		padding-left:4px;
+		background: #ffffff;
+		cursor: hand;
+		cursor: pointer;
+	}
+
+	.asbSelMenuItem
+	{			
+	    font-family:arial;
+	    font-size:12px;
+		color: #ffffff;
+		padding-left:4px;
+		background: #0284DB;
+		cursor: hand;
+		cursor: pointer;
+		white-space: nowrap;
+	}
+	
+	.asbMenuBlack
+	{
+		border: 1px solid #C0C0C0;
+		background: #ffffff;
+		position: absolute;
+		padding: 5;
+		white-space: nowrap;
+		z-index: 1000;
+	}
+	
+	.asbMenuItemBlack
+	{
+	    font-family:arial;
+	    font-size:12px;
+		color:#000;
+		padding-left:4px;
+		background: #ffffff;
+		cursor: hand;
+		cursor: pointer;
+	}
+
+	.asbSelMenuItemBlack
+	{			
+	    font-family:arial;
+	    font-size:12px;
+		color:#000;
+		padding-left:4px;
+		background: #C0C0C0;
+		cursor: hand;
+		cursor: pointer;
+		white-space: nowrap;
+	}
+	
+	.asbMenuBrown
+	{
+		border: 1px solid #663300;
+		background: #ffffff;
+		position: absolute;
+		padding: 5;
+		white-space: nowrap;
+		z-index: 1000;
+	}
+	
+	.asbMenuItemBrown
+	{
+	    font-family:verdana;
+	    font-size:12px;
+		color: #660000;
+		padding-left:4px;
+		background: #ffffff;
+		cursor: hand;
+		cursor: pointer;
+	}
+
+	.asbSelMenuItemBrown
+	{			
+	    font-family:verdana;
+	    font-size:12px;
+		color: #ffffff;
+		padding-left:4px;
+		background: #663300;
+		cursor: hand;
+		cursor: pointer;
+		white-space: nowrap;
+	}

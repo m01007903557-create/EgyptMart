@@ -1,0 +1,38 @@
+/*for spiral:start*/
+.spiral{border:1px solid #bcbcbc; color:#444; padding:10px; width:270px; text-align:left;  background-color:#fff;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f7f7f7');background:-webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#f7f7f7));background:-moz-linear-gradient(top,  #ffffff,  #f7f7f7); -moz-box-shadow: 0 0 2px 2px #ececec;-webkit-box-shadow: 0 0 2px 2px #ececec;box-shadow: 0 0 2px 2px #ececec;position:absolute;right:182px;margin-top:-27px;z-index:999}
+.spiral h2{color:#004A95; font-size:13px; margin:0px; padding:0px}
+.scl{background-image:url(../images/scls.png); width:10px; height:10px; margin-top: 2px;}
+.spiral:after, .spiral:before{left:100%; border:solid transparent; content:" "; height:0; width:0; position:absolute; pointer-events:none} 
+.spiral:after, .spiral:before{border-color:rgba(136, 183, 213, 0); border-left-color:#fff; border-width:7px; top:3%} 
+.spiral:before{border-color:rgba(194, 225, 245, 0); border-left-color:#bcbcbc; border-width:8px}
+/*.a_f{border:1px solid #aabccb; padding:5px}*/
+.a_f:focus{border:1px solid #f1ca7e; background-color:#fffdf6}
+.spf{width:185px}
+.sp{background:#fae37d;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#fcf1bf', endColorstr='#fae37d');background:-webkit-gradient(linear, left top, left bottom, from(#fcf1bf), to(#fae37d));background:-moz-linear-gradient(top,  #fcf1bf,  #fae37d); border:1px solid #f6b635; padding:4px;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px}
+.of{padding-top:5px; display:inline-block; color:#dadada; padding-left:5px}
+.sk{color:#195ca0; text-decoration:none; margin-top:7px}
+.slo{padding:10px; height:50px; text-align:center}
+.mf_ph{width:128px}
+.mf_br{display:block}
+.m8{margin-top:8px}
+.mfs-ta{width:267px}
+
+/*for dashboard spiral*/
+.dsp2 li{float:left}/*make a join of this class in my-v1.css*/
+.dsp2{border:1px solid #ded6bf;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px; background-color:#fefee1;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#fefeee', endColorstr='#fefee1');background:-webkit-gradient(linear, left top, left bottom, from(#fefeee), to(#fefee1));background:-moz-linear-gradient(top, #fefeee, #fefee1);padding:15px}
+.dsp2 ul, .dsp2 li h2{margin:0px; padding:0px}
+.dsp2 li{list-style:none; display:inline}
+.dsp2 li h2, .dsp2 li label{font-size:14px; color:#222; font-weight:bold}
+.dsp2 li p{color:#444; margin-top:3px}
+.dsp2 li label{font-size:12px}
+.dsp2 li a{color:#ad9e75; text-decoration:none; font-size:11px; margin-left:10px}
+.dsp2 li a:hover{text-decoration:underline}
+.arr, .dcls{background-image:url(../images/spi.png); width:28px; height:48px}
+.sw1{width:300px}
+.sw2{padding-left:20px}
+.em{color:#C00!important}
+.dcls{background-position:0px -73px; width:11px; height:11px}
+.dskip{display: inline-block; margin-top: 10px;}
+
+/*For PNS use only*/
+.mf_pns{position:absolute!important;right:396px!important;margin-top:18px!important}

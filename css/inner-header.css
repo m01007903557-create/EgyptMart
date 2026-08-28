@@ -1,0 +1,177 @@
+/* =========================================================
+   NEW RESPONSIVE CSS - UPDATED 27 AUG 2026
+   Inner Top Bar Responsive Layout
+   ========================================================= */
+
+.top-bar,
+.top-bar * { box-sizing: border-box; }
+
+.top-bar {
+	width: 100%;
+	min-height: 30px;
+	padding: 1px 12px;
+	background: #050505;
+	color: #fff;
+	font-family: 'GE SS Two', 'ge_ss_twobold', Arial, sans-serif;
+	overflow: visible;
+}
+
+.top-bar-inner {
+	width: 100%;
+	max-width: 1440px;
+	min-height: 30px;
+	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 18px;
+}
+
+.top-lft,
+.top-mid,
+.top-rht {
+	min-width: 0;
+	display: flex;
+	align-items: center;
+}
+
+.top-lft { flex: 1 1 34%; justify-content: flex-start; }
+.top-mid { flex: 1 1 42%; justify-content: center; gap: 18px; }
+.top-rht { flex: 1 1 24%; justify-content: flex-end; }
+
+.top-bar ul { margin: 0; padding: 0; list-style: none; }
+
+.top-lft > ul,
+.top-mid > ul,
+.top-rht > ul,
+.top-actions {
+	display: flex;
+	flex-wrap: nowrap;
+	align-items: center;
+	gap: 8px;
+}
+
+.top-mid > ul:empty { display: none; }
+.top-actions { margin: 0; }
+
+.top-bar li,
+.top-bar a,
+.top-bar span,
+.top-bar b {
+	font-size: 12px;
+	line-height: 1.35;
+}
+
+.top-bar a { color: #fff; text-decoration: none; white-space: nowrap; }
+.top-bar a:hover,
+.top-bar a:focus { color: #f5d447; }
+
+.top-auth-link,
+.top-nav-link,
+.top-dropdown-link,
+.top-menu-item > a {
+	display: inline-flex;
+	align-items: center;
+	padding: 4px 6px;
+}
+
+.top-sign-in { margin-left: 8px; }
+.top-menu-item { position: relative; z-index: 100; }
+.top-menu-label { font-weight: 900; }
+.linebr { color: #000; padding: 0 2px; }
+
+.membership-icon {
+	width: 18px;
+	height: 15px;
+	border: 0;
+	object-fit: contain;
+	vertical-align: middle;
+}
+
+.message-icon {
+	width: 25px;
+	height: 15px;
+	object-fit: contain;
+	vertical-align: middle;
+}
+
+.trial-link {
+	display: inline-block;
+	padding: 6px 12px;
+	border-radius: 4px;
+	background: #007bff;
+	color: #fff !important;
+	text-decoration: none;
+}
+
+.trial-link:hover,
+.trial-link:focus { background: #1688ff; }
+
+.top-dropdown-menu {
+	width: max-content;
+	min-width: 180px;
+	max-width: min(300px, 90vw);
+	z-index: 110;
+}
+
+.top-dropdown-link { width: 100%; white-space: normal; }
+
+.top-bar .label-yellow {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 18px;
+	min-height: 18px;
+	margin-left: 2px;
+}
+
+@media (max-width: 1100px) {
+	.top-bar-inner { gap: 8px; }
+	.top-lft > ul,
+	.top-mid > ul,
+	.top-rht > ul,
+	.top-actions { gap: 3px; }
+	.top-bar li,
+	.top-bar a,
+	.top-bar span,
+	.top-bar b { font-size: 11px; }
+	.top-auth-link,
+	.top-nav-link,
+	.top-dropdown-link,
+	.top-menu-item > a { padding: 3px 4px; }
+}
+
+@media (max-width: 760px) {
+	.top-bar { padding: 4px 8px; }
+	.top-bar-inner {
+		align-items: stretch;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 4px 10px;
+	}
+	.top-lft,
+	.top-mid,
+	.top-rht { flex: 1 1 100%; justify-content: center; }
+	.top-lft > ul,
+	.top-mid > ul,
+	.top-rht > ul,
+	.top-actions { justify-content: center; flex-wrap: wrap; }
+	.top-rht .tstleft { text-align: center; }
+}
+
+@media (max-width: 420px) {
+	.top-bar { padding: 5px; }
+	.top-lft > ul,
+	.top-mid > ul,
+	.top-rht > ul,
+	.top-actions { width: 100%; gap: 2px; }
+	.top-bar li,
+	.top-bar a,
+	.top-bar span,
+	.top-bar b { font-size: 10px; }
+	.top-auth-link,
+	.top-nav-link,
+	.top-dropdown-link,
+	.top-menu-item > a { padding: 3px; }
+	.trial-link { padding: 5px 8px; }
+}

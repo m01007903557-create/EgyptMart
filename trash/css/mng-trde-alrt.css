@@ -1,0 +1,33 @@
+.bg_border_new{background-color:#FAF4FF;border:1px solid #C0C0C0;padding-left:8px;padding-bottom:8px;width:778px;}
+.myta{FONT-SIZE: 14px;font-weight:bold;COLOR: #323232;padding-top:3px;padding-bottom:3px;LINE-HEIGHT: 18px;FONT-FAMILY:arial, ms Sans serif;}
+.textfld2{padding-right:7px;font-size: 12px;color: #000000;font-family: arial;line-height:14px;}
+.sot{font-size: 11px;color: #000;font-family: arial;}
+.sot b{font-size: 11px;color: #2F2F2F;font-family: arial;}
+.tabopen{border-collapse:collapse;border:1px solid #6500CA;border-bottom:0px;color:#9D0000;font-family:arial;font-size:15px;font-weight:bold;text-align:center;padding-top:4px;padding-bottom:4px;background-color:#FAF4FF;}
+.tabclose{border-collapse:collapse;border:1px solid #C2E6FF;background-color:#D2ECFF;color:#2161B8;font-family:arial;font-size:15px;font-weight:bold;text-align:center;padding-top:4px;padding-bottom:4px;cursor:pointer;}
+.tabborder{border-collapse:collapse;border-bottom:1px solid #6500CA;}
+.border_bottom{border-collapse:collapse;border:1px solid #6500CA;border-top:0px solid #6500CA;}
+.displayoff{display:none;}
+.displayon{display:block;}
+.s_bcat{overflow:auto; height:118px; border:1px solid #7F9DB9; background-color:#FFFFFF; padding-left:1px; font-size:13px;}
+.blwnew {padding-left:10px; margin-top:6px;	padding-bottom:8px; PADDING-RIGHT: 10px; FONT-SIZE: 12px;COLOR: #030303;FONT-FAMILY: arial;}
+.blwnew A {COLOR: #0000ff; TEXT-DECORATION: none}
+.blwnew A:hover {COLOR: #ff0000; TEXT-DECORATION: underline}
+.myims {BORDER-RIGHT: #adc2d5 1px solid; BORDER-TOP: #adc2d5 1px solid; MARGIN-LEFT: 9px; BORDER-LEFT: #adc2d5 1px solid; WIDTH: 200px; BORDER-BOTTOM: #adc2d5 1px solid}
+.blw1 {PADDING-RIGHT: 5px; PADDING-LEFT: 5px; FONT-SIZE: 11px; COLOR: #535353; FONT-FAMILY: verdana, arial; TEXT-DECORATION: none}
+.s_text{font-family:arial;font-size:13px;padding-left:12px;}
+.setcatnew {FONT-SIZE: 12px; COLOR: #000000; LINE-HEIGHT: 16px; FONT-FAMILY:arial, ms Sans serif;}
+.setcatnew b.kk{color:#9D0000;font-size:15px;}
+.setcatnew A {COLOR: #ffffff; TEXT-DECORATION: underline;}
+.setcatnew A:hover {COLOR: #ff0000; TEXT-DECORATION: none;}
+.setcat {FONT-SIZE: 12px; COLOR: #000000; LINE-HEIGHT: 16px; FONT-FAMILY:arial, ms Sans serif;}
+.setcat b.kk{color:#0054C7;font-size:17px;}
+.setcat A {COLOR: #ffffff; TEXT-DECORATION: underline;}
+.setcat A:hover {COLOR: #ff0000; TEXT-DECORATION: none;}
+.win-open{position:absolute;margin-top:200px;}
+.win-close{display:none;}
+.ofr_typ { background-color:#F8FCFF;}
+.ofr_typ1 { background-color:#FFFFDB;}
+.head {	FONT-SIZE: 14px; COLOR: #800000; FONT-FAMILY: MS sans serif,verdana,arial}
+.result_text td {font-family:arial;font-size:13px;color:#1F60A2;}
+.result_text td a {font-family:arial;color:#004C9A;}

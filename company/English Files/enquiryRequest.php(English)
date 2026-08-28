@@ -1,0 +1,279 @@
+<?php
+include "includes/header.php";
+
+$user = $_SESSION['uid_indm'];
+if ($user == NULL) {
+    header("Location: ../sign-in.php");
+}
+//webcast
+$c = $_GET['c'];
+$cid = substr($_GET['c'], 4);
+//end webcast
+
+$sql_own = "select * from user,business_profile where usr_id='" . $_SESSION['uid_indm'] . "' and bnsprof_uid=usr_id limit 1";
+$res_own = mysql_query($sql_own);
+$row_own = mysql_fetch_object($res_own);
+
+
+
+//echo "<pre>";
+//print_r($row_own);
+//die;
+
+$image1 = $_SESSION['image1'];
+$image2 = $_SESSION['image2'];
+$image3 = $_SESSION['image3'];
+$image4 = $_SESSION['image4'];
+$image5 = $_SESSION['image5'];
+$image6 = $_SESSION['image6'];
+$image7 = $_SESSION['image7'];
+$image8 = $_SESSION['image8'];
+$image9 = $_SESSION['image9'];
+$image10 = $_SESSION['image10'];
+$image11 = $_SESSION['image11'];
+$image12 = $_SESSION['image12'];
+$image13 = $_SESSION['image13'];
+$image14 = $_SESSION['image14'];
+$image15 = $_SESSION['image15'];
+$image16 = $_SESSION['image16'];
+$image17 = $_SESSION['image17'];
+$image18 = $_SESSION['image18'];
+$image19 = $_SESSION['image19'];
+$image20 = $_SESSION['image20'];
+
+$id1 = $_SESSION['id1'];
+$id2 = $_SESSION['id2'];
+$id3 = $_SESSION['id3'];
+$id4 = $_SESSION['id4'];
+$id5 = $_SESSION['id5'];
+$id6 = $_SESSION['id6'];
+$id7 = $_SESSION['id7'];
+$id8 = $_SESSION['id8'];
+$id9 = $_SESSION['id9'];
+$id10 = $_SESSION['id10'];
+$id11 = $_SESSION['id11'];
+$id12 = $_SESSION['id12'];
+$id13 = $_SESSION['id13'];
+$id14 = $_SESSION['id14'];
+$id15 = $_SESSION['id15'];
+$id16 = $_SESSION['id16'];
+$id17 = $_SESSION['id17'];
+$id18 = $_SESSION['id18'];
+$id19 = $_SESSION['id19'];
+$id20 = $_SESSION['id20'];
+
+if ($id1 == '') {
+    $id1 = 0;
+}
+if ($id2 == '') {
+    $id2 = 0;
+}
+if ($id3 == '') {
+    $id3 = 0;
+}
+if ($id4 == '') {
+    $id4 = 0;
+}
+if ($id5 == '') {
+    $id5 = 0;
+}
+if ($id6 == '') {
+    $id6 = 0;
+}
+if ($id7 == '') {
+    $id7 = 0;
+}
+if ($id8 == '') {
+    $id8 = 0;
+}
+if ($id9 == '') {
+    $id9 = 0;
+}
+if ($id10 == '') {
+    $id10 = 0;
+}
+if ($id11 == '') {
+    $id11 = 0;
+}
+if ($id12 == '') {
+    $id12 = 0;
+}
+if ($id13 == '') {
+    $id13 = 0;
+}
+if ($id14 == '') {
+    $id14 = 0;
+}
+if ($id15 == '') {
+    $id15 = 0;
+}
+if ($id16 == '') {
+    $id16 = 0;
+}
+if ($id17 == '') {
+    $id17 = 0;
+}
+if ($id18 == '') {
+    $id18 = 0;
+}
+if ($id19 == '') {
+    $id19 = 0;
+}
+if ($id20 == '') {
+    $id20 = 0;
+}
+
+
+
+
+
+$sel_product = array();
+
+$sel_pro = "select * from products where pd_uid='" . $row->usr_id . "' and pd_id IN ($id1,$id2,$id3,$id4,$id5,$id6,$id7,$id8,$id9,$id10,$id11,$id12,$id13,$id14,$id15,$id16,$id17,$id18,$id19,$id20)";
+
+$s_prod = mysql_query($sel_pro);
+//var_dump($row_own->usr_id);
+while ($select_product = mysql_fetch_object($s_prod)) {
+    $sel_product[] = $select_product;
+    $sel_product_image[] = $select_product->pd_image;
+}
+$_SESSION['selimage'] = $sel_product_image;
+//$_SESSION['selpro']=$sel_product;
+//echo '<pre>';
+//print_r($_SESSION['selimage']);
+////print_r($_SESSION['selpro']);
+//die;
+?>
+
+<div id="body">
+    <ul class="cb">
+
+        <li id="wideColumn">
+            <div id="h1"><h1 style="text-transform: capitalize;">Wholesale Contact</h1></div>
+
+            <div id="breadcrumb">
+                <ul>
+                    <li><a href="http://egyptmart.online/company/index.php?c=<?php echo $c; ?>" id="myDiv">Home</a><b>»</b></li>
+                    <li>Wholesale Contact</li>
+                </ul>
+            </div>
+            <br><br>
+
+
+            <form method="post" action="sendimagerequestmail.php">
+                <ul class="contact-image">
+                    <?php
+                    $sel_product_ser = serialize($sel_product);
+
+                    foreach ($sel_product as $selpro) {
+                        ?>
+                        <li style="height:50px; width:33%;"><img style="width:170px; margin-left: 26px;" src="../upload/myproduct/<?php echo $selpro->pd_image; ?>"><p style="text-align: center;"><?php echo $selpro->pd_title; ?></br><b>QTY:</b><input type="text" name="quantity" class="ws_quentity" value="<?php echo $selpro->pd_min_order_qty; ?>" style="width: 22px; display: -webkit-inline-box;"/></br><b>Unit:</b><?php echo get_measurement_unit($selpro->pd_unit); ?></p></li> 
+                    <?php } ?>						
+
+                </ul>
+                <style>
+                    .contact-image li{
+                        display: inline-block;
+
+                    }
+                </style>
+
+                <input type="hidden" id="sel_product_ser" name="sel_product_ser" value="<?php echo htmlentities($sel_product_ser); ?>" />
+                <input type="hidden" id="c" name="c" value="<?php echo $c; ?>" />
+                <input type="hidden" id="msg_from" name="msg_from" value="<?php echo $_SESSION['uid_indm']; ?>" />
+                <input type="hidden" id="msg_to" name="msg_to" value="<?php echo $row->usr_id; ?>" />
+                <input type="hidden" id="msg_subject" name="msg_subject" value="Wholesale Business Enquiry" />
+
+                <input type='hidden' name='email' value='<?php echo $row_own->email; ?>'>
+                <br>
+                <br>
+                <br>
+                <div style="width: 100%;">
+                    <div style="width: 30%; float: left">
+                        <fieldset style="height: 108px; border: 1px solid rgb(134, 182, 217); margin-top: 29px; width: 190px;"><legend style="font-size: 13px;color:#017BBC; text-align: center;"><strong>Describe your requirements</strong> </legend>    <div class="f1-nw" style=" color:#055985;">
+                                <ul style="margin-left: 10px;">
+                                    <li class=" li-1"> Products/ Service details</li>
+                                    <li class="li-1"> Required Specifications</li>
+                                    <li class="li-1"> Minimum Order</li>
+                                    <li class="li-1"> Delivery Time or Term</li>
+                                </ul>
+                        </fieldset>
+                    </div>
+                    <div style="width: 70%; float: left">
+                        <label style="font-size:large;"><b>Message:</b></label><br />
+                        <div style="width: 555px; height: auto;">
+                            <textarea id="msg_message" name="msg_message"  style="width: 81%; height: 104px; overflow: auto; padding: 10px; box-sizing: border-box;"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <input class="dib b darkbg2 gbibt white bdr darkbdr2 xlarge p7px15px br5px ml5px" id="btn-sub" value="Wholesale Contact" style="margin-top: 20px;margin-left: 250px; background: #c30 !important;box-shadow: 0pt 1px 5px rgb(170, 170, 170); font-family: Arial,Helvetica,sans-serif; font-size: 16px; font-weight: bold; text-align: center; color: rgb(255, 255, 255); border: 1px solid rgb(24, 143, 205);border-radius:6px; _border-radius: 0px; padding:5px 20px; cursor:pointer;" type="button" onclick='sendEnquiry()'>
+
+            </form>
+            <div id="loading" style="display:none;padding-left:192px;color:#1045B0;padding-top:16px;" class="g9 bo off">
+                <img class="loading" src="../images/loading-small.gif" alt="loading" height="16" width="16"><b> Please Wait...</b>
+            </div>	
+            <div id="succ_result" style="display:none;padding-left:192px;color:#009700;padding-top:16px;" class="g9 bo off">
+                <b>Enquiry Sent Successfully</b>
+            </div>
+
+        </li>	
+
+        <?php include "includes/right.php"; ?>
+    </ul>
+</div><BR><BR>
+<?php include "includes/footer.php"; ?>
+</body></html>
+<style>
+    #btn-sub{
+        background:#017601;*zoom:1;
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#017601', EndColorStr='#059d05');
+        background:-webkit-gradient(linear, 0 0, 0 bottom, from(#017601), to(#059d05));
+        background:-webkit-linear-gradient(#017601, #059d05);
+        background:   -moz-linear-gradient(#017601, #059d05);
+        background:    -ms-linear-gradient(#017601, #059d05);
+        background:     -o-linear-gradient(#017601, #059d05);
+        background:        linear-gradient(#017601, #059d05);
+    }
+</style>
+
+<script>
+    function sendEnquiry() {
+        var quentity = [];
+        var i = 0;
+        $(".ws_quentity").each(function () {
+            quentity[i] = $(this).val();
+            i++;
+        });
+
+        var msg_from = document.getElementById('msg_from').value;
+        var msg_to = document.getElementById('msg_to').value;
+        var msg_subject = document.getElementById('msg_subject').value;
+        var sel_product_ser = document.getElementById('sel_product_ser').value;
+        var c = document.getElementById('c').value;
+        var msg_message = document.getElementById('msg_message').value;
+
+
+
+        $("#btn-sub").css("display", "none");
+        $("#loading").css("display", "block");
+
+        $.post("../company/sendimagerequestmail.php", {msg_from: msg_from, msg_image: sel_product_ser, msg_to: msg_to, msg_subject: msg_subject, msg_message: msg_message, quentity: quentity}, function (data) {
+            if (data == 1)
+            {
+                setTimeout(function () {
+                    $("#loading").css("display", "none");
+                    $("#succ_result").css("display", "block");
+                }, 500);
+            } else
+            {
+                setTimeout(function () {
+                    $("#loading").css("display", "none");
+                    $("#err_result").css("display", "block");
+                }, 500);
+            }
+        });
+
+    }
+
+</script>

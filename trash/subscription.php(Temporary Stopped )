@@ -1,0 +1,166 @@
+<?php
+include "common.php";
+
+$_SESSION['last_page']="subscription.php";
+
+if(!isset($_SESSION['uid_indm']) || $_SESSION['uid_indm']=='')
+{
+	header("Location:sign-in.php");	
+}
+$uid=$_SESSION['uid_indm'];
+
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+<!-- meta start -->
+<title><?php echo getSiteTitle(); ?></title>
+<meta name="google-translate-customization" content="fef4c372cb8ae5a0-ab3c7604c23f3803-gde364a5c12cf0b8a-25"></meta>
+<meta name="title" content="<?php echo getSiteTitle(); ?>">
+<meta name="keywords" content="<?php echo get_page_settings(2); ?>">
+<meta name="description" content="<?php echo get_page_settings(3); ?>">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<!-- css start -->
+<link href="css/my-v1-v-15.css" type="text/css" rel="stylesheet">
+<link href="css/pbl-my01.css" type="text/css" rel="stylesheet">
+<link href="css/credit_subs01.css" type="text/css" rel="stylesheet">
+
+<!--[if IE 6]><link rel="stylesheet" type="text/css" href="css/ie6.css" /> <![endif]-->
+<!--[if IE 9]><style>.nmz4 li{display:inline;list-style:none;padding:0px 2px 0px 2px;color:#fff}</style><![endif]-->
+<!-- js start -->
+<script type="text/javascript" src="js/jquery-1.2.1.min.js"></script>
+<script type="text/javascript">
+function choosePackage(id)
+{
+	//window.location.href="subscription-payment-option.php?id="+id;
+	window.location.href="payment-option.php?id="+id;
+}
+</script>
+</head>
+<body>
+<div id="imgtrailer" style="position:absolute; z-index:4;visibility:hidden;">
+<img src="images/loading.gif" height="32" width="32"></div>
+
+
+		<!--main div:start-->
+	<div class="hm1 bbc" id="res-mob1">
+<!-- Header start Here::-->
+		<?php include "includes/header_new.php"; ?>
+        
+        
+		<div class="bt"><img src="images/z.gif" alt="<?php echo getWebSiteName(); ?>" height="1" width="1"></div>
+<!-- Header End Here::-->
+
+	
+	<!-- autosuggest ends -->
+
+	<!--iil header:ends-->
+	
+
+
+<div class="m_ca"> <form style="margin:0px;" method="post" name="showPlan" action="/cgi/eto-subscription-checkout.mp"><div class="m_crtop">
+		<div class="m_fst1s cpa1 m_crtophds">
+			<p class="m_spimg m_1s cpa1"></p>Select Subscription Plan
+		</div>
+		<p class="m_spimg m_arwmiddle cpa1"></p>
+		<div class="m_fst2s cpa1 m_crtophd">
+			<p class="m_spimg m_2nons cpa1"></p>Choose Payment Option
+		</div>
+	</div>
+
+     
+<!--<div class="m_singlelead">
+ <div class="m_singleleadarea cpa1">
+    <p class="m_spimg m_rightimg cpa1"></p>Buy this Lead Only - 20 Credits<br>
+       <span>Requirement for <b>Sports Shoe</b>.</span>
+ </div>
+ <div class="m_pricebtn cpa1" onclick="getGAEventTrackingJS('Subs_Single_Lead_Buy_Now');return frmsubmit(6);">
+   <input style="display:none" name="plan" value="6" checked="checked" class="cpmb2" type="RADIO"><b><span class="">Rs.</span> 449<br>Pay Now
+      </b> 
+ </div>
+ <div class="cpm2"></div>
+</div>-->
+	 
+<div class="m_innerpart">
+  <h1><b>Available Plans</b></h1>
+  
+	<div class="cpm2"><!-- clear:both --></div>
+  <div class="cpm2"><!-- clear:both --></div>
+  <div class="cpm2"><!-- clear:both --></div>
+  <div>
+</div>
+
+<?php
+
+$sql_mp="select * from membership_plan where mp_status='1'";
+$res_mp=mysqli_query($con, $sql_mp);
+while($row_mp=mysqli_fetch_object($res_mp)){
+?>
+
+	<div class="m_pkgdes m_btbdr">
+		<div class="m_basicpkg cpa1">
+			<p class="m_spimg m_bsicimg cpa1"></p><?php echo $row_mp->mp_name; ?> - <?php echo $row_mp->mp_credits; ?> Credits<br>
+			<span>You can purchase <?php echo ($row_mp->mp_credits/20); ?> Leads.</span>
+		</div>
+		<div class="m_pricebtn cpa1" id="20" onclick="choosePackage('<?php echo rand(10000,99999).md5($row_mp->mp_id); ?>');">
+			<!--<p class="m_spimg m_offer">save<br>47%</p>-->
+	        <input class="cpmb2" value="20" name="plan" style="display:none" type="RADIO"> <b><span class=""><?php echo getCurrencySymbol(); ?>&nbsp;</span> <?php echo $row_mp->mp_amount; ?><br>Pay Now</b>
+		</div>
+		<div style="clear:both"></div>
+	</div>
+	<div></div>
+<?php	}	?>
+	<!--<div class="m_pkgdes m_btbdr">
+		<div class="m_basicpkg cpa1">
+			<p class="m_spimg m_clssicimg cpa1"></p>Classic Package - 1000 Credits<br>
+			 <span>You can purchase 50 Leads.</span>
+		</div>
+		<div class="m_pricebtn cpa1" id="21" onclick="getGAEventTrackingJS('Subs_Classic_Buy_Now');return frmsubmit(21);">
+			<p class="m_spimg m_offer">save<br>55%</p>
+			<input class="cpmb2" value="21" name="plan" style="display:none" type="RADIO"> <b><span class="WebRupee">Rs.</span> 10000<br>Pay Now</b>
+		</div>
+		<div class="cpm2"></div>
+	</div>
+	<div></div>
+
+	<div class="m_pkgdes">
+		<div class="m_basicpkg cpa1">
+			<p class="m_spimg m_goldimg cpa1"></p>Gold Package - 2500 Credits<br>
+			 <span>You can purchase 125 Leads.</span></div>
+		<div class="m_pricebtn cpa1" onclick="getGAEventTrackingJS('Subs_Gold_Buy_Now');return frmsubmit(22);">
+			<p class="m_spimg m_offer">save<br>64%</p>
+			<input class="cpmb2" value="22" name="plan" style="display:none" type="RADIO"><b><span class="WebRupee">Rs.</span> 20000<br>Pay Now</b>
+		</div>
+		<div class="cpm2"></div>
+	</div>
+	<div></div>-->
+		
+ </div></form><img src="images/z_002.gif" class="cpm2" height="2" width="1"></div>
+<img src="images/z_002.gif" height="2" width="1"><img src="images/z_002.gif" height="2" width="1">
+<!--<div class="m_paygateway">
+		<p>Secure Online Payment Gateway</p> 
+			<div class="m_spimg m_payspmg cpa1">
+			</div>
+	</div>-->
+      
+    
+</div>
+
+
+   <style>.redirect{color:#0000ff; text-decoration:none;}
+ 		.redirect:hover{color:#ff0000; text-decoration:underline; cursor:pointer;}</style><div id="main_helparea" style="position:absolute; left:0;top:0;width:100%;display:none">
+		<div id="inside_helpmsg" style=" z-index:11;width:600px; border-radius:4px; webkit-border-radius:4px; font-family:arial;moz-border-radius:4px;-moz-border-bottom-colors: none;-moz-border-image: none;-moz-border-left-colors: none;-moz-border-right-colors: none;-moz-border-top-colors: none;background-color: #FEF9EE;   border-color: #FFDA8B #EDB153 #EDB153 #FFDA8B;border-style: solid;border-width: 3px 5px 5px 3px; background:#FEF9EE; margin:0px auto; position:relative; box-shadow: 0px 4px 10px 5px rgba(221,221,221,1);">
+		<span style=" position:absolute; top:-17px;right:-13px; cursor:pointer;" onclick="cnfirmmsg_close()"><img src="images/q_clbtn.png" align="right" height="28" width="29"></span>
+		<div style="font-size:25px; text-align:center; padding:25px 8px 25px 10px;line-height:24px; color:#000000;">
+		<p style="padding:0px; margin:0px; line-height:40px;"><b style="color:#e57100;font-size:30px;">Want to know more about the service?</b> <br><b>Call us @ 08030178025</b></p><!--<span style="font-size:40px;color:#cfb88c;height:30px;">or</span>
+		<br />
+		<div id="LiveChat_1357882373" style="margin-top:5px;" onclick="cnfirmmsg_close()"></div>-->
+		<br>
+		<p style="padding:0px; margin:0px; font-size:18px; font-family:arial;" onclick="r_direct();">Still you want to Leave this page <span class="redirect" onclick="r_direct();">click here</span></p>
+		</div>
+		</div>
+		</div>
+		<div class="c3">&nbsp;</div>
+		<!--footer:start-->
+	<?php include 'includes/footer.php';?>

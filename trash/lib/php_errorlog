@@ -1,0 +1,7 @@
+[07-Jan-2019 13:55:25 CST6CDT] PHP Fatal error:  Call to undefined function getSiteTitle() in /home/egyptmar/public_html/ARABYOS/lib/index.php on line 45
+[07-Jan-2019 13:56:04 CST6CDT] PHP Fatal error:  Call to undefined function getSiteTitle() in /home/egyptmar/public_html/ARABYOS/lib/index.php on line 45
+[07-Jan-2019 13:56:05 CST6CDT] PHP Fatal error:  Call to undefined function getSiteTitle() in /home/egyptmar/public_html/ARABYOS/lib/index.php on line 45
+[22-Jan-2021 20:18:48 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'egyptmar_sgwp'@'localhost' (using password: YES) in /home/egyptmar/public_html/ARABYOS/lib/phpminiadmin.php on line 564
+[22-Jan-2021 20:18:48 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'egyptmar_sgwp'@'localhost' (using password: YES) in /home/egyptmar/public_html/ARABYOS/lib/phpminiadmin.php on line 564
+[22-Jan-2021 20:18:48 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, boolean given in /home/egyptmar/public_html/ARABYOS/lib/phpminiadmin.php on line 607
+[22-Jan-2021 20:19:03 UTC] PHP Warning:  mysqli_connect(): (28000/1045): Access denied for user 'egyptmar_sgwp'@'localhost' (using password: NO) in /home/egyptmar/public_html/ARABYOS/lib/phpminiadmin.php on line 564

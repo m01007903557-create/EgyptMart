@@ -1,0 +1,1039 @@
+<?php echo "<!-- بداية index_rightsidebar.php -->"; ?>
+
+<style>
+.text-right button.btn.btn-default.btn-xs {
+    height: auto !Important;
+    width: auto !Important;
+}
+button.btn.btn-sm.btn-default.border-radius-0.txt-bold.bold-xs.btn-white.text-capitalize {
+    height: auto !Important;
+    width: auto !Important;
+}
+.right-section-search-buylead {
+    position: absolute;
+    right: 0;
+}
+#right-image{max-width: 238px !important;}
+.search-buy-table {
+    background: #fff;
+    border: 1px solid #d7e1ef;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin: 0 0 12px;
+    overflow: hidden;
+}
+.search-buy-table-head {
+    background: #1784c7;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 10px;
+}
+.search-buy-table-head h3 {
+    color: #fff;
+    font-size: 17px;
+    font-weight: 700;
+    margin: 0;
+}
+.search-buy-table-count {
+    background: #6b43c8;
+    color: #fff;
+    font-weight: 700;
+    padding: 2px 7px;
+}
+.search-buy-row {
+    border-bottom: 1px dotted #b8c4d0;
+    padding: 9px 10px;
+}
+.search-buy-row:last-child {
+    border-bottom: 0;
+}
+.search-buy-title {
+    color: #1d2980;
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.35;
+    text-decoration: none;
+}
+.search-buy-meta {
+    color: #555;
+    font-size: 11px;
+    line-height: 1.5;
+    margin-top: 5px;
+}
+.search-buy-meta img {
+    max-height: 12px;
+    margin-right: 4px;
+    vertical-align: middle;
+}
+.search-buy-badge {
+    background: #1f9bd1;
+    color: #fff;
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    margin-top: 4px;
+    padding: 2px 7px;
+}
+.search-buy-action {
+    background: #f58220;
+    color: #fff !important;
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 9px 10px;
+    text-align: center;
+    text-decoration: none;
+}
+@media (max-width: 480px){
+	.ryt.fl.ser-right.right-section-search-buylead {
+	     display: block ; 
+	     clear: both;
+	     float: none !important;
+	     position: static !important;
+	     width: 100% !important;
+	     padding: 0 10px;
+	}
+    .search-buy-table { margin-top: 12px; }
+}
+
+
+</style>
+<?php 
+if(isset($_GET["rctyp"]) && $_GET["rctyp"] == "tender"){
+?>
+</div>
+<?php } ?>
+<div class="ryt fl ser-right right-section-search-buylead" >
+<!---------------------------------------------------->
+
+<?php	
+if(isset($_COOKIE['loc_id']))
+{
+	$loc_id = (int)$_COOKIE['loc_id'];
+	$sql_pd_ck = " and (
+	(pd_preferred_buyer_location='domestic' and pd_uid in(select distinct usr_id from user where country='$loc_id'))
+	or
+	(pd_preferred_buyer_location='any' and pd_uid in(select distinct usr_id from user where country='$loc_id'))
+	or
+	(pd_preferred_buyer_location='my_city' and pd_uid in(select distinct bnsprof_uid from business_profile where bnsprof_city in (select ct_id from city where ct_cn_id='$loc_id'))))";
+	
+	$sql_br_ck = " and ((br_preferred_supplier_location='domestic' and br_u_id in(select distinct usr_id from user where country='$loc_id')) 
+	or 
+	(br_preferred_supplier_location='any' and br_u_id in(select distinct usr_id from user where country='$loc_id'))
+	or
+	(br_preferred_supplier_location='my_city' and br_u_id in(select distinct bnsprof_uid from business_profile where bnsprof_city in (select ct_id from city where ct_cn_id='$loc_id'))))";
+	
+	$sql_tnd_ck = " and ((tnd_preferred_location='domestic' and tnd_usr_id in(select distinct usr_id from user where country='$loc_id')) 
+	or 
+	(tnd_preferred_location='any' and tnd_usr_id in(select distinct usr_id from user where country='$loc_id'))
+	or
+	(tnd_preferred_location='my_city' and tnd_usr_id in(select distinct bnsprof_uid from business_profile where bnsprof_city in (select ct_id from city where ct_cn_id='$loc_id'))))";
+}
+else
+{
+	$geo = isset($location_geo_country[0]) ? $location_geo_country[0] : '';
+	$sql_pd_ck = " and (
+	(pd_preferred_buyer_location='any')
+	or
+	(pd_preferred_buyer_location='abroad' and pd_uid not in(select distinct usr_id from user where country=(select cn_id from country where cn_code='$geo')))
+	)";
+	
+	$sql_br_ck = " and (
+	(br_preferred_supplier_location='any')
+	or
+	(br_preferred_supplier_location='abroad' and br_u_id not in(select distinct usr_id from user where country=(select cn_id from country where cn_code='$geo')))
+	)";
+	$sql_tnd_ck = " and (
+	(tnd_preferred_location='any')
+	or
+	(tnd_preferred_location='abroad' and tnd_usr_id not in(select distinct usr_id from user where country=(select cn_id from country where cn_code='$geo')))
+	)";
+}
+?>
+
+<?php
+if (!function_exists('renderRightSearchBuyTable')) {
+	function renderRightSearchBuyTable($keyword, $location_filter) {
+		global $con;
+		$keyword = trim(str_replace(array('+', '%20'), ' ', (string)$keyword));
+		if ($keyword === '') {
+			return;
+		}
+		$parts = preg_split('/\s+/', $keyword);
+		$clauses = array();
+		foreach ($parts as $part) {
+			$part = trim($part);
+			if ($part === '') {
+				continue;
+			}
+			$safe = mysqli_real_escape_string($con, $part);
+			$clauses[] = "(br_pd_name LIKE '%".$safe."%' OR br_requirement LIKE '%".$safe."%')";
+		}
+		if (empty($clauses)) {
+			return;
+		}
+		$where_keywords = implode(' OR ', $clauses);
+		$sql_count = "SELECT COUNT(*) AS total FROM buy_requirement, user WHERE br_u_id=usr_id AND br_approval_status='1' AND br_status='1' AND br_display_status='1' AND (".$where_keywords.") ".$location_filter;
+		$count_result = mysqli_query($con, $sql_count);
+		$count_row = $count_result ? mysqli_fetch_assoc($count_result) : array('total' => 0);
+		$total = (int)($count_row['total'] ?? 0);
+		if ($total < 1) {
+			$sql_latest = "SELECT * FROM buy_requirement, user WHERE br_u_id=usr_id AND br_approval_status='1' AND br_status='1' AND br_display_status='1' ".$location_filter." ORDER BY br_id DESC LIMIT 0,5";
+			$list_result = mysqli_query($con, $sql_latest);
+		} else {
+			$sql_list = "SELECT * FROM buy_requirement, user WHERE br_u_id=usr_id AND br_approval_status='1' AND br_status='1' AND br_display_status='1' AND (".$where_keywords.") ".$location_filter." ORDER BY br_id DESC LIMIT 0,5";
+			$list_result = mysqli_query($con, $sql_list);
+		}
+		if (!$list_result || mysqli_num_rows($list_result) < 1) {
+			return;
+		}
+		$shown_total = $total > 0 ? $total : mysqli_num_rows($list_result);
+		$padded_total = str_pad((string)$shown_total, 4, '0', STR_PAD_LEFT);
+		?>
+		<div class="search-buy-table">
+			<div class="search-buy-table-head">
+				<h3>طلبات شراء مرتبطة</h3>
+				<span class="search-buy-table-count"><?php echo htmlspecialchars($padded_total); ?></span>
+			</div>
+			<?php while ($row_br = mysqli_fetch_object($list_result)) {
+				$country_name = get_country_name((int)$row_br->country);
+				$flag_name = get_country_flag((int)$row_br->country);
+				$flag_html = $flag_name != '' ? '<img src="images/country_flag/'.htmlspecialchars($flag_name).'" alt="'.htmlspecialchars($country_name).'">' : '';
+				$detail_url = 'buyleads-details.php?id='.rand(1000, 9999).md5((string)$row_br->br_id);
+				$qty = '';
+				if (($row_br->br_estimate_qty ?? '') != '' && ($row_br->br_estimate_qty ?? '') != '0') {
+					$qty = 'الكمية: '.htmlspecialchars($row_br->br_estimate_qty).' '.htmlspecialchars(measurement_unit((int)$row_br->br_estimate_qty_unit));
+				}
+				?>
+				<div class="search-buy-row">
+					<a class="search-buy-title" href="<?php echo $detail_url; ?>" target="_blank"><?php echo htmlspecialchars(ucwords(stripslashes($row_br->br_pd_name))); ?></a>
+					<span class="search-buy-badge">مشتري متحقق منه</span>
+					<div class="search-buy-meta"><?php echo $flag_html; ?><?php echo htmlspecialchars($country_name); ?><?php if ($qty != '') { ?> · <?php echo $qty; ?><?php } ?></div>
+				</div>
+			<?php } ?>
+			<a class="search-buy-action" href="post-buy-req.php?keywords=<?php echo urlencode($keyword); ?>">أنشر طلب شراء لهذا البحث</a>
+		</div>
+		<?php
+	}
+}
+
+if (isset($_GET['keywords']) && $_GET['keywords'] != '' && (!isset($_GET['rctyp']) || $_GET['rctyp'] != 'Suppliers')) {
+	renderRightSearchBuyTable($_GET['keywords'], $sql_br_ck);
+}
+?>
+
+<?php if(isset($_GET['keywords']) && $_GET['keywords'] != ""){ 
+	if(isset($_GET['rctyp']) || isset($_GET['grid']))
+	{
+	  if((isset($_GET['rctyp']) && $_GET['rctyp'] != 'Suppliers') || (isset($_GET['grid']) && $_GET['grid'] == 'active'))
+	  {
+?>
+    <div class="rht_related_cat" >
+    
+<?php  if((!isset($_GET['rctyp']) || $_GET['rctyp'] != 'tender') && (!isset($_GET['rctyp']) || $_GET['rctyp'] != 'buy_lead')){ ?> 
+      <div class="">
+        <section>
+	<?php 
+	
+	if(isset($_COOKIE['loc_id']))
+	{
+		$loc_id = (int)$_COOKIE['loc_id'];
+		$sql_pd_ck = " and (
+		(pd_preferred_buyer_location='domestic' and pd_uid in(select distinct usr_id from user where country='$loc_id')) 
+		or 
+		(pd_preferred_buyer_location='any' and pd_uid in(select distinct usr_id from user where country='$loc_id'))
+		or
+		(pd_preferred_buyer_location='my_city' and pd_uid in(select distinct bnsprof_uid from business_profile where bnsprof_city in (select ct_id from city where ct_cn_id='$loc_id'))))";
+	}
+	else
+	{
+		$geo = isset($location_geo_country[0]) ? $location_geo_country[0] : '';
+		$sql_pd_ck = " and (
+		(pd_preferred_buyer_location='any')
+		or
+		(pd_preferred_buyer_location='abroad' and pd_uid not in(select distinct usr_id from user where country=(select cn_id from country where cn_code='$geo')))
+		)";
+	}
+	
+	$sqls = "SELECT * FROM `product_category` WHERE `pc_name` LIKE '%".mysqli_real_escape_string($con, $_GET['keywords'])."%' and pc_status='1' ORDER BY `pc_id` DESC";
+	$ress = mysqli_query($con, $sqls);
+	$RelatedCatCount = mysqli_num_rows($ress);
+	$rows = mysqli_fetch_object($ress);
+	$catId = $rows->pc_id ?? 0;
+	$catParentId = $rows->pc_parent_id ?? 0;
+	
+	$iProductCategoryId = mysqli_query($con, "SELECT pd_subcat_id FROM `products` JOIN `business_profile` ON business_profile.bnsprof_uid = products.pd_uid WHERE (`pd_title` LIKE '%".mysqli_real_escape_string($con, $_GET['keywords'])."%' OR `bnsprof_compname` LIKE '%".mysqli_real_escape_string($con, $_GET['keywords'])."%') and pd_status='1'");
+	$iCategoryDetail = mysqli_fetch_object($iProductCategoryId);
+	
+	$queryNewAlpha = "SELECT * FROM product_category WHERE pc_id='".(int)($iCategoryDetail->pd_subcat_id ?? 0)."' and pc_status='1' ORDER BY `pc_id` DESC";
+	$queryResultNewAlpha = mysqli_query($con, $queryNewAlpha);
+	$ResultsNewAlpha = mysqli_fetch_object($queryResultNewAlpha);
+	
+	$query = "SELECT * FROM `product_category` WHERE pc_id = '".(int)($ResultsNewAlpha->pc_parent_id ?? 0)."' and pc_status='1' ORDER BY `pc_id` DESC";
+	$queryResult = mysqli_query($con, $query);
+	$Results = mysqli_fetch_object($queryResult);
+	
+	$iMainParentId = "SELECT * FROM `product_category` WHERE pc_parent_id = '".(int)($Results->pc_parent_id ?? 0)."' and pc_status='1' ORDER BY `pc_name` asc LIMIT 5";
+	$iMainParentIdqueryResult = mysqli_query($con, $iMainParentId);
+	
+	$rr = 0; $counter = 0;
+	
+	while( $Results = mysqli_fetch_object($iMainParentIdqueryResult) ){
+		if( $rr == 0){
+			echo ' <header> <span class="h4">: قـد تحتاج أيضا لهـذه الأصناف </span> </header>
+			<ul>';
+		}
+		
+		unset($pc_id_arr);
+		$sql_check1 = "select pc_id from product_category where pc_parent_id='".(int)$Results->pc_id."'";
+		$res_check1 = mysqli_query($con, $sql_check1);
+		while($data = mysqli_fetch_array($res_check1)){
+			$pc_id_arr[] = $data['pc_id'];		
+		}
+		$ids = join("','", $pc_id_arr ?? []); 
+
+		$sql_prd = "select * from products, measurement_unit, country, business_profile, plan_member_id, smembership_plan
+					where mu_id=pd_unit and pd_currency=cn_id ".$sql_pd_ck." 
+					and business_profile.bnsprof_uid = products.pd_uid 
+					and plan_member_id.b_id = business_profile.bnsprof_id 
+					and pd_status='1' 
+					and smembership_plan.mp_id = plan_member_id.p_id 
+					and pd_image!='' 
+					and plan_member_id.expiry_date > ".time()." 
+					and pd_subcat_id in('$ids') 
+					ORDER BY FIELD(p_id,'5','4','3','15')";
+		
+		$recObj = mysqli_query($con, $sql_prd);
+		$iThisValu = mysqli_num_rows($recObj);
+		if($iThisValu > 0)
+		{	
+			$counter++;
+			if($counter == 8)
+			{
+				echo '<div class="collapse" id="categoriesRight">';
+			}		
+			echo ' <li> <a href="products.php?c='.md5((string)$Results->pc_id).'&rctyp=Products">'.htmlspecialchars($Results->pc_name).'</a> </li>'; 
+			if( isset($_GET['keywords']) && $_GET['keywords'] == $Results->pc_name ){
+				$getSubCatId = $Results->pc_id;
+			}
+		}
+		$rr++;
+		$reddID = $Results->pc_parent_id;
+	}
+	
+	if($counter > 7)
+	{
+		echo '</div>';
+	}
+	if($counter > 4) { ?>
+    <div class="text-right">
+      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#categoriesRight" aria-expanded="false" aria-controls="collapseExample"> المـزيد +</button>
+    </div><?php }?>
+	  </ul>
+        </section>
+      </div>
+      
+<?php } ?>
+
+<?php if(isset($_GET['rctyp']) && $_GET['rctyp'] == 'buy_lead'){ ?> 
+      <div class="">
+        <section>
+	<?php 
+	
+	if(isset($_COOKIE['loc_id']))
+	{
+		$loc_id = (int)$_COOKIE['loc_id'];
+		$sql_pd_ck = " and (
+		(pd_preferred_buyer_location='domestic' and pd_uid in(select distinct usr_id from user where country='$loc_id')) 
+		or 
+		(pd_preferred_buyer_location='any' and pd_uid in(select distinct usr_id from user where country='$loc_id'))
+		or
+		(pd_preferred_buyer_location='my_city' and pd_uid in(select distinct bnsprof_uid from business_profile where bnsprof_city in (select ct_id from city where ct_cn_id='$loc_id'))))";
+	}
+	else
+	{
+		$geo = isset($location_geo_country[0]) ? $location_geo_country[0] : '';
+		$sql_pd_ck = " and (
+		(pd_preferred_buyer_location='any')
+		or
+		(pd_preferred_buyer_location='abroad' and pd_uid not in(select distinct usr_id from user where country=(select cn_id from country where cn_code='$geo')))
+		)";
+	}
+	
+	$sqls = "SELECT * FROM `product_category` WHERE `pc_name` LIKE '%".mysqli_real_escape_string($con, $_GET['keywords'])."%' and pc_status='1' ORDER BY `pc_id` DESC";
+	$ress = mysqli_query($con, $sqls);
+	$RelatedCatCount = mysqli_num_rows($ress);
+	$rows = mysqli_fetch_object($ress);
+	$catId = $rows->pc_id ?? 0;
+	$catParentId = $rows->pc_parent_id ?? 0;
+	
+	$keywordsssSS = $_GET['keywords'];
+	$keywords = trim($_GET['keywords']);
+	$keywords_string = generateBuyleadSearchString($keywords);
+	
+	$iProductCategoryId = "select *, MATCH(br_pd_name) AGAINST('".mysqli_real_escape_string($con, $keywordsssSS)."' IN BOOLEAN MODE) AS title_relevance 
+						   from buy_requirement, measurement_unit 
+						   where br_estimate_qty_unit=mu_id and (".$keywords_string.") 
+						   and br_approval_status = '1' and br_display_status = '1' and br_status = '1' 
+						   ".$sql_br_ck." ".$sql_extra." 
+						   order by title_relevance asc";
+	$nEWAAiProductCategoryId = mysqli_query($con, $iProductCategoryId);
+	$iCategoryDetail = mysqli_fetch_object($nEWAAiProductCategoryId);
+	
+	$queryNewAlpha = "SELECT * FROM product_category WHERE pc_id='".(int)($iCategoryDetail->br_pc_id ?? 0)."' and pc_status='1' ORDER BY `pc_id` DESC";
+	$queryResultNewAlpha = mysqli_query($con, $queryNewAlpha);
+	$ResultsNewAlpha = mysqli_fetch_object($queryResultNewAlpha);
+	
+	$query = "SELECT * FROM `product_category` WHERE pc_id = '".(int)($ResultsNewAlpha->pc_parent_id ?? 0)."' and pc_status='1' ORDER BY `pc_id` DESC";
+	$queryResult = mysqli_query($con, $query);
+	$Results = mysqli_fetch_object($queryResult);
+	
+	$iMainParentId = "SELECT * FROM `product_category` WHERE pc_parent_id = '".(int)($Results->pc_parent_id ?? 0)."' and pc_status='1' ORDER BY `pc_name` asc";
+	$iMainParentIdqueryResult = mysqli_query($con, $iMainParentId);
+	
+	$rr = 0;
+	while( $Results = mysqli_fetch_object($iMainParentIdqueryResult) ){
+		if( $rr == 0){
+			echo ' <header> <span class="h4"> تصنيفات أخرى هامة</span> </header>
+			<ul>';
+		}
+		
+		unset($pc_id_arr);
+		$sql_check1 = "select pc_id from product_category where pc_parent_id='".(int)$Results->pc_id."'";
+		$res_check1 = mysqli_query($con, $sql_check1);
+		while($data = mysqli_fetch_array($res_check1)){
+			$pc_id_arr[] = $data['pc_id'];		
+		}
+		$ids = join("','", $pc_id_arr ?? []);
+		
+		$sql_prd = "select *, MATCH(br_pd_name) AGAINST('".mysqli_real_escape_string($con, $keywordsssSS)."' IN BOOLEAN MODE) AS title_relevance 
+					from buy_requirement, measurement_unit 
+					where br_estimate_qty_unit=mu_id and (".$keywords_string.") 
+					and br_approval_status = '1' and br_display_status = '1' 
+					and br_pc_id in('$ids') and br_status = '1' 
+					".$sql_br_ck." ".$sql_extra." 
+					order by title_relevance desc";
+		
+		$recObj = mysqli_query($con, $sql_prd);
+		$iThisValu = mysqli_num_rows($recObj);
+		if($iThisValu > 0)
+		{	
+			echo ' <li> <a href="https://arabyos.com/buyleads.php">'.htmlspecialchars($Results->pc_name).'</a> </li>'; 
+			if( isset($_GET['keywords']) && $_GET['keywords'] == $Results->pc_name ){
+				$getSubCatId = $Results->pc_id;
+			}
+		}
+		$rr++;
+		$reddID = $Results->pc_parent_id;
+	}
+	?>
+	  </ul>
+        </section>
+      </div>
+      
+<?php } ?> 
+ 
+<?php if((isset($_GET['rctyp']) && $_GET['rctyp'] == 'tender') || (isset($_GET['rctyp']) && $_GET['rctyp'] == 'buy_lead')){ ?>
+<?php
+$tdate = date("Y-m-d");
+$iNewkeywords = $_GET['keywords'] ?? '';
+$sql_t = "select * from tender, product_category, user, business_profile 
+		  where tnd_pc_id=pc_id and tnd_usr_id=usr_id and usr_id=bnsprof_uid 
+		  and tnd_approval_status='1' 
+		  and tnd_heading like '%".mysqli_real_escape_string($con, $iNewkeywords)."%' 
+		  and TO_DAYS(tnd_due_date) >= TO_DAYS(now()) ".$sql_tnd_ck." 
+		  and tnd_status='1' order by tnd_id LIMIT 0, 5";
+$res_t = mysqli_query($con, $sql_t);
+if(mysqli_num_rows($res_t) > 0){
+?>
+<div class="mb1 c3" style="border: 1px solid #ccc; border-radius: 5px; background: #fff;">
+<p class="bg bxt"><img alt="" src="images/zero.gif" height="1" width="1"></p>
+<div class="bbx cln">
+<p class="bxh f2 color_coding" style="color: #c30000;">مناقصات أخرى</p>
+<div style="display: block;" id="d2">
+<?php
+$n = 1;
+while($row_t = mysqli_fetch_object($res_t)){
+	$len = strlen($row_t->tnd_details ?? '');
+?>
+<?php if($n > 1){ ?><br class="c3"><?php } ?>
+<p class="lnh1">
+<b class="cor lnh1"><a href="tender-details.php?id=<?php echo rand(1000,9999).md5((string)$row_t->tnd_id); ?>" style="text-decoration:none;color:E84000"><?php echo htmlspecialchars($row_t->tnd_heading); ?></a><br>
+<span class="cb2"><?php echo htmlspecialchars(get_country_name($row_t->country ?? 0)); ?></span></b><br><?php echo htmlspecialchars(substr($row_t->tnd_details ?? '', 0, 120)); ?>
+</p>
+<?php if($len > 120){ ?>
+<p class="c3 pa1 rm tr"><a href="tender-details.php?id=<?php echo rand(1000,9999).md5((string)$row_t->tnd_id); ?>" target="_blank"> Read More...</a></p>
+<?php } 
+$n++;
+} ?>
+</div>
+<p class="c3"></p>
+</div>
+<p class="bg bxb"><img alt="" src="images/zero.gif" height="1" width="1"></p>
+</div>
+<?php } ?>
+
+<?php
+$sql_t = "select * from auction, product_category, user, business_profile 
+		  where auc_pc_id=pc_id and auc_usr_id=usr_id and usr_id=bnsprof_uid 
+		  and auc_approval_status='1' 
+		  and TO_DAYS(auc_due_date) >= TO_DAYS(now()) ".$sql_auc_ck." 
+		  and auc_heading like '%".mysqli_real_escape_string($con, $iNewkeywords)."%' 
+		  and auc_status='1' order by auc_id LIMIT 0, 5";
+$res_t = mysqli_query($con, $sql_t);
+if(mysqli_num_rows($res_t) > 0){
+?>
+<div class="mb1 c3" style="border: 1px solid #ccc; border-radius: 5px;">
+<p class="bg bxt"><img alt="" src="images/zero.gif" height="1" width="1"></p>
+<div class="bbx cln">
+<p class="bxh f2 color_coding">مـزيدات أخرى</p>
+<div style="display: block;" id="d2">
+<?php
+$n = 1;
+while($row_t = mysqli_fetch_object($res_t)){
+	$len = strlen($row_t->auc_details ?? '');
+?>
+<?php if($n > 1){ ?><br class="c3"><?php } ?>
+<p class="lnh1">
+<b class="cor lnh1"><a href="auction-details.php?id=<?php echo rand(1000,9999).md5((string)$row_t->auc_id); ?>" style="text-decoration:none;color:E84000"><?php echo htmlspecialchars($row_t->auc_heading); ?></a><br>
+<span class="cb2"><?php echo htmlspecialchars(get_country_name($row_t->country ?? 0)); ?></span></b><br><?php echo htmlspecialchars(substr($row_t->auc_details ?? '', 0, 120)); ?>
+</p>
+<?php if($len > 120){ ?>
+<p class="c3 pa1 rm tr"><a href="auction-details.php?id=<?php echo rand(1000,9999).md5((string)$row_t->auc_id); ?>" target="_blank"> + المزيد</a></p>
+<?php } 
+$n++;
+} ?>
+</div>
+<p class="c3"></p>
+</div>
+<p class="bg bxb"><img alt="" src="images/zero.gif" height="1" width="1"></p>
+</div>
+<?php } ?>
+
+<?php } ?>     
+      
+<?php }else if(isset($_GET['rctyp']) && $_GET['rctyp'] == 'Suppliers'){ ?>
+		<div style="" >
+      <div class=""></div></div>
+	 <?php }
+}
+} ?>
+
+<?php if(isset($_GET['keywords']) && $_GET['keywords'] != '') { 
+if(isset($_GET['rctyp']) || isset($_GET['grid']))
+	  {
+	  if((isset($_GET['rctyp']) && $_GET['rctyp'] != 'Suppliers') || (isset($_GET['grid']) && $_GET['grid'] == 'active'))
+	  {
+?>
+    <style>
+	#sideAdTable_event{
+		position: absolute;
+		top: 0px;
+		z-index: 4;
+	}
+	</style>
+      <div class="col-lg-12" style="padding:3px;" id="right-image">
+        <div class="col-lg-12 popup-sub-box">
+          <header>
+            <h2 style="color:#fff;">أنـشر طلـب شـراء لــ</h3>
+			  
+			  <?php if(isset($_GET['keywords']) && $_GET['keywords'] != '') {
+	  if(isset($_GET['rctyp']))
+	  {
+	  if((isset($_GET['rctyp']) && $_GET['rctyp'] != 'Suppliers'))
+	  {
+	$key = $_GET['keywords']; 
+	  ?>
+<div class="col-lg-12 ar-box text-justify hidden-xs" style="padding-right:23px;" id="business-alert">
+    <div class="text-center">
+    <?php
+    		if (isset($neeraj_right_sidebar_content_comming_vairable) && $neeraj_right_sidebar_content_comming_vairable) {
+    			$busss_alert_cat_name = $neeraj_right_sidebar_content_comming_vairable;
+				?>
+			<h3 style="color:#f58238;">"<?php echo htmlspecialchars(ucwords($busss_alert_cat_name)); ?>"</h3>
+				<?php 
+    		} else 
+		    if(isset($_GET['rctyp']) && $_GET['rctyp'] == 'buy_lead')
+			{
+				$busss_alert_cat_name = '';
+				
+				$sql_key = "select * from buy_requirement join product_category on product_category.pc_id = buy_requirement.br_pc_id 
+							where (br_pd_name like '%".mysqli_real_escape_string($con, str_replace("+"," ",$_GET['keywords']))."%' 
+							OR pc_name like '%".mysqli_real_escape_string($con, str_replace("+"," ",$_GET['keywords']))."%') 
+							and pc_status='1' and pc_parent_id!='0'";
+				$query_key = mysqli_query($con, $sql_key);
+				$row_key = mysqli_fetch_object($query_key);
+				if(mysqli_num_rows($query_key) > 0){
+					$busss_alert_cat_name = $row_key->pc_name;
+				?>
+	  <h3 style="color:#f58238;">"<?php echo htmlspecialchars(ucwords($busss_alert_cat_name)); ?>"</h3>
+			<?php } else{ 
+				$sql_second_query = mysqli_query($con, "SELECT pc.* FROM product_category pc 
+					LEFT OUTER JOIN product_category spc ON pc.pc_id = spc.pc_parent_id 
+					WHERE pc.pc_name like '%".mysqli_real_escape_string($con, str_replace(array("+","%20"), array(" "," "), $_GET['keywords']))."%' 
+					AND pc.pc_parent_id!='0' and pc.pc_status='1'");
+				$fetch_records = mysqli_fetch_object($sql_second_query);
+				if(mysqli_num_rows($sql_second_query) > 0){
+					$sub_cat_id_get = $fetch_records->pc_id;
+					$sql_second_query1 = mysqli_query($con, "SELECT * FROM product_category WHERE pc_parent_id='".$sub_cat_id_get."' and pc_status='1'");
+					$fetch_records1 = mysqli_fetch_object($sql_second_query1);
+					if(mysqli_num_rows($sql_second_query1) > 0){
+						$busss_alert_cat_name = $fetch_records1->pc_name;
+					} else {
+						$busss_alert_cat_name = $fetch_records->pc_name;
+					}
+				}
+				?>
+			 <h3 style="color:#f58238;">"<?php echo htmlspecialchars(ucwords($busss_alert_cat_name)); ?>"</h3>
+	  <?php
+				}
+			}
+		 else if(isset($_GET['rctyp']) && $_GET['rctyp'] == 'Products')
+			{
+				$busss_alert_cat_name = '';
+				$skeyw = str_replace("+"," ",$_GET['keywords']);
+				$sql_key = "select * from products join product_category on product_category.pc_id=products.pd_subcat_id
+ 					where (pd_title rlike '[[:<:]]{$skeyw}[[:>:]]' OR pd_title rlike '[[:<:]]{$skeyw}' OR pd_title like '%$skeyw%') and pc_status='1'
+					Order by pd_title rlike '[[:<:]]{$skeyw}[[:>:]]' desc, pd_title rlike '[[:<:]]{$skeyw}' desc, pd_title like '%$skeyw%'desc";
+				$query_key = mysqli_query($con, $sql_key);
+				$row_key = mysqli_fetch_object($query_key);
+				if(mysqli_num_rows($query_key) > 0){
+					$busss_alert_cat_name = $row_key->pc_name;
+				?>
+	  <h3 style="color:#f58238;">"<?php echo htmlspecialchars(ucwords($busss_alert_cat_name)); ?>"</h3>
+			<?php } else{ 
+				$sql_second_query = mysqli_query($con, "SELECT pc.* FROM product_category pc 
+					LEFT OUTER JOIN product_category spc ON pc.pc_id = spc.pc_parent_id 
+					WHERE pc.pc_name like '%".mysqli_real_escape_string($con, str_replace(array("+","%20"), array(" "," "), $_GET['keywords']))."%' 
+					AND pc.pc_parent_id!='0' and pc.pc_status='1'");
+				$fetch_records = mysqli_fetch_object($sql_second_query);
+				if(mysqli_num_rows($sql_second_query) > 0){
+					$sub_cat_id_get = $fetch_records->pc_id;
+					$sql_second_query1 = mysqli_query($con, "SELECT * FROM product_category WHERE pc_parent_id='".$sub_cat_id_get."' and pc_status='1'");
+					$fetch_records1 = mysqli_fetch_object($sql_second_query1);
+					if(mysqli_num_rows($sql_second_query1) > 0){
+						$busss_alert_cat_name = $fetch_records1->pc_name;
+					} else {
+						$busss_alert_cat_name = $fetch_records->pc_name;
+					}
+				}
+				?>
+			 <h3 style="color:#f58238;">"<?php echo htmlspecialchars(ucwords($busss_alert_cat_name)); ?>"</h3>
+	  <?php
+				}
+			}
+		  else if(isset($_GET['rctyp']) && $_GET['rctyp'] == 'tender')
+		  {
+			  $sql_key = "select * from tender join product_category on product_category.pc_id=tender.tnd_pc_id 
+						  where tnd_heading like '%".mysqli_real_escape_string($con, str_replace("+"," ",$_GET['keywords']))."%' and pc_status='1'";
+				$query_key = mysqli_query($con, $sql_key);
+				$row_key = mysqli_fetch_object($query_key);
+				if(mysqli_num_rows($query_key) > 0) {
+			  ?>
+	  <h3 style="color:#f58238;">"<?php echo htmlspecialchars(ucwords($row_key->pc_name)); ?>"</h3>
+		
+    <?php
+			} else {
+				$busss_alert_cat_name = '';
+				$sql_key = "select * from auction join product_category on product_category.pc_id=auction.auc_pc_id 
+							where auc_heading like '%".mysqli_real_escape_string($con, str_replace("+"," ",$_GET['keywords']))."%' and pc_status='1'";
+				$query_key = mysqli_query($con, $sql_key);
+				$row_key = mysqli_fetch_object($query_key);
+				if(mysqli_num_rows($query_key) > 0) { ?>
+	   <h3 style="color:#f58238;">"<?php echo htmlspecialchars(ucwords($row_key->pc_name)); ?>"</h3>
+		
+    <?php }
+		else{
+				$sql_second_query = mysqli_query($con, "SELECT pc.* FROM product_category pc 
+					LEFT OUTER JOIN product_category spc ON pc.pc_id = spc.pc_parent_id 
+					WHERE pc.pc_name like '%".mysqli_real_escape_string($con, str_replace(array("+","%20"), array(" "," "), $_GET['keywords']))."%' 
+					AND pc.pc_parent_id!='0' and pc.pc_status='1'");
+				$fetch_records = mysqli_fetch_object($sql_second_query);
+				if(mysqli_num_rows($sql_second_query) > 0){
+					$sub_cat_id_get = $fetch_records->pc_id;
+					$sql_second_query1 = mysqli_query($con, "SELECT * FROM product_category WHERE pc_parent_id='".$sub_cat_id_get."' and pc_status='1'");
+					$fetch_records1 = mysqli_fetch_object($sql_second_query1);
+					if(mysqli_num_rows($sql_second_query1) > 0){
+						$busss_alert_cat_name = $fetch_records1->pc_name;
+					} else {
+						$busss_alert_cat_name = $fetch_records->pc_name;
+					}
+				}
+		?>
+			<h3 style="color:#f58238;">"<?php echo htmlspecialchars(ucwords($busss_alert_cat_name)); ?>"</h3>
+		<?php }
+			}
+		  }
+			else
+			{
+				?>
+	  	 <h3 style="color:#f58238;">"<?php echo htmlspecialchars(ucwords($_GET['keywords'])); ?>"</h3>
+	  <?php
+				
+			}
+			
+		   ?>
+<?php }} }?>
+			  
+          </header>
+          <section class="col-lg-12">
+            <div class="col-lg-12" style="border:1px solid #a094c7; padding:2px; position:relative;">
+            <form action="post-buy-req.php" method="post" id="abcccccc">
+            <input type="hidden" name="keywords" value="<?php echo htmlspecialchars($_GET['keywords']); ?>" />
+              <textarea style="width:100%; max-width:100%; min-height:150px; max-height:150px; border:none; background-color:transparent; position:relative; z-index:5;"  id="table-input" name="specs"></textarea>
+       <table style="width:100%;" id="sideAdTable_event" class="sideBakwastable">
+    <tr>
+        <td>
+            <i class="fa fa-exclamation-triangle" style="color:#ba2025; font-size:18px;"></i>
+        </td>
+        <td class="h4" style="font-size:14px; text-align:right;">
+            أدخل إسم المنتج أو الخدمة
+        </td>
+    </tr>
+
+    <tr>
+        <td></td>
+        <td style="text-align:right;">
+            استخدام المنتج أو الخدمة
+        </td>
+    </tr>
+
+    <tr>
+        <td></td>
+        <td style="text-align:right;">
+            خصائص المنتج أو الخدمة
+        </td>
+    </tr>
+
+    <tr>
+        <td></td>
+        <td style="text-align:right;">
+            تغليف وتعبئة المنتج
+        </td>
+    </tr>
+
+    <tr>
+        <td></td>
+        <td style="text-align:right;">
+            أي طلبات خاصة
+        </td>
+    </tr>
+</table>
+            </div>
+            <div class="col-lg-12 margin-top-10 margin-bottom-10 text-center">
+              <button class="btn btn-default btn-warning" style="padding:3px 5px;" type="submit"> <b class="txt-bold" title="Get Instant Quote Now">وأحصل على تسعيرات لطلبك </b><br>
+              <small>من عـدة شركات مؤهـلة</small> </button>
+            </div>
+            </form>
+            <script>
+			$(document).ready(function(){
+									 $("#table-input").focusout(function(){ 
+												if($("#table-input").val()=='')
+												{
+												$("#sideAdTable_event").show();
+												}else
+												{
+												$("#sideAdTable_event").hide();	
+												}
+												});
+									   $("#table-input").focusin(function(){
+										$("#sideAdTable_event").hide();
+								  });
+						});
+			</script>
+             <?php if(isset($_SESSION['uid_indm']) && $_SESSION['uid_indm'] != '') { ?>
+            <div>
+              <ul>
+                <li>: معلومات شركتك</li>
+                  <?php 
+                  $user_id = (int)$_SESSION['uid_indm'];
+                  $query = "SELECT * FROM `user` WHERE usr_id='".$user_id."' ";
+                  $queryResult = mysqli_query($con, $query);
+                  while( $row = mysqli_fetch_assoc( $queryResult ) ){
+                  ?>
+                <li><?php echo htmlspecialchars(ucwords($row['fname'] ?? '')); ?> <?php echo htmlspecialchars(ucwords($row['lname'] ?? '')); ?></li>
+                <?php 
+                  $sql = "SELECT * FROM `country` WHERE cn_id='".(int)($row['country'] ?? 0)."' ";
+                  $result = mysqli_query($con, $sql);
+                  $row1 = mysqli_fetch_assoc($result);
+                  $sql2 = "SELECT * FROM `business_profile` WHERE bnsprof_uid='".$user_id."' ";
+                  $result2 = mysqli_query($con, $sql2);
+                  $row2 = mysqli_fetch_assoc($result2);
+                  $sql_city = "SELECT * FROM `city` WHERE ct_id='".(int)($row2['bnsprof_city'] ?? 0)."' ";
+                  $result_city = mysqli_query($con, $sql_city);
+                  $row_city = mysqli_fetch_assoc($result_city);
+                ?> 
+                <li><?php echo htmlspecialchars(ucwords($row1['cn_name'] ?? '')); ?> - <?php echo htmlspecialchars(ucwords($row_city['ct_name'] ?? '')); ?></li>
+                <li><?php echo htmlspecialchars($row1['cn_ph'] ?? ''); ?> <?php echo htmlspecialchars($row['mobile1'] ?? ''); ?></li>
+                <li><?php echo htmlspecialchars($row['email'] ?? ''); ?> </li>
+                <?php } ?>
+              </ul>
+            </div>
+            <?php } ?>
+          </section>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+<?php } 
+}
+}?> 
+
+<?php 
+$staticLeftBanner = staticAdsBanner('right');
+echo '<div class="col-lg-12 advertise-divs">';
+echo $staticLeftBanner.'</div>';
+?>
+		   <div class="clearfix"></div>
+	  <link rel="stylesheet" type="text/css" href="css/slick.css">
+<link rel="stylesheet" type="text/css" href="css/slick-theme.css">
+<script src="js/slick.js" type="text/javascript" charset="utf-8"></script>
+<?php include "css/custom.css"; ?>
+<style>
+.slick-product-image > img {
+    min-height: auto!important;
+    max-height: 170px!important;
+    border: 1px solid #E9E9E9!important;
+}
+.slick-product-wrapper {
+	max-width: none!important;
+    width: 70%;
+    display: inline-block;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.matterbox p {
+	text-align: center;
+
+}
+.ihoves{
+	text-align: center!important;
+}
+.top-arrow::before, .bottom-arrow::before {
+    font-family: slick;
+    font-size: 20px;
+    line-height: 1;
+    opacity: .75;
+    color: #fff;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.bottom-arrow::before {
+    content: '←';
+}
+.top-arrow::before {
+    content: '→';
+}
+.arrow_sli {
+    height: 100%;
+    width: 100%;
+    right: 0;
+    background: rgb(34,122,191);
+    z-index: 9;
+}
+</style>
+    <?php
+if (isset($_COOKIE['loc_id'])) {
+    $loc_id = (int)$_COOKIE['loc_id'];
+    $sql_pd_ck = " and (
+        (pd_preferred_buyer_location='domestic' and pd_uid in(select distinct usr_id from user where country='$loc_id'))
+        or
+        (pd_preferred_buyer_location='any' and pd_uid in(select distinct usr_id from user where country='$loc_id'))
+        or
+        (pd_preferred_buyer_location='my_city' and pd_uid in(select distinct bnsprof_uid from business_profile where bnsprof_city=(select ct_id from city where ct_cn_id='$loc_id' LIMIT 1))))";
+    $sql_so_ck = " and (
+        (so_preferred_buyer_location='domestic' and so_usr_id in(select distinct usr_id from user where country='$loc_id'))
+        or
+        (so_preferred_buyer_location='any' and so_usr_id in(select distinct usr_id from user where country='$loc_id'))
+        or
+        (so_preferred_buyer_location='my_city' and so_usr_id in(select distinct bnsprof_uid from business_profile where bnsprof_city=(select ct_id from city where ct_cn_id='$loc_id' LIMIT 1))))";
+    $sql_br_ck = " and ((br_preferred_supplier_location='domestic' and br_u_id in(select distinct usr_id from user where country='$loc_id'))
+        or
+        (br_preferred_supplier_location='any' and br_u_id in(select distinct usr_id from user where country='$loc_id'))
+        or
+        (br_preferred_supplier_location='my_city' and br_u_id in(select distinct bnsprof_uid from business_profile where bnsprof_city=(select ct_id from city where ct_cn_id='$loc_id' LIMIT 1))))";
+} else {
+    $geo = isset($location_geo_country[0]) ? $location_geo_country[0] : '';
+    $sql_pd_ck = " and (
+        (pd_preferred_buyer_location='any')
+        or
+        (pd_preferred_buyer_location='abroad' and pd_uid not in(select distinct usr_id from user where country=(select cn_id from country where cn_code='$geo')))
+    )";
+    $sql_so_ck = " and (
+        (so_preferred_buyer_location='any')
+        or
+        (so_preferred_buyer_location='abroad' and so_usr_id not in(select distinct usr_id from user where country=(select cn_id from country where cn_code='$geo')))
+    )";
+    $sql_br_ck = " and (
+        (br_preferred_supplier_location='any')
+        or
+        (br_preferred_supplier_location='abroad' and br_u_id not in(select distinct usr_id from user where country=(select cn_id from country where cn_code='$geo')))
+    )";
+}
+?> 
+	  <?php 
+if(isset($related_id) && !empty($related_id))
+{	
+	$rel_sup_id = array();
+	$i = 1;
+	foreach($related_id as $related_id_val){
+		$rel_sup_id[] = (int)$related_id_val;
+	}
+    $rel_id = implode(',', $rel_sup_id);
+	
+	$sqls = "SELECT `pd_subcat_id` FROM `products` WHERE pd_uid IN ($rel_id) and pd_status='1'";
+    $ress = mysqli_query($con, $sqls);
+	$RelatedCatCount = mysqli_num_rows($ress);
+	$rel_pc_id = array();
+	while( $Results = mysqli_fetch_object($ress) ){
+        $rel_pc_id[] = $Results->pd_subcat_id;
+	}
+    $rel_id = implode(',', $rel_pc_id); 
+
+    if (isset($_COOKIE['loc_id']) && $_COOKIE['loc_id'] != "") {
+        $sqlleading = "select * from products, measurement_unit, country, user 
+                       where mu_id=pd_unit and user.usr_id = products.pd_uid 
+                       and pd_currency=cn_id and pd_status='1' 
+                       and pd_subcat_id IN ($rel_id) and pd_image!=''" . $sql_pd_ck . " 
+                       order by rand() Limit 0,50";
+    } else {
+        $sqlleading = "select * from products, measurement_unit, country, user 
+                       where mu_id=pd_unit and user.usr_id = products.pd_uid 
+                       and pd_currency=cn_id and pd_status='1' 
+                       and pd_subcat_id IN ($rel_id) and pd_image!=''" . $sql_pd_ck . " 
+                       order by rand() Limit 0,50";
+    }
+     
+    $rsleading = mysqli_query($con, $sqlleading);
+    $totalbaneer = mysqli_num_rows($rsleading);
+    $rembaner = $totalbaneer % 2;
+    if($totalbaneer > 2){
+        if($totalbaneer > 0)
+        {
+?>
+                <p style="font-size: 17px;margin-top: 15px;margin-bottom: 10px; display: inline-block;" title="Related Leader Suppliers"><b>شركات رائدة</b></p>
+               <div class="demobox" >
+                  <div class="wrapper-container">
+                     <div class="white_bg">
+                        <div class="welcome_desc">
+                           <div class="course_demo">
+                              <ul id="EgyptMART-relatedCat">
+                                 <?php
+                                 while($rowleading = mysqli_fetch_object($rsleading))
+                                 {
+                                       $pd_id = $rowleading->pd_id;
+                                       $pd_image = $rowleading->pd_image;
+                                       $pd_title = $rowleading->pd_title;
+                                       $adv_icon = '';
+                                       echo '<div class="main-slick-wrapper-item">';
+									   $row_bprof = mysqli_fetch_object(mysqli_query($con, "select bnsprof_id from business_profile where bnsprof_uid='" . (int)$rowleading->pd_uid . "' limit 1"));
+                                       $sql_icon = "select sip.mst_icon, sip.mst_name from smembership_icon_plan sip 
+                                                    join plan_member_id pm on sip.mp_id = pm.p_id 
+                                                    where pm.b_id = " . (int)($row_bprof->bnsprof_id ?? 0);
+                                    ?>
+                                      
+                                  <a class="slick-product-wrapper" href="company/products.php?c=<?php echo rand(1000, 9999) . md5((string)($row_bprof->bnsprof_id ?? '')); ?>&sc=<?php echo rand(10, 99999) . $rowleading->pd_subcat_id; ?>#<?php echo $rowleading->pd_id; ?>" target=_blank>
+                                    <div class="demobox">
+                                        <div class="slick-product-image">
+                                       <img alt="" src="upload/myproduct/<?php echo htmlspecialchars($rowleading->pd_image); ?>" class="black" style="margin: auto;border: 1px solid #E9E9E9!important;" title="<?php echo htmlspecialchars(ucwords($rowleading->pd_title ?? '')); ?>">
+                                        </div>
+                                       <div class="matterbox">
+                                           <div class="icon-pic-with-heading">
+                                           <div class="icon_pic"><img alt=""src="images/<?php echo htmlspecialchars($adv_icon); ?>"class="img-responsive" width="18"></div>
+                                           <div class="ihover-wrapper"> 
+                                           <h3 class="ihoves">
+                                                <?php echo htmlspecialchars(ucwords(substr($pd_title ?? '', 0, 15))); ?><?php if (strlen($pd_title ?? '') > 15) { ?>...<?php } ?>
+                                             </h3>
+                                           <div class="auction_hover">
+                                                   <p><?php echo htmlspecialchars(ucwords($pd_title ?? '')); ?></p>
+                                                </div>
+                                           </div>
+                                           </div>
+                                          <div class="rightmatter">
+                                                                    <p>
+                                                                        <span class="nam"><?php echo htmlspecialchars(get_country_name($rowleading->country ?? 0)); ?></span><br>
+                                                                    <p>MOQ: <span
+                                                                                class="nam"><?php echo (int)($rowleading->pd_min_order_qty ?? 0); ?><?php echo htmlspecialchars($rowleading->mu_name ?? ''); ?></span><br>
+                                                                    <p><?php echo htmlspecialchars($rowleading->cn_currency ?? ''); ?><span
+                                                                                style="font-size:11px!important"
+                                                                                class="nam"><?php echo htmlspecialchars($rowleading->pd_fob_price ?? ''); ?>
+                                                                            /</span><?php echo htmlspecialchars($rowleading->mu_name ?? ''); ?>
+                                                                    <div class="clear"></div>
+                                                                </div>
+                                          <div class="clear"></div>
+                                       </div>
+                                    </div>
+                                 </a>
+                                 <?php
+                                     echo '</div>';
+                                    }
+                                    if($rembaner == 1){ echo '</div>'; }
+                                    ?>
+                              </ul>
+                              <script>$(window).load(function(){$("#flexiselDemo4").flexisel({visibleItems:4,animationSpeed:1e3,autoPlay:!0,autoPlaySpeed:3e3,pauseOnHover:!0,enableResponsiveBreakpoints:!0,responsiveBreakpoints:{portrait:{changePoint:480,visibleItems:1},landscape:{changePoint:640,visibleItems:2},tablet:{changePoint:768,visibleItems:2}}})})</script>
+                           </div>
+                        </div>
+                        <div class="clear" style="height:1px"></div>
+                     </div>
+                  </div>
+               </div>
+<?php } } } ?>
+ <script>
+	$('#EgyptMART-relatedCat').slick({
+		nextArrow: '<div class="arrow_sli"><img src="/assets/img/botom.png" class="top-arrow" aria-label="Previous" style="width:30px;display: block;margin: auto;border: none;background: rgb(34,122,191);padding: 5px;"></div>',
+		prevArrow: '<div class="arrow_sli"><img src="/assets/img/top.png" class="bottom-arrow" aria-label="Next" style="width:30px;display: block;margin: auto;border: none;background: rgb(34,122,191);padding: 5px;"></button></div>',
+		centerMode: true,
+		centerPadding: '10px',
+		slidesToShow: 7,
+		autoplay: true,
+		vertical: true,
+		responsive: [
+			{
+				breakpoint: 1024,
+				settings: {
+					centerMode: true,
+					centerPadding: '10px',
+					slidesToShow: 7
+				}
+			},
+			{
+				breakpoint: 768,
+				settings: {
+					centerMode: true,
+					centerPadding: '10px',
+					slidesToShow: 7
+				}
+			},
+			{
+				breakpoint: 480,
+				settings: {
+					centerMode: true,
+					centerPadding: '10px',
+					slidesToShow: 7
+				}
+			}
+		]
+	});
+	</script>
+
+    </div>
+    <div class="clearfix"></div>
+<script type="text/javascript">
+function buy_show()
+{
+	$("#bs1").removeClass("cp c4");
+	$("#ss1").addClass("cp c4");
+	$("#bs2").removeClass("off").addClass("on mt2");
+	$("#ss2").removeClass("on mt2").addClass("off");
+}
+function sell_show()
+{
+	$("#bs1").addClass("cp c4");
+	$("#ss1").removeClass("cp c4");
+	$("#bs2").removeClass("on mt2").addClass("off");
+	$("#ss2").removeClass("off").addClass("on mt2");
+}
+</script>
+</div>
+<?php echo "<!-- نهاية index_rightsidebar.php -->"; ?>

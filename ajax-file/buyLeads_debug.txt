@@ -1,0 +1,2099 @@
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 244
+)
+
+pc_id: 244
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND pc.pc_parent_id IN (
+               SELECT DISTINCT pc_id FROM product_category WHERE pc_parent_id = ?
+           )
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 36
+)
+
+pc_id: 36
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND pc.pc_parent_id IN (
+               SELECT DISTINCT pc_id FROM product_category WHERE pc_parent_id = ?
+           )
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 244
+)
+
+pc_id: 244
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND pc.pc_parent_id IN (
+               SELECT DISTINCT pc_id FROM product_category WHERE pc_parent_id = ?
+           )
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+)
+
+=== buyLeads.php called ===
+POST data: Array
+(
+)
+
+=== buyLeads.php called ===
+POST data: Array
+(
+)
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 244
+)
+
+pc_id: 244
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND pc.pc_parent_id IN (
+               SELECT DISTINCT pc_id FROM product_category WHERE pc_parent_id = ?
+           )
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 244
+)
+
+pc_id: 244
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND pc.pc_parent_id IN (
+               SELECT DISTINCT pc_id FROM product_category WHERE pc_parent_id = ?
+           )
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 318
+)
+
+pc_id: 318
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND pc.pc_parent_id IN (
+               SELECT DISTINCT pc_id FROM product_category WHERE pc_parent_id = ?
+           )
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 318
+)
+
+pc_id: 318
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND pc.pc_parent_id IN (
+               SELECT DISTINCT pc_id FROM product_category WHERE pc_parent_id = ?
+           )
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 318
+)
+
+pc_id: 318
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND pc.pc_parent_id IN (
+               SELECT DISTINCT pc_id FROM product_category WHERE pc_parent_id = ?
+           )
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 244
+)
+
+pc_id: 244
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND pc.pc_parent_id IN (
+               SELECT DISTINCT pc_id FROM product_category WHERE pc_parent_id = ?
+           )
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 244
+)
+
+pc_id: 244
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND pc.pc_parent_id IN (
+               SELECT DISTINCT pc_id FROM product_category WHERE pc_parent_id = ?
+           )
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 244
+)
+
+pc_id: 244
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND pc.pc_parent_id IN (
+               SELECT DISTINCT pc_id FROM product_category WHERE pc_parent_id = ?
+           )
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 244
+)
+
+pc_id: 244
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 244
+)
+
+pc_id: 244
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+)
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 244
+)
+
+pc_id: 244
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 326
+)
+
+pc_id: 326
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 326
+)
+
+pc_id: 326
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 326
+)
+
+pc_id: 326
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 326
+)
+
+pc_id: 326
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 326
+)
+
+pc_id: 326
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 326
+)
+
+pc_id: 326
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 326
+)
+
+pc_id: 326
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 326
+)
+
+pc_id: 326
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 3277
+)
+
+pc_id: 3277
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 3277
+)
+
+pc_id: 3277
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 326
+)
+
+pc_id: 326
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 316
+)
+
+pc_id: 316
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 326
+)
+
+pc_id: 326
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 244
+)
+
+pc_id: 244
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 244
+)
+
+pc_id: 244
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 244
+)
+
+pc_id: 244
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 244
+)
+
+pc_id: 244
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 244
+)
+
+pc_id: 244
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 36
+)
+
+pc_id: 36
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 3277
+)
+
+pc_id: 3277
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 326
+)
+
+pc_id: 326
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 318
+)
+
+pc_id: 318
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 318
+)
+
+pc_id: 318
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 326
+)
+
+pc_id: 326
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 3277
+)
+
+pc_id: 3277
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 36
+)
+
+pc_id: 36
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 3277
+)
+
+pc_id: 3277
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 326
+)
+
+pc_id: 326
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 318
+)
+
+pc_id: 318
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 36
+)
+
+pc_id: 36
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 36
+)
+
+pc_id: 36
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 36
+)
+
+pc_id: 36
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 3277
+)
+
+pc_id: 3277
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 326
+)
+
+pc_id: 326
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 36
+)
+
+pc_id: 36
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 244
+)
+
+pc_id: 244
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'any')
+        OR
+        (br_preferred_supplier_location = 'abroad' AND br_u_id NOT IN (
+            SELECT DISTINCT usr_id FROM user 
+            WHERE country IN (SELECT cn_id FROM country WHERE cn_code = ?)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 36
+)
+
+pc_id: 36
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+)
+
+=== buyLeads.php called ===
+POST data: Array
+(
+)
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 322
+)
+
+pc_id: 322
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 316
+)
+
+pc_id: 316
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 319
+)
+
+pc_id: 319
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 320
+)
+
+pc_id: 320
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 116
+)
+
+pc_id: 116
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 26
+)
+
+pc_id: 26
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 26
+)
+
+pc_id: 26
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 322
+)
+
+pc_id: 322
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 322
+)
+
+pc_id: 322
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 26
+)
+
+pc_id: 26
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 322
+)
+
+pc_id: 322
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+)
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 322
+)
+
+pc_id: 322
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 322
+)
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 316
+)
+
+pc_id: 322
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+pc_id: 316
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 316
+)
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 319
+)
+
+pc_id: 316
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+pc_id: 319
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+
+=== buyLeads.php called ===
+POST data: Array
+(
+    [page] => 1
+    [id] => 318
+)
+
+pc_id: 318
+start: 0
+per_page: 20
+SQL: SELECT br.*, u.*, pc.* 
+           FROM buy_requirement br
+           INNER JOIN user u ON br.br_u_id = u.usr_id
+           INNER JOIN product_category pc ON br.br_pc_id = pc.pc_id
+           WHERE br.br_approval_status = '1' 
+           AND br.br_status = '1' 
+           AND br.br_display_status = '1' 
+           AND (pc.pc_id = ? OR pc.pc_parent_id = ?)
+            AND (
+        (br_preferred_supplier_location = 'domestic' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63)) 
+        OR 
+        (br_preferred_supplier_location = 'any' AND br_u_id IN (SELECT DISTINCT usr_id FROM user WHERE country = 63))
+        OR
+        (br_preferred_supplier_location = 'my_city' AND br_u_id IN (
+            SELECT DISTINCT bnsprof_uid FROM business_profile 
+            WHERE bnsprof_city IN (SELECT ct_id FROM city WHERE ct_cn_id = 63)
+        ))
+    )
+           ORDER BY br.br_updated_date DESC 
+           LIMIT ?, ?
+

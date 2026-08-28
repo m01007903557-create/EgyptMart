@@ -1,0 +1,141 @@
+<div class="container top-bar" id="topbar">
+  <div class="row">
+    <div class="col-sm-12 col-lg-4 top-lft">
+      <ul>
+        <?php $cid;
+		if (isset($_SESSION['uid_indm']) && $_SESSION['uid_indm'] != '') {
+            $uid = $_SESSION['uid_indm'];
+			$sql_icon = "select sip.mst_icon,sip.mst_name from smembership_icon_plan sip join user u on sip.mp_id = u.usr_mp_id where u.usr_id = ".$uid;
+			$get_icon = mysql_query($sql_icon) or die(mysql_error());
+			$sql="select * from user,business_profile where usr_id=bnsprof_uid and usr_id='".$uid."' and status = '1'";
+			$res=mysqli_query($con, $sql);
+			$row=mysqli_fetch_object($res);
+			$cid=rand(1000,9999).md5($row->bnsprof_id);
+			?>
+        <li><span class="pp1"><span
+            class="tlc">Welcome: </span><?php echo getUserInfo($uid, 'name_prefix') . "&nbsp;" . getUserInfo($uid, 'fname');
+			if($row->bnsprof_compname !=''){
+			?> <span>
+          <?php if(mysql_num_rows($get_icon) > 0){
+				if(get_membership_expired()!=true){
+				$title = 'Junior';
+				$icon = mysql_fetch_array($get_icon);
+				
+				if(strpos(strtolower($icon['mst_name']), 'senior') !== false || strpos(strtolower($icon['mst_name']), 'senier') !== false) {
+				$title = 'Senior';
+				}
+				else if(strpos(strtolower($icon['mst_name']), 'sponsor') !== false || strpos(strtolower($icon['mst_name']), 'sponser') !== false) {
+				$title = 'Sponsor';
+				}
+				
+																	?>
+          <a href="company/index.php?c=<?php echo $cid; ?>><img src="admin/images/<?php echo $icon['mst_icon']; ?>"  <?php echo strtoupper($title); ?>" style="width:18px; height:15px;border:0;"
+                                                                                              alt=""/></a>
+          <?php } }
+			?>
+          </span>
+            <?php } ?>
+            </span> 
+          </li>
+          <?php } else { ?>
+          <li><a href="sign-in.php#loginform" target="_top" rel="nofollow" style="margin-left:8px; font-family: 'ge_ss_twobold';" title=" Sign in "> سجل دخول </a></li>
+          |
+          <li><a href="create_account.php#signupform" target="_top" rel="nofollow" style=" font-family: 'ge_ss_twobold';"title=" Join Free"  >إنشىء حساب مجانا &nbsp;|</a></li>
+          <?php } ?>
+          <li class="dropdown dropdown1"  style="z-index: 100;" style=" font-family: 'ge_ss_twobold';" title="عملى على - سوق مصر على الإنترنت ">
+            <a data-target="myEgyptmart"  class="dropbtn1" href="" data-toggle="dropdown" role="button"
+              aria-haspopup="true" aria-expanded="false" > <b class="txt-yellow" style="font-weight:900;">M<span class="s-small">Y</span> <?php echo getWebSiteName(); ?></b> <i class="fa fa-chevron-down"></i> </a><span class="linebr" style="color: black"> |</span> <a href="my-enquiries.php"> <img width="25" src="images/envolap.png"/>
+            <?php
+              if (isset($_SESSION['uid_indm'])) {
+                  $query_pag_num = "SELECT count(*) AS count from message,user where msg_to='" . $_SESSION['uid_indm'] . "' and msg_from=usr_id and msg_to_status='1'"; // Total records
+                  $result_pag_num = mysqli_query($con, $query_pag_num);
+                  $row = mysqli_fetch_array($result_pag_num);
+                  $count = $row['count'];
+                  echo '<span class="label label-yellow">' . $count . '</span>';
+              } else {
+                  echo '<span class="label label-yellow">0</span>';
+              }
+              ?>
+            </a>
+            <ul class="dropdown-menu ar-dropdown-menu dropdown-content1" aria-labelledby="myEgyptmart" style="width:101%; z-index: -1;">
+              <li><a href="my-dashboard.php"style=" font-family: 'GE SS Two Light'" title=" My Dashboard ">لوحـــــة مفاتيـــــح المنصــــــة </a></li>
+              <li><a href="my-enquiries.php"style=" font-family: 'GE SS Two Light'" title="My Inbox">صندوق رسائلى داخل المنصة</a></li>
+              <li><a href="favorite.php"style=" font-family: 'GE SS Two Light'" title="My Favorites">  صنـــدوق منتجـــاتى المفضلــة  </a></li>
+              <li><a href="image-gallery.php"style=" font-family: 'GE SS Two Light'" title="Image Gallery">جاليـــــرى صــــــور منتجــاتى</a></li>
+              <?php if (isset($_SESSION['uid_indm']) && $_SESSION['uid_indm'] != '') { ?>
+              <li><a href="logout.php"style=" font-family:GE SS Two" title="Sign Out">تسجيل خروج</a></li>
+              <?php } ?>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="col-sm-6 col-lg-4 top-mid">
+        <ul>
+          <?php if (getUserInfo($uid, 'usr_mp_id') < 4) { ?>
+          <!-- <li style="color: orange; padding-left:3px;" > Credit : <a href="#" class="txt-bold txt-yellow" style="font-weight:900 ; font-size:13px; color: orange"> <b style="color: white"><?php echo (getUserInfo($uid, 'usr_credit') > 0) ? getUserInfo($uid, 'usr_credit') : '0'; ?></b></a> </li>
+            <li><a href="subscription.php" style="margin:0px; padding:0px;">| &nbsp;Buy Credit</a></li>-->
+          <?php } ?>
+          <?php if (isset($_SESSION['uid_indm']) && $_SESSION['uid_indm'] != '') { ?>
+          <li><a href="product-list.php?c=<?php echo $cid; ?>" class="txt-yellow" style=" color:#fff450;font-weight:700;"style=" font-family: 'ge_ss_twobold'"title=" My B2B Website" > معروضاتى
+      </a>                    
+          </li>
+          
+
+            
+            
+            <?php } ?>
+
+          </li>
+          <span style="margin-left:40px;">
+            <li class="dropdown dropdown1">
+              <a class="ar-lebel dropbtn1" data-target="#" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"style="color:yellow; font-weight:900;" font-family: 'ge_ss_twobold';"title="Buy"> إشترى <i class="fa fa-chevron-down"></i> </a>
+              <ul class="dropdown-menu ar-dropdown-menu dropdown-content1 dropdown-menur" aria-labelledby="buy">
+                <li><a href="post-buy-req.php"style="color:blue; font-weight:800;  bold font-family: 'GE SS Two Light'" title="Post Your Buy Requirement">سجل طلبات شراء منتجات أو خدمات</a></li>
+                <li><a href="search_adv.php"style=" color:blue; font-weight:800; bold font-family: 'GE SS Two Light'" title=" Search Product & Suppliers">  إبحث عن منتجات وخدمات تجارية </a></li>
+                <li><a href="manage-selloffer-alert.php" style="color:blue; font-weight:800;  bold font-family: 'GE SS Two Light'" title=" Manage Sale Notifications"> سجل منتجات اشعارات فرص بيع  </a></li> 
+                <li><a href="post-tender.php"style=" color:blue; font-weight:800; bold font-family: 'GE SS Two Light'" title=" Post Tenders FREE "> أنشر مناقصات مجانا وتلقى عطاءات </a></li>
+              </ul>
+            </li>
+            <li class="dropdown dropdown1" id="sell">
+              <a class="ar-lebel dropbtn1" data-target="#" href="#" data-toggle="dropdown"
+                role="button" aria-haspopup="true" aria-expanded="false"style=" color:yellow; font-weight:900;"font-family: 'ge_ss_twobold'"
+                title="Sell" > بيـع <i class="fa fa-chevron-down"></i> </a>
+              <ul class="dropdown-menu ar-dropdown-menu dropdown-content1 dropdown-menur " aria-labelledby="sell">
+                <li><a href="product-add.php"style="color:blue; font-weight:800; bold font-family: 'GE SS Two Light;' "title=" Display Products / Services "> إعرض منتجات أو خدمات تجارية </a></li>
+                <li><a href="create-free-website.php"style="color:blue; font-weight:800; bold font-family: 'GE SS Two Light;' "title="Create B2B Website"  > إنشىء صفحات أعمالك التجارية  </a></li>
+                <li><a href="buyleads.php"style="color:blue; font-weight:800; bold font-family: 'GE SS Two Light;' "title="Latest Buy Requests">أحدث طلبات الشراء </a></li>
+                <li><a href="post-sell-offer.php"style=" color:blue; font-weight:800; bold font-family: 'GE SS Two Light;' "title="  Post Sale Offers "> سجل عروض بيع خاصـة </a></li>
+                <li><a href="manage-buylead-alert.php"style="color:blue; font-weight:800; bold font-family: 'GE SS Two Light;' "title=" Manage Buy Notifications">  سجل منتجات إشعارات شراء </a></li>
+                <li><a href="post-tender.php"style=" color:blue; font-weight:800; bold font-family: 'GE SS Two Light;' "title=" Post Auctions FREE "> أنشر مزايدات مجانا وتلقى عطاءات </a></li>
+              </ul>
+              
+            </li>
+          </span>
+   
+ 
+
+<a class="header-language-switcher" href="https://arabyos.com">English</a>
+
+
+  
+
+        </ul>
+      </div>
+      <div class="col-sm-6 col-lg-4 top-rht">
+ <ul class="text-right tstleft">
+ 
+ 
+   
+ <li><a href="https://wa.me/<?php echo get_page_settings(21); ?>" style="color:orange "><img src="images/mobile.png" width="25px"></a><a href="help.php" style="color:orange "> <span
+            class="txt-yellow"></span><?php echo get_page_settings(21); ?></b></a></li>
+          
+          
+          <li><a href="why_egyptmart.php" class=" txt-yellow"><b class="txt-yellow"  style="font-weight:900;"style=" font-family: 'ge_ss_twobold'"title="Why  EgyptMART"> 
+  فوائـد الإشتراك  </b></a> </li>
+          
+          
+          <li><a href="help.php"title="How It Works ?">    كيف تعمل المنصة ؟     </a></li>
+        </ul>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,64 @@
+@charset "utf-8";
+/* CSS Document */
+.mrb7{margin-bottom:7px}
+.mlr15{margin-left:15px;margin-right:15px}
+.mc11{color:#7f0000}
+.mlh22{line-height:22px}
+.mlh26{line-height:26px}
+.mpl30{padding-left:27px}
+.feedHelp{background:#f3ffd5;border:dashed 1px #d4e8a0; padding:6px 8px; margin:10px 15px 0 15px;color:#233000}
+.fdb-bgi1{background:#f1f7fd;border:solid 1px #cddae8;cursor:pointer;}
+
+.fdb-bg{width:395px;cursor:pointer;margin:0 0 15px 15px; _margin:0 8px 15px 7px;padding:6px 6px 5px 1px;float:left;border:1px solid #b1d9f9;background:url('../images/select-box-bg.jpg') repeat-x top;}
+.fdb-bg strong{font-size:14px;line-height:18px}
+
+.fdb-bg1{width:395px;cursor:pointer;margin:0 0 15px 15px;_margin:0 8px 15px 7px;padding:6px 6px 5px 1px;float:left;border:solid 1px #dbdbdb;}
+.fdb-bg1 strong{font-size:14px;line-height:18px}
+.txtbg{border:solid 1px #c7d4dc; font-family:Arial; font-size:12px;height:16px; width:330px}
+.label_radio{padding:5px 0; _padding:9px 0}
+.label_radio{margin-left:5px;padding-left:21px}
+.label_radio{background-image: url('../images/radio-off1.png'); background-position:0px 3px; *background-position:6px 10px; background-repeat:no-repeat}
+label.r_on{margin-left:5px;padding:5px 0; __padding:9px 0; padding-left:21px;background-image:url('../images/radio-on1.png'); background-position:0px 3px; *background-position:6px 10px; background-repeat:no-repeat}
+.label_radio input{position: absolute;left: -9999px;}
+label.r_on input {position: absolute;left: -9999px;}
+body {font-size: 12px; font-family: arial;}
+
+.confirm_btn{background:url(../images/s_button.png) no-repeat;font-family:arial; width:204px;height:50px;border:0px;font-size:31px;margin-top:15px;font-weight:bold;color:#FFFFFF;padding-left:32px;cursor:pointer}
+body {margin: 0px;font-family:arial;}
+.qr_wrapper{width:851px; margin:0px auto; background:#ffffff url(../images/container-bg.jpg) repeat-x 0px 0px;}
+.qr_container{ margin:0px 12px 12px 12px;}
+.qr_des-text{ color:#0000; font-size:14px; text-align:left; line-height:18px; font-family:arial;}
+.qr_green-part{ background:#f5fde7; height:49px; border-top:1px dotted #acc481; border-bottom:1px dotted #acc481; margin-top:22px;}
+.qr_btn-c{ background:url(../images/btn-c.gif) no-repeat 0px 0px; width:338px; height:26px; border:0px; font-size:13px;font-weight:bold; color:#000000; line-height:26px; text-align:center; margin:12px 6px 0 0px; padding-bottom:1px; float:right;}
+.qr_btn-c a{ text-decoration:underline; color:#0000ff;}
+.qr_btn-c a:hover{ text-decoration:none; color:#FF0000;}
+.qr_btn{ background:url(../images/btn.gif) no-repeat 0px 0px; width:355px;cursor:pointer;font-weight:bold;font-family:arial; height:37px; border:0px; font-size:19px; color:#ffffff; line-height:37px; text-align:center; margin:6px 0 0 6px; padding-bottom:1px; float:left;}
+.qr_green-part p{padding:0px; margin:6px 0px 0px 6px; font-size:14px; font-weight:bold; color:#000000;line-height:18px;}
+.qr_tline{height:4px;background:#2071c5;overflow:hidden;width:100%;font-weight:bold}
+.qr_main{width:850px; font-family:Arial; background:#FFF; margin:0 auto;}
+.qr_name{font-size:14px; color:#000000; text-align:left;line-height:21px;border-bottom:1px solid #ededed; padding:14px 0 10px 0;}
+.qr_title{padding:11px 0px 3px 0px; margin:0px; color:#005097; font-size:16px;font-weight:bold}
+
+.bpopup_feedback{background:#FFF; border:4px solid #ffcb93;width:650px;padding:18px 0 10px 0; font-size:12px; font-family:arial;}
+.bgblack_feedback{background:url('../images/bg_popup.png'); position:absolute; left:0;top:0;width:100%}
+
+
+/*rating css start*/
+.webwidget_rating_simple{ padding: 0px;} 
+.webwidget_rating_simple li{ line-height: 0px; width: 15px; height: 15px; padding: 0px; margin: 0px; margin-left: 2px; list-style: none; float: left; cursor: pointer; }
+.webwidget_rating_simple li span{ display: none; }
+/*rating css end*/
+
+.suppDetDiv{font-size:14px;padding:6px;margin:10px 0 0 0;border:1px dotted #d5d5d5;background:#f2f2f2;line-height: 20px;}
+.suppDetDivInner{float:left;text-align:left;}
+.suppDetDivRating{width: 140px;float: right;background:#fff;padding:8px;text-align:left;font-weight:bold;margin: 10px 0 10px 0;font-size:14px;color:#ff7200}
+.CloseButtonMy{margin-left:8px;width:85px;padding:3px 0 3px 0;line-height:22px; font-family:arial; font-weight:bold; color:#d50101;text-align:center;font-size:18px;}
+.qr_title{font-size:14px!important}
+.qr_des-text{font-size:12px!important;line-height:17px!important}
+.qr_btn{margin-left:230px!important}
+.qr_btn-c{display:none!important}
+.qr_tline{display:none!important}
+.qr_name{padding:0 0 10px 0!important}
+.qr_main {margin:0!important}
+.qr_container{margin: 0px 12px 12px 3px!important}
+

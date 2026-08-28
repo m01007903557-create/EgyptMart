@@ -1,0 +1,203 @@
+ERROR: Cannot find buyer_id for RFQ #0
+Current supplier ID from session: 6634
+ERROR: Cannot find buyer_id for RFQ #0
+Current supplier ID from session: 6634
+Buyer message inserted successfully
+Buyer message inserted successfully
+2026-05-31 10:35:32 - submit_quote_handler.php called
+2026-05-31 10:36:40 - submit_quote_handler.php called
+2026-05-31 10:43:22 - submit_quote_handler.php called
+POST: Array
+(
+    [rfq_id] => 6264
+    [unit_price] => 10
+    [moq] => 100
+    [delivery_time] => 15 يوم
+    [supplier_message] => الاخير الاخير الاخير هذا هو عرضنا
+)
+
+RFQ ID: 6264, Buyer ID: 6634, Supplier ID: 6587
+Quote updated for RFQ #6264
+Buyer notification sent for buyer_id: 6634
+2026-05-31 10:45:15 - submit_quote_handler.php called
+POST: Array
+(
+    [rfq_id] => 6264
+    [unit_price] => 10000
+    [moq] => 800
+    [delivery_time] => 75 يون ونص ساغة
+    [supplier_message] => من غير مدة 
+)
+
+RFQ ID: 6264, Buyer ID: 6634, Supplier ID: 6587
+Quote updated for RFQ #6264
+Buyer notification sent for buyer_id: 6634
+2026-05-31 10:50:51 - submit_quote_handler.php called
+POST: Array
+(
+    [rfq_id] => 6265
+    [unit_price] => 1
+    [moq] => 1
+    [delivery_time] => طول العمر
+    [supplier_message] => جبل واحد منور عايز ايه 
+)
+
+RFQ ID: 6265, Buyer ID: 6587, Supplier ID: 6634
+New chat created for RFQ #6265 with chat_code: CHAT-1780224651481
+Buyer notification sent for buyer_id: 6587
+2026-05-31 10:54:51 - submit_quote_handler.php called
+POST: Array
+(
+    [rfq_id] => 6265
+    [unit_price] => 100000000
+    [moq] => 10000000
+    [delivery_time] => عليت عليك عشان تستاهل 
+    [supplier_message] => عليت عليك واللة بجد 
+)
+
+RFQ ID: 6265, Buyer ID: 6587, Supplier ID: 6634
+Quote updated for RFQ #6265
+Buyer notification sent for buyer_id: 6587
+2026-05-31 10:59:48 - submit_quote_handler.php called
+POST: Array
+(
+    [rfq_id] => 6265
+    [unit_price] => 50000000000
+    [moq] => 60000000000
+    [delivery_time] => 50 يوم ونص
+    [supplier_message] => عليت غليك السعر عشان تتخنق وتمشى 
+)
+
+RFQ ID: 6265, Buyer ID: 6587, Supplier ID: 6634
+Quote updated for RFQ #6265
+Buyer notification sent for buyer_id: 6587
+2026-05-31 11:02:25 - submit_quote_handler.php called
+POST: Array
+(
+    [rfq_id] => 6265
+    [unit_price] => 300
+    [moq] => 300
+    [delivery_time] => 300 يوم 
+    [supplier_message] => وده كلامى النهائى الرسمى 
+)
+
+RFQ ID: 6265, Buyer ID: 6587, Supplier ID: 6634
+Quote updated for RFQ #6265
+Buyer notification sent for buyer_id: 6587
+2026-05-31 11:11:05 - submit_quote_handler.php called
+POST: Array
+(
+    [rfq_id] => 6266
+    [unit_price] => 1
+    [moq] => 22
+    [delivery_time] => عشان خاطرك يومين 
+    [supplier_message] => ده عشان رجعتى تتعاملى وتشترى 
+)
+
+RFQ ID: 6266, Buyer ID: 6634, Supplier ID: 6587
+New chat created for RFQ #6266 with chat_code: CHAT-1780225865495
+Buyer notification sent for buyer_id: 6634
+2026-06-07 22:27:59 - submit_quote_handler.php called
+POST: Array
+(
+    [rfq_id] => 6262
+    [unit_price] => 10
+    [moq] => 100
+    [delivery_time] => 15 يوم
+    [supplier_message] => هذا هو عرضنا
+)
+
+RFQ ID: 6262, Buyer ID: 6634, Supplier ID: 6587
+New chat created for RFQ #6262 with chat_code: CHAT-1780871279536
+Buyer notification sent for buyer_id: 6634
+2026-06-08 01:34:15 - submit_quote_handler.php called
+POST: Array
+(
+    [rfq_id] => 6273
+    [unit_price] => 10
+    [moq] => 100
+    [delivery_time] => 15 يوم
+    [supplier_message] => هذا هو عرضنا
+)
+
+RFQ ID: 6273, Buyer ID: 6639, Supplier ID: 6634
+New chat created for RFQ #6273 with chat_code: CHAT-1780882455612
+Buyer notification sent for buyer_id: 6639
+2026-06-09 07:28:25 - submit_quote_handler.php called
+POST: Array
+(
+    [rfq_id] => 6273
+    [unit_price] => 10
+    [moq] => 100
+    [delivery_time] => 15 يوم
+    [supplier_message] => هذا هو عرضنا
+)
+
+RFQ ID: 6273, Buyer ID: 6639, Supplier ID: 6634
+Quote updated for RFQ #6273
+Buyer notification sent for buyer_id: 6639
+2026-06-12 08:17:01 - submit_quote_handler.php called
+POST: Array
+(
+    [rfq_id] => 6273
+    [unit_price] => 12
+    [moq] => 12
+    [delivery_time] => 12 day
+    [supplier_message] =>   الجديد الجديد هذا هو عرضنا
+)
+
+RFQ ID: 6273, Buyer ID: 6639, Supplier ID: 6634
+Quote updated for RFQ #6273
+Buyer notification sent for buyer_id: 6639
+2026-06-12 09:50:19 - submit_quote_handler.php called
+POST: Array
+(
+    [rfq_id] => 6273
+    [unit_price] => 555
+    [moq] => 555
+    [delivery_time] => 5555يوم
+    [supplier_message] => هذا هو عرضنا
+)
+
+RFQ ID: 6273, Buyer ID: 6639, Supplier ID: 6634
+Quote updated for RFQ #6273
+Buyer notification sent for buyer_id: 6639
+2026-06-12 10:51:56 - submit_quote_handler.php called
+POST: Array
+(
+    [rfq_id] => 6274
+    [unit_price] => 44444444444
+    [moq] => 44444444444444
+    [delivery_time] => 44444444 يوم
+    [supplier_message] =>  4444444444444هذا هو عرضنا
+)
+
+RFQ ID: 6274, Buyer ID: 6634, Supplier ID: 6587
+New chat created for RFQ #6274 with chat_code: CHAT-1781261516345
+Buyer notification sent for buyer_id: 6634
+2026-06-12 11:01:56 - submit_quote_handler.php called
+POST: Array
+(
+    [rfq_id] => 6274
+    [unit_price] => 5555555555
+    [moq] => 55555555
+    [delivery_time] => 1555555555 يوم
+    [supplier_message] => 55555555هذا هو عرضنا
+)
+
+RFQ ID: 6274, Buyer ID: 6634, Supplier ID: 6587
+Quote updated for RFQ #6274
+Buyer notification sent for buyer_id: 6634
+2026-06-12 11:17:58 - submit_quote_handler.php called
+POST: Array
+(
+    [rfq_id] => 6274
+    [unit_price] => 6666666
+    [moq] => 666666
+    [delivery_time] => 166666666 يوم
+    [supplier_message] => 66666666هذا هو عرضنا
+)
+
+RFQ ID: 6274, Buyer ID: 6634, Supplier ID: 6587
+Quote updated for RFQ #6274
+Buyer notification sent for buyer_id: 6634

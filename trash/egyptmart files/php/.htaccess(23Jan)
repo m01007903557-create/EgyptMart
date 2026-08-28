@@ -1,0 +1,19 @@
+AddHandler application/x-httpd-php71 .php .php5 .php4 .php3
+
+<Files 403.shtml>
+order allow,deny
+allow from all
+</Files>
+
+deny from 105.166.210.51
+deny from 13.66.139.134
+deny from 13.66.139.55
+deny from 94.130.18.161
+deny from 196.205.87.80
+deny from 197.132.232.63
+deny from 35.208.100.98
+deny from 13.66.139.62
+deny from 91.121.250.243
+deny from 51.81.159.146
+deny from 217.55.142.81
+deny from 94.155.27.103

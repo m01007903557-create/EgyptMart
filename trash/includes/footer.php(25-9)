@@ -1,0 +1,1386 @@
+<?php
+  //Google Adsense
+  $sql_ga="select * from google_adsense where ga_status='1' order by rand() limit 1";
+  $res_ga=mysqli_query($con, $sql_ga);
+  if(mysqli_num_rows($res_ga)>0)
+  {
+      $row_ga=mysqli_fetch_object($res_ga);
+      ?>
+<div style="text-align:center;padding-top:5px;padding-bottom:5px;"><?php echo $row_ga->ga_content;  ?></div>
+<?php
+  }
+  ?>
+<!-- footer start -->
+<div id="popupBottom" class="popover">
+  <div class="arrow"></div>
+  <h3 class="popover-title">Bottom</h3>
+  <div class="popover-content">
+    <p>Sed posuere consectetur est at lobortis. Aenean eu leo quam. 
+      Pellentesque ornare sem lacinia quam venenatis vestibulum.
+      <a href="#" class="btn btn-default helloWorld">Click me</a>
+    </p>
+  </div>
+</div>
+<footer class="footer">
+  <!-- footer-searchsec start -->
+  <div class="footer-searchsec">
+    <div class="footer-searchsec-left">
+      <div class="footer-searchsec-left-head">
+        <div class="srchBx">
+          <h1 class="cd-headline clip is-full-width">
+            <span style="width: 100%; overflow: hidden; color:gray; font-family: Arial narrow;" class="cd-words-wrapper" >
+            <b class="is-visible">Find SERVICE providers of assessed suppliers<span class="blinking-cursor" style="color: red">!</span></b>
+            <b class="is-hidden">Post Business SERVICES Requests, Get Offers <span class="blinking-cursor" style="color: red">!</span></b>
+            </span>
+          </h1>
+        </div>
+        <!--<h1>Find Service Providers of an Assessed Suppliers</h1>-->
+      </div>
+      <div class="footer-searchsec-left-form">
+        <!--<form action="search.php">-->
+        <form autocomplete="off" name="searchForm" action="search.php" onSubmit="return validsearch()" method="GET" id="hdr_frm" >
+          <input type="hidden" id="rctyp" name="rctyp" value="Products"/>
+          <div>
+            <div class="footer-searchsec-left-form-col1">
+              <!--<select id="rctyp" name="rctyp" class="page-header-col1-row2-col2-form-select">
+                <option value="Suppliers">Suppliers</option>
+                <option  value="Products" selected>Servic</option>
+                <option value="buy_lead">Buy Leads</option>
+                <option value="tender">Tender</option>
+                <!--<option value="auction">Auction</option>
+                </select>
+                -->
+              <p style="font size: 10px; weight;bold; " title=" - إبحث عن الاف من - الخدمات التجارية لتجارتك ">Services</p>
+            </div>
+            <div class="footer-searchsec-left-form-col2"title=" - إبحث عن الاف من - الخدمات التجارية للتجارة ">
+              <input type="text" id="search-box2" name="keywords" placeholder="Search for any Business Services"
+                class="footer-searchsec-left-form-col2-input"/>
+            </div>
+            <div class="footer-searchsec-left-form-col3">
+              <input type="submit" value="" class="footer-searchsec-left-form-col3-btn"/>
+            </div>
+            <div id="suggesstion-box2" class="suggesstion-box2" style="width: calc(100% - 48%);position: absolute;left: 0;z-index: 1;margin-top: 51px;padding-left: 23%;"></div>
+          </div>
+        </form>
+        <script>
+          $(document).ready(function(){
+             
+          });
+          $(document).on('keyup',"#search-box2",function(){
+                  $.ajax({
+                  type: "POST",
+                  url: "read_business_services.php",
+                  data:'searchkey='+$(this).val(),
+                  beforeSend: function(){
+                     // $(".suggesstion-box2").css("background","#FFF url(LoaderIcon.gif) no-repeat 165px");
+                  },
+                  success: function(data){
+                      $(".suggesstion-box2").show();
+                      $(".suggesstion-box2").html(data);
+                      $("#search-box2").css("background","#FFF");
+                  }
+                  });
+              });
+          function selectService(id,val) {
+          //alert(val); return false; 
+          $("#search-box2").val(val);
+          $("#buss_serv_cat").val(id);
+          $(".suggesstion-box2").hide();
+          
+          }
+          
+        </script>
+        <div class="clear"></div>
+      </div>
+    </div>
+    <div class="footer-searchsec-right">
+      <a href="post-buy-req.php?select=bs"  target="_blank" class="footer-searchsec-right-btn"title="أنشر طلبات شراء - للخدمات التجارية - وتلقى عروض بيع لها">Post Services Requests</a>
+    </div>
+    <div class="clear"></div>
+  </div>
+  <!-- footer-searchsec close// -->
+  <div class="footer-intro">
+    <!-- footer-intro start -->
+    <div class="footer-intro-left">
+      <div class="footer-intro-left-logo">
+        <?php
+          $footerlogo=GettingSite_Setting('unit-logo-footer');
+          if($footerlogo!="")
+          {
+            $footerlogo2show = "sitelogo/".$footerlogo;
+          }
+          else
+          {
+             $footerlogo2show = "images/footer-intro-left-logo4.png";
+          }
+          ?>
+        <a href="#"title="سوق مصر على الإنترنت - أول منصة الكترونية لمبيعات الجملة / التصدير / الخدمات التجارية .. لأهم 10,000 شركة ومصنع فى مصر والمنطقة العربية"><img src="<?php echo $footerlogo2show;?>" alt="" style="max-width:170px; max-height:108px;"/></a>
+      </div>
+      <div class="footer-intro-left-text">
+        <ul>
+          <li><a href="about_us.php"title="ماتريد معرفته عن منصة سوق مصر على الانترنت">About Us</a></li>
+          <li><a href="contact_us.php"title="أكتب لنا أى شكاوى أو إقتراحات وسوف نرد عليك ">Complaint</a></li>
+          <li><a href="contact_us.php"title="أكتب لنا ماتريد وسوف نرد عليك">Feedback</a></li>
+          <!--<li><a href="privacy.php"title="سياسة المنصة وخصوصيتها">Privacy & Policy</a></li>
+            <li><a href="terms.php"title="شروط وأحكام العمل على المنصة">Tems & Conditions</a></li>-->
+          <li><a href="contact_us.php"title="أكتب لنا ماتريد وسوف نرد عليك">Contact Us</a></li>
+          <li><a href="help.php"title="طريقة عمل منصة سوق مصر على الإنترنت">How it works</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-intro-right">
+      <!-- footer-intro-right start -->
+      <div class="footer-intro-right-col"title="أدوات المشترى - شركات الشراء ">
+        <h2>Buyers Tools</h2>
+        <ul>
+          <li><a href="post-buy-req.php"title="إطلب سعر أصناف شراء">Request for Quotation</a></li>
+          <li><a href="manage-selloffer-alert.php"title="سجل أصناف - عروض بيع - مرغوبة الشراء لأعمالك  وتلقى إشعاراتها فى بريدك ">Manage Sale offer Alerts</a></li>
+          <li><a href="search_adv.php"title="إبحث وأكتشف ألاف من الأعمال التجارية والمنتجات والخدمات التجارية">Search Products / Services</a></li>
+          <li><a href="post-tender.php"title="إنشر - مناقصات - وتلقى عطاءات من مناقصين متحرى عنهم">Post Tenders & Get Bidders</a></li>
+        </ul>
+      </div>
+      <div class="footer-intro-right-col"title="أدوات البائع - الشركات الموردة">
+        <h2>Suppliers Tools</h2>
+        <ul>
+          <li><a href="product-add.php"title="إعرض خدماتك التجارية  /  وتلقى إستفسارات شراء من داخل وخارج مصر">Display Your Business Categories</a></li>
+          <li><a href="create-free-website.php"title="إنشىء - موقع مصغر - لأعمالك التجارية وسجل منتجات وبروفايل الشركة">Create Website on ARABYOS</a></li>
+          <li><a href="manage-buylead-alert.php"title="أحدث طلبات الشراء">Latest Buyleads Alerts</a></li>
+          <li><a href="post-sell-offer.php"title="سجل عروض بيع خاصة - وتلقى إستفسارات شراء">Post Business Ads FREE</a></li>
+          <li><a href="post-auction.php"title="أنشر - مزايدات -  وتلقى عطاءات ">Post Auctions & Get Bidders</a></li>
+        </ul>
+      </div>
+      <div class="footer-intro-right-col"title="حلول التسويق الألكترونى التى تقدمها المنصة لأعضائها">
+        <h2>ARABYOS Solutions</h2>
+        <ul>
+          <li><a href="membership_plans.php"title="إشتركات وخطط إستفادة أعضاء المنصة ">Companies Memberships</a></li>
+          <li><a href="my-enquiries.php"title="صندوق بريد إسفسارات المتعاملين مع تجارتى ">Business Inquiries</a></li>
+          <li><a href="manage-purchased-buyleads.php"title="بيانات طلبات الشراء الجاهزة التى أقوم بشرائها">Trade Leads For Me</a></li>
+          <li><a href="manage-selloffer-alert.php"title="سجل أصناف منتجات بيع - شراء - وتلقى فى بريدك أحدث الاشعارات بخصوصها ">Products Of Interest Alerts</a></li>
+          <!--   <li><a href="manage-auction-alert.php"title="إحجز معنا مساحات إعلانية ">Advertise with us </a></li>-->
+          <li><a href="advertise-with-us.php"title="إحجز معنا مساحات إعلانية">Advertise With Us </a></li>
+        </ul>
+      </div>
+      <div class="footer-intro-right-col"title="الخطط والخدمات المجانية التى تقدمها المنصة لأعضائها">
+        <h2>Leader Suppliers Plan</h2>
+        <ul>
+          <li><a href="membership_plans.php"title="أحصل على عضوية - برومو -  مجانية - كشركة رائدة">FREE PROMO PLAN</a></li>
+          <li><a href="advertise-with-us.php"title="أحصل على إعلانات مجانية - كشركة رائدة">FREE Banner Ads</a></li>
+          <li><a href="contact_us.php"title="أحصل على رسائل تجارية مجانية لكل أعضاء المنصة - كشركة رائدة">FREE Bulk Newsletters</a></li>
+          <li><a href="contact_us.php"title="أحصل على تغطية  مجانية لأحداثك التجارية - كشركة رائدة">FREE Events News</a></li>
+        </ul>
+      </div>
+      <div class="clear"></div>
+      <div style="clear: both;margin-top: 15px;">
+        <?php
+          $get_url = "SELECT * FROM connect_us WHERE id =1";
+          $ures = mysqli_query($con, $get_url);
+          $urls=mysqli_fetch_array($ures);
+          ?>
+        <div class="footer-intro-social">
+          <p>Connect with us:</p>
+          <ul>
+            <li><a href="<?=$urls['twitter'];?>" target="_blnak"><i class="fa fa-twitter-square"></i></a></li>
+            <li><a href="<?=$urls['google'];?>" target="_blnak"><i class="fa fa-linkedin-square"></i></a></li>
+            <li><a href="<?=$urls['fb'];?>" target="_blnak"><i class="fa fa-facebook-square"></i></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- footer-intro-right close// -->
+    <div class="clear"></div>
+  </div>
+  <!-- footer-intro close// -->
+</footer>
+<!-- footer close// -->
+<div class="copyright-row">
+  <!-- copyright-row start -->
+  <div class="copyright-row-col1">
+    <p>Copyright &copy; <?php echo date("Y"); ?> <?php echo get_page_settings(4);?>. All rights reserved</p>
+  </div>
+  <div class="copyright-row-col2">
+    <p><a href="terms.php">Terms of Use</a> | <a href="privacy.php">Privacy Policy</a> | <a href="contact_us.php">Link to Us</a></p>
+  </div>
+  <div class="clear"></div>
+</div>
+<!-- copyright-row close // -->
+<!-- scroll to top and feedback button -->
+<div class="fixed-div"> <a href="#top"><img src="images/up.png" width="50"/></a> <a href="contact_us.php"><img src="images/complaint.png" width="50"/></a> </div>
+<!--</div>-->
+<!-- start of right Tabs -->
+<script src="js/easyResponsiveTabs.js" type="text/javascript"></script>
+<script type="text/javascript">
+  $(document).ready(function () {
+      $('#horizontalTab').easyResponsiveTabs({
+          type: 'default', //Types: default, vertical, accordion
+          width: 'auto', //auto or any width like 600px
+          fit: true   // 100% fit in a container
+      });
+  $(document).on('click','.stop_redirect',function(e){
+  e.preventDefault();
+  var id = $(this).attr('data-id');
+  
+  $('.r_'+id).show();
+  
+  })
+  });
+</script>
+<script type="text/javascript">
+  $(document).ready(function () {
+      $('#horizontalTab1').easyResponsiveTabs({
+          type: 'default', //Types: default, vertical, accordion
+          width: 'auto', //auto or any width like 600px
+          fit: true   // 100% fit in a container
+      });
+  });
+</script>
+<!-- End of right Tabs // -->
+<!-- start of verticle menu -->
+<script src="js/cust.js?v=<?php echo date('ymdhis');?>"></script>
+<!-- End of verticle menu // -->
+<!-- Animation text slider
+  <link rel="stylesheet" href="css/imNew-v6.css" type="text/css"/>-->
+<!--<script src="js/im-style-vn6.3.js" type="text/javascript"></script>-->
+<script src="js/bgSlider-v1.js" type="text/javascript"></script>
+<!-- Animation text slider // -->
+<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap-modal-popover.js?v=<?php echo date('ymdhis'); ?>" type="text/javascript" ></script>
+<!-- navigation  -->
+<link rel="stylesheet" href="css/cssmenu.css" type="text/css"/>
+<!--<link href="css/responsive1.css" rel="stylesheet" type="text/css"/>-->
+<script src="js/script.js?t=<?php echo rand(); ?>" type="text/javascript" async></script>
+<!-- navigation // -->
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+  var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+  (function(){
+  var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+  s1.async=true;
+  s1.src='https://embed.tawk.to/584a3ee48a20fc0cac4f7e93/default';
+  s1.charset='UTF-8';
+  s1.setAttribute('crossorigin','*');
+  s0.parentNode.insertBefore(s1,s0);
+  })();
+  
+  (function($){
+  // setTimeout(function(){ $('#myDiv').css('opacity','1');$('#r_loading').css('opacity','0'); }, 3000);
+
+  function changeHeaderDeferred() {
+      var myDiv = document.getElementById("myDiv");
+      var r_loading = document.getElementById("r_loading");
+      
+      setTimeout(function changeHeader() {
+        myDiv.style.opacity = "1";
+        r_loading.style.opacity = "0";
+        return false;
+      }, 1000);
+
+      return false;
+    }
+    changeHeaderDeferred();
+
+  $(document).on('click', '.home-header .toplinksbar ul li span', function() {
+      $('.home-header .toplinksbar ul li span').removeClass('active');
+      $(this).addClass('active');
+  });
+    }(jQuery))
+</script>
+<script>
+  $(".poplink").popover({
+    //var jdfbh = $(this).attr('id');
+      html: true,
+      placement: "top",
+      trigger: "hover",
+      content: function () {
+          return $(".ffffff").html();
+      }
+  }); 
+      function selectAlertPro(val)
+      {
+        
+        window.open(val, 
+                           'newwindow', 
+                           'width=700,height=400,menubar=true'); 
+                return false;
+       //window.open(val); return false;
+        
+      }
+      function selectAlertTender(val){
+        window.focus();
+        window.open(val);
+      }
+    $(document).on('click','.test_bus',function(event){
+    
+           window.open($(this).data('href'), 'test');
+    });
+</script>
+<!--End of Tawk.to Script-->
+<link href="css/type.css" rel="stylesheet" type="text/css"/>
+<style>
+  .page-header-col1-row1-col4-row1 p {
+    text-align: left;
+  }
+
+  .home-buyer-seller .page-header-col1-row1-col4-row2-checkbox {
+    text-align: center !important;
+  }
+
+  .page-header-col1-row1-col4-row2-checkbox .radio.supplier-radio {
+    margin-left: 6px;
+  }
+
+  td.txt-gray form#minQtyForm {
+    position: relative;
+  }
+
+  /*#img_disp_logo{
+  margin-top: 0px;
+  width: 100% !important;
+  height: 100% !important;
+  left: 0px !important;
+  top: 0px !important;
+  }
+  #img_disp_logo img{
+  width: 100% !important;
+  height:100% !important;
+  margin: 0px 0px 0px 0px !important;
+  }*/
+  #uploadifive-productlogo_upload {
+    width: 100% !important;
+  }
+
+  #drop {
+    float: none !important;
+  }
+
+  /*.maincontainertop*/
+  .home-header {
+    /*box-shadow: 0 0 8px #252222 !important;*/
+    box-shadow: 0 0 30px #252222 !important;
+    -webkit-box-shadow: 0 1px 30px rgba(0, 0, 0, 0.95) !important;
+    box-shadow: 0 1px 30px rgba(0, 0, 0, 0.95) !important;
+    margin-bottom: 28px;
+    padding-bottom: 0;
+  }
+
+  @media (max-width: 767px) {
+    .lft.fl {
+      width: 100% !important;
+      float: none !important;
+    }
+
+    #cssmenu .ar-box {
+      margin-bottom: 15px !important;
+    }
+
+    .bt {
+      margin: 5px 0 8px 0;
+    }
+  }
+
+  @media (max-width: 1023px) {
+    .maincontainertop.clearfix.custom_quick_fix>.col-md-3.col-sm-3.col-xs-12.col-lg-2.prc-left-side .togle_style {
+      font-size: 11px !important;
+    }
+
+    #cssmenu h4 {
+      font-size: 12px;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width:1023px) {
+    .page-header-col1-row1-col4-row1.col-xs-6.home-ba>h3 {
+      text-align: right !important;
+    }
+
+    .page-header-col1-row1-col4-row1.col-xs-6.home-ba>h3 img.img-responsive {
+      float: none;
+      display: inline-block;
+    }
+
+    .page-header-col1-row1-col4-row1 p {
+      text-align: right;
+    }
+
+    .home-buyer-seller .page-header-col1-row1-col4-row2-checkbox {
+      text-align: right !important;
+    }
+
+    .post-buy-req-btn small,
+    .post-buy-req-btn small strong {
+      font-size: 9px !important;
+    }
+
+    .post-buy-req-btn {
+      font-size: 15px !important;
+    }
+
+    .headertop-custom-box-middle .header-mid .page-header-col1-row2-col4 .post-buy-req-btn {
+      margin-top: 53px !important;
+      padding-top: 4px;
+    }
+
+    .mid-content {
+      width: 100%;
+      margin-left: 0px;
+    }
+  }
+
+  @media (min-width: 990px) and (max-width:1024px) {
+    .headertop-custom-box-middle .header-mid .page-header-col1-row2-col4 .post-buy-req-btn {
+      margin-top: 37px !important;
+    }
+
+    .post-prod-left .post-product-btn {
+      margin-top: 39px !important;
+    }
+
+    .post-buy-req-btn {
+      font-size: 15px !important;
+    }
+
+    .post-buy-req-btn small,
+    .post-buy-req-btn small strong {
+      font-size: 11px !important;
+    }
+  }
+
+  @media (min-width: 1025px) and (max-width: 1100px) {
+    .post-buy-req-btn {
+      font-size: 15px !important;
+    }
+
+    .post-buy-req-btn small,
+    .post-buy-req-btn small strong {
+      font-size: 11px !important;
+    }
+
+    .post-prod-left .post-product-btn {
+      margin-top: 57px !important;
+    }
+
+    .headertop-custom-box-middle .header-mid .page-header-col1-row2-col4 .post-buy-req-btn {
+      margin-top: 52px !important;
+    }
+
+    .mid-content {
+      width: 100%;
+    }
+  }
+
+  @media (min-width:1101px) and (max-width: 1279px) {
+    .headertop-custom-box-middle .header-mid .page-header-col1-row2-col4 .post-buy-req-btn {
+      margin-top: 37px !important;
+    }
+
+    .post-buy-req-btn {
+      font-size: 13px !important;
+    }
+
+    .post-buy-req-btn small,
+    .post-buy-req-btn small strong {
+      font-size: 11px !important;
+    }
+
+    .home-buyer-seller .page-header-col1-row1-col4-row2-checkbox {
+      text-align: center;
+    }
+
+    .mid-content {
+      margin-left: 0px;
+      width: 100%;
+    }
+
+    .post-prod-left .post-product-btn {
+      /*margin-top: 47px !important;*/
+      margin-top: 32px !important;
+    }
+
+    .page-header-col1-row1-col4-row2-link {
+      text-align: left;
+    }
+
+    .headertop-custom-box-middle h1.justclick {
+      text-align: left;
+    }
+
+    .maincontainertop.clearfix.custom_quick_fix>.col-md-3.col-sm-3.col-xs-12.col-lg-2.prc-left-side .togle_style {
+      font-size: 11px !important;
+    }
+
+    td.txt-gray form#minQtyForm {
+      margin-left: -5px;
+    }
+
+    #cssmenu {
+      width: 100% !important;
+    }
+  }
+
+  @media (min-width: 1200px) and (max-width: 1279px) {
+
+    .post-buy-req-btn small,
+    .post-buy-req-btn small strong {
+      font-size: 9px !important;
+    }
+
+    .headertop-custom-box-middle .header-mid .page-header-col1-row2-col4 .post-buy-req-btn {
+      margin-top: 86px !important;
+    }
+
+    .post-prod-left .post-product-btn {
+      margin-top: 30px !important;
+    }
+  }
+
+  @media (min-width: 1279px) and (max-width: 1363px) {
+    .post-prod-left .post-product-btn {
+      margin-top: 32px !important;
+    }
+
+    #final_result {
+      width: 81%;
+      max-width: 841px;
+    }
+
+    #final_result {
+      max-width: 836px;
+    }
+
+    .maincontainertop.clearfix.custom_quick_fix>.col-md-3.col-sm-3.col-xs-12.col-lg-2.prc-left-side .togle_style {
+      font-size: 15px !important;
+    }
+
+    td.txt-gray form#minQtyForm {
+      position: relative;
+      margin-left: -80px;
+    }
+
+    td.blank-td.hidden-sm.hidden-md.visible-lg {
+      left: -81px !important;
+    }
+  }
+
+  @media (min-width: 1364px) and (max-width: 1919px) {
+    .headertop-custom-box .post-product-btn {
+      margin-top: 77px;
+    }
+
+    .post-prod-left .post-product-btn {
+      margin-top: 31px !important;
+    }
+
+    #final_result {
+      max-width: 910px;
+    }
+
+    .maincontainertop.clearfix.custom_quick_fix>.col-md-3.col-sm-3.col-xs-12.col-lg-2.prc-left-side .togle_style {
+      font-size: 16px !important;
+    }
+
+    td.txt-gray form#minQtyForm {
+      margin-left: -95px;
+    }
+
+    td.blank-td.hidden-sm.hidden-md.visible-lg {
+      left: -97px !important;
+    }
+  }
+
+  @media (min-width: 1920px) {
+    .headertop-custom-box .post-product-btn {
+      margin-top: 83px;
+    }
+
+    .post-prod-left .post-product-btn {
+      margin-top: 37px !important;
+    }
+
+    #final_result {
+      max-width: 912px;
+    }
+
+    .maincontainertop.clearfix.custom_quick_fix>.col-md-3.col-sm-3.col-xs-12.col-lg-2.prc-left-side .togle_style {
+      font-size: 16px !important;
+    }
+
+    td.txt-gray form#minQtyForm {
+      margin-left: -95px;
+    }
+
+    td.blank-td.hidden-sm.hidden-md.visible-lg {
+      left: -97px !important;
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    .srchBx {
+      margin-top: 0 !important;
+    }
+
+    .directory-template div.lft {
+      padding-right: 15px;
+    }
+
+    .directory-template .inner_wrapper .ryt {
+      margin-left: 10px;
+    }
+
+    .directory-template .r-block-search {
+      margin-left: -15px !important;
+      position: relative !important;
+      top: -10px !important;
+    }
+  }
+
+  @media (max-width: 1300px) and (min-width: 1200px) {
+    .home-header {
+      padding-top: 7px !important;
+    }
+
+    .page-header-col1-row2-col2-form #suggesstionBoxs #country-list {
+      margin-top: 4px;
+      border-bottom: 1px solid #006bb1;
+      border-left: 1px solid #006bb1;
+      border-right: 1px solid #006bb1;
+    }
+
+    #search-box1:hover,
+    #search-box1:focus {
+      box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.08);
+    }
+
+    #search-box11:hover,
+    #search-box11:focus {
+      box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.08);
+    }
+
+    .topsearch_placeholder {
+      padding: 0;
+      margin: 0;
+    }
+
+    .topsearch_placeholder_cont {
+      width: 100% !important;
+      height: 46px;
+    }
+
+    .lh2_m2 div {
+      background: #FFF;
+    }
+
+    .top_search {
+      border: 1px solid #3953a4;
+    }
+
+    #country-list,
+    #country-list1,
+    #state-list {
+      border-bottom: 1px solid #006bb1;
+      border-left: 1px solid #006bb1;
+      border-right: 1px solid #006bb1;
+    }
+
+    .prdt-sup-ctrl b {
+      display: none;
+    }
+
+    #topbar .dropdown-menu li {
+      width: 100%;
+    }
+
+    div.ryt.ser-right {
+      /*padding: 0 15px 0 0 !important;*/
+    }
+
+    #right-image {
+      max-width: 270px !important;
+    }
+
+    .bt.cb {
+      margin: 0;
+    }
+
+    a.txt-black.h4 b {
+      font-size: 17px !important;
+    }
+
+    #cssmenu {
+      width: 210px !important;
+    }
+
+    .box-grid {
+      border: 1px solid #999;
+      height: 485px;
+      background: #FFF;
+    }
+
+    .col-md-4.style_prevu_kit {
+      margin: 10px 0;
+    }
+
+    .flt_wd {
+      margin-top: -26px;
+    }
+
+    .style_prevu_kit:hover .box-grid {
+      border: none;
+    }
+
+    .active-grid-option .compared-box.compared-box1.style_prevu_kit {
+      /*height: 485px;*/
+      height: 470px;
+    }
+
+    .height44 {
+      height: 44px;
+    }
+
+    .col-lg-12.col-sm-9.ar-box-1.margin-top-5.padding-bottom-0.padding-top-0 {
+      background-color: #fdfdfd;
+    }
+
+    .col-md-4.compared-box.compared-box1.style_prevu_kit {
+      background: transparent;
+    }
+
+    .style_prevu_kit:hover {
+      background: #FFF
+    }
+
+    .row.fond.active-grid-option {
+      padding: 0px
+    }
+
+    .row.fond.active-grid-option .style_prevu_kit:nth-child(3n+3) {
+      padding-right: 0;
+    }
+
+    .row.fond.active-grid-option .style_prevu_kit:nth-child(3n+1) {
+      /*padding-left: 0;*/
+    }
+
+    .maincontainertop {
+      margin: 0 auto;
+    }
+
+    .seach-page-inn #cssmenu {
+      width: 190px !important;
+    }
+
+    /*div.lft.ser-mid { margin: 0 !important;   width: calc(100% - 198px) !important;}*/
+    .page2-header2-col1-row2-col2 {
+      width: calc(100% - 270px) !important;
+    }
+
+    .srchBx {
+      margin-left: 0px !important;
+      margin-top: 0 !important;
+    }
+
+    .cd-words-wrapper b {
+      text-align: left !important;
+      padding: 0px !important;
+      margin: 0px !important;
+    }
+
+    #block_navigation .navigation .ptag:hover {
+      width: 230px;
+    }
+
+    .page-header-col1-row1-col1_row2_pic#cnlocation span {
+      line-height: 1
+    }
+
+    .user-name-topbar {
+      color: #FFF;
+    }
+
+    .page-header-col1-row1-col1_row2 {
+      margin-left: 39px !important;
+      padding: 65px 0 0 !important;
+    }
+
+    #topbar .top-lft ul li {
+      float: left
+    }
+
+    #topbar .top-lft ul {
+      line-height: 1;
+      padding-top: 15px;
+    }
+  }
+
+  @media (min-width: 767px) and (max-width: 1024px) {
+    .box-grid {
+      height: 510px;
+    }
+
+    .active-grid-option .compared-box.compared-box1.style_prevu_kit {
+      height: 510px;
+    }
+
+    .hm1.bbc.search-wrap {
+      width: 100% !important
+    }
+
+    .style_prevu_kit {
+      padding: 0;
+    }
+  }
+
+  @media (min-width: 0px) and (max-width: 460px) {
+    .box-grid {
+      height: auto;
+    }
+
+    .active-grid-option .compared-box.compared-box1.style_prevu_kit {
+      height: auto;
+    }
+
+    .page-header-col1-row2-col2-form #suggesstionBoxs #country-list {
+      margin-top: 0px;
+    }
+
+    .post-buy-req-btn {
+      height: auto
+    }
+
+    div.lft.ser-mid,
+    .hm1.bbc.search-wrap {
+      width: 100% !important
+    }
+
+    .style_prevu_kit {
+      padding: 0;
+    }
+  }
+
+  .w56.f1.p2b.p14.blr .mt5 .mp1 {
+    border: 0 none;
+    margin-top: 10px;
+    background-image: none;
+    background-position: bottom;
+  }
+
+  #blform #submitdiv,
+  #blform #contact_dtl li,
+  #req>ul {
+    background: #faf4ff;
+    margin: 0 !important;
+  }
+
+  #blform #submitdiv {
+    padding-bottom: 10px;
+  }
+
+  .search-show-box .hm1.bbc .wrapper>.bt {
+    display: none;
+  }
+
+  .footer-searchsec {
+    max-width: 940px;
+  }
+
+  .footer-searchsec-left-head h1 {
+    border: 0 none;
+  }
+
+  #res-mob1 .m_contactdetail {
+    width: 68%;
+  }
+
+  #res-mob1 table.m_tmt {
+    width: 100%;
+  }
+
+  #res-mob1 table.m_tmt .m_stax,
+  #res-mob1 table.m_tmt .m_pricefnl,
+  #res-mob1 table.m_tmt .m_pkgdetails {
+    text-align: left;
+  }
+
+  #res-mob1 table.m_tmt .m_stax:first-child,
+  #res-mob1 table.m_tmt .m_pricefnl:first-child,
+  #res-mob1 table.m_tmt .m_pkgdetails:first-child {
+    width: 52%;
+  }
+
+  .maincontainertop.clearfix.custom_quick_fix>div {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #res-mob1 .my_acc_wrapper .col-md-10.my_acc_main {
+    width: 83.33333333%;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .ddm span,
+  #res-mob1 .my_acc_wrapper .nd2 h2 a,
+  #res-mob1 .my_acc_wrapper .nd2 h2 {
+    background-color: #cfeaff;
+    margin: 0;
+    color: #333 !important;
+  }
+
+  .seach-page-inn .ar-mid-box li>a>button.btn.border-radius-0.btn-enquiry {
+    background: transparent;
+    color: blue !important;
+  }
+
+  .leftnv {
+    width: 180px !important;
+    margin: 0px 12px 0 0;
+  }
+
+  .row>.f1.nd2.ebh3 {
+    height: 122px !important;
+  }
+
+  #topbar .top-lft ul li {
+    float: none;
+  }
+
+  #buy_leads_page .bg.bp1.fl.d1.a6.bo.cate_allign.col-md-3.col-sm-3.col-xs-12 {
+    margin-bottom: -2px;
+  }
+
+  #buy_leads_page .bg.bp1.fl.d1.a6.bo.cate_allign.col-md-3.col-sm-3.col-xs-12 .my-market {
+    padding: 0;
+    margin-bottom: 0px;
+    display: block;
+  }
+
+  #buy_leads_page .main-content.mid.fl.col-md-7.col-sm-7.col-xs-12 {
+    padding-left: 0;
+  }
+
+  #search_result_page .seach-page-inn #search_result>.row>.col-lg-12.col-sm-11.col-md-11.ar-box-1.margin-top-10,
+  .ser-mid div.ar-box-1[class*="col-"] {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  #search_result_page .wrapper .main-warpp .maincontainertop .page-header {
+    margin: 0 0 20px;
+    padding-bottom: 0;
+  }
+
+  #search_result_page .seach-page-inn #search_result>.row>.col-lg-12.col-sm-11.col-md-11.ar-box-1.margin-top-10 .ar-box-1 .table tbody tr:last-child td {
+    padding-bottom: 1px !important;
+    padding-top: 1px;
+  }
+
+  #search_result_page .seach-page-inn .row>.col-lg-12.col-sm-9.ar-box-1.margin-top-5.padding-bottom-0.padding-top-0 .table>thead>tr:last-child>td,
+  #search_result_page .seach-page-inn .row>.col-lg-12.col-sm-9.ar-box-1.margin-top-5.padding-bottom-0.padding-top-0 .table>tbody>tr:last-child>td,
+  #search_result_page .seach-page-inn .row>.col-lg-12.col-sm-9.ar-box-1.margin-top-5.padding-bottom-0.padding-top-0 .table>tfoot>tr:last-child>td {
+    padding: 2px;
+  }
+
+  #search_result_page .seach-page-inn .row>.col-lg-12.col-sm-9.ar-box-1.margin-top-5.padding-bottom-0.padding-top-0 .table>tbody>tr>td label {
+    margin: 0;
+  }
+
+  .search-show-box-buyleads #res_row>#product_slider>.als-viewport>ul>.als-item {
+    text-align: center;
+  }
+
+  #bl_overlay_layer+div[style*="padding-top:5px;padding-bottom:5px;"],
+  .right-acution-side .mid.fl.col-md-12.col-sm-12.col-xs-12>.col-md-3.col-sm-3.col-xs-12[style*="padding: 5px;"] {
+    padding: 0 !important;
+    background: transparent !important;
+  }
+
+  .prc-right-side #final_result .middle-control-part #getcitydata>#scity {
+    padding-top: 12px
+  }
+
+  .frm.fl {
+    position: relative;
+  }
+
+  .fl.shd.eto-bg {
+    position: absolute;
+    right: -10px;
+    top: 40px;
+  }
+
+  .hm1.bbc.search-wrap .row.fond.active-grid-option {
+    background: transparent;
+    padding: 0;
+  }
+
+  .hm1.bbc.search-wrap .row.fond.active-grid-option .col-md-4.compared-box.compared-box1.style_prevu_kit {
+    border: 1px solid #999;
+  }
+
+  .hm1.bbc.search-wrap .row.fond.active-grid-option .col-md-4.compared-box.compared-box1.style_prevu_kit:hover .titleLim.box-2 a.h4 {
+    color: red !important;
+  }
+
+  .page-header-col11 .page2-header2-col1-row2-col4 .footer-searchsec-right-btn {
+    font-size: 16px !important;
+  }
+
+  #search_result .ar-box-1,
+  #search_result .box {
+    border: 1px solid #999;
+  }
+
+  @media screen and (max-width: 1280px) and (min-width: 1300px) {
+    .footer-searchsec {
+      max-width: 840px !important;
+    }
+
+    .aution-banner-ad {
+      width: 96%;
+      height: 243px;
+      min-width: 90px;
+    }
+  }
+
+  @media (min-width: 1400px) and (max-width: 1500px) {
+    .footer-searchsec-left {
+      width: calc(100% - 27%);
+    }
+
+    html body .footer-searchsec-right {
+      width: 25% !important;
+    }
+  }
+
+  @media (min-width: 700px) and (max-width: 900px) {
+    .footer-searchsec-right-btn {
+      font-size: 15px !important;
+    }
+  }
+
+  @media (min-width: 992px) and (max-width: 1200px) {
+    .maincontainertop.clearfix.custom_quick_fix>.col-md-3.col-sm-3.col-xs-12.col-lg-2.prc-left-side {
+      width: 208px;
+    }
+
+    .maincontainertop.clearfix.custom_quick_fix>.col-md-9.col-sm-9.col-lg-10.col-xs-12.prc-right-side {
+      width: calc(100% - 208px);
+    }
+
+    .maincontainertop.clearfix.custom_quick_fix>.col-md-9.col-sm-9.col-lg-10.col-xs-12.prc-right-side .fa_search {
+      right: -19px;
+      top: 9px;
+    }
+  }
+
+  @media (min-width: 700px) and (max-width: 1200px) {
+    .footer-searchsec-left {
+      width: calc(100% - 27%);
+    }
+
+    html body .footer-searchsec-right {
+      width: 25% !important;
+    }
+  }
+
+  @media (min-width: 1200px) and (max-width: 1400px) {
+    .footer-searchsec-left {
+      width: calc(100% - 330px)
+    }
+
+    #advertisement_banner_img {
+      width: calc(100% - 31%);
+      padding-right: 5%;
+      box-sizing: border-box;
+    }
+
+    .fside {
+      width: 100% !important;
+    }
+  }
+
+  @media (min-width: 1232px) and (max-width: 1280px) {
+    .page2-header2-col1-row2-col2 {
+      width: 74% !important;
+    }
+  }
+
+  @media (min-width: 1279px) and (max-width: 1300px) {
+    .page2-header2-col1-row2-col2 {
+      width: 68% !important;
+    }
+  }
+
+  @media (min-width: 1200px) and (max-width: 1300px) {
+    #advertisement_banner_img {
+      width: calc(100% - 33%);
+      padding-right: 7%;
+    }
+
+    #buy_leads_page .page2-header2-col1-row2-col2 {
+      width: 74% !important;
+      margin-left: 0px !important;
+    }
+
+    .seach-page-inn #cssmenu {
+      width: 207px !important;
+    }
+
+    div.lft.ser-mid {
+      /*margin: 0 !important;
+  width: calc(100% - 228px) !important;*/
+    }
+
+    .maincontainertop.clearfix.custom_quick_fix>.col-md-9.col-sm-9.col-lg-10.col-xs-12.prc-right-side .checkbox-inline+.checkbox-inline {
+      margin-left: 45px !important;
+    }
+
+    .search-show-box-buyleads .maincontainertop.clearfix.custom_quick_fix>.col-md-9.col-sm-9.col-lg-10.col-xs-12.prc-right-side #final_result {
+      /*width: calc(100% - 274px) !important;*/
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
+  @media (min-width: 1240px) and (max-width: 1300px) {
+    #buy_leads_page .page2-header2-col1-row2-col2 {
+      width: 75% !important;
+      margin-left: 0px !important;
+    }
+  }
+
+  @media (min-width: 1279px) and (max-width: 1400px) {
+    .seach-page-inn #cssmenu {
+      width: 209px !important;
+    }
+
+    #buy_leads_page .page2-header2-col1-row2-col2 {
+      width: 70% !important;
+      margin-left: 0px !important;
+    }
+
+    .seach-page-inn .ar-mid-box .row .box-2 ul li>a {
+      display: block;
+    }
+  }
+
+  @media (min-width: 1100px) and (max-width: 1400px) {
+    #buy_leads_page .lft1.lfl.fl.col-md-3.col-sm-3.col-xs-12 {
+      width: 210px !important;
+    }
+
+    #buy_leads_page .main-content.mid.fl.col-md-7.col-sm-7.col-xs-12 {
+      width: calc(100% - 467px) !important;
+    }
+
+    #bafrm form {
+      float: left;
+      width: 77%;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .search-show-box-buyleads #res_row>#product_slider>.als-viewport>ul>.als-item {
+      text-align: center;
+      width: 17% !important;
+      margin: 10px 4% !important;
+    }
+
+    .tender-right-side {
+      width: calc(100% - 253px);
+    }
+  }
+
+  @media (min-width: 800px) and (max-width: 1024px) {
+    .footer-searchsec {
+      width: 68% !important;
+    }
+
+    .footer-searchsec-right-btn {
+      font-size: 13px !important;
+    }
+  }
+
+  @media (min-width: 1024px) and (max-width: 1200px) {
+    .footer-searchsec {
+      width: 68% !important;
+    }
+
+    .footer-searchsec-right-btn {
+      font-size: 15px !important;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .footer-searchsec-left {
+      width: calc(100% - 37%);
+    }
+  }
+
+  @media (min-width: 992px) {
+    .hm1.bbc.search-wrap .row.fond.active-grid-option .col-md-4.compared-box.compared-box1.style_prevu_kit {
+      border: 1px solid #999;
+      background: #fff;
+      margin: 5px;
+      width: calc(33.333% - 10px);
+    }
+  }
+
+  @media (max-width: 500px) {
+    #search_result_page #search_result .row .col-lg-12.col-sm-11.col-md-11.ar-box-1.margin-top-10 .row .col-lg-3.big-img-box.box-1 {
+      width: 100% !important;
+    }
+
+    
+      #search_result_page #search_result .row .col-lg-12.col-sm-11.col-md-11.ar-box-1.margin-top-10 .row .col-xs-6.col-lg-3.big-img-box.box-1 {
+        width: 50% !important;
+      }
+
+      #search_result_page #search_result .row .col-lg-12.col-sm-11.col-md-11.ar-box-1.margin-top-10 .row .col-lg-3.big-img-box.box-1 figure.box {
+        min-height: 150px;
+        height: 200px;
+        width: 200px;
+        margin: 10px auto;
+      }
+
+      #search_result_page #search_result .row .col-lg-12.col-sm-11.col-md-11.ar-box-1.margin-top-10 .row .col-xs-6.col-lg-3.big-img-box.box-1 figure.box {
+        min-height: 150px;
+        width: 100%;
+        margin: 10px auto;
+      }
+
+      .search-show-box-buyleads #res_row>#product_slider>.als-viewport>ul>.als-item>a>div[style*="height:0%;"] {
+        height: auto !important;
+      }
+
+      .search-show-box-buyleads #res_row>#product_slider>.als-viewport>ul>.als-item>a>div[style*="margin-top:16%;"] {
+        margin-top: 10px !important;
+      }
+
+      .seach-page-inn .big-img-box.box-1 {
+        width: 100% !important;
+        margin-bottom: 10px;
+      }
+
+      .seach-page-inn .ar-box-1 .box-2 {
+        width: 99% !important;
+      }
+
+      .seach-page-inn .ar-box-1 .col-xs-6.box-2 {
+        width: 50% !important;
+        padding-right: 5px;
+      }
+
+      .seach-page-inn .box {
+        height: 200px;
+        width: 200px;
+        margin-left: auto;
+        margin-right: auto;
+        border-color: #999;
+      }
+  }
+
+  @media (max-width: 360px) {
+    .container.top-bar>.row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .margin-bottom-10 {
+      margin-bottom: 0 !important;
+    }
+    .big-img-box.box-1 {
+      max-width: 100% !important;
+    }
+    #search_result_page #search_result .row .col-lg-12.col-sm-11.col-md-11.ar-box-1.margin-top-10 .row .col-lg-3.big-img-box.box-1 {
+      width: 100% !important;
+    }
+
+    
+      #search_result_page #search_result .row .col-lg-12.col-sm-11.col-md-11.ar-box-1.margin-top-10 .row .col-xs-6.col-lg-3.big-img-box.box-1 {
+        width: 100% !important;
+      }
+
+      #search_result_page #search_result .row .col-lg-12.col-sm-11.col-md-11.ar-box-1.margin-top-10 .row .col-lg-3.big-img-box.box-1 figure.box {
+        min-height: 150px;
+        height: 200px;
+        width: 200px;
+        margin: 10px auto;
+      }
+
+      #search_result_page #search_result .row .col-lg-12.col-sm-11.col-md-11.ar-box-1.margin-top-10 .row .col-xs-6.col-lg-3.big-img-box.box-1 figure.box {
+        min-height: 150px;
+        width: 100%;
+        margin: 10px auto;
+      }
+
+      .search-show-box-buyleads #res_row>#product_slider>.als-viewport>ul>.als-item>a>div[style*="height:0%;"] {
+        height: auto !important;
+      }
+
+      .search-show-box-buyleads #res_row>#product_slider>.als-viewport>ul>.als-item>a>div[style*="margin-top:16%;"] {
+        margin-top: 10px !important;
+      }
+
+      .seach-page-inn .big-img-box.box-1 {
+        width: 100% !important;
+        margin-bottom: 10px;
+      }
+
+      .seach-page-inn .ar-box-1 .box-2 {
+        width: 99% !important;
+      }
+
+      .seach-page-inn .ar-box-1 .col-xs-6.box-2 {
+        width: 100% !important;
+        padding-right: 15px;
+        padding-left: 15px !important;
+        padding-top: 0 !important;
+      }
+
+      .seach-page-inn .box {
+        height: 200px;
+        width: 200px;
+        margin-left: auto;
+        margin-right: auto;
+        border-color: #999;
+      }
+  }
+    @media (width:800px) {
+      .footer-searchsec-right {
+        margin-top: -3px !important;
+      }
+  }
+</style>
+<div id="image_modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content" style="margin-top: 10vh;">
+      <img id="dyn_image" style="width: 100%;" >
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  function zoom_image(ele){
+  
+    var imagex = $(ele).data('img');
+  
+    console.log(imagex);
+  
+    $('#dyn_image').attr('src',imagex);
+  
+    $('#image_modal').modal('show');
+  
+  
+  
+  }
+  
+  
+  function open_chat(){
+  
+    Tawk_API.toggle();
+  }
+  
+</script>
+
+<!--<script type="text/javascript" src="http://workfromhomecompanies.net/its/ehabfa/livechat/php/app.php?widget-init.js"></script>-->
+</body>
+</html>

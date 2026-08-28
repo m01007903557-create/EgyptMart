@@ -1,0 +1,788 @@
+<?php
+error_reporting(0);
+
+include "../common.php";
+
+$c = $_GET['c'];
+$id = substr($_GET['c'], 4);
+$flag = $_GET['flag'];
+
+$sql = "select * from business_profile,user,ownership_type
+,revenue_turnover where bnsprof_uid=usr_id and md5(bnsprof_id)='" . $id . "'";
+$res = mysqli_query($con,$sql);
+$row = mysqli_fetch_object($res);
+
+
+$sql_usr = "select * from user, business_profile where usr_id= '".$_SESSION['uid_indm']."' and bnsprof_uid='".$_SESSION['uid_indm']."'";
+$res_usr = mysqli_query($con,$sql_usr);
+$row_usr = mysqli_fetch_object($res_usr);
+
+
+$path = $_SERVER['SCRIPT_NAME'];
+$pos = strrpos($path, '/');
+$file = substr($path, ($pos + 1));
+//$file = strstr($file, '.', true);
+$dotpos = strrpos($file, '.');
+$file = substr($file, 0, ($dotpos));
+
+//echo "<pre>";
+//print_r($row);
+//die;
+//echo "<pre>"; print_r($row); echo "</pre>";
+$uid=$row->usr_id;
+$banner = array(); 
+
+
+if ($file == "profile") {
+	$bsql = "select * from company_banner cb JOIN business_profile bf ON cb.cb_bnsprof_id = bf.bnsprof_id where bnsprof_uid= $row->bnsprof_uid AND cb_image != ''";
+	 $bsql;
+	$bres = mysqli_query($con,$bsql);
+	while ($row_t = mysqli_fetch_object($bres)){
+		
+		 $img  = BASE_URL."/upload/company_banner/".$row_t->cb_image;
+		 $img_2 = $_SERVER['DOCUMENT_ROOT']."/upload/company_banner/".$row_t->cb_image;
+		 
+		if (file_exists($img_2)!="") {
+			$banner[] = $img;
+		}
+	}
+	
+	$bstyp=explode(",",$row->bnsprof_businesstype);
+
+	$business_type=array();
+	$bt="select * from business_type where bsntyp_status='1' and bsntyp_id IN ($row->bnsprof_businesstype)";
+	$btype=mysqli_query($con,$bt);
+	while($bus_type=mysqli_fetch_object($btype))
+	{
+		$business_type[]=$bus_type->bsntyp_title;
+	}
+
+}
+else {
+	$bsql = "select * from products where pd_uid=$row->bnsprof_uid AND pd_image != ''";
+
+	//echo $bsql;
+	$bres = mysqli_query($con,$bsql);
+
+	while ($row_t = mysqli_fetch_object($bres)){
+        $pdImage = explode(',', $row_t->pd_image);
+	    $img = BASE_URL."/upload/myproduct/thumb/". $pdImage[0];
+	    $img_2 = $_SERVER['DOCUMENT_ROOT']."/upload/myproduct/thumb/". $pdImage[0];		 
+	    //echo "<!--". chr(13).$img."---".file_exists($img)."-->";
+        if(file_exists($img_2)) {
+           $banner[] = $img; 
+        }
+	}
+} 
+
+//echo 1;exit;
+
+$coun = "select * from country";
+$count = mysqli_query($con,$coun);
+while ($countr = mysqli_fetch_object($count)) {
+    $country[] = $countr->cn_name;
+}
+
+
+
+
+$ct = "select * from city where ct_id=$row->bnsprof_city";
+$cit = mysqli_query($con,$ct);
+$citys = mysqli_fetch_object($cit);
+
+
+$st = "select * from states where state_id=$row->bnsprof_state";
+$sta = mysqli_query($con,$st);
+$states = mysqli_fetch_object($sta);
+
+
+$bsql = "SELECT distinct pd_subcat_id FROM products where pd_uid=$row->usr_id";
+$bres = mysqli_query($con,$bsql);
+while ($row_t = mysqli_fetch_object($bres)) {
+    $asd = "select * from product_category where pc_id=$row_t->pd_subcat_id";
+   $def = mysqli_query($con,$asd);
+   while ($row_c = mysqli_fetch_object($def)) {
+    $prod[] = $row_c->pc_name;
+}
+}
+
+if ($file == "enquiry") {
+    $_SESSION['last_page'] = "company/enquiry.php?c=" . $_GET['c'];
+
+    if (!isset($_SESSION['uid_indm']) && $_SESSION['uid_indm'] == '') {
+        header("Location:../sign-in.php");
+    }
+}
+
+if($row->bnsprof_comp_url==''){
+    $company='company';
+}else{
+    $company=$row->bnsprof_comp_url;
+}
+
+
+if ($file == "index") {
+    $_SESSION['last_page'] = "company/index.php?c=" . $_GET['c'];   
+}
+else if ($file == "products") {
+    $_SESSION['last_page'] = "company/products.php?c=" . $_GET['c'];
+}
+else if ($file == "profile") {
+    $_SESSION['last_page'] = "company/profile.php?c=" . $_GET['c'];
+}
+else if($file == "video"){
+    $_SESSION['last_page'] = "company/video.php?c=" . $_GET['c'];
+}
+
+if($row->image == NULL){
+  //  $row->image = "defimage.jpg";
+}
+?>
+<!DOCTYPE html>
+<html xmlns="https://www.w3.org/1999/xhtml"  xml:lang="en" lang="en" ><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title><?php echo $row->bnsprof_compname; ?></title>
+<base href="../company/" />
+
+<meta name="title" content="<?php echo $row->bnsprof_compname; ?>">
+<meta name="keywords" content="<?php echo get_page_settings(2); ?>">
+<meta name="description" content="<?php echo get_page_settings(3); ?>">
+<link href="css/company.css?t=<?php echo rand(); ?>" rel="stylesheet" type="text/css">
+<link href="css/custom.css" rel="stylesheet" type="text/css">
+<link href="css/font-awesome.css" rel="stylesheet" type="text/css">
+<link href="css/jquery.bxslider.css" rel="stylesheet" type="text/css">
+<script src="js/jquery.js"></script>
+<script src="js/analytics.js" async=""></script>
+<script src="ls/html5.js"></script>
+<script language="javascript" src="js/tabbing.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/mojozoom.js"></script>  
+<link type="text/css" href="css/mojozoom.css" rel="stylesheet" />
+<script src="js/functions.js?t=<?php echo rand(); ?>"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/resources/demos/style.css">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.css">
+  <style>
+    
+    label, input { display:block; }
+    input.text { margin-bottom:12px; width:95%; padding: .4em; }
+    fieldset { padding:0; border:0; margin-top:25px; }
+    h1 { font-size: 1.2em; margin: .6em 0; }
+    div#users-contain { width: 350px; margin: 20px 0; }
+    div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+    div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+    .ui-dialog .ui-state-error { padding: .3em; overflow: visible;}
+    .validateTips { border: 1px solid transparent; padding: 0.3em; }
+    #ui-id-1 {text-align: center; background-color: #e73a00
+; height: 23px; width:100%; color:white; padding-top:20px; font-size: 20px;}
+    .ui-resizable{overflow: visible !important;}
+    .ui-dialog-buttonset{float:left !important; margin-top: 10px !important; margin-left:131px;}
+    .ui-dialog-buttonpane{margin-top:-63px !important;}
+    #dialog-form{height:420px; display:none;}
+    .ui-draggable .ui-dialog-titlebar{padding: 0 0 !important;}
+   .ui-corner-all{overflow: visible !important;}
+   .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {border-radius: 9px !important;}
+    .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {top: -3%; right: -2px;}
+	.slider {
+  width: 55%;
+  margin: 0 130px;
+}
+
+.slick-slide {
+  margin: 10px 20px;
+}
+
+.slick-slide img {
+  width: 100%;
+  border: 1px solid #9c9;
+  box-shadow:0 0 10px #6c6;
+  z-index: 9999;
+  /*transform: scale(0.9);*/
+}
+
+.slick-prev:before,
+.slick-next:before {
+  color: black;
+}
+
+.slick-dotted .slick-current img {
+  transform: scale(1.5);
+  border-bottom:1px solid #9c9 !important;
+  border-top:1px solid #9c9 !important;
+  
+}
+  </style>
+
+  <style>
+ #wideColumn{
+	width:753px;
+}
+#thinColumn{
+	width:192px;
+}
+
+    
+
+    <!--#wideColumn.cust .product_image{
+        height:200px;
+    }
+    #wideColumn.cust .product_image a{
+        display:block; 
+        height:100%;
+        width:100%;
+		text-align:center;
+		line-height:200px;
+    }
+    #wideColumn.cust .product_image img.cu{
+        height:auto !important;
+		max-height:100%;   
+		width:auto;   
+		max-width:100%;	
+		vertical-align:middle;
+		
+		
+    }-->
+    #wideColumn.cust .hot-product .grids_list section{
+        height:500px;
+    }
+    .user_profile_link{
+        width:190px;
+    }
+    .pop-up-position{
+        right:-332px !important;
+    }
+    span.red-icon-product {
+    background: red;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    color: #fff;
+    /* padding-top: 0px !important; */
+    right: 29px;
+    z-index: 999;
+    top: 5px;
+    font-size: 13px;
+    /* padding-left: 4px; */
+    text-align: center;
+}
+    #wideColumn.cust .hot-product{
+        overflow:hidden;
+    }
+ 
+ 
+ 
+ </style>
+  <script>
+                                                $(function () {
+                                                    dialog = $("#dialog-form").dialog({
+                                                        autoOpen: false,
+                                                        height: 450,
+                                                        width: 400,
+                                                        resizable: false,
+                                                        modal: true,
+                                                    });
+                                                    $("#create-user").button().on("click", function () {
+                                                        dialog.dialog("open");
+                                                    });
+                                                });
+                                            </script>
+<script type="text/javascript">
+(function($){
+	
+	$(document).ready(function(){
+		var speed=1;
+		w=$('#products li').length*$('#products li').width();
+		appendHTML=$('#products').html();
+		$($('#products')).append(appendHTML)
+		
+		function scroll2left(){
+			moveLeft=parseInt($('#products').css('left'))-speed;
+			$('#products').css({'left':moveLeft},600);
+			if($('#products').css('left')==(-w+'px')){
+				$('#products').css('left',0)
+			}
+		}
+		moveLeft_t=setInterval(scroll2left,5);
+		
+		$('#products').mouseenter(function(){speed=0})
+		$('#products').mouseleave(function(){speed=1})
+		
+				 
+	})
+})(jQuery)
+</script>
+<script type="text/javascript">
+(function($){
+	
+	$(document).ready(function(){
+		var speed=1;
+		/*w=$('#products_2 li').length*$('#products_2 li').width();
+		appendHTML=$('#products').html();
+		$($('#products')).append(appendHTML)
+		
+		function scroll2left(){
+			moveLeft=parseInt($('#products_2').css('left'))-speed;
+			$('#products_2').css({'left':moveLeft},500);
+			if($('#products_2').css('left')==(-w+'px')){
+				$('#products_2').css('left',0)
+			}
+		}
+		moveLeft_t=setInterval(scroll2left,5);
+		
+		$('#products_2').mouseenter(function(){speed=0})
+		$('#products_2').mouseleave(function(){speed=1})
+		*/
+				 
+	})
+})(jQuery)
+</script>
+<style type="text/css">
+    .ui-dialog-buttonpane .ui-dialog-buttonset .ui-button{
+            background: rgba(0, 149, 255, 0.85);
+            color: #fff;
+            margin-top: 10px;
+    }
+</style>
+<section id="ei" style="border-bottom: 6px solid #dadada;">
+<nav class="cb">
+<ul>
+<li><figure><a href="../index.php"><img src="../sitelogo/<?php echo get_page_settings(5);?>" alt="<?php echo getWebSiteName(); ?>" style="margin-top:-5px; height:30px"></a></figure></li>
+
+
+<li>
+		<a href="../create_account.php" class="b"title="List Your Company"> سجل شركتك </a> | <a href="../sign-in.php"title="Sign In">دخول</a>
+		| <a href="../manage-selloffer-alert.php"title="Mange Sell Offer Alerts">إشعارات تجارتى</a> | <a href="../dir.php"title="View All Categories">شاهد أسواق التجارة </a> | <a href="../contact_us.php"title="Contact Admins">الاتصال بإدارة المنصة </a></li>
+</ul>
+<script>
+function showsrchm()
+{
+	$("#smnu").show();	
+}
+function hidesrchm()
+{
+	$("#smnu").hide();	
+}
+function OutboundLink(type)
+{
+	$("#keyword_type").val('');
+	if(type == 'buy_lead')
+	{
+		$("#a1").html("Buy Leads");
+		$("#keyword_type").val("Buy Leads");
+		
+	}
+	else
+	{
+		$("#a1").html(type);
+		$("#keyword_type").val(type);
+	}
+	$("#rctyp").val(type);
+	$("#smnu").hide();
+	lostFocus();
+	//alert($("#keyword_type").val());
+}
+function validsearch()
+{
+	var keywords=document.getElementById('keywords');
+	if(keywords.value=='' || keywords.value == null)
+	{
+		alert("Please enter a valid text to search.");
+		return false;
+	}
+}
+function gotFocus()
+{
+	var keywords=$("input#keywords").val();
+	if(keywords=='Enter product / service to search' || keywords=='Enter Buy Lead to search' || keywords=='Enter Supplier to search')
+	{
+		$("input#keywords").val('')
+	}
+}
+function lostFocus()
+{
+	var type=$("#keyword_type").val();
+	var keywords=$("input#keywords").val();
+	if(type=='Products' && (keywords=='' || keywords=='Enter Buy Lead to search' || keywords=='Enter Supplier to search'))
+	{
+		$("input#keywords").val('Search Products');
+	}
+	else if(type=='Buy Leads' && (keywords=='' || keywords=='Enter product / service to search' || keywords=='Enter Supplier to search'))
+	{
+		$("input#keywords").val('Enter Buy Lead to search');
+	}
+	else if(type=='Suppliers' && (keywords=='' || keywords=='Enter product / service to search' || keywords=='Enter Buy Lead to search'))
+	{
+		$("input#keywords").val('Enter Supplier to search');
+	}
+}
+</script>
+<link rel="stylesheet" href="../css/jquery.autocomplete.css" type="text/css" />
+<script type="text/javascript" src="../js/jquery.autocomplete2.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	lostFocus();
+	
+	$('#keywords').keydown(function() {	
+
+		var type=$("#keyword_type").val();
+		$("#keywords").autocomplete("../autocomplete.php", {
+			selectFirst: true,
+			extraParams: {type:type},
+			width: 407
+		})
+		.result(function(event, data, formatted) {
+			$("input#keywords").val(data);
+		});
+	});
+});
+</script>
+
+	<div class="seaReg" style="width:205px">
+<form name="searchForm" action="../search.php" onSubmit="return validsearch()" method="GET" id="hdr_frm" target="_blank">
+<input value="<?php echo $_GET['keywords'];?>" class="input" name="keywords" id="keywords" onfocus="gotFocus();" onblur="lostFocus()" value="Search Product" style="width:120px; float:left !important"/> 
+<input type="hidden" id="keyword_type" name="keyword_type" value="Products" />
+<input type="hidden" name="rctyp" id="rctyp" value="<?php if($_GET['rctyp']!=""){ echo $_GET['rctyp']; } else { ?>Products<?php }?>"/>
+<input name="submit" id="btnSearch" value="Search" class="search" type="submit">
+	</form>
+	</div>
+	</nav>
+</section>
+</head>
+	<body>	
+<header>
+<div id="logo" style="margin: 0px -2px 0px;">
+   
+<section>
+	<div class="company_profile_top_first"> 	
+		<ul class="cb">
+<?php //echo $row->bnsprof_complogo;
+if($row->bnsprof_complogo!=''){
+if(is_file("../upload/companylogo/".$row->bnsprof_complogo)){ ?>
+<li><img src="../upload/companylogo/<?php echo $row->bnsprof_complogo; ?>" style="max-height:76px;margin-right:10px; padding-top:10px;" /></li>
+<?php } else if(file_exists(dirname(__FILE__)."/../../server/php/files/".$row->bnsprof_complogo)){ ?>
+<li><img src="<?php echo '/server/php/files/'.$row->bnsprof_complogo; ?>" style="max-height:76px;margin-right:10px; padding-top:10px;" /></li>
+<?php } 
+} ?>
+
+			<li><h1 style="color: #fff; text-shadow: 1px 1px #060; font: 30px/.7em Arial, Helvetica, sans-serif; text-transform: capitalize;"><?php echo $row->bnsprof_compname; ?></h1>
+			
+                        <p style="padding-left:10px; color: #eeff1d !important; text-shadow: 1px 1px #060; margin-top: -6px; font-size: 16px;"> <span style="padding-right: 7px; margin-top: -6px;"><img src="<?php echo BASE_URL ?>/images/country_flag/<?php echo get_country_flag($row->country); ?>" alt="<?php echo get_country_name($row->country); ?>" class="w4" align="top" height="30" width="35"/></span><span style="line-height: 27px;"> <?php echo get_country_name($row->country); ?> - <?php echo $states->state_name; ?> - <?php echo $citys->ct_name; ?></span></p>
+			</li>
+		</ul>
+</div>
+<div class="company_profile_top_sec"> 	
+	<div class="company_info">
+		<div class="header_top_div" style="box-shadow: -4px 6px 7px #4C4646;">
+<?php 
+if($row->bnsprof_id != ''){
+$sql_icon = "select sip.mst_icon, sp.mst_name, sp.mp_id from smembership_icon_plan sip join plan_member_id pm on sip.mp_id = pm.p_id join smembership_plan sp on sp.mp_id = sip.mp_id where pm.b_id = ".$row->bnsprof_id;
+                        $get_icon = mysqli_query($con,$sql_icon) or die(mysqli_error());
+if(mysqli_num_rows($get_icon) > 0){ $icon = mysqli_fetch_array($get_icon);
+?>
+<div class="top-text1"><span><img src="<?php echo BASE_URL ?>/admin/images/<?php echo $icon['mst_icon']; ?>" /></span><span>
+
+<?php
+if(strpos(strtolower ($icon['mst_name']),'verified') !== false) {
+echo "JUNIOR Member";
+}
+else {
+echo $icon['mst_name'];
+}
+?>
+</span></div>
+<?php } else { ?>
+<?php
+/*webcast*/
+$sql_icon2 = "select icon_id, p_id from plan_member_id where b_id = ".$row->bnsprof_id;
+$get_icon2 = mysqli_query($con,$sql_icon2) or die(mysqli_error());
+$icon2 = mysqli_fetch_array($get_icon2);
+$sql_icon1 = "select * from smembership_icon_plan where mp_id = ".$icon2['icon_id'];
+$get_icon1 = mysqli_query($con,$sql_icon1) or die(mysqli_error());
+$icon1 = mysqli_fetch_array($get_icon1);
+?>
+			<div class="top-text1"><span><img src="<?php echo BASE_URL ?>/admin/images/<?php echo $icon1['mst_icon']; ?>" /></span><span><?php echo $icon1['mst_name']; ?></span></div>
+<?php } }else{ ?>
+	
+	<div class="top-text1"><span><img src="<?php echo BASE_URL ?>/admin/images/1455182389VERIDIED.jpg" /></span><span>JUNIOR Member</span></div>
+<?php } ?>
+			<!----<div class="top-text2">Member Since :  <?php echo date("Y", strtotime($row->date));?>  </div>---->
+		</div>
+	</div>
+</div>
+</section>
+</div>
+
+	<nav class="cb company_nav_head" id="tml" style="height:44px !important;">
+	   <ul class="company_menu pop-up-position-main" style="position: relative;">
+        <li><a href="./index.php?c=<?php echo $c; ?>" title="Home"<?php if($file=="index"){?> class="on" <?php } else {?> class="" <?php } ?>>عن الشركة</a></li>
+        <li><a href="./products.php?c=<?php echo $c; ?>"title="  Company Products " <?php if($file=="products"){?> class="on" <?php } else {?> class="" <?php } ?>>المنتجات</a></li>
+        <li><a href="./profile.php?c=<?php echo $c; ?>"title="Profile " <?php if($file=="profile"){?> class="on" <?php } else {?> class="" <?php } ?>>بروفايل</a></li>
+        <li><a href="./enquiry.php?c=<?php echo $c; ?>"title=" Contact Us " <?php if($file=="enquiry"){?> class="on" <?php } else {?> class="" <?php } ?>>الإتصال بنا </a></li>
+	  
+        <div class="pop-up-position" style="position: absolute;top: 10px;right: -310px;">
+          <ul class="user_profile_link" style="margin-top: 0px; position: inherit;">
+		<li>
+			<a href="javaScript:void(0)" style="padding: 6px 10px 6px 7px !important; color: #eeff1d !important;"title=" Communicate with  Supplier ">  Contact Company Admins</a>
+	        <div id="profile_sub_menu">
+				<div class="profile_list_value">
+                                       <div class="user_profile_image"> 
+                                       
+<?php if($row->image != ''){ ?>
+<img style="object-fit:cover" src="<?php echo 'data:image/jpg;base64,'.base64_encode( getUserInfo($uid,'profileImage'));?>" width="70" id="profilephoto1" height="70">
+
+<?php }else{ ?>
+                                            <img style="object-fit:cover" src="<?php echo BASE_URL ?>/server/php/files/thumbnail/upload.jpg" width="70" height="70">
+                                              
+                                              
+<?php } ?>
+                                       </div>
+				   <div class="user_name_value">
+					  <p style="line-height:1.5em;text-align:left;font-size:1.4em;background-color:#eaeaea;margin:0;font-family:Arial,Helvetica,sans-serif;font-weight:bold;color: #002757;"> <div class="menu_text1"title=" How can I help you? " >How Can I Help You ? </div>
+					   <div class="user_name"><?php echo $row->name_prefix.' '.$row->fname; ?></div>
+				   </div>
+				</div>
+				<div class="profile_list_value">
+					<div onclick="checklogin()" class="contact_div" id="create-user" style="font-size:13px; color: darkblue;"><span style="padding-right: 5px; float:left;"><img src="<?php echo BASE_URL ?>/company/images/mail_box.png" width="25"></span><span style="padding-right: 0px; font-size: 12px;" title="Send Inquiry " ><b>Contact Supplier</b></span></div>
+				      <?php if($flag == "success"){?>
+                                        <br>
+                                        <br>
+                                        <div class="contact_div"><span style="text-align: center; color: green;font-size: 14px;"><b>Your Message Sent Sucessfully ..</b> </span></div>
+                                        <br>
+                                        <?php }?>
+                                </div>
+				<div class="profile_list_value">
+					<div class="chat"><span><img src="<?php echo BASE_URL ?>/company/images/chatnow.png" width="55"></span><span><?php echo $row->name_prefix.' '.$row->fname; ?></span></div>
+					</div>
+				</div>	
+                        <div class="abcdefgh">
+                            
+                         <div id="dialog-form" title=" Contact Supplier " style="background-color: #fbfbda; overflow: visible;" >
+				<img style="position: absolute; left:-125px; top:-33px;"src="images/girls_PNG6471.png"/>
+				<img style="position: absolute; left: 44px; top: -49px; width: 60px; height: 50px;"src="images/popar.png"/>
+
+			<form method="post" action="smsMail.php">
+					<fieldset>
+					<input type="hidden" value="<?php echo $row->bnsprof_uid;?>" name="msg_to" id="msg_to">
+					<label for="country">Country :</label>
+					<select name="country" id="country" class="text ui-widget-content ui-corner-all" style="width:98%">
+				<option value=""><?php echo get_country_name($row_usr->country); ?></option>	
+					<?php foreach ($country as $key => $eachCountry ) { ?>
+					
+					
+					
+					<?php } ?></select>
+					<label for="name">Company :</label>
+					<input type="text" name="name" id="name" value="<?php echo $row_usr->bnsprof_compname; ?>" placeholder="Your Company Name" class="text ui-widget-content ui-corner-all">
+					<label for="email" style="margin-top: 20px;"> Email : </label>
+					<input type="hidden" value="<?php echo $c; ?>" id="c" name="c">
+					<input type="hidden" value="<?php echo $row_usr->usr_id; ?>" id="company" name="company">
+					<input type="text" name="email" id="email" placeholder="email" value="<?php echo $row_usr->email; ?>" class="text ui-widget-content ui-corner-all">
+					<label for="mobile"> Mobile :</label>
+					<div class="flag-div" style="position:relative;">
+					<input type="text" name="country_code" id="country_code" class="text ui-widget-content ui-corner-all" value="<?php echo $row_usr->country_ph_code; ?>" style="float:left; width: 15%; padding-left: 36px;">
+					<img style="position:absolute; left: 4px; top:5px;" src="<?php echo BASE_URL ?>/images/country_flag/<?php echo get_country_flag($row_usr->country); ?>"
+					</div>
+					<input type="text" name="mobile" id="mobile" placeholder="Enter Your Mobile Number" value="<?php echo $row_usr->mobile1; ?>" class="text ui-widget-content ui-corner-all" style="float:left;  width: 67%; margin-left: 5px;">
+					<label for="description">Describe Your Requirements: </label>
+					<textarea placeholder="" name="description" id="description" rows="4" cols="43" style="background-color:white;resize: none;text-align: center; "></textarea>
+					<!-- Allow form submission with keyboard without duplicating the dialog button -->
+					<input type="button" id="popbutton" tabindex="-1" style="position:absolute; top:-1100px;background: #000">
+					</fieldset>
+					<input type="button" id="pop-sms" value=" Send Inquiry " style="padding: .4em 1em; line-height: normal; background: #c33100; color: #fff; font-weight:bold; margin-left: 130px;" onclick='sendSMSEnquiry()'>
+
+                                <div id="loading" style="display:none;padding-left:192px;color:#1045B0;padding-top:16px;" class="g9 bo off">
+            	<img class="loading" src="../images/loading-small.gif" alt="loading" height="16" width="16"><b>Wait Please ... </b>
+			</div>	
+                <div id="sms_succ_result" style="display:none;padding-left:105px;color:#009700;padding-top:16px;" class="g9 bo off">
+            	<b>Your Message was sent sucessfully ... </b>
+			</div>
+                                                                                                                    </div>
+                        </div>
+		</li>
+	  </ul>
+	</div>
+          </ul>
+	  <ul class="company_video_link"><li><span><a href="./video.php?c=<?php echo $c; ?>"title="  Company Video "> فيديو الشركة </a></span></li></ul>
+	</nav>
+				
+				<section id="header">		
+					
+						<?php	
+						if ($file == "profile") { ?>
+							<section class="center slider">		 
+						 <?php
+						if(count($banner) > 0){
+						foreach($banner as $aBan){
+							
+					?>
+					
+					<div>
+					   <img class="img-current-border" src="<?php echo $aBan ?>">
+					</div>    
+				<?php 
+				}
+						} else{
+							for($i = 1; $i < 7;$i++)
+							 {	
+				?>
+				
+						<div>
+     					   <img  class="img-current-border" alt="No Images" src="../images/noimage.jpg"> 
+     					   
+     					   
+     					   
+     					   
+     					   
+     					   
+     					   
+     					   
+     					   
+     					   
+     					  </div>
+
+<?php } // end for loop
+} ?>
+
+</section>
+<p style="padding-left:140px; padding-bottom:2px; font-size:18px; line-height: 1.5em; color: #595959; text-shadow: 1px 1px #ecf6fd;">
+
+<?php
+$size = sizeof($business_type);
+foreach ($business_type as $index => $btp) {
+    if ($index < $size - 1) {
+        echo '<span>' . $btp . ' -</span>';
+    } else {
+        echo $btp;
+    }
+}
+?>
+
+</p>
+
+<?php
+} else {
+    if (count($banner) > 0 && isset($banner[0]) && $banner[0] != "") {
+?>
+        <figure>
+            <ul id="products" class="cb">
+                <?php foreach ($banner as $aBan) { ?>
+                    <li><img width="100" style="object-fit:cover" height="100" alt="Fresh Plum" src="<?php echo $aBan; ?>"></li>
+                <?php } ?>
+            </ul>
+        </figure>
+        <p style="padding-left:60px; font-size:18px; line-height: 1.5em; color: #595959; text-shadow: 1px 1px #ecf6fd;">
+
+        <?php
+        $size = sizeof($prod);
+        $pi = 1;
+        foreach ($prod as $index => $pro) {
+            if ($pi == 25) {
+                echo '</p><p style="display:none;padding-left:60px; padding-bottom:5px; font-size:18px; line-height: 1.5em; color: #595959; text-shadow: 1px 1px #ecf6fd;" id="id1">';
+            }
+            if ($index < $size - 1) {
+                echo '<span>' . $pro . ' ,</span>';
+            } else {
+                echo $pro;
+            }
+            $pi++;
+        }
+        echo '</p>';
+        ?>
+        
+        <?php if ($pi > 25) { ?>
+            <p style="padding-left:60px; padding-bottom:5px; font-size:18px; line-height: 1.5em; color: #595959; text-shadow: 1px 1px #ecf6fd;">
+                <span onclick="showMore(this)" style="padding:3px; cursor:pointer; font-size:12px"><i class="fa fa-plus"></i>&nbsp;view more..</span>
+            </p>
+        <?php } ?>
+
+    <?php
+    } else {
+    ?>
+        <figure>
+            <ul id="products" class="cb">
+                <?php for ($i = 1; $i < 7; $i++) { ?>
+                    <li><img width="100" style="object-fit:cover" height="100" alt="No Images" src="../images/noimage.jpg"></li>
+                <?php } ?>
+            </ul>
+        </figure>
+    <?php
+    } // end if banner check
+} // end else (non-profile pages)
+?>
+
+</section>
+</header>
+<br>
+
+<script>
+function checklogin() {
+    var user = "<?php echo $_SESSION['uid_indm'] ?? ''; ?>";
+    if (user == '') {
+        window.location.href = "../sign-in.php";
+    }
+}
+</script>
+
+<script>
+function sendSMSEnquiry() {
+    var msg_to = document.getElementById('msg_to').value;
+    var email = document.getElementById('email').value;
+    var company = document.getElementById('company').value;
+    var name = document.getElementById('name').value;
+    var c = document.getElementById('c').value;
+    var country_code = document.getElementById('country_code').value;
+    var mobile = document.getElementById('mobile').value;
+    var description = document.getElementById('description').value;
+    var e = document.getElementById("country");
+    var country = e.options[e.selectedIndex].value;
+
+    $("#pop-sms").css("display", "none");
+    $("#loading").css("display", "block");
+
+    $.post("../company/smsMail.php", {
+        email: email,
+        company: company,
+        name: name,
+        c: c,
+        country_code: country_code,
+        mobile: mobile,
+        description: description,
+        country: country,
+        msg_to: msg_to
+    }, function(data) {
+        if (data == 1) {
+            setTimeout(function() {
+                $("#loading").css("display", "none");
+                $("#sms_succ_result").css("display", "block");
+            }, 500);
+        } else {
+            setTimeout(function() {
+                $("#loading").css("display", "none");
+                $("#err_result").css("display", "block");
+            }, 500);
+        }
+    });
+}
+</script>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"></script>
+<script>
+$(document).on('ready', function() {
+    if ($(".center.slider").length > 0) {
+        $(".center.slider").slick({
+            dots: true,
+            infinite: true,
+            centerMode: true,
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            autoplay: true,
+            arrows: true
+        });
+    }
+});
+</script>

@@ -1,0 +1,41 @@
+.zoom-box{
+    position: relative;
+}
+.zoom-box img{
+    vertical-align: bottom;
+}
+.zoom-box .zoom-selector{
+    position: absolute;
+    background-image: url("http://egyptmart.online/images/selector.png");
+    background-repeat: repeat;
+    display: none;
+    cursor: crosshair;
+}
+.zoom-box .viewer-box{
+    position: absolute;
+    border: 1px solid rgb(239,237,240);
+    display: none;
+    overflow: hidden;
+    border: 1px solid gray;
+    border-bottom: none;
+    z-index: 999;
+}
+.zoom-box .zoom-text{
+    position: absolute;
+    border: 1px solid rgb(239,237,240);
+    display: none;
+    overflow: hidden;
+    text-align: center;
+    padding-top: 15px;
+    background: white;
+    z-index: 999;
+    color: black;
+    font-size: 20px;
+    border: 1px solid gray;
+    border-top: none;
+}
+.zoom-box .viewer-box>img{
+    position: absolute;
+    left: 0;
+    top: 0;
+}

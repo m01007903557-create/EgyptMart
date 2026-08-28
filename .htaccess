@@ -1,0 +1,32 @@
+SecFilterEngine Off
+SecFilterScanPOST Off
+
+<Files "fb_hook.php">
+    SecFilterEngine Off
+    SecFilterScanPOST Off
+</Files>
+
+
+RewriteEngine On
+RewriteRule ^fb_hook\.php$ - [L]
+RewriteRule ^fb_log\.txt$ - [L]
+RewriteRule ^auth/google/callback/?$ auth/google/callback.php [L,QSA]
+
+# باقي القواعد بتاعتك هنا...
+
+# Enable URL Rewriting
+RewriteEngine On
+
+# Rewrite rule to redirect requests to index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?/$1 [L]
+
+<Files "fb_hook.php">
+    SecFilterEngine Off
+    SecFilterScanPOST Off
+</Files>
+
+# استثناء ملفات محددة في مجلد admin
+RewriteRule ^admin/videoslider-add\.php$ - [L]
+RewriteRule ^admin/.*\.php$ - [L]

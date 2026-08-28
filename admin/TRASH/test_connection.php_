@@ -1,0 +1,62 @@
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
+echo "<h1>اختبار شامل لملف common.php</h1>";
+
+// محاولة تضمين common.php
+$common_path = dirname(__DIR__) . "/common.php";
+echo "المسار: " . $common_path . "<br>";
+
+if (!file_exists($common_path)) {
+    die("❌ ملف common.php غير موجود");
+}
+
+echo "✅ ملف common.php موجود<br>";
+require_once $common_path;
+echo "✅ تم تضمين common.php بنجاح<br><br>";
+
+// اختبار جميع الدوال المهمة
+echo "<h2>اختبار الدوال المهمة:</h2>";
+
+// 1. اختبار get_page_settings
+echo "1. اختبار get_page_settings(1): ";
+$result = get_page_settings(1);
+echo is_string($result) ? "✅ نجاح" : "❌ فشل";
+echo "<br>";
+
+// 2. اختبار get_state_name
+echo "2. اختبار get_state_name(1): ";
+$result = get_state_name(1);
+echo is_string($result) ? "✅ نجاح" : "❌ فشل";
+echo "<br>";
+
+// 3. اختبار get_country_name
+echo "3. اختبار get_country_name(1): ";
+$result = get_country_name(1);
+echo is_string($result) ? "✅ نجاح" : "❌ فشل";
+echo "<br>";
+
+// 4. اختبار getUserInfo
+echo "4. اختبار getUserInfo(1, 'email'): ";
+$result = getUserInfo(1, 'email');
+echo is_string($result) ? "✅ نجاح" : "❌ فشل";
+echo "<br>";
+
+// 5. اختبار check_user_login (يجب أن تكون معرفة)
+echo "5. اختبار وجود check_user_login: ";
+echo function_exists('check_user_login') ? "✅ موجودة" : "❌ غير موجودة";
+echo "<br>";
+
+// 6. اختبار checkUserLogin (للوحة التحكم)
+echo "6. اختبار وجود checkUserLogin: ";
+echo function_exists('checkUserLogin') ? "✅ موجودة" : "❌ غير موجودة";
+echo "<br>";
+
+// 7. اختبار getAdminUserId
+echo "7. اختبار وجود getAdminUserId: ";
+echo function_exists('getAdminUserId') ? "✅ موجودة" : "❌ غير موجودة";
+echo "<br>";
+
+echo "<h2>✅ الاختبارات اكتملت</h2>";
+?>

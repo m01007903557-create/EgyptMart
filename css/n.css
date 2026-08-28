@@ -1,0 +1,176 @@
+@charset "utf-8";
+@import url("my-v2.css");
+/* CSS Document */
+.n{background-image:url(../images/n.png)}
+.ant{background:url(../images/n.png) 0px 0px; width:178px; height:23px}
+.c8{border-bottom:1px solid #c8ddec; height:5px}
+.td-padd td{padding-left:5px; border:2px solid #fff;}
+.td-padd td table td{padding-left:0px; border:0px solid #fff}
+.textfld2{padding-right:7px; line-height:14px}
+.adss{font-size:11px; color:#0000ff}
+.adss a{color:#0000ff; text-decoration:none}
+.adss a:hover{color:#ff0000}
+.tiinput, .tiinput1{border:#c0d0df 1px solid; width:257px}
+.upl-imag{height:125px; background-color:#fff; width:125px; border:1px solid #d7d7d7; text-align:center}
+.hepl_test_off{display:none}
+.my_help{background-position:0px -75px; padding-left:18px; margin-bottom:3px; margin-top:2px; line-height:17px;}
+.test_tiselect1{height:22px;width:257px}
+.test_tiinput{border:#c0d0df 1px solid; width:235px;}
+.smalltxt{font-size:11px; color:#000; line-height:13px}
+.sccode, .sccodekk, .pno{width:68px; margin-right:4px; border:#adc2d5 1px solid}
+.sccodekk{width:55px}
+.pno{width:126px}
+.tsmall{font-size:11px; color:#444; margin-top:2px}
+.upl-imag-blo{height:125px; background-color:#fff; width:125px; margin:3px; border:1px solid #d7d7d7; text-align:center}
+.test_description{border:1px solid #adc2d5; padding-left:20px; color:#000; width:90%}
+.ttableborder{border-bottom:#e0eefa 1px solid; margin-bottom:20px}
+.ttableborder td{padding-top:10px; padding-bottom:8px;}
+.testimonialtxt{padding-top:8px; padding-bottom:7px; color:#434343; padding-left:5px; padding-right:9px; text-align:justify}
+.testimonialtxt i{color:#F35600; font-weight:bold;}
+.margin{margin:0px; margin-top:3px; line-height:19px}
+.margin b.bold{color:#005baf}
+.margin b.b{}
+.margin a{color:#434343}
+.edt1{font-size:11px; color:#427095; line-height:17px; margin-bottom:5px}
+.edt1 a{color:#0000ff; text-decoration:underline}
+.edt1 a:hover {color:#ff0000; text-decoration:none}
+.ed, .de{background:url(../images/n.png) 0px -30px; height:16px; padding-left:18px}
+.de{background:url(../images/n.png) 0px -54px; margin-left:10px}
+.z{background:url(../images/n.png) -114px -31px; width:64px; height:17px;}
+.prossessing{font-size:14px; color:#005BAF; line-height:15px; margin:50px 0 50px 0;}
+.awpf ul {
+    display: block;
+    padding: 0 0 0 14px;
+/*     line-height: 1; */
+}
+
+.lo{text-align:center; padding-top:80px; height:100px}
+.ap4:hover{ box-shadow:0 0 3px 3px #EAEAEA}
+.remove_img{background:url("../images/npr.png") -265px -21px ;width:64px;height:17px;}
+.utab {
+  background-color: #FDF9E1;
+  border-bottom: 1px solid #D2D2D2;
+  color: #444444;
+  font-size: 14px;
+  height: 19px;
+  padding: 10px;
+}
+.aml {
+  border-top: 3px solid #589CE3;
+  margin-top: 4px;
+}
+.arrow {
+    background-image: url("../images/productarrow.jpg");
+    background-position: 644px 8px;
+    background-repeat: no-repeat;
+    height: 173px;
+}
+.file_button{
+cursor: pointer;
+height: 90px;
+overflow: hidden;
+position: relative;
+width: 90px;
+}
+.mover:hover{border: 1px solid hsl(0, 0%, 86%);
+box-shadow: 0 0 3px 3px hsl(0, 0%, 92%);}
+.edit{box-shadow:0 0 1px 1px #e4e4e4;border:1px solid #DCDCDC;-ms-filter:"progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#e2e2e2')";color:#444444;cursor:pointer;position:absolute;width:72px;margin:95px 0 0 24px;*margin:95px 0 0 -100px;padding:2px;border:1px solid #b0b0b0;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f0f0f0');background-color:#f0f0f0;background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#ffffff), to(#f0f0f0));background:-webkit-linear-gradient(top, #ffffff, #f0f0f0);background:-moz-linear-gradient(top, #ffffff, #f0f0f0);background:-ms-linear-gradient(top, #ffffff, #f0f0f0);background:-o-linear-gradient(top, #ffffff, #f0f0f0)}
+.cover_div{
+	color: #000000;
+    	font-size: 14px;
+    	line-height: 34px;
+    	padding-right: 40px;
+    	padding-top: 27px;
+    	text-align: center;
+}
+.apr1{background: -moz-linear-gradient(center top , #65AAF1 20%, #569AE1 80%) repeat scroll 0 0 transparent;background-image: -o-linear-gradient(top, #65AAF1 0%, #569AE1 100%) !important;
+
+filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#65AAF1', endColorstr='#569AE1');background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#65AAF1), to(#569AE1));background:-webkit-linear-gradient(center top , #65AAF1 20%, #569AE1 80%);background:-moz-linear-gradient(center top , #65AAF1 20%, #569AE1 80%);background:-ms-linear-gradient(center top , #65AAF1 20%, #569AE1 80%);background:-o-linear-gradient(center top , #65AAF1 20%, #569AE1 80%);color: #FFFFFF !important;cursor:pointer;font-weight:bold;margin-top:-5px;padding:6px;text-align:center;
+text-decoration:none;border-radius:3px;font-size:11px; background-color:#569AE1;border:1px solid #569AE1;}
+
+/*div popup*/
+.sec-open{background-image:url('../images/bg_popup.png')}
+.tsfrom {font-size:16px; padding-left:4px; font-weight:bold; padding-top:3px;} 
+.tsfrom b {color:#004AAE;}
+.p_e{font-size:11px; color:#000; line-height:15px}
+.small_imgnew{height:125px; background-color:#fff; width:125px; border:1px solid #D7D7D7; text-align:center; margin:3px}
+.test_tsfrom{font-size:16px; padding-left:4px; font-weight:bold; padding-top:3px}
+
+/* calander css start */
+#calendarDiv { BORDER-RIGHT: #005D9E 1px solid; PADDING-RIGHT: 1px; BORDER-TOP: #005D9E 1px solid; PADDING-LEFT: 1px; FONT-SIZE: 10px; VISIBILITY: hidden; PADDING-BOTTOM: 20px; BORDER-LEFT: #005D9E 1px solid; WIDTH: 205px; PADDING-TOP: 1px; BORDER-BOTTOM: #005D9E 1px solid; FONT-FAMILY: arial; POSITION: absolute; BACKGROUND-COLOR: #fff }
+#calendarDiv SPAN { FLOAT: left }
+#calendarDiv IMG { FLOAT: left }
+#calendarDiv .selectBox { PADDING-RIGHT: 1px; PADDING-LEFT: 2px; PADDING-BOTTOM: 1px; CURSOR: pointer; LINE-HEIGHT: 12px; PADDING-TOP: 1px }
+#calendarDiv .selectBoxOver { PADDING-RIGHT: 1px; PADDING-LEFT: 2px; PADDING-BOTTOM: 1px; CURSOR: pointer; LINE-HEIGHT: 12px; PADDING-TOP: 1px }
+#calendarDiv .selectBoxTime { PADDING-RIGHT: 1px; PADDING-LEFT: 2px; PADDING-BOTTOM: 1px; CURSOR: pointer; LINE-HEIGHT: 12px; PADDING-TOP: 1px }
+#calendarDiv .selectBoxTimeOver { PADDING-RIGHT: 1px; PADDING-LEFT: 2px; PADDING-BOTTOM: 1px; CURSOR: pointer; LINE-HEIGHT: 12px; PADDING-TOP: 1px }
+#calendarDiv TD { PADDING-RIGHT: 3px; PADDING-LEFT: 3px; FONT-SIZE: 10px; PADDING-BOTTOM: 3px; MARGIN: 0px; PADDING-TOP: 3px }
+#calendarDiv .selectBox { BORDER-RIGHT: #E3F0F9 1px solid; BORDER-TOP: #E3F0F9 1px solid; BORDER-LEFT: #E3F0F9 1px solid; COLOR: #E3F0F9; BORDER-BOTTOM: #E3F0F9 1px solid; POSITION: relative }
+#calendarDiv .selectBoxOver { BORDER-RIGHT: #fff 1px solid; BORDER-TOP: #fff 1px solid; BORDER-LEFT: #fff 1px solid; COLOR: #fff; BORDER-BOTTOM: #fff 1px solid; POSITION: relative; BACKGROUND-COLOR: #005D9E }
+#calendarDiv .selectBoxTime { BORDER-RIGHT: #005D9E 1px solid; BORDER-TOP: #005D9E 1px solid; BORDER-LEFT: #005D9E 1px solid; COLOR: #005D9E; BORDER-BOTTOM: #005D9E 1px solid; POSITION: relative }
+#calendarDiv .selectBoxTimeOver { BORDER-RIGHT: #216072 1px solid; BORDER-TOP: #216072 1px solid; BORDER-LEFT: #216072 1px solid; COLOR: #216072; BORDER-BOTTOM: #216072 1px solid; POSITION: relative }
+#calendarDiv .topBar { PADDING-RIGHT: 2px; PADDING-LEFT: 2px; PADDING-BOTTOM: 2px; PADDING-TOP: 2px; HEIGHT: 16px; BACKGROUND-COLOR: #005D9E }
+#calendarDiv .activeDay { COLOR: #ff0000 }
+#calendarDiv .todaysDate { PADDING-RIGHT: 2px; PADDING-LEFT: 2px; PADDING-BOTTOM: 2px; WIDTH: 201px; BOTTOM: 0px; LINE-HEIGHT: 17px; PADDING-TOP: 2px; POSITION: absolute; HEIGHT: 17px; BACKGROUND-COLOR: #E3F0F9; TEXT-ALIGN: center }
+#calendarDiv .todaysDate DIV { FLOAT: left }
+#calendarDiv .timeBar { RIGHT: 0px; WIDTH: 72px; COLOR: #fff; LINE-HEIGHT: 17px; POSITION: absolute; HEIGHT: 17px; BACKGROUND-COLOR: #E3F0F9 }
+#calendarDiv .timeBar DIV { FLOAT: left; MARGIN-RIGHT: 1px }
+#calendarDiv .monthYearPicker { BORDER-RIGHT: #aaaaaa 1px solid; BORDER-TOP: #aaaaaa 1px solid; DISPLAY: none; Z-INDEX: 1000; LEFT: 0px; BORDER-LEFT: #aaaaaa 1px solid; COLOR: #005D9E; BORDER-BOTTOM: #aaaaaa 1px solid; POSITION: absolute; TOP: 15px; BACKGROUND-COLOR: #E3F0F9 }
+#calendarDiv #monthSelect { WIDTH: 70px }
+#calendarDiv .monthYearPicker DIV { CLEAR: both; PADDING-RIGHT: 1px; PADDING-LEFT: 1px; FLOAT: none; PADDING-BOTTOM: 1px; MARGIN: 1px; CURSOR: pointer; PADDING-TOP: 1px }
+#calendarDiv .monthYearActive { COLOR: #E3F0F9; BACKGROUND-COLOR: #005D9E }
+#calendarDiv TD { CURSOR: pointer; TEXT-ALIGN: right }
+#calendarDiv .topBar IMG { CURSOR: pointer }
+#calendarDiv .topBar DIV { FLOAT: left; MARGIN-RIGHT: 1px }
+/* calander css end */
+
+
+/*Tab Count Css Start*/
+.f1{float:left}
+.active, .deactive{background-color:#3292de;text-align:center;width:auto;padding:9px;background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#3292de), to(#2b87ce));background:-webkit-linear-gradient(top, #3292de, #2b87ce);background:-moz-linear-gradient(top, #3292de, #2b87ce);background:-ms-linear-gradient(top, #3292de, #2b87ce);background:-o-linear-gradient(top, #3292de, #2b87ce);color:#fff;text-decoration:none; -webkit-border-top-left-radius:3px;
+-moz-border-top-left-radius:3px;-webkit-border-top-right-radius:3px;-moz-border-top-right-radius:3px;border-top-left-radius:3px;border-top-right-radius:3px;font-weight:bold}
+.deactive{background-color:#cbe4ed;padding:8.5px;background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#eef7f9), to(#cbe4ed));background:-webkit-linear-gradient(top, #eef7f9, #cbe4ed);background:-moz-linear-gradient(top, #eef7f9, #cbe4ed);background:-ms-linear-gradient(top, #eef7f9, #cbe4ed);background:-o-linear-gradient(top, #eef7f9, #cbe4ed);color:#577c8a;border-top:1px solid #99cccc;border-left:1px solid #99cccc;border-right:1px solid #99cccc}
+.bb3{border-bottom:3px solid #2b88ce}
+.m0{margin-left:0px}
+.c3{clear:both}
+/*Tab Count Css End*/
+.character {float:left; color: #474747; font-size: 10px; padding: 3px 0 8px 1px; }
+#m4tbanner center{position:relative!important;margin:0;padding:0;top:0}
+
+/*classes for new tooltip:start*/
+.tbp{position:absolute; width:200px; background-image:url(../images/tip-c.png); background-repeat:no-repeat; float:left; padding-left:11px;font-size:12px; color:#000}
+.cona{margin-left: 325px;}
+.tbm5{margin-left:140px;}
+.t1a{background-color:#fffdf6;border:1px solid #ecda98; border-left:none; width:137px; padding:8px; background-image:url(../images/tip-bulb.png); background-repeat:no-repeat; background-position:5px 9px; padding-left:25px;}
+.tbc{margin-left:410px}
+.tcp3{margin-left:450px}
+/*form revamp*/
+.dat{width:125px}
+.cof{width:322px}
+
+/* Added by kamal */
+.p-cont{border-right: 1px solid #E5E5E5;
+    min-height: 130px;
+    padding-left: 20px;
+    padding-right: 20px;
+    width: 427px;}
+    
+.dl_pf {margin-left: 0px;
+    padding: 1px 12px 0 27px;
+}
+.news_div{border: 1px solid #E5E5E5; margin-bottom: 27px; margin-top: 7px;}
+.nlist strong{color:#000000; font-size:13px}
+.nlist span{color:#666666; font-size:12px}
+.chng_a:hover{color:red !important;border:1px solid #cccccc; padding:0px;cursor: pointer;}
+.chng_b{border:1px solid #ffffff;}
+/* classes for banner showing status rejected */
+.dpimg{background:#fefbdc;border:1px solid #fbdb9c;padding:8px;margin-bottom: 10px;overflow:hidden;  margin-left: 10px; margin-right: 10px}
+.dpimg span{color:#000;padding:0 0 0 24px;line-height:21px}
+.dpimg span a{text-decoration:none}
+.b-img {background-image:url(../images/npro.png);
+ background-repeat:no-repeat;
+background-position: 0px 0px;*background-position: 10px 10px;}
+.rejtd{background-position:7px -364px;padding:10px 0}
+.ap3{border:1px solid #ccc; width:125px; height:125px}
+@media screen and (-webkit-min-device-pixel-ratio:0){#ph_no, #ph_no2{width:140px} #mobile, #mobile2{width:206px}}
+/*classes for new tooltip:ends*/

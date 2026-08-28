@@ -1,0 +1,55 @@
+@charset "utf-8";
+/* CSS Document........ */
+/*comment added*/
+.mp1{border:1px solid #e0f0fd; margin-top:10px; background-image:url(../images/m_hbg.png); background-position:bottom; background-repeat:repeat-x; text-align:left}
+.mp2{background-image:url(../images/m_hbg.png); background-repeat:repeat-x; height:29px; border-bottom:1px solid #e0f0fd}
+.mp3w{background-image:url(../images/m_arrow.png); background-position:left; background-repeat:no-repeat; width:63%; margin-top:6px; margin-left:5px; padding-left:21px; float:left}
+.mp4, .mp4 a{font-size:13px; color:#004a95; text-decoration:none; font-weight:bold}
+.mp4 a:hover, .mp5 a:hover{text-decoration:none; color:#004a95}
+.mp10{margin:8px 8px 8px 30px}
+.ps1{font-family:Tahoma, Geneva, sans-serif; font-size:11px; color:#808080; line-height:16px; text-align:justify; padding-left:84px; padding-bottom:1%; padding-top:1%; border-bottom:#f2f2f2 1px solid; background-image:url(../images/icon-new.png); background-repeat:no-repeat; background-position:10px 8px;}
+.dis_b{color:#808080}
+.ps1 strong,.ps9 strong{color:#5b5b5b;}
+.ps1 span,.ps9 span{color:#024a94; font-weight:bold;}
+.ps2{padding-top:6px; text-align:right;}
+.ps2 a, .ps2 a:hover{color:#024a94; text-decoration:underline;}
+.ps2 a:hover{text-decoration:none;}
+.ea{background-position:10px -148px;}
+.ism{background-position:10px -303px;}
+.usa{background-position:10px -458px;}
+.tpo{background-position:10px -617px;}
+.cs{background-position:10px -770px;}
+.csms{background-position:10px -2594px;}
+.in{background-position:10px -925px;}
+.bs{background-position:10px -1080px;}
+.tl{background-position:10px -1235px;}
+.ta{background-position:10px -1390px;}
+.ind{background-position:10px -1545px;}
+.bla{background-position:10px -1700px;}
+.pns, .dle{background-image: url("../images/icon-new.png");
+background-position: -2px -1859px;
+background-repeat: no-repeat;
+border-bottom: medium none !important;
+
+margin-left: -73px;
+margin-right: 0;
+margin-top: -26px;
+padding: 29px 0 39px;
+width: 73px;*background-position: -2px -1850px;}
+.pdf{background-position:10px -2439px;}
+.lod{width:16px; padding-top:3px;*padding-top:0px}
+.enb{color:#0d880a;}
+.dle{ background-position: -2px -2294px;
+    margin: -12px 0 0 -74px;}
+.ps-ie7{*padding-left:10px !important;*margin-left:10px !important}
+.ps1{*float:left; *width:620px}
+.ps9{*width:620px}
+
+
+.ps10{font-size:11px;
+	color: #808080;
+}
+.ps9{font-family:Tahoma, Geneva, sans-serif; font-size:11px; color:#808080; line-height:16px; text-align:justify; padding-left:84px; padding-bottom:1%; padding-top:1%;}
+
+.pes{/*margin-left:-82px;margin-top: -28px;*/border-bottom:none}
+.psb{*margin-top:-4px}

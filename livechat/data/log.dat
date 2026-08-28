@@ -1,0 +1,201 @@
+Application path: /its/ehabfa/livechat/php/app.php?install-wizard-2
+2016-04-06 07:33:03 [error] SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: NO)
+Stack trace:
+/home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Database.php:44 (Logger:error())
+/home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Database.php:62 (Database:connect())
+/home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Database.php:25 (Database:reconnect())
+/home4/wfhc2016/public_html/its/ehabfa/livechat/php/lib/Service.php:17 (Database:onRegister())
+/home4/wfhc2016/public_html/its/ehabfa/livechat/php/lib/ServiceContainer.php:47 (Service:setServiceContainer())
+/home4/wfhc2016/public_html/its/ehabfa/livechat/php/lib/Controller.php:33 (ServiceContainer:get())
+/home4/wfhc2016/public_html/its/ehabfa/livechat/php/controller/InstallController.php:49 (Controller:get())
+/home4/wfhc2016/public_html/its/ehabfa/livechat/php/app/Application.php:155 (InstallController:wizard2Action())
+/home4/wfhc2016/public_html/its/ehabfa/livechat/php/app/Application.php:79 (Application:runAction())
+/home4/wfhc2016/public_html/its/ehabfa/livechat/php/app.php:26 (Application:run())
+
+Application path: /its/ehabfa/livechat/php/app.php?install-wizard-3
+2016-04-06 07:34:20 [info] Application installed
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-06 07:34:58 [info] Successful login, user: admin
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-06 07:35:41 [info] Successful login, user: admin
+Application path: /its/ehabfa/livechat/php/app.php?logout
+2016-04-06 07:39:26 [info] Log out, user: admin
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-06 07:39:48 [info] Successful login, user: dina@gmail.com
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-06 07:39:54 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-06 07:39:59 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-06 07:40:04 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-06 07:40:08 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-06 07:40:13 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-06 07:40:18 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-06 07:40:23 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-06 07:40:28 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-06 07:40:33 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-06 07:40:37 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-06 07:40:42 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?logout
+2016-04-06 07:40:43 [info] Log out, user: Dina
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-06 07:40:49 [info] Successful login, user: admin
+Application path: /its/ehabfa/livechat/php/app.php
+2016-04-06 07:43:39 [info] Route / not found
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-07 00:50:36 [info] Successful login, user: admin
+Application path: /its/ehabfa/livechat/php/app.php?logout
+2016-04-07 00:51:17 [info] Log out, user: admin
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-07 00:51:23 [info] Successful login, user: admin
+Application path: /its/ehabfa/livechat/php/app.php?logout
+2016-04-07 01:14:21 [info] Log out, user: admin
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-07 01:14:32 [info] Successful login, user: dina@gmail.com
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-07 01:14:38 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-07 01:14:43 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-07 01:14:48 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-07 01:14:53 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-07 01:14:58 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-07 01:15:03 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-07 01:15:08 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-07 01:15:13 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-07 01:15:18 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-07 01:15:23 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-07 01:15:28 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-07 01:15:34 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-07 01:15:39 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-07 01:15:43 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-07 01:15:48 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-07 01:15:53 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-07 01:15:58 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-07 01:16:03 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-07 01:16:08 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-07 01:16:13 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-07 01:16:18 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-07 01:16:23 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-07 01:16:28 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-07 01:16:33 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-07 01:16:38 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-07 01:16:43 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-get-typing-status
+2016-04-07 01:16:48 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?operator-update-typing-status
+2016-04-07 01:16:53 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+2016-04-07 01:16:53 parse_ini_file(/home4/wfhc2016/public_html/its/ehabfa/livechat/php/../data/memory.dat): failed to open stream: No such file or directory on line 97 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+2016-04-07 01:16:53 array_merge(): Argument #1 is not an array on line 102 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+2016-04-07 01:16:53 array_keys() expects parameter 1 to be array, boolean given on line 104 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+2016-04-07 01:16:53 Invalid argument supplied for foreach() on line 104 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+2016-04-07 01:16:53 Invalid argument supplied for foreach() on line 79 in /home4/wfhc2016/public_html/its/ehabfa/livechat/php/service/Memory.php
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-19 05:46:28 [info] Failed login, user: admin
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-19 05:46:38 [info] Successful login, user: admin
+Application path: /its/ehabfa/livechat/php/app.php?logout
+2016-04-19 05:47:23 [info] Log out, user: admin
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-19 05:47:28 [info] Successful login, user: admin
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-19 07:11:13 [info] Failed login, user: dina@gmail.com
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-19 07:11:26 [info] Successful login, user: dina@gmail.com
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-19 07:15:59 [info] Successful login, user: admin
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-19 07:19:10 [info] Successful login, user: admin
+Application path: /its/ehabfa/livechat/php/app.php?logout
+2016-04-19 07:29:03 [info] Log out, user: admin
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-19 07:29:26 [info] Successful login, user: dina@gmail.com
+Application path: /its/ehabfa/livechat/php/app.php?logout
+2016-04-19 07:37:49 [info] Log out, user: Dina
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-19 07:50:29 [info] Successful login, user: dina@gmail.com
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-19 22:05:13 [info] Successful login, user: admin
+Application path: /its/ehabfa/livechat/php/app.php?logout
+2016-04-19 22:08:27 [info] Log out, user: admin
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-19 22:08:47 [info] Failed login, user:  dina@gmail.com
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-19 22:08:57 [info] Failed login, user:  dina@gmail.com
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-19 22:09:17 [info] Failed login, user:  dina@gmail.com
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-19 22:09:39 [info] Successful login, user: dina@gmail.com
+Application path: /its/ehabfa/livechat/php/app.php?logout
+2016-04-19 22:19:01 [info] Log out, user: Dina
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-20 04:13:27 [info] Successful login, user: admin
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-20 13:37:32 [info] Successful login, user: dina@gmail.com
+Application path: /its/ehabfa/livechat/php/app.php?logout
+2016-04-20 14:17:27 [info] Log out, user: Dina
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-21 01:08:26 [info] Successful login, user: admin
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-21 01:09:14 [info] Successful login, user: dina@gmail.com
+Application path: /its/ehabfa/livechat/php/app.php?logout
+2016-04-21 01:10:41 [info] Log out, user: Dina
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-21 01:12:36 [info] Failed login, user: dina@gmail.com
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-21 01:12:40 [info] Successful login, user: dina@gmail.com
+Application path: /its/ehabfa/livechat/php/app.php?logout
+2016-04-21 01:14:56 [info] Log out, user: Dina
+Application path: /its/ehabfa/livechat/php/app.php?logout
+2016-04-21 01:15:01 [info] Log out, user: admin
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-21 01:15:29 [info] Successful login, user: admin
+Application path: /its/ehabfa/livechat/php/app.php?logout
+2016-04-21 01:17:01 [info] Log out, user: admin
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-21 01:17:07 [info] Successful login, user: dina@gmail.com
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-21 01:18:47 [info] Successful login, user: admin
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-22 00:20:19 [info] Successful login, user: dina@gmail.com
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-23 04:19:41 [info] Successful login, user: admin
+Application path: /its/ehabfa/livechat/php/app.php?logout
+2016-04-23 05:02:28 [info] Log out, user: admin
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-23 05:02:43 [info] Successful login, user: dina@gmail.com
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-25 04:45:23 [info] Successful login, user: admin
+Application path: /its/ehabfa/livechat/php/app.php?login
+2016-04-29 06:41:05 [info] Successful login, user: admin

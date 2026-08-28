@@ -1,0 +1,277 @@
+<?php include "includes/header.php"; 
+
+$token=substr($_GET['token'],4);
+$pdresk=mysql_query("select * from products where md5(pd_id)='".$token."' and pd_status='1' ");
+$pdrowk=mysql_fetch_object($pdresk) or die(mysql_error());
+
+
+function pmNames($methods){
+    if(strpos($methods, ',')){
+        $methods = explode(",", $methods);
+        $st = "";
+        foreach ($methods as $method) {
+            $query = mysql_query("SELECT ph_title FROM payment_method WHERE ph_id = '$method'");
+            $fetch = mysql_fetch_object($query);
+            $st .= $fetch->ph_title . ", ";
+        }
+        return rtrim($st,", ");
+    }else{
+        $query = mysql_query("SELECT ph_title FROM payment_method WHERE ph_id = '$methods'");
+        $fetch = mysql_fetch_object($query);
+        return $fetch->ph_title;
+    }
+}
+    
+
+?>
+<!-- webcast -->
+<style type="text/css">
+	.brand_name {
+	    position: relative;
+	    float: right;
+	    right: 6px;
+	}
+	span.brand_label {
+	    font-size: 16px;
+	    font-weight: 600;
+	}
+	span.brand_name_title {
+	    font-size: 16px;
+	    color: red;
+	}
+</style>
+<div id="body">
+<ul class="cb">
+
+<li id="wideColumn">
+
+<div id="breadcrumb">
+<ul>
+<li><a href="<?php echo '/company/index.php?c=' . $c;?>">Home</a><b>»</b></li>
+<li><a href="<?php echo '/company/products.php?c=' . $c;?>">Product</a><b>»</b></li>
+<li><?php echo $pdrowk->pd_title;?></li>
+</ul>
+</div> <br>
+
+<div id="h1"><h1><?php echo $pdrowk->pd_title;?></h1></div><br>  
+<div class="ac" style="position: relative;">
+<?php if($pdrowk->pd_image!=''){?>
+	<div class="zoom-box" style="display: inline-block;">
+		
+	
+<img src="../upload/myproduct/<?php echo $pdrowk->pd_image;?>" title="<?php echo $pdrowk->pd_title;?>" style="max-height:363px; max-width:450px">
+</div>
+<?php if(!empty($pdrowk->pd_imagelogo)){ $limg=explode(',',$pdrowk->pd_imagelogo);?>
+       <div class="zk" style=" border: 1px solid #267abf;height: auto; width: 135px;position: absolute;bottom: 6px;left: 113px;">
+       <?php  echo "<img style='width: auto; height: auto; max-width: 100%;' src='/upload/myproduct/".$limg[0]."'>"; ?></div>
+                 <?php  } ?> 
+					<?php } ?>
+
+
+
+<?php if($pdrowk->pd_image==''){?>
+<img src="../upload/myproduct/noimage.jpg" title="<?php echo $row_pd_h->pd_title; ?>" alt="<?php echo $row_pd_h->pd_title; ?>" class="bdr">
+<?php if(!empty($pdrowk->pd_imagelogo)){ $limg=explode(',',$pdrowk->pd_imagelogo); ?>
+       <div class="zk" style=" border: 1px solid #267abf;height: 105px; width: 105px;position: absolute;bottom: 6px;left: 113px;">
+       <?php  echo "<img style='width: 105px; height: 105px;' src='/upload/myproduct/".$limg[0]."'>"; ?></div>
+                 <?php  } ?> 
+<?php } ?>
+
+
+
+</div>
+<!-- webcast -->
+<?php if(!empty($pdrowk->brand_name)){ ?>
+<div class="brand_name"><span class="brand_label">Brand Name:</span><span class="brand_name_title"> <?php echo $pdrowk->brand_name; ?></span></div>
+<?php } ?>
+<br>
+<section id="proDet" class="box1 cb">
+<div class="p10px fo">
+
+<p class="taj pt10px"><?php echo htmlentities($pdrowk->pd_desc); ?></p><br>
+</div>
+</section><br>
+
+			<section id="career" class="box1">
+			<div class="h2"><h2>تفاصيل جديدة </h2></div>
+			<nav class="proSpe">
+<?php                
+				$currencysql=mysql_query("select * from country where cn_id='".$pdrowk->pd_currency."'");
+				$currencyrow=mysql_fetch_object($currencysql);
+				$unitsql=mysql_query("select * from measurement_unit where mu_id='".$pdrowk->pd_unit."'");
+				$unitrow=mysql_fetch_object($unitsql);
+				?>
+							  <div style="width:655px; overflow-x:scroll;">
+				  <table style="width:100%" border="1" cellpadding="1" cellspacing="1">	
+										<tbody><?php if($pdrowk->pd_code){?><tr>
+						<th scope="row" width="%"><center>كود الصنف</center></th><td width="%"><?php echo $pdrowk->pd_code;?>	</td>						</tr><?php } ?>
+										<?php if($pdrowk->pd_fob_price){?><tr>
+						<th scope="row" width="%"><center> الـسعـر</center></th><td width="%"><?php echo $pdrowk->pd_fob_price . ' ~ ' . $pdrowk->pd_fob_price2; ?> (<?php echo $currencyrow->cn_currency;?>)</td>						</tr><?php } ?>
+										<?php if($pdrowk->pd_stocks){?><tr>
+						<th scope="row" width="%"><center>المخزون</center></th><td width="%"><?php echo $pdrowk->pd_stocks;?> <?php echo $unitrow->mu_name;?>(s)</td>	</tr><?php } ?>
+										<?php if($pdrowk->pd_pod){?><tr>
+						<th scope="row" width="%"><center>ميناء التسليم</center></th><td width="%"><?php echo $pdrowk->pd_pod;?></td>	</tr><?php } ?>
+						<?php if($pdrowk->pd_pn_capct){?>
+						<tr>
+						<th scope="row" width="%"><center>طاقة الإنتاج</center></th><td width="%"><?php echo $pdrowk->pd_pn_capct;?></td>
+						</tr><?php } ?>
+						<?php if($pdrowk->pd_dlv_time){?>
+						<tr>
+						<th scope="row" width="%"><center>وقـت التسـليم </center></th><td width="%"><?php echo $pdrowk->pd_dlv_time;?></td>	</tr><?php } ?>
+						<?php if($pdrowk->pd_pck_dets){?>
+						<tr>
+						<th scope="row" width="%"><center>وصف التغليف</center></th><td width="%"><?php echo $pdrowk->pd_pck_dets;?></td>	</tr><?php } ?>
+						
+						<tr>
+						<th scope="row" width="%"><center>أهمية المنتج </center></th>
+						
+						<td width="%">
+						<?php if($pdrowk->pd_hot==0){echo 'Default';}else{echo 'Hot';}?>
+						</td>	</tr>
+						
+						
+						<?php if($pdrowk->pd_payment){?>
+						<tr>
+						<th scope="row" width="%"><center>شروط الدفع</center></th>
+						
+						<td width="%">
+						<?php echo pmNames($pdrowk->pd_payment); ;?>
+						</td>	</tr><?php } ?>
+						<?php if($pdrowk->pd_pdf_attach!=''){?>
+												<tr>
+						<th scope="row" width="%"><center>PDF File</center></th><td width="%">
+						<a href="../upload/productdoc/<?php echo $pdrowk->pd_pdf_attach;?>" target="_blank"><img src="/images/pdf_icon.png" style="width: 28px;height: 28px;vertical-align: middle;"> PDF</a></td>	</tr>
+						<?php } ?>
+				</tbody></table>			
+					</div>
+								</nav>
+			</section><br><br>
+    <script src="js/jquery.colorbox.js"></script>
+<link href="css/colorbox.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+<script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.colorbox/1.6.3/jquery.colorbox.js"></script>
+<script>
+	$(document).ready(function(){
+		$("#btn_ajax"+<?php echo $pdrowk->pd_id; ?>).colorbox({width:"62%", height:"89%"});
+	});
+</script>
+<p class="jSea"><a href="quotationRequest.php?id=<?php echo rand(1000,9999).md5($row->bnsprof_id); ?>&pid=<?php echo $pdrowk->pd_id; ?>&vform=1" rel="product-send-inquiry" class="dib b darkbg2 gbibt white bdr darkbdr2 xlarge p7px15px br5px ml5px"  id="btn_ajax<?php echo $pdrowk->pd_id; ?>"> تواصل مع الشركة </a></p><br><br>
+
+</li>
+<li id="thinColumn">
+	
+	</li><?php include "includes/right.php"; ?>
+</ul>
+</div>
+	<?php include "includes/footer.php"; ?>
+</body></html>
+
+<link rel="stylesheet" href="../css/jquery.jqZoom.css?v=4.02" type="text/css"/>
+<script>
+	
+(function($){
+
+    var SPACING = 15;
+
+    $.fn.jqZoom = function(options){
+        $(this).each(function(i, dom){
+            var me = $(dom);
+            _initZoom(me, options.selectorWidth, options.selectorHeight);
+            var imgUrl = options&&options.zoomImgUrl?options.zoomImgUrl:me.attr("src");
+            _initViewer(me, imgUrl, options.viewerWidth, options.viewerHeight);
+        })
+    }
+    var _initZoom = function(target, sWidth, sHeight){
+        var $zoom = $("<div />").addClass("zoom-selector").width(sWidth).height(sHeight);
+        target.after($zoom);
+        target.closest(".zoom-box").on({
+            mousemove: function(e){
+                var mouseX=e.pageX-$(this).offset().left;
+                var mouseY=e.pageY-$(this).offset().top;
+                var halfSWidth = sWidth/ 2,halfSHeight = sHeight/2;
+                var realX, realY;
+                if(mouseX < halfSWidth){
+                    realX = 0;
+                }else if(mouseX + halfSWidth > target.width()){
+                    realX = target.width() - sWidth;
+                }else{
+                    realX = mouseX - halfSWidth;
+                }
+                if(mouseY < halfSHeight){
+                    realY = 0;
+                }else if(mouseY + halfSHeight > target.height()){
+                    realY = target.height() - sHeight;
+                }else{
+                    realY = mouseY - halfSHeight;
+                }
+                $zoom.css({
+                    left: realX,
+                    top: realY
+                })
+                var viewerX = realX*($(this).find(".viewer-box>img").width() - $(this).find(".viewer-box").width())/(target.width() - sWidth);
+                var viewerY = realY*($(this).find(".viewer-box>img").height() - $(this).find(".viewer-box").height())/(target.height() - sHeight);
+                $(this).find(".viewer-box>img").css({
+                    left: -viewerX,
+                    top: -viewerY
+                })
+            },
+            mouseenter: function(){
+                $zoom.css("display", "block");
+                $(this).find(".viewer-box").css("display", "block");
+                $(this).find(".zoom-text").css("display", "block");
+            },
+            mouseleave: function(){
+                $zoom.css("display", "none");
+                $(this).find(".viewer-box").css("display", "none");
+                $(this).find(".zoom-text").css("display", "none");
+            }
+        })
+    }
+    var _initViewer = function(target, imgUrl, vWidth, vHeight){
+        var $viewer = $("<div />").addClass("viewer-box").width(vWidth).height(vHeight);
+        var $TextViewer = $("<div />").addClass("zoom-text").width(vWidth).height(Number(vHeight)/5);
+        var $zoomBox = target.closest(".zoom-box");
+        $viewer.css({
+            left: target.width() + SPACING,
+            top: 0
+        });
+        $TextViewer.css({
+            left: target.width() + SPACING,
+            top: vHeight
+            
+        });
+        _setOriginalSize(target, function(oWidth, oHeight){
+            var $img = $("<img src='"+imgUrl+"' />").width(oWidth).height(oHeight);
+            $viewer.append($img);
+            $TextViewer.text(target.attr('title'));
+            target.after($viewer);
+            target.after($TextViewer);
+        });
+        console.log(target.width());
+
+        
+    }
+    var _setOriginalSize = function(target, callback){
+        var newImg = new Image();
+        newImg.src = target.attr("src")+"?date="+new Date();
+        $(newImg).on("load", function(){
+            var width = Number(newImg.width)+500;
+            var height = Number(newImg.height)+500;
+            callback(width, height);
+        })
+    }
+
+})(jQuery);
+</script>
+<script>
+    jQuery(document).ready(function($) {
+        $(".zoom-box img").jqZoom({
+            selectorWidth: 30,
+            selectorHeight: 30,
+            viewerWidth: 400,
+            viewerHeight: 300
+        });
+
+    });
+</script>

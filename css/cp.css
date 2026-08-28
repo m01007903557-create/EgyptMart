@@ -1,0 +1,18 @@
+@charset "utf-8";
+/* CSS Document */
+.td-padd td{padding-left:5px; border:2px solid #fff}
+.td-padd td table td{padding-left:0px; border:0px solid #fff;}
+.textfld2{padding-right:7px; line-height:14px}
+.adss{font-size:11px; color:#0000ff}
+.adss a{color:#0000ff; text-decoration:none}
+.adss a:hover{color:#ff0000}
+.pass{border:1px solid #ADC2D5; margin-right:3px; width:230px; height:22px}
+.bgfortips{background-image:url('../images/bg3.gif')}
+.my_help{background-image:url('../images/hlp.gif'); background-repeat:no-repeat; padding-left:18px; margin-bottom:3px; margin-top:2px; line-height:17px}
+.thk { PADDING-LEFT: 15px; FONT-WEIGHT: bold; FONT-SIZE: 16px; COLOR: #007ed3; FONT-FAMILY: verdana, arial,ms Sans serif }
+.thk A { COLOR: #ff0000; TEXT-DECORATION: underline }
+.thk A:hover { COLOR: #ff0000; TEXT-DECORATION: none }
+.tk {font-family:Swis721 LtEx BT, arial,ms Sans serif; font-size:16px; color:#007ED3; padding-left:15px;}
+.tk A {COLOR: #0000ff; text-decoration:none;}
+.tk A:hover {COLOR:#FF0000;}
+

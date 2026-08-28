@@ -1,0 +1,2113 @@
+[25-May-2026 07:17:29 UTC] Received: product_id=38092, user_id=6587, qty_from=11, qty_to=11
+[25-May-2026 07:17:29 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38092', '6587', 'test product', '{\"test\":\"OK\",\"session\":6587}',
+    '11', 'piece', 'Qty from 11 to 11',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[25-May-2026 07:17:29 UTC] Inserted ID: 6244
+[25-May-2026 10:50:14 UTC] Received: product_id=6028, user_id=6587, qty_from=20, qty_to=30
+[25-May-2026 10:50:14 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '6028', '6587', 'Product', '',
+    '30', 'piece', 'Qty from 20 to 30',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[25-May-2026 10:50:14 UTC] Inserted ID: 6245
+[25-May-2026 11:00:56 UTC] Received: product_id=6030, user_id=6587, qty_from=1, qty_to=2
+[25-May-2026 11:00:56 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '6030', '6587', 'Product', 'مثال على منتج من صفحة المنتجات للذهب لواتساب المنصة',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[25-May-2026 11:00:56 UTC] Inserted ID: 6246
+[26-May-2026 14:26:42 UTC] Received: product_id=38093, user_id=6639, qty_from=200, qty_to=300
+[26-May-2026 14:26:42 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38093', '6639', 'test product again', 'اختبار تجريبى بعد انشاء صفحة الادمن لاختبار اذا كان الطلب سيصل الادمن بنجاح ؟',
+    '300', 'piece', 'Qty from 200 to 300',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[26-May-2026 14:26:42 UTC] Inserted ID: 6247
+[27-May-2026 19:01:03 UTC] Received: product_id=38097, user_id=6587, qty_from=22, qty_to=44
+[27-May-2026 19:01:03 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38097', '6587', 'test product', 'https://picsum.photos https://picsum.photos https://picsum.photos',
+    '44', 'piece', 'Qty from 22 to 44',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[27-May-2026 19:01:03 UTC] Inserted ID: 6248
+[27-May-2026 19:20:02 UTC] Received: product_id=38097, user_id=6634, qty_from=22, qty_to=33
+[27-May-2026 19:20:02 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38097', '6634', 'test product', '// 3. إدراج في جدول whatsapp_rfq_messages\r\n$insert_sql = \"INSERT INTO whatsapp_rfq_messages (rfq_id, product_id, supplier_id, buyer_id, buyer_phone, quantity_required, notes, status, source, created_date) \r\n               VALUES ($rfq_id, $product_id, $supplier_id, $buyer_id, \'$buyer_phone\', \'$quantity\', \'$notes\', \'new\', \'whatsapp_rfq\', NOW())\";\r\n$insert_result = mysqli_query($con, $insert_sql);\r\n\r\n// ========== كود التصحيح ==========\r\nerror_log(\"=== بدء إرسال RFQ #$rfq_id ===\");\r\nerror_log(\"استعلام الإدراج: \" . $insert_sql);\r\nerror_log(\"نتيجة الإدراج: \" . ($insert_result ? \'نجاح\' : \'فشل - \' . mysqli_error($con)));\r\n\r\nif ($insert_result) {\r\n    // تنسيق رقم جوال المورد\r\n    $supplier_phone = $rfq[\'mobile1\'] ?? \'\';\r\n    error_log(\"رقم الجوال الخام: \" . $supplier_phone);\r\n    \r\n    if (!empty($supplier_phone) && substr($supplier_phone, 0, 2) == \'10\') {\r\n        $supplier_phone = \'0\' . $supplier_phone;\r\n    }\r\n    error_log(\"رقم الجوال بعد التنسيق: \" . $supplier_phone);\r\n    \r\n    // إرسال إشعار واتساب للمورد\r\n    if (!empty($supplier_phone)) {\r\n        $message_text = \"📦 طلب شراء جديد RFQ #$rfq_id\\n\";\r\n        $message_text .= \"المنتج: \" . ($rfq[\'pd_title\'] ?? \'\') . \"\\n\";\r\n        $message_text .= \"الكمية: $quantity\\n\";\r\n        $message_text .= \"التاريخ: \" . date(\'Y-m-d\') . \"\\n\";\r\n        $message_text .= \"رابط الطلب: https://\" . $_SERVER[\'HTTP_HOST\'] . \"/my-enquiries.php\";\r\n        \r\n        $whatsapp_url = \"https://api.whatsapp.com/send?phone=\" . $supplier_phone . \"&text=\" . urlencode($message_text);\r\n        error_log(\"رابط واتساب: \" . $whatsapp_url);\r\n        \r\n        echo json_encode([\'success\' => true, \'whatsapp_url\' => $whatsapp_url]);\r\n    } else {\r\n        error_log(\"رقم الجوال فارغ - لم يتم إرسال واتساب\");\r\n        echo json_encode([\'success\' => true, \'whatsapp_url\' => null, \'message\' => \'تم الحفظ ولكن رقم الجوال غير متوفر\']);\r\n    }\r\n} else {\r\n    error_log(\"فشل الإدراج في قاعدة البيانات: \" . mysqli_error($con));\r\n    echo json_encode([\'success\' => false, \'error\' => \'فشل الحفظ في قاعدة البيانات: \' . mysqli_error($con)]);\r\n}\r\n// ===================================',
+    '33', 'piece', 'Qty from 22 to 33',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[27-May-2026 19:20:02 UTC] Inserted ID: 6249
+[27-May-2026 20:28:11 UTC] Received: product_id=38100, user_id=6634, qty_from=22, qty_to=33
+[27-May-2026 20:28:11 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38100', '6634', 'test product 4', 'fetch(\'/admin/send_whatsapp_rfq_handler.php\', {\r\n    method: \'POST\',\r\n    headers: {\'Content-Type\': \'application/x-www-form-urlencoded\'},\r\n    body: \'rfq_id=6247\'\r\n})\r\n.then(res => res.text())\r\n.then(text => {\r\n    console.log(\"الرد الخام:\", text);\r\n    try {\r\n        var json = JSON.parse(text);\r\n        console.log(\"JSON صالح:\", json);\r\n    } catch(e) {\r\n        console.log(\"خطأ:\", e.message);\r\n        console.log(\"النص المستقبل:\", text.substring(0, 200));\r\n    }\r\n});',
+    '33', 'piece', 'Qty from 22 to 33',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[27-May-2026 20:28:11 UTC] Inserted ID: 6250
+[27-May-2026 22:13:31 UTC] Received: product_id=38100, user_id=6587, qty_from=1, qty_to=2
+[27-May-2026 22:13:31 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38100', '6587', 'test product 4', 'لدينا نظام RFQ إيميل يعمل بشكل كامل في الأدمن. (ممنوع تعديل أو إفساد هذا النظام الموجود) .\r\n',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[27-May-2026 22:13:31 UTC] Inserted ID: 6251
+[28-May-2026 02:39:16 UTC] Received: product_id=38100, user_id=6587, qty_from=22, qty_to=33
+[28-May-2026 02:39:16 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38100', '6587', 'test product 4', '❌ حدث خطأ في الاتصال بالخادم ❌ حدث خطأ في الاتصال بالخادم ❌ حدث خطأ في الاتصال بالخادم',
+    '33', 'piece', 'Qty from 22 to 33',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[28-May-2026 02:39:16 UTC] Inserted ID: 6252
+[28-May-2026 12:00:54 UTC] Received: product_id=38099, user_id=6587, qty_from=1, qty_to=2
+[28-May-2026 12:00:54 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38099', '6587', 'test product 3', 'حفظ طلبات المشترين في جدول buy_requirement فى قاعدة البيانات مع communication_type = \'whatsapp\' ويستخدم الأعمدة: whatsapp_sent = 1، whatsapp_sent_date = NOW()\r\najax-file/enq-details.php',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[28-May-2026 12:00:54 UTC] Inserted ID: 6253
+[29-May-2026 08:39:59 UTC] Received: product_id=38096, user_id=6634, qty_from=22, qty_to=33
+[29-May-2026 08:39:59 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38096', '6634', 'test product', '✅ الحل: تحتاج إلى التأكد من رقم الهاتف المسجل في حساب WhatsApp Business\r\n',
+    '33', 'piece', 'Qty from 22 to 33',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[29-May-2026 08:39:59 UTC] Inserted ID: 6254
+[29-May-2026 11:10:44 UTC] Received: product_id=38096, user_id=6634, qty_from=33, qty_to=44
+[29-May-2026 11:10:44 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38096', '6634', 'test product', '// =============================================\r\n// 1️⃣ إدراج رسالة في جدول message (لظهورها في my-enquiries.php)\r\n// =============================================\r\n$admin_id = $_SESSION[\'ad_id_indm\'] ?? 1;\r\n$supplier_id = $rfq[\'supplier_id\'];\r\n$subject = \"📦 طلب شراء جديد عبر WhatsApp RFQ #{$rfq[\'br_id\']}\";\r\n$message_body = \"المنتج: {$rfq[\'pd_title\']}\\n\";\r\n$message_body .= \"الكمية: {$rfq[\'br_estimate_qty\']} {$rfq[\'br_estimate_qty_unit\']}\\n\";\r\n$message_body .= \"التفاصيل: {$rfq[\'br_requirement\']}\\n\\n\";\r\n$message_body .= \"بيانات المشتري:\\n\";\r\n$message_body .= \"- الاسم: {$rfq[\'fname\']} {$rfq[\'lname\']}\\n\";\r\n$message_body .= \"- الجوال: {$rfq[\'mobile1\']}\\n\";\r\n$message_body .= \"- البريد: {$rfq[\'email\']}\";\r\n\r\n// إدراج في جدول message (باستخدام الأعمدة الصحيحة)\r\n$insert_sql = \"INSERT INTO message \r\n               (msg_from, msg_to, msg_subject, msg_message, msg_date, msg_to_status, msg_from_status, msg_entity, msg_entity_id) \r\n               VALUES (\r\n                   $admin_id,\r\n                   $supplier_id,\r\n                   \'$subject\',\r\n                   \'$message_body\',\r\n                   NOW(),\r\n                   1,\r\n                   1,\r\n                   \'whatsapp_rfq\',\r\n                   $rfq_id\r\n               )\";\r\n$insert_result = mysqli_query($con, $insert_sql);\r\n\r\nif ($insert_result) {\r\n    error_log(\"WhatsApp RFQ message inserted for RFQ #$rfq_id, supplier_id: $supplier_id\");\r\n} else {\r\n    error_log(\"Failed to insert WhatsApp RFQ message: \" . mysqli_error($con));\r\n}',
+    '44', 'piece', 'Qty from 33 to 44',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[29-May-2026 11:10:44 UTC] Inserted ID: 6255
+[29-May-2026 12:43:44 UTC] Received: product_id=38093, user_id=79, qty_from=2, qty_to=232
+[29-May-2026 12:43:44 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38093', '79', 'test product again', 'أكتب ماذا تريد ان تشترى \r\nأكتب لنا ماذا تريد ان تشترى\r\n',
+    '232', 'piece', 'Qty from 2 to 232',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[29-May-2026 12:43:44 UTC] Inserted ID: 6256
+[29-May-2026 12:47:51 UTC] Received: product_id=38091, user_id=6639, qty_from=22, qty_to=33
+[29-May-2026 12:47:51 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38091', '6639', 'منتج للاختبار', 'منتج للاختبار منتج للاختبار منتج للاختبار\r\n منتج للاختبار\r\n\r\n \r\n ',
+    '33', 'piece', 'Qty from 22 to 33',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[29-May-2026 12:47:51 UTC] Inserted ID: 6257
+[29-May-2026 22:45:00 UTC] Received: product_id=38091, user_id=6634, qty_from=33, qty_to=44
+[29-May-2026 22:45:00 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38091', '6634', 'منتج للاختبار', 'منتج للاختبار\r\nمنتج للاختبار\r\nمنتج للاختبار\r\n',
+    '44', 'piece', 'Qty from 33 to 44',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[29-May-2026 22:45:00 UTC] Inserted ID: 6258
+[29-May-2026 22:55:58 UTC] Received: product_id=38100, user_id=6587, qty_from=2, qty_to=3
+[29-May-2026 22:55:58 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38100', '6587', 'test product 4', 'test product 4\r\ntest product 4\r\ntest product 4\r\n',
+    '3', 'piece', 'Qty from 2 to 3',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[29-May-2026 22:55:58 UTC] Inserted ID: 6259
+[29-May-2026 23:42:48 UTC] Received: product_id=38091, user_id=6634, qty_from=1, qty_to=2
+[29-May-2026 23:42:48 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38091', '6634', 'منتج للاختبار', 'فريد فريد فريد فريد فريد فريد فريد فريد فريد فريد فريد فريد ',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[29-May-2026 23:42:48 UTC] Inserted ID: 6260
+[30-May-2026 00:02:16 UTC] Received: product_id=38100, user_id=6587, qty_from=1, qty_to=2
+[30-May-2026 00:02:16 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38100', '6587', 'test product 4', 'المورد لمياء المورد لمياء',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[30-May-2026 00:02:16 UTC] Inserted ID: 6261
+[30-May-2026 13:49:41 UTC] Received: product_id=38096, user_id=6634, qty_from=1, qty_to=2
+[30-May-2026 13:49:41 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38096', '6634', 'test product', 'اختبار شراء من لمياء الى Ahmwd Hamed',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[30-May-2026 13:49:41 UTC] Inserted ID: 6262
+[30-May-2026 14:57:55 UTC] Received: product_id=38097, user_id=6587, qty_from=1, qty_to=2
+[30-May-2026 14:57:55 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38097', '6587', 'test product', 'اختبار شراء من احمد حمدى',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[30-May-2026 14:57:55 UTC] Inserted ID: 6263
+[31-May-2026 09:29:41 UTC] Received: product_id=38093, user_id=6634, qty_from=22, qty_to=33
+[31-May-2026 09:29:41 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38093', '6634', 'test product again', 'عايز البرتقالة .. هذا اختبار لمياء  تشترى من احمد والمفروض الطلب يظهر واتساب عند احمد ويرد بالسعر على لمياء',
+    '33', 'piece', 'Qty from 22 to 33',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[31-May-2026 09:29:41 UTC] Inserted ID: 6264
+[31-May-2026 10:49:13 UTC] Received: product_id=38099, user_id=6587, qty_from=2, qty_to=4
+[31-May-2026 10:49:13 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38099', '6587', 'test product 3', 'الجبل الحلو المنور ',
+    '4', 'piece', 'Qty from 2 to 4',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[31-May-2026 10:49:13 UTC] Inserted ID: 6265
+[31-May-2026 11:08:46 UTC] Received: product_id=38091, user_id=6634, qty_from=1, qty_to=2
+[31-May-2026 11:08:46 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38091', '6634', 'منتج للاختبار', 'انا اللى بشترى منك اهوه ياسى احمد على اللة تبقى مبسوط ',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[31-May-2026 11:08:46 UTC] Inserted ID: 6266
+[05-Jun-2026 08:32:21 UTC] Received: product_id=17023, user_id=6670, qty_from=1, qty_to=2
+[05-Jun-2026 08:32:21 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '17023', '6670', 'Product', 'اختبار من صفحة المنتجات ',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[05-Jun-2026 08:32:21 UTC] Inserted ID: 6267
+[06-Jun-2026 21:12:04 UTC] Received: product_id=30422, user_id=79, qty_from=25, qty_to=58
+[06-Jun-2026 21:12:04 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '30422', '79', 'Product', 'مطلوب عدد معقول من الطلبات التى تمثل انطلاقة فى عالم الفكر المثالى باضبط ',
+    '58', 'piece', 'Qty from 25 to 58',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[06-Jun-2026 21:12:04 UTC] Inserted ID: 6268
+[06-Jun-2026 22:39:36 UTC] Received: product_id=38093, user_id=79, qty_from=200, qty_to=300
+[06-Jun-2026 22:39:36 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38093', '79', 'test product again', 'ارسال رسالة الى jornet200 Ahed Hamed',
+    '300', 'piece', 'Qty from 200 to 300',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[06-Jun-2026 22:39:36 UTC] Inserted ID: 6269
+[07-Jun-2026 21:30:24 UTC] Received: product_id=38097, user_id=6587, qty_from=1, qty_to=22
+[07-Jun-2026 21:30:24 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38097', '6587', 'test product', '📦 *طلب شراء جديد #6257*\r\n\r\n*المنتج:* منتج للاختبار\r\n*رابط صورة المنتج:* https://egyptmart.shop/upload/myproduct/prd_6587_1779266417_6247.jpg\r\n*التفاصيل:* منتج للاختبار منتج للاختبار منتج للاختبار\r\n منتج للاختبار\r\n\r\n \r\n \r\n*الكمية:* 33 \r\n\r\n*رابط الطلب (للمراسلة والعرض):*\r\nhttps://egyptmart.shop/supplier/magic_login.php?token=88392d092518b1630409aca2c4c838d6&rfq_id=6257\r\n\r\nيرجى تقديم عرض سعرك عبر الرابط أعلاه.',
+    '22', 'piece', 'Qty from 1 to 22',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[07-Jun-2026 21:30:24 UTC] Inserted ID: 6270
+[07-Jun-2026 22:34:16 UTC] Received: product_id=38100, user_id=6639, qty_from=11, qty_to=111111
+[07-Jun-2026 22:34:16 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38100', '6639', 'test product 4', '📦 *طلب شراء جديد #6265*\r\n\r\n*المنتج:* test product 3\r\n*رابط صورة المنتج:* https://egyptmart.shop/upload/myproduct/prd_6634_1779908235_3314.jpg\r\n*التفاصيل:* الجبل الحلو المنور \r\n*الكمية:* 4 \r\n\r\n*للاستفسار عن هذا الطلب، يرجى تسجيل الدخول إلى حسابك ثم فتح الرابط:*\r\nhttps://egyptmart.shop/my-enquiries.php?rfq_id=6265\r\n\r\nيمكنك أيضاً الرد على هذه الرسالة للتواصل المباشر.',
+    '111111', 'piece', 'Qty from 11 to 111111',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[07-Jun-2026 22:34:16 UTC] Inserted ID: 6271
+[08-Jun-2026 00:49:07 UTC] Received: product_id=38102, user_id=6587, qty_from=1, qty_to=2
+[08-Jun-2026 00:49:07 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38102', '6587', 'اختبار منتج', 'اختبار منتج حقيقى  اختبار منتج حقيقى ',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[08-Jun-2026 00:49:07 UTC] Inserted ID: 6272
+[08-Jun-2026 01:15:24 UTC] Received: product_id=38099, user_id=6639, qty_from=1, qty_to=2
+[08-Jun-2026 01:15:24 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38099', '6639', 'test product 3', '📦 *طلب شراء جديد #6272*\r\n\r\n*المنتج:* اختبار منتج\r\n*رابط صورة المنتج:* https://egyptmart.shop/upload/myproduct/prd_6639_1780879623_5694.jpg\r\n*التفاصيل:* اختبار منتج حقيقى  اختبار منتج حقيقى \r\n*الكمية:* 2 \r\n\r\n*للاستفسار عن هذا الطلب، يرجى تسجيل الدخول إلى حسابك ثم فتح الرابط:*\r\nhttps://egyptmart.shop/my-enquiries.php?rfq_id=6272\r\n\r\nيمكنك أيضاً الرد على هذه الرسالة للتواصل المباشر.',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[08-Jun-2026 01:15:24 UTC] Inserted ID: 6273
+[12-Jun-2026 10:49:18 UTC] Received: product_id=38096, user_id=6634, qty_from=444444444444444, qty_to=4444444444444444
+[12-Jun-2026 10:49:18 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38096', '6634', 'test product', '4444444444444444',
+    '4444444444444444', 'piece', 'Qty from 444444444444444 to 4444444444444444',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[12-Jun-2026 10:49:18 UTC] Inserted ID: 6274
+[12-Jun-2026 14:42:23 UTC] Received: product_id=38091, user_id=6634, qty_from=7878, qty_to=7878
+[12-Jun-2026 14:42:23 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38091', '6634', 'منتج للاختبار', '7878',
+    '7878', 'piece', 'Qty from 7878 to 7878',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[12-Jun-2026 14:42:23 UTC] Inserted ID: 6275
+[13-Jun-2026 12:50:51 UTC] Received: product_id=38097, user_id=6587, qty_from=1, qty_to=1
+[13-Jun-2026 12:50:51 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38097', '6587', 'test product', 'كلبة سودة من طرار شيرازلى',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[13-Jun-2026 12:50:51 UTC] Inserted ID: 6276
+[13-Jun-2026 13:00:59 UTC] Received: product_id=38100, user_id=6587, qty_from=1, qty_to=2
+[13-Jun-2026 13:00:59 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38100', '6587', 'test product 4', 'الدب القطبى تانى منتج ',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[13-Jun-2026 13:00:59 UTC] Inserted ID: 6277
+[13-Jun-2026 13:36:32 UTC] Received: product_id=38084, user_id=6587, qty_from=1, qty_to=1
+[13-Jun-2026 13:36:32 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38084', '6587', 'test product entry', 'هشترى صورة ملك الكويت من ايهاب',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[13-Jun-2026 13:36:32 UTC] Inserted ID: 6278
+[13-Jun-2026 19:49:16 UTC] Received: product_id=38102, user_id=6634, qty_from=1, qty_to=1
+[13-Jun-2026 19:49:16 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38102', '6634', 'اختبار منتج', 'انا لمياء عايزة اشترى علامة ولوجو الموقع ده ',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[13-Jun-2026 19:49:16 UTC] Inserted ID: 6279
+[13-Jun-2026 23:50:13 UTC] Received: product_id=38096, user_id=6639, qty_from=1, qty_to=1
+[13-Jun-2026 23:50:13 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38096', '6639', 'test product', 'شراء برتقالة من ريهام عزيز ',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[13-Jun-2026 23:50:13 UTC] Inserted ID: 6280
+[14-Jun-2026 02:34:01 UTC] Received: product_id=38091, user_id=6634, qty_from=1, qty_to=1
+[14-Jun-2026 02:34:01 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38091', '6634', 'منتج للاختبار', 'لميا بتشترى من ريهام صورة كويتى ',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[14-Jun-2026 02:34:01 UTC] Inserted ID: 6281
+[14-Jun-2026 03:21:03 UTC] Received: product_id=38097, user_id=6639, qty_from=1, qty_to=1
+[14-Jun-2026 03:21:03 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38097', '6639', 'test product', 'ايهاب بيشترى من لمياة كلبة سوداء',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[14-Jun-2026 03:21:03 UTC] Inserted ID: 6282
+[14-Jun-2026 04:49:41 UTC] Received: product_id=38102, user_id=6634, qty_from=1, qty_to=1
+[14-Jun-2026 04:49:41 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38102', '6634', 'اختبار منتج', 'لميا بتشترى لوجو من ايهاب ايجبت ',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[14-Jun-2026 04:49:41 UTC] Inserted ID: 6283
+[14-Jun-2026 05:18:14 UTC] Received: product_id=38084, user_id=6634, qty_from=1, qty_to=2
+[14-Jun-2026 05:18:14 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38084', '6634', 'test product entry', 'لمبا بتسترى الكويتى من ايهاب ايجبب',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[14-Jun-2026 05:18:14 UTC] Inserted ID: 6284
+[14-Jun-2026 10:53:27 UTC] Received: product_id=38103, user_id=6634, qty_from=1, qty_to=2
+[14-Jun-2026 10:53:27 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38103', '6634', 'اختبار منتج اخير', 'لمياء تشترى من ايهاب هندى هندى',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[14-Jun-2026 10:53:27 UTC] Inserted ID: 6285
+[14-Jun-2026 10:54:51 UTC] Received: product_id=38103, user_id=6634, qty_from=1, qty_to=2
+[14-Jun-2026 10:54:51 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38103', '6634', 'اختبار منتج اخير', 'لمياء تشترى من ايهاب هندى هندى',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[14-Jun-2026 10:54:51 UTC] Inserted ID: 6286
+[14-Jun-2026 13:45:55 UTC] Received: product_id=38099, user_id=6639, qty_from=1, qty_to=2
+[14-Jun-2026 13:45:55 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38099', '6639', 'test product 3', 'ايهاب المشترى بيشترى من لمياء جبل الغروب',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[14-Jun-2026 13:45:55 UTC] Inserted ID: 6287
+[14-Jun-2026 20:30:09 UTC] Received: product_id=38102, user_id=6634, qty_from=1, qty_to=2
+[14-Jun-2026 20:30:09 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38102', '6634', 'اختبار منتج', 'لمياء تشترى لوجو من ايهاب',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[14-Jun-2026 20:30:09 UTC] Inserted ID: 6288
+[14-Jun-2026 20:45:01 UTC] Received: product_id=38098, user_id=6639, qty_from=1, qty_to=2
+[14-Jun-2026 20:45:01 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38098', '6639', 'test product 2', 'ايهاب يشترى السماء من لمياء',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[14-Jun-2026 20:45:01 UTC] Inserted ID: 6289
+[15-Jun-2026 06:21:50 UTC] Received: product_id=38096, user_id=6639, qty_from=1, qty_to=1
+[15-Jun-2026 06:21:50 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38096', '6639', 'test product', 'ايهاب يشترى برتقالة من ريهام',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[15-Jun-2026 06:21:50 UTC] Inserted ID: 6290
+[15-Jun-2026 18:21:56 UTC] Received: product_id=38084, user_id=6587, qty_from=1, qty_to=1
+[15-Jun-2026 18:21:56 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38084', '6587', 'test product entry', 'ريهام تشترى من ايهاب الكويتى',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[15-Jun-2026 18:21:56 UTC] Inserted ID: 6291
+[15-Jun-2026 19:36:20 UTC] Received: product_id=38097, user_id=6639, qty_from=1, qty_to=1
+[15-Jun-2026 19:36:20 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38097', '6639', 'test product', 'ايهاب يشترى من لمياء كلبة سوداء',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[15-Jun-2026 19:36:20 UTC] Inserted ID: 6292
+[15-Jun-2026 21:26:31 UTC] Received: product_id=38102, user_id=6587, qty_from=1, qty_to=2
+[15-Jun-2026 21:26:31 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38102', '6587', 'اختبار منتج', 'ريهام تشترى اللوجو من ايهاب',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[15-Jun-2026 21:26:31 UTC] Inserted ID: 6293
+[15-Jun-2026 22:30:55 UTC] Received: product_id=38103, user_id=6587, qty_from=2, qty_to=3
+[15-Jun-2026 22:30:55 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38103', '6587', 'اختبار منتج اخير', 'ريهام تشترى من ايهاب واحد هندى',
+    '3', 'piece', 'Qty from 2 to 3',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[15-Jun-2026 22:30:55 UTC] Inserted ID: 6294
+[17-Jun-2026 09:27:49 UTC] Received: product_id=38096, user_id=6639, qty_from=11, qty_to=11
+[17-Jun-2026 09:27:49 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38096', '6639', 'test product', 'ايهاب يشترى من ريهام',
+    '11', 'piece', 'Qty from 11 to 11',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[17-Jun-2026 09:27:49 UTC] Inserted ID: 6295
+[17-Jun-2026 10:36:38 UTC] Received: product_id=38097, user_id=6639, qty_from=2, qty_to=4
+[17-Jun-2026 10:36:38 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38097', '6639', 'test product', 'ايهاب يشترى من لمياء ',
+    '4', 'piece', 'Qty from 2 to 4',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[17-Jun-2026 10:36:38 UTC] Inserted ID: 6296
+[17-Jun-2026 16:37:11 UTC] Received: product_id=38102, user_id=6587, qty_from=2, qty_to=4
+[17-Jun-2026 16:37:11 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38102', '6587', 'اختبار منتج', 'ريهام تشترى اللوجو من ايهاب ',
+    '4', 'piece', 'Qty from 2 to 4',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[17-Jun-2026 16:37:11 UTC] Inserted ID: 6297
+[17-Jun-2026 16:48:09 UTC] Received: product_id=38099, user_id=6587, qty_from=2, qty_to=3
+[17-Jun-2026 16:48:09 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38099', '6587', 'test product 3', 'ريهام تشترى الجبل من لمياء',
+    '3', 'piece', 'Qty from 2 to 3',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[17-Jun-2026 16:48:09 UTC] Inserted ID: 6298
+[18-Jun-2026 10:50:21 UTC] Received: product_id=38091, user_id=6639, qty_from=1, qty_to=2
+[18-Jun-2026 10:50:21 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38091', '6639', 'منتج للاختبار', 'ايهاب يشترى من ريهام',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[18-Jun-2026 10:50:21 UTC] Inserted ID: 6299
+[18-Jun-2026 11:48:46 UTC] Received: product_id=38100, user_id=6587, qty_from=1, qty_to=4
+[18-Jun-2026 11:48:46 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38100', '6587', 'test product 4', 'ريهام تشترى من لمياء',
+    '4', 'piece', 'Qty from 1 to 4',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[18-Jun-2026 11:48:46 UTC] Inserted ID: 6300
+[18-Jun-2026 13:46:50 UTC] Received: product_id=38091, user_id=6639, qty_from=11, qty_to=12
+[18-Jun-2026 13:46:50 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38091', '6639', 'منتج للاختبار', 'ايهاب يشترى من ريهام',
+    '12', 'piece', 'Qty from 11 to 12',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[18-Jun-2026 13:46:50 UTC] Inserted ID: 6301
+[18-Jun-2026 14:55:31 UTC] Received: product_id=38084, user_id=6634, qty_from=2, qty_to=3
+[18-Jun-2026 14:55:31 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38084', '6634', 'test product entry', 'لمياء تشترى من ايهاب',
+    '3', 'piece', 'Qty from 2 to 3',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[18-Jun-2026 14:55:31 UTC] Inserted ID: 6302
+[19-Jun-2026 10:44:19 UTC] Received: product_id=38102, user_id=6634, qty_from=222, qty_to=222
+[19-Jun-2026 10:44:19 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38102', '6634', 'اختبار منتج', 'لمياء تشترى من ايهاب لوحو',
+    '222', 'piece', 'Qty from 222 to 222',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[19-Jun-2026 10:44:19 UTC] Inserted ID: 6303
+[19-Jun-2026 12:03:13 UTC] Received: product_id=38103, user_id=6634, qty_from=11, qty_to=22
+[19-Jun-2026 12:03:13 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38103', '6634', 'اختبار منتج اخير', 'لمياء تشترى من ايهاب هندى',
+    '22', 'piece', 'Qty from 11 to 22',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[19-Jun-2026 12:03:13 UTC] Inserted ID: 6304
+[19-Jun-2026 12:46:01 UTC] Received: product_id=38091, user_id=6639, qty_from=2, qty_to=3
+[19-Jun-2026 12:46:01 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38091', '6639', 'منتج للاختبار', 'ايهاب يشترى من ريهام ',
+    '3', 'piece', 'Qty from 2 to 3',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[19-Jun-2026 12:46:01 UTC] Inserted ID: 6305
+[19-Jun-2026 14:02:13 UTC] Received: product_id=38102, user_id=6587, qty_from=1, qty_to=2
+[19-Jun-2026 14:02:13 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38102', '6587', 'اختبار منتج', 'ريهام تشترى من ايهاب لوجو',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[19-Jun-2026 14:02:13 UTC] Inserted ID: 6306
+[19-Jun-2026 23:47:18 UTC] Received: product_id=38096, user_id=6639, qty_from=2, qty_to=3
+[19-Jun-2026 23:47:18 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38096', '6639', 'test product', 'ايهاب يشترى من ريهام برتقالة ',
+    '3', 'piece', 'Qty from 2 to 3',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[19-Jun-2026 23:47:18 UTC] Inserted ID: 6307
+[20-Jun-2026 02:10:10 UTC] Received: product_id=38097, user_id=6639, qty_from=1, qty_to=2
+[20-Jun-2026 02:10:10 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38097', '6639', 'test product', 'ايهاب يشترى من لمياء كلب اسود',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[20-Jun-2026 02:10:10 UTC] Inserted ID: 6308
+[21-Jun-2026 11:41:22 UTC] Received: product_id=38084, user_id=6587, qty_from=1, qty_to=2
+[21-Jun-2026 11:41:22 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38084', '6587', 'test product entry', 'ريهام تشترى من ايهاب كويتى',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[21-Jun-2026 11:41:22 UTC] Inserted ID: 6309
+[21-Jun-2026 11:43:54 UTC] Received: product_id=38084, user_id=6587, qty_from=1, qty_to=2
+[21-Jun-2026 11:43:54 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38084', '6587', 'test product entry', 'ريهام تشترى من ايهاب كويتى',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[21-Jun-2026 11:43:54 UTC] Inserted ID: 6310
+[21-Jun-2026 12:15:06 UTC] Received: product_id=38102, user_id=6587, qty_from=1, qty_to=2
+[21-Jun-2026 12:15:06 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38102', '6587', 'اختبار منتج', 'ريهام تشترى لوجو من ايهاب',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[21-Jun-2026 12:15:06 UTC] Inserted ID: 6311
+[21-Jun-2026 14:19:18 UTC] Received: product_id=38096, user_id=6639, qty_from=1, qty_to=2
+[21-Jun-2026 14:19:18 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38096', '6639', 'test product', 'ايهلب يشترى من ريهم برتقالة ',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[21-Jun-2026 14:19:18 UTC] Inserted ID: 6312
+[21-Jun-2026 14:28:53 UTC] Received: product_id=38103, user_id=6587, qty_from=2, qty_to=3
+[21-Jun-2026 14:28:53 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38103', '6587', 'اختبار منتج اخير', 'ريهام اترى هندى من ايهاب',
+    '3', 'piece', 'Qty from 2 to 3',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[21-Jun-2026 14:28:53 UTC] Inserted ID: 6313
+[21-Jun-2026 14:57:10 UTC] Received: product_id=38084, user_id=6587, qty_from=2, qty_to=4
+[21-Jun-2026 14:57:10 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38084', '6587', 'test product entry', 'ريهام تشترى كويتى من ايهاب',
+    '4', 'piece', 'Qty from 2 to 4',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[21-Jun-2026 14:57:10 UTC] Inserted ID: 6314
+[21-Jun-2026 15:11:21 UTC] Received: product_id=38097, user_id=6587, qty_from=1, qty_to=2
+[21-Jun-2026 15:11:21 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38097', '6587', 'test product', 'تشترى من لميا كلب اسود',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[21-Jun-2026 15:11:21 UTC] Inserted ID: 6315
+[21-Jun-2026 15:33:40 UTC] Received: product_id=38084, user_id=6634, qty_from=1, qty_to=2
+[21-Jun-2026 15:33:40 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38084', '6634', 'test product entry', 'لمياء تشترى من ايهاب',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[21-Jun-2026 15:33:40 UTC] Inserted ID: 6316
+[21-Jun-2026 15:43:03 UTC] Received: product_id=38096, user_id=6639, qty_from=3, qty_to=5
+[21-Jun-2026 15:43:03 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38096', '6639', 'test product', 'ايهاب يشترى من ريهام برتقالة',
+    '5', 'piece', 'Qty from 3 to 5',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[21-Jun-2026 15:43:03 UTC] Inserted ID: 6317
+[21-Jun-2026 15:51:01 UTC] Received: product_id=38084, user_id=6587, qty_from=333, qty_to=555
+[21-Jun-2026 15:51:01 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38084', '6587', 'test product entry', 'ريهام تشترى من ايهاب',
+    '555', 'piece', 'Qty from 333 to 555',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[21-Jun-2026 15:51:01 UTC] Inserted ID: 6318
+[21-Jun-2026 16:01:17 UTC] Received: product_id=38084, user_id=6639, qty_from=33, qty_to=55
+[21-Jun-2026 16:01:17 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38084', '6639', 'test product entry', 'ايهاب يشترى من ريهام ',
+    '55', 'piece', 'Qty from 33 to 55',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[21-Jun-2026 16:01:17 UTC] Inserted ID: 6319
+[21-Jun-2026 16:02:53 UTC] Received: product_id=38096, user_id=6639, qty_from=33, qty_to=555
+[21-Jun-2026 16:02:53 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38096', '6639', 'test product', 'ايهاب بشترى من ريهام برتقالة',
+    '555', 'piece', 'Qty from 33 to 555',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[21-Jun-2026 16:02:53 UTC] Inserted ID: 6320
+[21-Jun-2026 16:20:14 UTC] Received: product_id=38102, user_id=6587, qty_from=41, qty_to=41
+[21-Jun-2026 16:20:14 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38102', '6587', 'اختبار منتج', 'ريهام تشترى لوجو من ايهاب',
+    '41', 'piece', 'Qty from 41 to 41',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[21-Jun-2026 16:20:14 UTC] Inserted ID: 6321
+[21-Jun-2026 16:28:09 UTC] Received: product_id=38103, user_id=6639, qty_from=22, qty_to=44
+[21-Jun-2026 16:28:09 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38103', '6639', 'اختبار منتج اخير', 'ريهام تشترى هندى من ايهاب',
+    '44', 'piece', 'Qty from 22 to 44',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[21-Jun-2026 16:28:09 UTC] Inserted ID: 6322
+[21-Jun-2026 16:33:19 UTC] Received: product_id=38084, user_id=6639, qty_from=22, qty_to=44
+[21-Jun-2026 16:33:19 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38084', '6639', 'test product entry', 'ايهاب يشترى من ريهام',
+    '44', 'piece', 'Qty from 22 to 44',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[21-Jun-2026 16:33:19 UTC] Inserted ID: 6323
+[21-Jun-2026 16:40:32 UTC] Received: product_id=38084, user_id=6587, qty_from=44, qty_to=55
+[21-Jun-2026 16:40:32 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38084', '6587', 'test product entry', 'buy from Ehab',
+    '55', 'piece', 'Qty from 44 to 55',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[21-Jun-2026 16:40:32 UTC] Inserted ID: 6324
+[21-Jun-2026 16:53:48 UTC] Received: product_id=38098, user_id=6587, qty_from=434, qty_to=355
+[21-Jun-2026 16:53:48 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38098', '6587', 'test product 2', 'تشترى السماء من لمياء',
+    '355', 'piece', 'Qty from 434 to 355',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[21-Jun-2026 16:53:48 UTC] Inserted ID: 6325
+[22-Jun-2026 12:52:57 UTC] Received: product_id=38103, user_id=6587, qty_from=22, qty_to=22
+[22-Jun-2026 12:52:57 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38103', '6587', 'اختبار منتج اخير', 'ريهام تشترى هندى من ايهاب',
+    '22', 'piece', 'Qty from 22 to 22',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[22-Jun-2026 12:52:57 UTC] Inserted ID: 6326
+[22-Jun-2026 13:21:19 UTC] Received: product_id=38084, user_id=6639, qty_from=3, qty_to=3
+[22-Jun-2026 13:21:19 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38084', '6639', 'test product entry', 'ايهاب يشترى من ريهام ',
+    '3', 'piece', 'Qty from 3 to 3',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[22-Jun-2026 13:21:19 UTC] Inserted ID: 6327
+[22-Jun-2026 13:23:37 UTC] Received: product_id=38096, user_id=6639, qty_from=2, qty_to=2
+[22-Jun-2026 13:23:37 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38096', '6639', 'test product', 'ايهاب يشترر من ريهام ',
+    '2', 'piece', 'Qty from 2 to 2',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[22-Jun-2026 13:23:37 UTC] Inserted ID: 6328
+[22-Jun-2026 13:26:55 UTC] Received: product_id=38084, user_id=6587, qty_from=2, qty_to=4
+[22-Jun-2026 13:26:55 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38084', '6587', 'test product entry', 'تشترى ريهام من ايهلب',
+    '4', 'piece', 'Qty from 2 to 4',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[22-Jun-2026 13:26:55 UTC] Inserted ID: 6329
+[22-Jun-2026 14:40:39 UTC] Received: product_id=38096, user_id=6639, qty_from=22, qty_to=33
+[22-Jun-2026 14:40:39 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38096', '6639', 'test product', 'ايهاب يشترى من ريهام ',
+    '33', 'piece', 'Qty from 22 to 33',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[22-Jun-2026 14:40:39 UTC] Inserted ID: 6330
+[22-Jun-2026 15:13:45 UTC] Received: product_id=38103, user_id=6587, qty_from=33, qty_to=55
+[22-Jun-2026 15:13:45 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38103', '6587', 'اختبار منتج اخير', 'ريهام تشترى من ايهاب',
+    '55', 'piece', 'Qty from 33 to 55',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[22-Jun-2026 15:13:45 UTC] Inserted ID: 6331
+[22-Jun-2026 16:25:44 UTC] Received: product_id=38096, user_id=6639, qty_from=1, qty_to=2
+[22-Jun-2026 16:25:44 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38096', '6639', 'test product', 'ايهاب يشترى من ريهام ',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[22-Jun-2026 16:25:44 UTC] Inserted ID: 6332
+[22-Jun-2026 17:16:08 UTC] Received: product_id=38084, user_id=6587, qty_from=1, qty_to=2
+[22-Jun-2026 17:16:08 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38084', '6587', 'test product entry', 'ريهام يشترى من ايهاب',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[22-Jun-2026 17:16:08 UTC] Inserted ID: 6333
+[22-Jun-2026 17:38:14 UTC] Received: product_id=38091, user_id=6639, qty_from=222, qty_to=444
+[22-Jun-2026 17:38:14 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38091', '6639', 'منتج للاختبار', 'يشترى من ريهام',
+    '444', 'piece', 'Qty from 222 to 444',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[22-Jun-2026 17:38:14 UTC] Inserted ID: 6334
+[22-Jun-2026 18:17:07 UTC] Received: product_id=38096, user_id=6639, qty_from=11, qty_to=22
+[22-Jun-2026 18:17:07 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38096', '6639', 'test product', 'ايهاب يشترى من ريهام',
+    '22', 'piece', 'Qty from 11 to 22',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[22-Jun-2026 18:17:07 UTC] Inserted ID: 6335
+[22-Jun-2026 20:03:40 UTC] Received: product_id=38097, user_id=6587, qty_from=12, qty_to=24
+[22-Jun-2026 20:03:40 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38097', '6587', 'test product', 'ريهام تشترى من لمياء',
+    '24', 'piece', 'Qty from 12 to 24',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[22-Jun-2026 20:03:40 UTC] Inserted ID: 6336
+[23-Jun-2026 04:36:51 UTC] Received: product_id=38084, user_id=6587, qty_from=1, qty_to=2
+[23-Jun-2026 04:36:51 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38084', '6587', 'test product entry', 'ريهام تشترى من ايهاب',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[23-Jun-2026 04:36:51 UTC] Inserted ID: 6337
+[23-Jun-2026 04:54:38 UTC] Received: product_id=38103, user_id=6587, qty_from=222, qty_to=22222
+[23-Jun-2026 04:54:38 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38103', '6587', 'اختبار منتج اخير', 'ريهام تشترى من ايهاب',
+    '22222', 'piece', 'Qty from 222 to 22222',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[23-Jun-2026 04:54:38 UTC] Inserted ID: 6338
+[23-Jun-2026 04:55:38 UTC] Received: product_id=38103, user_id=6587, qty_from=222, qty_to=22222
+[23-Jun-2026 04:55:38 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38103', '6587', 'اختبار منتج اخير', 'ريهام تشترى من ايهاب',
+    '22222', 'piece', 'Qty from 222 to 22222',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[23-Jun-2026 04:55:38 UTC] Inserted ID: 6339
+[23-Jun-2026 05:04:11 UTC] Received: product_id=38096, user_id=6639, qty_from=22, qty_to=222
+[23-Jun-2026 05:04:11 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38096', '6639', 'test product', 'ايهاب يشترى من ريهام',
+    '222', 'piece', 'Qty from 22 to 222',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[23-Jun-2026 05:04:11 UTC] Inserted ID: 6340
+[23-Jun-2026 05:26:32 UTC] Received: product_id=38096, user_id=6639, qty_from=1, qty_to=11
+[23-Jun-2026 05:26:32 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38096', '6639', 'test product', 'ايهاب يشترى من ريهام ',
+    '11', 'piece', 'Qty from 1 to 11',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[23-Jun-2026 05:26:32 UTC] Inserted ID: 6341
+[23-Jun-2026 05:52:05 UTC] Received: product_id=38102, user_id=6587, qty_from=11, qty_to=22
+[23-Jun-2026 05:52:05 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38102', '6587', 'اختبار منتج', 'ريهام تشترى من ايهاب',
+    '22', 'piece', 'Qty from 11 to 22',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[23-Jun-2026 05:52:05 UTC] Inserted ID: 6342
+[23-Jun-2026 06:33:16 UTC] Received: product_id=38084, user_id=6634, qty_from=11, qty_to=22
+[23-Jun-2026 06:33:16 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38084', '6634', 'test product entry', 'لمياء تشترى من ايهاب',
+    '22', 'piece', 'Qty from 11 to 22',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[23-Jun-2026 06:33:16 UTC] Inserted ID: 6343
+[23-Jun-2026 06:42:55 UTC] Received: product_id=38091, user_id=6639, qty_from=11, qty_to=22
+[23-Jun-2026 06:42:55 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38091', '6639', 'منتج للاختبار', 'ايهاب يشترى من ريهام ',
+    '22', 'piece', 'Qty from 11 to 22',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[23-Jun-2026 06:42:55 UTC] Inserted ID: 6344
+[23-Jun-2026 06:51:55 UTC] Received: product_id=38103, user_id=6587, qty_from=22, qty_to=222
+[23-Jun-2026 06:51:55 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38103', '6587', 'اختبار منتج اخير', 'ريهام تشترى من ايهاب',
+    '222', 'piece', 'Qty from 22 to 222',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[23-Jun-2026 06:51:55 UTC] Inserted ID: 6345
+[23-Jun-2026 06:55:54 UTC] Received: product_id=38091, user_id=6639, qty_from=11, qty_to=111
+[23-Jun-2026 06:55:54 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38091', '6639', 'منتج للاختبار', 'ايهاب يشترى من ريهام ',
+    '111', 'piece', 'Qty from 11 to 111',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[23-Jun-2026 06:55:54 UTC] Inserted ID: 6346
+[23-Jun-2026 11:36:56 UTC] Received: product_id=38091, user_id=6639, qty_from=1, qty_to=11
+[23-Jun-2026 11:36:56 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38091', '6639', 'منتج للاختبار', 'ايهاب يشترى من ريهام ',
+    '11', 'piece', 'Qty from 1 to 11',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[23-Jun-2026 11:36:56 UTC] Inserted ID: 6347
+[23-Jun-2026 12:42:01 UTC] Received: product_id=38102, user_id=6587, qty_from=2, qty_to=3
+[23-Jun-2026 12:42:01 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38102', '6587', 'اختبار منتج', 'ريهام تشترى من ايهاب',
+    '3', 'piece', 'Qty from 2 to 3',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[23-Jun-2026 12:42:01 UTC] Inserted ID: 6348
+[26-Jun-2026 05:08:59 UTC] Received: product_id=38091, user_id=6639, qty_from=33, qty_to=44
+[26-Jun-2026 05:08:59 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38091', '6639', 'منتج للاختبار', 'ايهاب بشترى من ريهام',
+    '44', 'piece', 'Qty from 33 to 44',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[26-Jun-2026 05:08:59 UTC] Inserted ID: 6349
+[26-Jun-2026 05:11:32 UTC] Received: product_id=38097, user_id=6639, qty_from=11, qty_to=22
+[26-Jun-2026 05:11:32 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38097', '6639', 'test product', 'ايهاب يشترى من لمياء ',
+    '22', 'piece', 'Qty from 11 to 22',
+    NOW(), 'whatsapp', 1, NOW()
+)
+[26-Jun-2026 05:11:32 UTC] Inserted ID: 6350
+[26-Jun-2026 05:47:05 UTC] Received: product_id=38091, user_id=6639, qty_from=22, qty_to=33
+[26-Jun-2026 05:47:05 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38091', '6639', 'منتج للاختبار', 'ايهاب يشترى من ريهام اختبار وصول ادمن',
+    '33', 'piece', 'Qty from 22 to 33',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[26-Jun-2026 05:47:05 UTC] Inserted ID: 6352
+[26-Jun-2026 08:13:06 UTC] Received: product_id=38096, user_id=6639, qty_from=44, qty_to=44
+[26-Jun-2026 08:13:06 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38096', '6639', 'test product', 'ايهاب يشترى من ريهام برتقالة',
+    '44', 'piece', 'Qty from 44 to 44',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[26-Jun-2026 08:13:06 UTC] Inserted ID: 6353
+[27-Jun-2026 12:27:07 UTC] Received: product_id=38100, user_id=6639, qty_from=33, qty_to=44
+[27-Jun-2026 12:27:07 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38100', '6639', 'test product 4', 'ايهاب يشترى من لمياء الجبل ',
+    '44', 'piece', 'Qty from 33 to 44',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[27-Jun-2026 12:27:07 UTC] Inserted ID: 6354
+[27-Jun-2026 13:07:34 UTC] Received: product_id=38102, user_id=6634, qty_from=22, qty_to=33
+[27-Jun-2026 13:07:34 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38102', '6634', 'اختبار منتج', 'لمياء تشترى من ايهاب',
+    '33', 'piece', 'Qty from 22 to 33',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[27-Jun-2026 13:07:34 UTC] Inserted ID: 6355
+[27-Jun-2026 13:19:32 UTC] Received: product_id=38102, user_id=6634, qty_from=22, qty_to=33
+[27-Jun-2026 13:19:32 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38102', '6634', 'اختبار منتج', 'لمياء تشترى',
+    '33', 'piece', 'Qty from 22 to 33',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[27-Jun-2026 13:19:32 UTC] Inserted ID: 6356
+[27-Jun-2026 13:23:26 UTC] Received: product_id=38096, user_id=6639, qty_from=22, qty_to=33
+[27-Jun-2026 13:23:26 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38096', '6639', 'test product', 'لشترى من ريهام',
+    '33', 'piece', 'Qty from 22 to 33',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[27-Jun-2026 13:23:26 UTC] Inserted ID: 6357
+[27-Jun-2026 13:33:09 UTC] Received: product_id=38102, user_id=6587, qty_from=2, qty_to=2
+[27-Jun-2026 13:33:09 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38102', '6587', 'اختبار منتج', 'ريهام تشترى من ايهاب',
+    '2', 'piece', 'Qty from 2 to 2',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[27-Jun-2026 13:33:09 UTC] Inserted ID: 6358
+[27-Jun-2026 13:40:43 UTC] Received: product_id=38091, user_id=6639, qty_from=3, qty_to=3
+[27-Jun-2026 13:40:43 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38091', '6639', 'منتج للاختبار', '3',
+    '3', 'piece', 'Qty from 3 to 3',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[27-Jun-2026 13:40:43 UTC] Inserted ID: 6359
+[27-Jun-2026 13:54:22 UTC] Received: product_id=38091, user_id=6639, qty_from=1, qty_to=1
+[27-Jun-2026 13:54:22 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38091', '6639', 'منتج للاختبار', '1',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[27-Jun-2026 13:54:22 UTC] Inserted ID: 6360
+[27-Jun-2026 13:59:26 UTC] Received: product_id=38084, user_id=6587, qty_from=1, qty_to=1
+[27-Jun-2026 13:59:26 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38084', '6587', 'test product entry', '1',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[27-Jun-2026 13:59:26 UTC] Inserted ID: 6361
+[27-Jun-2026 14:05:35 UTC] Received: product_id=38096, user_id=6639, qty_from=22, qty_to=22
+[27-Jun-2026 14:05:35 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38096', '6639', 'test product', 'ايها من ريهاك',
+    '22', 'piece', 'Qty from 22 to 22',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[27-Jun-2026 14:05:35 UTC] Inserted ID: 6362
+[27-Jun-2026 14:08:33 UTC] Received: product_id=38102, user_id=6587, qty_from=1, qty_to=1
+[27-Jun-2026 14:08:33 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38102', '6587', 'اختبار منتج', 'ريه من ايه ',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[27-Jun-2026 14:08:33 UTC] Inserted ID: 6363
+[27-Jun-2026 14:11:20 UTC] Received: product_id=38091, user_id=6639, qty_from=1, qty_to=1
+[27-Jun-2026 14:11:20 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38091', '6639', 'منتج للاختبار', 'ايه من ريه ',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[27-Jun-2026 14:11:20 UTC] Inserted ID: 6364
+[27-Jun-2026 19:51:24 UTC] Received: product_id=38091, user_id=6639, qty_from=1, qty_to=1
+[27-Jun-2026 19:51:24 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38091', '6639', 'منتج للاختبار', 'من ريهام',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[27-Jun-2026 19:51:24 UTC] Inserted ID: 6365
+[27-Jun-2026 20:01:46 UTC] Received: product_id=38096, user_id=6639, qty_from=1, qty_to=1
+[27-Jun-2026 20:01:46 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38096', '6639', 'test product', 'من ريهام',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[27-Jun-2026 20:01:46 UTC] Inserted ID: 6366
+[27-Jun-2026 20:15:33 UTC] Received: product_id=38102, user_id=6587, qty_from=1, qty_to=1
+[27-Jun-2026 20:15:33 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38102', '6587', 'اختبار منتج', 'ريهام تشترى من ايهاب',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[27-Jun-2026 20:15:33 UTC] Inserted ID: 6367
+[27-Jun-2026 20:39:55 UTC] Received: product_id=38091, user_id=6639, qty_from=1, qty_to=1
+[27-Jun-2026 20:39:55 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38091', '6639', 'منتج للاختبار', 'ايهاب يشترى من ريهام',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[27-Jun-2026 20:39:55 UTC] Inserted ID: 6368
+[27-Jun-2026 20:49:28 UTC] Received: product_id=38084, user_id=6587, qty_from=1, qty_to=1
+[27-Jun-2026 20:49:28 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38084', '6587', 'test product entry', '1ريهام تشترى من ايهاب',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[27-Jun-2026 20:49:28 UTC] Inserted ID: 6369
+[27-Jun-2026 21:11:34 UTC] Received: product_id=38091, user_id=6639, qty_from=1, qty_to=1
+[27-Jun-2026 21:11:34 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38091', '6639', 'منتج للاختبار', 'ايهاب يشترى من ريهام',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[27-Jun-2026 21:11:34 UTC] Inserted ID: 6370
+[27-Jun-2026 21:19:24 UTC] Received: product_id=38102, user_id=6587, qty_from=1, qty_to=1
+[27-Jun-2026 21:19:24 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38102', '6587', 'اختبار منتج', 'ريهام تشترى من ايهاب',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[27-Jun-2026 21:19:24 UTC] Inserted ID: 6371
+[27-Jun-2026 21:27:41 UTC] Received: product_id=38096, user_id=6639, qty_from=1, qty_to=1
+[27-Jun-2026 21:27:41 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38096', '6639', 'test product', 'ايهاب يشترى من ريهام',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[27-Jun-2026 21:27:41 UTC] Inserted ID: 6372
+[27-Jun-2026 21:38:02 UTC] Received: product_id=38096, user_id=6639, qty_from=1, qty_to=1
+[27-Jun-2026 21:38:02 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38096', '6639', 'test product', 'ايهاب يشترى من ريهام',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[27-Jun-2026 21:38:02 UTC] Inserted ID: 6373
+[27-Jun-2026 21:46:50 UTC] Received: product_id=38097, user_id=6639, qty_from=1, qty_to=1
+[27-Jun-2026 21:46:50 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38097', '6639', 'test product', 'ايهاب يشترى من لمياء ',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[27-Jun-2026 21:46:50 UTC] Inserted ID: 6374
+[27-Jun-2026 23:18:33 UTC] Received: product_id=38091, user_id=6639, qty_from=1, qty_to=1
+[27-Jun-2026 23:18:33 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38091', '6639', 'منتج للاختبار', 'ايهاب يشترى من ريهام',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[27-Jun-2026 23:18:33 UTC] Inserted ID: 6375
+[28-Jun-2026 01:12:10 UTC] Received: product_id=38098, user_id=6587, qty_from=0, qty_to=44
+[28-Jun-2026 01:12:10 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38098', '6587', 'test product 2', 'ريهام تشترى من لمياء',
+    '44', 'piece', 'Qty from 0 to 44',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[28-Jun-2026 01:12:10 UTC] Inserted ID: 6376
+[28-Jun-2026 02:01:18 UTC] Received: product_id=38102, user_id=6587, qty_from=22, qty_to=33
+[28-Jun-2026 02:01:18 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38102', '6587', 'اختبار منتج', ' بعد تحديث المحادثة .. ريهام تشترى من ايهاب ',
+    '33', 'piece', 'Qty from 22 to 33',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[28-Jun-2026 02:01:18 UTC] Inserted ID: 6377
+[28-Jun-2026 08:43:17 UTC] Received: product_id=38096, user_id=6639, qty_from=1, qty_to=1
+[28-Jun-2026 08:43:17 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38096', '6639', 'test product', 'ايهاب يشترى من ريهام',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[28-Jun-2026 08:43:17 UTC] Inserted ID: 6378
+[28-Jun-2026 11:07:12 UTC] Received: product_id=38102, user_id=6587, qty_from=22, qty_to=22
+[28-Jun-2026 11:07:12 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38102', '6587', 'اختبار منتج', 'ريهام تشترى من ايهاب',
+    '22', 'piece', 'Qty from 22 to 22',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[28-Jun-2026 11:07:12 UTC] Inserted ID: 6379
+[28-Jun-2026 13:45:12 UTC] Received: product_id=38102, user_id=6587, qty_from=1, qty_to=1
+[28-Jun-2026 13:45:12 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38102', '6587', 'اختبار منتج', 'ريهام تشتلرى من ايهلب',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[28-Jun-2026 13:45:12 UTC] Inserted ID: 6380
+[28-Jun-2026 14:35:54 UTC] Received: product_id=38102, user_id=6639, qty_from=1, qty_to=2
+[28-Jun-2026 14:35:54 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38102', '6639', 'اختبار منتج', 'منتج اختبار',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[28-Jun-2026 14:35:54 UTC] Inserted ID: 6381
+[28-Jun-2026 14:36:39 UTC] Received: product_id=38084, user_id=6639, qty_from=1, qty_to=1
+[28-Jun-2026 14:36:39 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38084', '6639', 'test product entry', 'منتج اختبار',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[28-Jun-2026 14:36:39 UTC] Inserted ID: 6382
+[28-Jun-2026 15:45:54 UTC] Received: product_id=38091, user_id=6639, qty_from=1, qty_to=1
+[28-Jun-2026 15:45:54 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38091', '6639', 'منتج للاختبار', 'ايهاب يشترى من ريهام ',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[28-Jun-2026 15:45:54 UTC] Inserted ID: 6383
+[28-Jun-2026 15:47:04 UTC] Received: product_id=23353, user_id=6639, qty_from=1, qty_to=1
+[28-Jun-2026 15:47:04 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '23353', '6639', 'Product', 'ايهاب يشترى من ريهام ',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[28-Jun-2026 15:47:04 UTC] Inserted ID: 6384
+[28-Jun-2026 16:05:09 UTC] Received: product_id=38096, user_id=6639, qty_from=1, qty_to=1
+[28-Jun-2026 16:05:09 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38096', '6639', 'test product', 'ايهاب يشترى من ريهام',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[28-Jun-2026 16:05:09 UTC] Inserted ID: 6385
+[28-Jun-2026 16:12:42 UTC] Received: product_id=38096, user_id=6639, qty_from=1, qty_to=2
+[28-Jun-2026 16:12:42 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38096', '6639', 'test product', 'ايهاب يشترى من ريهام',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[28-Jun-2026 16:12:42 UTC] Inserted ID: 6386
+[28-Jun-2026 16:20:06 UTC] Received: product_id=38096, user_id=6639, qty_from=1, qty_to=2
+[28-Jun-2026 16:20:06 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38096', '6639', 'test product', '(10) ',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[28-Jun-2026 16:20:06 UTC] Inserted ID: 6387
+[28-Jun-2026 16:24:22 UTC] Received: product_id=38097, user_id=6639, qty_from=1, qty_to=1
+[28-Jun-2026 16:24:22 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38097', '6639', 'test product', 'ايهاب يشترى من لمياء',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[28-Jun-2026 16:24:22 UTC] Inserted ID: 6388
+[28-Jun-2026 16:37:10 UTC] Received: product_id=38096, user_id=6639, qty_from=1, qty_to=1
+[28-Jun-2026 16:37:10 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38096', '6639', 'test product', 'ايهاب يشترى من ريهام',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[28-Jun-2026 16:37:10 UTC] Inserted ID: 6389
+[28-Jun-2026 16:40:25 UTC] Received: product_id=22922, user_id=6639, qty_from=1, qty_to=1
+[28-Jun-2026 16:40:25 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '22922', '6639', 'Product', 'الموقع يشترى',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[28-Jun-2026 16:40:25 UTC] Inserted ID: 6390
+[28-Jun-2026 17:40:27 UTC] Received: product_id=38102, user_id=6587, qty_from=1, qty_to=2
+[28-Jun-2026 17:40:27 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38102', '6587', 'اختبار منتج', 'ريهام تشترى من ايهاب',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[28-Jun-2026 17:40:27 UTC] Inserted ID: 6391
+[28-Jun-2026 17:42:00 UTC] Received: product_id=38103, user_id=6587, qty_from=1, qty_to=1
+[28-Jun-2026 17:42:00 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38103', '6587', 'اختبار منتج اخير', 'ريهام تشترى من المينى سايت',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[28-Jun-2026 17:42:00 UTC] Inserted ID: 6392
+[28-Jun-2026 18:16:10 UTC] Received: product_id=1416, user_id=6587, qty_from=1, qty_to=1
+[28-Jun-2026 18:16:10 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '1416', '6587', 'Product', 'product-details.php',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[28-Jun-2026 18:16:10 UTC] Inserted ID: 6393
+[28-Jun-2026 19:57:00 UTC] Received: product_id=38102, user_id=6587, qty_from=1, qty_to=1
+[28-Jun-2026 19:57:00 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38102', '6587', 'اختبار منتج', 'Ryham Buys From Ehab',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[28-Jun-2026 19:57:00 UTC] Inserted ID: 6394
+[28-Jun-2026 21:13:17 UTC] Received: product_id=0, user_id=6639, qty_from=1, qty_to=1
+[28-Jun-2026 21:20:23 UTC] === WhatsApp RFQ Handler ===
+[28-Jun-2026 21:20:23 UTC] request_type: saleoffer
+[28-Jun-2026 21:20:23 UTC] product_id: 0
+[28-Jun-2026 21:20:23 UTC] offer_id: 0
+[28-Jun-2026 21:20:23 UTC] user_id: 6639
+[28-Jun-2026 21:20:29 UTC] === WhatsApp RFQ Handler ===
+[28-Jun-2026 21:20:29 UTC] request_type: saleoffer
+[28-Jun-2026 21:20:29 UTC] product_id: 0
+[28-Jun-2026 21:20:29 UTC] offer_id: 0
+[28-Jun-2026 21:20:29 UTC] user_id: 6639
+[28-Jun-2026 21:22:10 UTC] === WhatsApp RFQ Handler ===
+[28-Jun-2026 21:22:10 UTC] request_type: saleoffer
+[28-Jun-2026 21:22:10 UTC] product_id: 0
+[28-Jun-2026 21:22:10 UTC] offer_id: 0
+[28-Jun-2026 21:22:10 UTC] user_id: 6639
+[28-Jun-2026 21:22:10 UTC] POST data: Array
+(
+    [offer_id] => 0
+    [offer_title] => اختبار تحميل عرض بيع
+    [supplier_id] => 79
+    [source] => saleoffer_details
+    [request_type] => saleoffer
+    [qty] => 1
+    [delivery_days] => 7
+    [requirement_details] => ايهاب يشترى ريهام السعودية
+    [qty_from] => 1
+    [qty_to] => 1
+    [product_name] => اختبار تحميل عرض بيع
+)
+
+[28-Jun-2026 21:22:10 UTC] ❌ product_id is zero
+[28-Jun-2026 21:26:11 UTC] === WhatsApp RFQ Handler ===
+[28-Jun-2026 21:26:11 UTC] request_type: saleoffer
+[28-Jun-2026 21:26:11 UTC] product_id: 0
+[28-Jun-2026 21:26:11 UTC] offer_id: 0
+[28-Jun-2026 21:26:11 UTC] user_id: 6639
+[28-Jun-2026 21:26:11 UTC] POST data: Array
+(
+    [offer_id] => 0
+    [offer_title] => اختبار تحميل عرض بيع
+    [supplier_id] => 79
+    [source] => saleoffer_details
+    [request_type] => saleoffer
+    [qty] => 1
+    [delivery_days] => 1
+    [requirement_details] => ايهاب يشترى
+    [qty_from] => 1
+    [qty_to] => 1
+    [product_name] => اختبار تحميل عرض بيع
+)
+
+[28-Jun-2026 21:26:11 UTC] ✅ Processing SaleOffer Request
+[28-Jun-2026 21:26:11 UTC] ❌ offer_id is zero
+[28-Jun-2026 22:14:45 UTC] === WhatsApp RFQ Handler ===
+[28-Jun-2026 22:14:45 UTC] request_type: saleoffer
+[28-Jun-2026 22:14:45 UTC] offer_id: 4763
+[28-Jun-2026 22:14:45 UTC] product_id: 0
+[28-Jun-2026 22:14:45 UTC] user_id: 6639
+[28-Jun-2026 22:14:45 UTC] POST data: Array
+(
+    [offer_id] => 4763
+    [product_name] => اختبار تحميل عرض بيع
+    [supplier_id] => 79
+    [request_type] => saleoffer
+    [product_id] => 0
+    [qty_to] => 1
+    [qty_from] => 1
+    [delivery_days] => 7
+    [requirement_details] => ايهاب من ريهام
+)
+
+[28-Jun-2026 22:14:45 UTC] ✅ Processing SaleOffer Request
+[28-Jun-2026 22:14:45 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'u397968200_egmart.sale_offers' doesn't exist in /home/u397968200/domains/egyptmart.shop/public_html/whatsapp_rfq_handler.php:70
+Stack trace:
+#0 /home/u397968200/domains/egyptmart.shop/public_html/whatsapp_rfq_handler.php(70): mysqli_query()
+#1 {main}
+  thrown in /home/u397968200/domains/egyptmart.shop/public_html/whatsapp_rfq_handler.php on line 70
+[28-Jun-2026 22:22:51 UTC] === START whatsapp_rfq_handler.php ===
+[28-Jun-2026 22:22:51 UTC] ✅ User ID: 6639
+[28-Jun-2026 22:22:51 UTC] 📝 Data: request_type=saleoffer, offer_id=4763, product_id=0
+[28-Jun-2026 22:22:51 UTC] ✅ Processing saleoffer request
+[28-Jun-2026 22:22:51 UTC] 🔍 SQL: SELECT so_service, so_price, so_id, usr_id FROM sale_offer WHERE so_id = 4763
+[28-Jun-2026 22:22:51 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'so_price' in 'SELECT' in /home/u397968200/domains/egyptmart.shop/public_html/whatsapp_rfq_handler.php:76
+Stack trace:
+#0 /home/u397968200/domains/egyptmart.shop/public_html/whatsapp_rfq_handler.php(76): mysqli_query()
+#1 {main}
+  thrown in /home/u397968200/domains/egyptmart.shop/public_html/whatsapp_rfq_handler.php on line 76
+[28-Jun-2026 23:15:34 UTC] === START whatsapp_rfq_handler.php ===
+[28-Jun-2026 23:16:38 UTC] === START whatsapp_rfq_handler.php ===
+[28-Jun-2026 23:17:53 UTC] === START whatsapp_rfq_handler.php ===
+[28-Jun-2026 23:17:53 UTC] ✅ User ID: 6639
+[28-Jun-2026 23:17:53 UTC] 📝 Data: request_type=saleoffer, offer_id=4763, product_id=0
+[28-Jun-2026 23:17:53 UTC] ✅ Processing saleoffer request
+[28-Jun-2026 23:17:53 UTC] 🔍 SQL: SELECT so_service, so_price, so_id, usr_id FROM sale_offer WHERE so_id = 4763
+[28-Jun-2026 23:17:53 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'so_price' in 'SELECT' in /home/u397968200/domains/egyptmart.shop/public_html/whatsapp_rfq_handler.php:76
+Stack trace:
+#0 /home/u397968200/domains/egyptmart.shop/public_html/whatsapp_rfq_handler.php(76): mysqli_query()
+#1 {main}
+  thrown in /home/u397968200/domains/egyptmart.shop/public_html/whatsapp_rfq_handler.php on line 76
+[28-Jun-2026 23:22:37 UTC] === Start Request ===
+[28-Jun-2026 23:22:37 UTC] user_id: 6639, request_type: saleoffer, offer_id: 4763, product_id: 0
+[28-Jun-2026 23:22:37 UTC] Processing saleoffer request
+[28-Jun-2026 23:22:37 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'usr_id' in 'SELECT' in /home/u397968200/domains/egyptmart.shop/public_html/whatsapp_rfq_handler.php:60
+Stack trace:
+#0 /home/u397968200/domains/egyptmart.shop/public_html/whatsapp_rfq_handler.php(60): mysqli_query()
+#1 {main}
+  thrown in /home/u397968200/domains/egyptmart.shop/public_html/whatsapp_rfq_handler.php on line 60
+[28-Jun-2026 23:22:52 UTC] === Start Request ===
+[28-Jun-2026 23:22:52 UTC] user_id: 6639, request_type: saleoffer, offer_id: 4763, product_id: 0
+[28-Jun-2026 23:22:52 UTC] Processing saleoffer request
+[28-Jun-2026 23:22:52 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'usr_id' in 'SELECT' in /home/u397968200/domains/egyptmart.shop/public_html/whatsapp_rfq_handler.php:60
+Stack trace:
+#0 /home/u397968200/domains/egyptmart.shop/public_html/whatsapp_rfq_handler.php(60): mysqli_query()
+#1 {main}
+  thrown in /home/u397968200/domains/egyptmart.shop/public_html/whatsapp_rfq_handler.php on line 60
+[28-Jun-2026 23:23:27 UTC] === Start Request ===
+[28-Jun-2026 23:23:27 UTC] user_id: 6639, request_type: saleoffer, offer_id: 4763, product_id: 0
+[28-Jun-2026 23:23:27 UTC] Processing saleoffer request
+[28-Jun-2026 23:23:27 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'usr_id' in 'SELECT' in /home/u397968200/domains/egyptmart.shop/public_html/whatsapp_rfq_handler.php:60
+Stack trace:
+#0 /home/u397968200/domains/egyptmart.shop/public_html/whatsapp_rfq_handler.php(60): mysqli_query()
+#1 {main}
+  thrown in /home/u397968200/domains/egyptmart.shop/public_html/whatsapp_rfq_handler.php on line 60
+[28-Jun-2026 23:48:43 UTC] === Start Request ===
+[28-Jun-2026 23:48:43 UTC] user_id: 6639, request_type: saleoffer, offer_id: 4763, product_id: 0
+[28-Jun-2026 23:48:43 UTC] Processing saleoffer request
+[28-Jun-2026 23:48:43 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'usr_id' in 'SELECT' in /home/u397968200/domains/egyptmart.shop/public_html/whatsapp_rfq_handler.php:60
+Stack trace:
+#0 /home/u397968200/domains/egyptmart.shop/public_html/whatsapp_rfq_handler.php(60): mysqli_query()
+#1 {main}
+  thrown in /home/u397968200/domains/egyptmart.shop/public_html/whatsapp_rfq_handler.php on line 60
+[28-Jun-2026 23:49:34 UTC] === Start Request ===
+[28-Jun-2026 23:49:34 UTC] user_id: 6639, request_type: saleoffer, offer_id: 4763, product_id: 0
+[28-Jun-2026 23:49:34 UTC] Processing saleoffer request
+[28-Jun-2026 23:49:34 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'usr_id' in 'SELECT' in /home/u397968200/domains/egyptmart.shop/public_html/whatsapp_rfq_handler.php:60
+Stack trace:
+#0 /home/u397968200/domains/egyptmart.shop/public_html/whatsapp_rfq_handler.php(60): mysqli_query()
+#1 {main}
+  thrown in /home/u397968200/domains/egyptmart.shop/public_html/whatsapp_rfq_handler.php on line 60
+[28-Jun-2026 23:50:31 UTC] === Start Request ===
+[28-Jun-2026 23:50:31 UTC] user_id: 6639, request_type: saleoffer, offer_id: 4763, product_id: 0
+[28-Jun-2026 23:50:31 UTC] Processing saleoffer request
+[28-Jun-2026 23:50:31 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'usr_id' in 'SELECT' in /home/u397968200/domains/egyptmart.shop/public_html/whatsapp_rfq_handler.php:60
+Stack trace:
+#0 /home/u397968200/domains/egyptmart.shop/public_html/whatsapp_rfq_handler.php(60): mysqli_query()
+#1 {main}
+  thrown in /home/u397968200/domains/egyptmart.shop/public_html/whatsapp_rfq_handler.php on line 60
+[29-Jun-2026 00:00:35 UTC] === Start Request ===
+[29-Jun-2026 00:00:35 UTC] user_id: 6639, request_type: saleoffer, offer_id: 4763, product_id: 0
+[29-Jun-2026 00:00:35 UTC] Processing saleoffer request
+[29-Jun-2026 00:00:35 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'usr_id' in 'SELECT' in /home/u397968200/domains/egyptmart.shop/public_html/whatsapp_rfq_handler.php:60
+Stack trace:
+#0 /home/u397968200/domains/egyptmart.shop/public_html/whatsapp_rfq_handler.php(60): mysqli_query()
+#1 {main}
+  thrown in /home/u397968200/domains/egyptmart.shop/public_html/whatsapp_rfq_handler.php on line 60
+[02-Jul-2026 13:50:08 UTC] Received: product_id=38097, user_id=6639, qty_from=3, qty_to=3
+[02-Jul-2026 13:50:08 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38097', '6639', 'test product', 'اييهاب يشترى من لمباء',
+    '3', 'piece', 'Qty from 3 to 3',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[02-Jul-2026 13:50:08 UTC] Inserted ID: 6349
+[02-Jul-2026 15:46:01 UTC] Received: product_id=38091, user_id=6639, qty_from=1, qty_to=1
+[02-Jul-2026 15:46:01 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38091', '6639', 'منتج للاختبار', 'ايهاب يشترى من مسنى سايت ريهام ',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[02-Jul-2026 15:46:01 UTC] Inserted ID: 6402
+[03-Jul-2026 08:19:10 UTC] Received: product_id=38091, user_id=6639, qty_from=1, qty_to=1
+[03-Jul-2026 08:19:10 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38091', '6639', 'منتج للاختبار', 'اختبار ايهاب يشتى العادى من ريعام',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[03-Jul-2026 08:19:10 UTC] Inserted ID: 6406
+[03-Jul-2026 10:06:47 UTC] Received: product_id=38097, user_id=6639, qty_from=1, qty_to=1
+[03-Jul-2026 10:06:47 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38097', '6639', 'test product', 'ايهاب يشترى عادى من لمياء',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[03-Jul-2026 10:06:47 UTC] Inserted ID: 6408
+[03-Jul-2026 10:08:30 UTC] Received: product_id=38096, user_id=6639, qty_from=1, qty_to=1
+[03-Jul-2026 10:08:30 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38096', '6639', 'test product', 'ايهاب يشترى عادى من ريهام',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[03-Jul-2026 10:08:30 UTC] Inserted ID: 6409
+[03-Jul-2026 10:26:20 UTC] Received: product_id=38091, user_id=79, qty_from=1, qty_to=1
+[03-Jul-2026 10:26:20 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38091', '79', 'منتج للاختبار', 'ايهاب يشترى عادى من ريهام',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[03-Jul-2026 10:26:20 UTC] Inserted ID: 6412
+[03-Jul-2026 12:39:54 UTC] Received: product_id=38099, user_id=6587, qty_from=1, qty_to=1
+[03-Jul-2026 12:39:54 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38099', '6587', 'test product 3', 'ريهام تشترى الجبل من لمياء',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[03-Jul-2026 12:39:54 UTC] Inserted ID: 6414
+[03-Jul-2026 20:41:33 UTC] Received: product_id=38102, user_id=6634, qty_from=1, qty_to=2
+[03-Jul-2026 20:41:33 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38102', '6634', 'اختبار منتج', 'لمياء تشترى عادى من ايهاب',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[03-Jul-2026 20:41:33 UTC] Inserted ID: 6421
+[08-Jul-2026 16:24:16 UTC] Received: product_id=17158, user_id=6587, qty_from=4, qty_to=6
+[08-Jul-2026 16:24:16 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '17158', '6587', 'Venezia Collage Instant', 'FHFHFHDFHDH HDDH  DFGHHHD',
+    '6', 'piece', 'Qty from 4 to 6',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[08-Jul-2026 16:24:16 UTC] Inserted ID: 6433
+[08-Jul-2026 16:28:24 UTC] Received: product_id=38102, user_id=6587, qty_from=33, qty_to=33
+[08-Jul-2026 16:28:24 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38102', '6587', 'اختبار منتج', 'Evaporative Condensers Evaporative Condensers',
+    '33', 'piece', 'Qty from 33 to 33',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[08-Jul-2026 16:28:24 UTC] Inserted ID: 6434
+[08-Jul-2026 16:29:21 UTC] Received: product_id=32987, user_id=6587, qty_from=55, qty_to=55
+[08-Jul-2026 16:29:21 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '32987', '6587', 'Counter flow Film Fill', 'Evaporative Condensers',
+    '55', 'piece', 'Qty from 55 to 55',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[08-Jul-2026 16:29:21 UTC] Inserted ID: 6435
+[08-Jul-2026 16:45:53 UTC] Received: product_id=36417, user_id=6587, qty_from=1, qty_to=1
+[08-Jul-2026 16:45:53 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '36417', '6587', 'Closures', 'Frank Noe Company Frank Noe Company',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[08-Jul-2026 16:45:53 UTC] Inserted ID: 6436
+[23-Jul-2026 15:01:25 UTC] Received: product_id=38084, user_id=6587, qty_from=1, qty_to=2
+[23-Jul-2026 15:01:25 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38084', '6587', 'test product entry', 'ريهام تشترى من ايهاب',
+    '2', 'piece', 'Qty from 1 to 2',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[23-Jul-2026 15:01:25 UTC] Inserted ID: 6438
+[08-Aug-2026 14:49:33 UTC] Received: product_id=32184, user_id=6740, qty_from=1, qty_to=1
+[08-Aug-2026 14:49:33 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '32184', '6740', 'JAC Electric Oven 38L NGO-382TR', 'سعر JAC Electric Oven 38L NGO-382TR\r\n01553654134',
+    '1', 'piece', 'Qty from 1 to 1',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[08-Aug-2026 14:49:33 UTC] Inserted ID: 6439
+[14-Aug-2026 21:46:33 UTC] Received: product_id=27331, user_id=6639, qty_from=2, qty_to=8
+[14-Aug-2026 21:46:33 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '27331', '6639', 'Vitamin A (1MIU) powder', 'التفاصيل مرفقة للاطلاع',
+    '8', 'piece', 'Qty from 2 to 8',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[14-Aug-2026 21:46:33 UTC] Inserted ID: 6441
+[14-Aug-2026 22:09:21 UTC] Received: product_id=38102, user_id=6639, qty_from=5, qty_to=8
+[14-Aug-2026 22:09:21 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '38102', '6639', 'اختبار منتج', 'التفاصيل مرفقة عايز سعر',
+    '8', 'piece', 'Qty from 5 to 8',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[14-Aug-2026 22:09:21 UTC] Inserted ID: 6442
+[15-Aug-2026 02:28:41 UTC] Received: product_id=7861, user_id=6744, qty_from=7200, qty_to=14400
+[15-Aug-2026 02:28:41 UTC] SQL: INSERT INTO buy_requirement (
+    br_pc_id, br_u_id, br_pd_name, br_requirement, 
+    br_estimate_qty, br_estimate_qty_unit, br_description,
+    br_posting_date, communication_type, source_channel, 
+    whatsapp_sent, whatsapp_sent_date
+) VALUES (
+    '7861', '6744', 'pure water 12 Pcs x 1.5 Ltr', 'محتاج اكون موزع فى المنوفية و محتاج حد اتواصل معاه هشيل كميات كبيرة ',
+    '14400', 'piece', 'Qty from 7200 to 14400',
+    NOW(), 'whatsapp', 'whatsapp_platform', 
+    1, NOW()
+)
+[15-Aug-2026 02:28:41 UTC] Inserted ID: 6444

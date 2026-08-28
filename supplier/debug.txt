@@ -1,0 +1,66 @@
+2026-05-30 15:37:45 - submit_quote.php called
+POST: Array
+(
+    [rfq_id] => 6263
+    [unit_price] => 2
+    [moq] => 33
+    [delivery_time] => 15 DAYS
+    [supplier_message] => الملف قبل الاخير سبلايرز
+)
+
+SESSION: Array
+(
+    [created] => 1780152926
+    [ad_username_indm] => ARABYOS
+    [ad_email_indm] => info@egyptmart.shop
+    [ad_id_indm] => 1
+    [admin_logged_in] => 1
+    [popup] => 2
+    [last_page] => my-enquiries.php
+    [uid_indm] => 6634
+)
+
+2026-05-30 15:39:30 - submit_quote.php called
+POST: Array
+(
+    [rfq_id] => 6263
+    [unit_price] => 2
+    [moq] => 33
+    [delivery_time] => 15 DAYS
+    [supplier_message] => الملف قبل الاخير سبلايرز
+)
+
+SESSION: Array
+(
+    [created] => 1780152926
+    [ad_username_indm] => ARABYOS
+    [ad_email_indm] => info@egyptmart.shop
+    [ad_id_indm] => 1
+    [admin_logged_in] => 1
+    [popup] => 2
+    [last_page] => my-enquiries.php
+    [uid_indm] => 6634
+)
+
+2026-05-30 15:46:31 - submit_quote.php called
+POST: Array
+(
+    [rfq_id] => 6263
+    [unit_price] => 1
+    [moq] => 2
+    [delivery_time] => 15
+    [supplier_message] => للمرة الثالثة 
+)
+
+SESSION: Array
+(
+    [created] => 1780152926
+    [ad_username_indm] => ARABYOS
+    [ad_email_indm] => info@egyptmart.shop
+    [ad_id_indm] => 1
+    [admin_logged_in] => 1
+    [popup] => 2
+    [last_page] => my-enquiries.php
+    [uid_indm] => 6634
+)
+

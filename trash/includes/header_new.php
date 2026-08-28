@@ -1,0 +1,582 @@
+<?php
+//ini_set('MAX_EXECUTION_TIME', -1);
+?>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="fonts/font-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="css/style.css?t=<?php echo rand(); ?>"  rel="stylesheet" type="text/css"/>
+<link href="css/style123.css?t=<?php echo rand(); ?>" type="text/css" rel="stylesheet" />
+<link href="css/responsive1.css" rel="stylesheet" type="text/css"/>
+<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<link href="css/bootstrap.buyleads-new.min.css" rel="stylesheet" type="text/css"/>
+<link href="css/main-style.css?r=<?php echo time(); ?>" rel="stylesheet" type="text/css"/><!--?v3.17 removed by webxtor on 28 June 2018 to avoid cache-->
+<link href="css/im-style-v1.css" rel="stylesheet" type="text/css"/>
+<link href="css/new_responsive.css" rel="stylesheet" type="text/css"/>
+<link href="../css/main.css" rel="stylesheet" type="text/css"/>
+<!-- Start of wrapper -->
+<script src="js/slick.js" type="text/javascript" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="css/slick.css">
+<link rel="stylesheet" type="text/css" href="css/slick-theme.css">
+<div class="wrapper">
+    <script type="text/javascript">
+    function showmymenu() {
+    $("#mn1").show();
+    }
+    function hidemymenu() {
+    $("#mn1").hide();
+    }
+    function showLocMenu() {
+    $("#changeLocation").show();
+    }
+    function hideLocMenu() {
+    $("#changeLocation").hide();
+    }
+    function showbuymenu() {
+    $("#buymnu").show();
+    }
+    function hidebuymenu() {
+    $("#buymnu").hide();
+    }
+    function showsellmenu() {
+    $("#sellmnu").show();
+    }
+    function hidesellmenu() {
+    $("#sellmnu").hide();
+    }
+    $(".center").slick({ dots: true,
+    infinite: true,
+    centerMode: true,
+    slidesToShow: 5,
+    slidesToScroll: 3
+    });
+    </script>
+    <script>
+    function showsrchm() {
+    $("#smnu").show();
+    }
+    function hidesrchm() {
+    $("#smnu").hide();
+    }
+    function OutboundLink(type) {
+    if (type == 'buy_lead') {
+    $("#a1").html("Buy Leads");
+    }
+    else if (type == 'tender') {
+    $("#a1").html("Tender");
+    }
+    else if (type == 'auction') {
+    $("#a1").html("Auction");
+    }
+    else {
+    $("#a1").html(type);
+    }
+    $("#rctyp").val(type);
+    $("#smnu").hide();
+    }
+    </script>
+    <script>
+    function validsearch() {
+        $('#search-box11').val($.trim($('#search-box11').val()));
+    var keywords = document.getElementById('keywords');
+    if (keywords.value == '' || keywords.value == null) {
+    alert("Please enter a valid text to search.");
+    return false;
+    }
+    
+    }
+    function gotFocus() {
+    var keywords = $("input#keywords").val();
+    if (keywords == 'Enter product / service to search' || keywords == 'Enter Buy Lead to search' || keywords == 'Enter Supplier to search') {
+    $("input#keywords").val('')
+    }
+    }
+    function lostFocus() {
+    var type = $("#keyword_type").val();
+    var keywords = $("input#keywords").val();
+    if (type == 'Products' && (keywords == '' || keywords == 'Enter Buy Lead to search' || keywords == 'Enter Supplier to search')) {
+    $("input#keywords").val('Search Product');
+    }
+    else if (type == 'Buy Leads' && (keywords == '' || keywords == 'Enter product / service to search' || keywords == 'Enter Supplier to search')) {
+    $("input#keywords").val('Enter Buy Lead to search');
+    }
+    else if (type == 'Suppliers' && (keywords == '' || keywords == 'Enter product / service to search' || keywords == 'Enter Buy Lead to search')) {
+    $("input#keywords").val('Enter Supplier to search');
+    }
+    else if (type == 'Tender' && (keywords == '' || keywords == 'Enter product / service to search' || keywords == 'Enter Tender to search')) {
+    $("input#keywords").val('Enter Tender to search');
+    }
+    //$('.loading-text').removeClass('hide').addClass('show');
+    }
+    function enter_search() {
+        $('.loading-text').removeClass('hide').addClass('show');
+    }
+    function setCountryLocation(id)
+    {
+    $.post("setCountryLocation.php", {loc_id: id}, function (data)
+    {
+    if (data != 0) {
+        //  $("#cnlocation").html('<img src="images/country_flag/'+data+'" alt="" class="w4" align="top" height="15" width="20"/>');
+    location.reload();
+    }
+    });
+    }
+    function unsetCountryLocation() {
+    $.post("unsetCountryLocation.php", function (data) {
+        //  $("#cnlocation").html('<img src="images/country_flag/'+data+'" alt="" class="w4" align="top" height="15" width="20"/>');
+    location.reload();
+    });
+    }
+    </script>
+    <style type="text/css">
+    @media (width: 1280px) {
+    .footer-searchsec {
+        max-width: 840px !important;
+    }
+    .footer-searchsec-left {
+    width: calc(100% - 37%);
+}
+}
+    span.loading-text {
+    position: absolute;
+    top: 0;
+    right: 55px;
+    color: red;
+    font-size: 20px;
+}
+    .zoomin1 img { height: 78px; width: 219px; -webkit-transition: all 0.5s ease; -moz-transition: all 0.5s ease; -ms-transition: all 0.5s ease; transition: all 0.5s ease; }
+    .zoomin1 img:hover { width: 229px; height: 88px;  }
+    .zoomin2 img { height: 66px; width: 200px; -webkit-transition: all 0.5s ease; -moz-transition: all 0.5s ease; -ms-transition: all 0.5s ease; transition: all 0.5s ease; margin: 15px 15px;
+    }
+    .zoomin2 img:hover { width: 210px; height:77px; }
+    .zoomin3 img { height: 41px; width: 235px; -webkit-transition: all 0.5s ease; -moz-transition: all 0.5s ease; -ms-transition: all 0.5s ease; transition: all 0.5s ease; }
+    .zoomin3 img:hover { width: 245px; height:50px; }
+    .page-header-col1-row2-col2-form-select1 { float: left; width: 100px;font-size: 14px;}
+    #search_result .big-img-box .zoomthis img {height: 166px;}
+    #search_result figure.box {min-height: 253px;}
+    .bg-gray .txt-black b {font-weight: 900;font-size: 13px;}
+    .footer-searchsec-right-btn{font-size: 17px !important;}
+    .seach-page-inn .small-box .table.margin-bottom-0 a .photo{position: static!important;}
+    #search_result .big-img-box .ribbon img {height: 90px;}
+    #post_buy_req .modal-dialog{margin: 20% auto;}
+    .search-show-box-buyleads #res{width: 66.6%!important;}
+    .testimonialbg{    min-height: auto; padding-bottom: 30px;}
+    @media(min-width:981px) and (max-width:1024px){
+    #search_result figure.box { min-height: 200px;}
+    .seach-page-inn .box {height: 199px;}
+    .box-2 ul li big.txt-red + a{color: #000;}
+    #search_result .big-img-box .zoomthis img, .seach-page-inn .big-img-box .zoomthis img{width:auto;max-height: 150px!important;}
+    .seach-page-inn .box { height: 150px;}
+    #search_result figure.box { min-height: 150px;}
+    .box-1 .zoomthis img{width: 100%!important;}
+    .box .zoomthis{text-align: center;}
+    .side_compare_list{display: block!important;}
+    #right-image {max-width: 215px !important;}
+    .hm1.bbc.search-wrap{    width: calc(100% - 233px) !important;}
+    /*div.lft.ser-mid {width: calc(100% - 220px) !important;}*/
+    div.ryt.ser-right{width:220px!important;}
+    }
+            @media(min-width:769px) and (max-width:980px){
+                div#cssmenu {
+                    width:25% !important;
+                }
+                /* div.lft.ser-mid {width: 70% !important;}*/
+            }
+    @media(min-width:768px) and (max-width:800px) {
+    #search_result .big-img-box .zoomthis img, .seach-page-inn .big-img-box .zoomthis img{max-height: 200px;}
+    .bg-gray .txt-black b{font-size: 16px;}
+    div.lft.ser-mid .row .box-3 .ar-box-1{max-width: calc(100% - 150px);padding: 10px !important;margin-bottom: 0 !important;}
+    div.lft.ser-mid .row .ar-box-1 + .small-box{width: 150px;padding: 0;}
+    }
+    @media(min-width:767px) and (max-width:800px){
+    .footer-searchsec .footer-searchsec-left {width: calc(100% - 36%) !important;}
+    /*            .table.enquiry-tb.margin-bottom-0 a[data-enquiry] { margin-left: 62px;}*/
+    .ar-box-1 .small-box table tr td img {height: 85px !important;width: 85px !important;}
+    html #search_result .box-3{width:100% !important;display: flex;}
+    .box-under-twoimage > div{display: block;}
+    .box-under-twoimage .padding-0{width:100%;}
+    .table.enquiry-tb .bg-gray .padding-0 big { white-space: nowrap;}
+    .membership_plans .upgrader{    width: 75% !important;}
+    }
+    @media(max-width:640px){
+    div.lft.ser-mid .row .box-3 .ar-box-1{max-width: calc(100% - 150px);padding: 10px !important;margin-bottom: 0 !important;}
+    div.lft.ser-mid .row .ar-box-1 + .small-box{width: 150px;padding: 0;}
+    html #search_result .box-3{width:100%!important;}
+    }
+    @media(max-width:600px){
+    #search_result .big-img-box .ribbon img {height: 48px;}
+    .table.enquiry-tb.margin-bottom-0 .btn-enquiry{margin-top:0 !important;}
+    .table.enquiry-tb.margin-bottom-0 a[data-enquiry] { margin-left: 62px;}
+    div.lft.ser-mid .row .box-3 .ar-box-1{    max-width: 235px;}
+    .ar-mid-box table tr td a[href*="company"] img{width: 20px !important;}
+    .bg-gray .txt-black b{font-size: 15px;}
+    }
+    @media(max-width:480px){
+    .seach-page-inn .clearfix{display: none;}
+    .ryt.fl.ser-right.right-section-search-buylead {display: none;}
+    button.btn.btn-sm.btn-warning.border-radius-0.btn-enquiry { margin-top: 20px;}
+    .testimonialbg{min-height: 250px;}
+    #search_result figure.box { min-height: 150px;}
+    .seach-page-inn .box{    height: 150px;}
+    div.lft.ser-mid .row .ar-box-1 + .small-box{padding:0;margin-top:20px;}
+    .table.enquiry-tb.margin-bottom-0 a[data-enquiry] {margin-left: 150px;margin-top: 15px; float: right;}
+    .ar-box-1 .box-2 {width: 60% !important;padding-left: 15px !important; padding-top: 15px !important;}
+    #search_result .big-img-box .zoomthis img, .seach-page-inn .big-img-box .zoomthis img{    max-height: 150px;}
+    .ar-mid-box .table.enquiry-tb tbody tr td{width:100%!important;}
+    }
+    @media(max-width:414px){
+    .table.enquiry-tb.margin-bottom-0 a[data-enquiry]{
+    margin-left: 110px;
+    }
+    .padding-0.small-box-td1 .wrapper-product-searchright { border-right: 1px solid #ccc;}
+    .box-under-twoimage img.photo{width:auto;}
+    .wrapper-product-searchright{text-align: center;}
+    }
+    @media(max-width:380px){
+    .table.enquiry-tb.margin-bottom-0 a[data-enquiry]{margin-left: 85px;}
+    }
+    #changeLocation{
+        top: 50px !important;
+    }
+    #changeLocation {
+        width: 170px !important;
+        left: -15px !important;
+    }
+    </style>
+    <?php
+    /**
+    * Created by PhpStorm.
+    * User: Long
+    * Date: 12/18/2015
+    * Time: 11:49 PM
+    */
+    ?>
+    <div class="main-warpp">
+        <!-- Top Blue Bar-->
+        <?php include "includes/inner_top_bar.php"; ?>
+        <!-- End of topbar // -->
+        <div class="maincontainertop">
+            <!-- page-header start -->
+            <header class="page-header site-main-header ">
+                <!-- page-header-col1 close// -->
+                <div class="page2-header2-col2">
+                    <div class="page2-header2-col1-row1-col3">
+                        <!-- page-header-col1-row1-col3 start -->
+                        <div id="google_translate_element" style="margin: 0px auto 10px;"></div>
+                        <script type="text/javascript">
+                        function googleTranslateElementInit() {
+                        new google.translate.TranslateElement({
+                        pageLanguage: 'en',
+                        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+                        }, 'google_translate_element');
+                        }
+                        </script>
+                        <script type="text/javascript"
+                        src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+                        <!-- <p class="cb"></p>-->
+                    </div>
+                    <div class="page-header-col2-intro">
+                        <div class="page-header-col2-intro-texts">
+                            <a href="product-sel-cat.php?select=bs" class="post-product-btn post-product-btn-inner"title="إعرض خدماتك التجارية  /  وتلقى إستفسارات شراء من داخل وخارج مصر">
+                                Post Business Services<small>Get <strong>Domestic</strong> or <strong>Global</strong> Enquiries</small>
+                            </a>
+                            <!-- <a href="product-sel-cat.php" class="zoomin3">
+                                    <img src="images/PostServise.jpg "  />
+                            </a>-->
+                            <!--<h2><a href="product-sel-cat.php">Post Your Services</a></h2>
+                            <p>Get <span>Domestic</span> or <span>Global</span> Enquiries</p> -->
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="page-header-col11">
+                    <!-- page-header-col1 start -->
+                    <div class="col-md-9 page2-header2-col1-row1">
+                        <!-- col-md-9 start -->
+                        <div class="page2-header2-col1-row1-col1">
+                            <!-- page-header-col1-row1-col1 start -->
+                            <div class="page2-header2-col1-row1-col1_row2">
+                                <div class="page-header-col1-row1-col1_row2_pic" id="cnlocation">
+                                    <?php if (isset($_COOKIE['loc_id'])) { ?>
+                                    <span style="weight:700px; color: darkcyan;"><?php echo get_country_name($_COOKIE['loc_id']); ?></span>&nbsp;
+                                    <img src="images/country_flag/<?php echo get_country_flag($_COOKIE['loc_id']); ?>"
+                                    alt="<?php echo get_country_name($_COOKIE['loc_id']); ?>" class="w4" align="top" height="16"
+                                    width="23" title="<?php echo get_country_name($_COOKIE['loc_id']); ?>"/>
+                                    <?php } else { ?>
+                                    <b>Global</b> &nbsp; <img src="images/country_flag/Global$download.png" alt="Global" style="height:25px !important;width:25px!important;"  class="w4"
+                                    align="top" height="25" width="25"/>
+                                    <?php } ?>
+                                </div>
+                                <div class="page-header-col1-row1-col1-row2-form">
+                                    <div onmouseover = "showLocMenu();" onmouseout = "hideLocMenu()">
+                                        <a class="un" style="border-left:none;font-size: 10px;">
+                                            <span style="color: black"title="إختار بلد الصناعة">Change</span> Country
+                                            <!--  <i class="fa fa-chevron-down"></i>-->
+                                            &nbsp;<span class="arw"><b>&or;</b></span>
+                                        </a>
+                                        <div class="sub_menu" style="display:none;width: 170px !important;left: -15px !important;top: 50px !important;" id="changeLocation" >
+                                            <ul>
+                                            <li style="width:100%;">
+                                                    <?php
+                                                    $numCun = count(explode(",", getActiveCountryList()));
+                                                    $sql_cnLoc = "select * from country where cn_id in(" . getActiveCountryList() . ")";
+                                                    $res_cnLoc = mysqli_query($con, $sql_cnLoc);
+                                                    ?>
+                                                    <table style="width:100%;padding:1px;">
+                                                        <tr>
+                                                            <td align="center">
+                                                                <a title="Global" style="cursor:pointer;" onclick="unsetCountryLocation();">
+                                                                    <img src="images/country_flag/Global$download.png" alt="Global" style="height:25px !important;width:25px!important;"  class="w4"
+                                                                    align="top" height="16" width="16"/>
+                                                                </a>
+                                                            </td>
+                                                            <?php
+                                                            $cn = 1;
+                                                            while ($row_cnLoc = mysqli_fetch_object($res_cnLoc)) {
+                                                            if ($cn % 3 == 0) {
+                                                            $cn = 0;
+                                                            ?>
+                                                        </tr>
+                                                        <tr>
+                                                            <?php }
+                                                            ?>
+                                                            <td align="center">
+                                                                <a title="<?php echo $row_cnLoc->cn_name; ?>" style="cursor:pointer;"
+                                                                    onclick="setCountryLocation(<?php echo $row_cnLoc->cn_id ?>);">
+                                                                    <img
+                                                                    src="images/country_flag/<?php echo get_country_flag($row_cnLoc->cn_id); ?>"
+                                                                    alt="<?php echo $row_cnLoc->cn_name; ?>" class="w4" align="top"
+                                                                    height="25" width="30"/>
+                                                                </a>
+                                                            </td>
+                                                            <?php
+                                                            $cn++;
+                                                            }
+                                                            ?>
+                                                            <?php while ($cn <= 3) { ?>
+                                                            <td>&nbsp;</td>
+                                                            <?php
+                                                            $cn++;
+                                                            }
+                                                            ?>
+                                                        </tr>
+                                                    </table>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- page-header-col1-row1-col1 close // -->
+                        <!-- page-header-col1-row1-col2 start -->
+                        <div class="page2-header2-col1-row1-col2">
+                            <?php
+                            $toplogo = GettingSite_Setting('unit-logo');
+                            if ($toplogo != "") {
+                            $toplogo2show = "sitelogo/" . $toplogo;
+                            } else {
+                            $toplogo2show = "images/Mlogo.png";
+                            }
+                            ?>
+                            <a href="index.php"title="سوق مصر على الإنترنت - أول منصة الكترونية لمبيعات الجملة / التصدير / الخدمات التجارية .. لأهم 10,000 شركة ومصنع فى مصر والمنطقة العربية"><img src="images/logo7388HLogo3.jpg" alt="" style="max-width:190px; max-height:85px;"/></a>
+                            <!--<p>Arabs Home &amp; Global Trade</p>-->
+                        </div>
+                        <!-- page-header-col1-row1-col2 close// -->
+                        <!-- page-header-col1-row1-col3 close// -->
+                    </div>
+                    <!-- col-md-9 close// -->
+                    <div class="page2-header2-col1-row2">
+                        <!-- page-header-col1-row2 start -->
+                        <div class="page2-header2-col1-row2-col2">
+                            <div class="toplinksbar">
+                                <ul >
+                                    <li><a href="dir.php"title="منتجات وشركات موردة">Products & Suppliers</a></li>
+                                    <li><a href="sale-offers.php"title="عروض بيع خاصة">Sale Offers</a></li>
+                                    
+                                </ul></div>
+                                <!-- <script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script> -->
+                                <script>
+                                $(document).ready(function(){ //search-box11
+                                $(".page-header-col1-row2-col2-form-select1 option[value='<?php
+                                if ($_GET['rctyp'] == '') {
+                                echo 'Products';
+                                } else {
+                                echo $_GET['rctyp'];
+                                }
+                                ?>']").attr('selected', 'selected');
+                                <!-- Gaj endra Code start from here -->
+                                var TabVal=$("#rctyp") .val();
+                                PlaceholdVAl='';
+                                if( TabVal == 'Products' ){
+                                PlaceholdVAl = "Source Product / Services >> Find Suppliers";
+                                }else if( TabVal == 'Suppliers' ){                                                                                                              PlaceholdVAl = "Find Suppliers for your business"; }else if( TabVal == 'buy_lead' ){
+                                PlaceholdVAl = "Find Buy Leads for your business";
+                                }else if( TabVal == 'tender' ){
+                                PlaceholdVAl = "Find Tenders/ Auctions for your business";
+                                }                                        $("#search-box11").attr("placeholder", PlaceholdVAl);
+                                
+                                
+                                $('#rctyp').change(function(){
+                                var TabVal = $(this).val();
+                                PlaceholdVAl = '';
+                                if (TabVal == 'Products'){
+                                PlaceholdVAl = "Source Product / Services >> Find Suppliers";
+                                }else if( TabVal == 'Suppliers' ){
+                                PlaceholdVAl = "Find Suppliers for your business";
+                                }else if( TabVal == 'buy_lead' ){
+                                PlaceholdVAl = "Find Buy Leads for your business"; }else if( TabVal == 'tender' ){
+                                PlaceholdVAl = "Find Tenders/ Auctions for your business"; }
+                                $("#search-box11").attr("placeholder", PlaceholdVAl);
+                                
+                                });
+                                
+                                <!-- Gajendra Code End -->
+                                
+                                
+                                
+                                $("#search-box11").keyup(function(){
+                                var getDrpDwnVal = $("#rctyp option:selected").val();
+                                if (getDrpDwnVal == 'Suppliers'){
+                                var fileName = "readsuppliers.php";
+                                }
+                                else if(getDrpDwnVal == 'Products'){
+                                var fileName = "readproducts.php";
+                                }
+                                else if(getDrpDwnVal =='buy_lead'){
+                                var fileName = "read_leads.php";
+                                }
+                                else{
+                                var fileName = "read_tenders.php";
+                                }
+                                // alert(getDrpDwnVal+' '+fileName);return false;
+                                $.ajax({
+                                type: "POST",
+                                url: fileName,
+                                data:'keyword=' + $(this).val(),
+                                beforeSend: function(){
+                                $("#search-box11").css("background", "#FFF url(LoaderIcon.gif) no-repeat 165px");
+                                },
+                                success: function(data){
+                                $("#suggesstion-box").show();
+                                $("#suggesstion-box").html(data);
+                                $("#search-box11").css("background","#FFF");
+                                }
+                                });
+                                });
+                                });
+                                function selectCountry(val) {
+                                $("#search-box11").val(val);
+                                $("#suggesstion-box").hide();
+                                
+                                }
+                                </script>
+                                <?php
+                                $ctype = '';
+                                if (($_GET['rctyp']) && ($_GET['rctyp'] != '')) {
+                                $ctype = $_GET['rctyp'];
+                                }
+                                //echo $ctype;
+                                ?>
+                                <div class="top_search">
+                                    <form autocomplete="off" name="searchForm" action="search.php" onSubmit="return validsearch()" method="GET"                                         id                                        ="hdr_fr                                            m">
+                                        <div class="to                                            psearch_ba                                                                                        r">
+                                            <select id="rctyp" name="rctyp" class="page-header-col1-row2-col2-form-select1">
+ 
+  <option  value="Products" <?php if ($_POST['rctyp'] == 'Products') { ?> selected="selected" <?php } ?>>Products</option>
+ <option value="Suppliers" <?php if ($_POST['rctyp'] == 'Suppliers') { ?> selected="selected" <?php } ?>>Suppliers</option>
+   <option value="buy_lead" <?php if ($_POST['rctyp'] == 'buy_lead') { ?> selected="selected" <?php } ?>>Buy Leads</option>
+    <option value="tender" <?php if ($_POST['rctyp'] == 'tender') { ?> selected="selected" <?php } ?>>Tenders</option>
+                                                <!--<option value="auction">Auction</option>-->
+                                            </select>
+                                        </div>
+                                        <div class="topsearch_placeholder">
+                                            <input type="text" id="search-box11" name="keywords" placeholder="Source Product / Services >> Find Suppliers" onfocus="gotFocus();" onblur="lostFocus()" value="<?php echo $_GET['keywords']; ?>"   class="topsearch_placeholder_cont "/>
+                                        </div>
+                                        <span class="loading-text hide"><img src="/assets/img/Spinner-200px.gif" style="width: 48px;height: 48px;"></span>
+
+                                        <div id="suggesstion-box"></div>
+                                        <div class="topsearch_searchbtn">
+                                            <input type="submit" id="btnSearch" value="" class="topsearch-searchbtn"/>
+                                        </div>
+                                    </form>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="page-header-col1-row2-col2-links">
+                                    <p><span><a href="search_adv.php"title=" بحث متقدم " >Advanced Search</a></span></p>
+                                </div>
+                            </div>
+                            <!-- page-header-col1-row2-col2 close// -->
+                            <div class="page2-header2-col1-row2-col4 ">
+                                <!-- page-header-col1-row2-col4 start -->
+                                <a href="post-buy-req.php" target="_blank" class="footer-searchsec-right-btn head-post-buy-req-btn"title="سجل طلبات شراء منتجات / خدمات - تلقى أفضل أسعار وعروض من الداخل والخارج ">Post Buy Requirements</a>
+                                <!-- <div class="zoomin2">
+                                    <a href="post-buy-req.php">
+                                        <img src="images/Unreq.png" />
+                                        
+                                        <a href="post-buy-req.php" class="page-header-col1-row2-col4-btn">
+                                            <p>Post Buy Requests</p>
+                                            <span>Get <ins>Quotes </ins> from <ins>Verified Suppliers</ins></span> </a>
+                                        </a>
+                                    </div>-->
+                                </div>
+                                <!-- page-header-col1-row2-col4 close// -->
+                                <div class="clear"></div>
+                            </div>
+                            <link rel="stylesheet" href="css/jquery.autocomplete.css" type="text/css"/>
+                            <script type="text/javascript" src="js/jquery.autocomplete2.js"></script>
+                            <script type="text/javascript">
+                            $(document).ready(function () {
+                            lostFocus();
+                            $('#keywords').keydown(function () {
+                            var type = $("#keyword_type").val();
+                            $("#keywords").autocomplete("autocomplete.php", {
+                            selectFirst: true,
+                            extraParams: {type: type},
+                            width: 407
+                            })
+                            .result(function (event, data, formatted) {
+                            $("                                input#keywords").val(data);
+                            })                                ;
+                            });
+                            });
+                            </script>
+                            <!-- page-header-col1-row2 close// -->
+                        </div>
+                        <div class="clear"></div>
+                    </header>
+                    <!-- page-header                                          close // -->
+                </div>
+            </div>
+            <script>
+            $(document).ready(function () {
+                // setTimeout(function () {
+                //     var lang = $(".goog-te-menu-value span:first").text();
+                //     if (lang == 'Arabic') {
+                //         $('input').css('direction', 'rtl');
+                //         $('textarea').css('direction', 'rtl');
+                //         $('.page-header input').css('direction', 'ltr');
+                //         $('.page-header textarea').css('direction', 'ltr');
+                //     }
+                // }, 5000);
+
+                function changeHeaderLangDeferred() {
+                    var lang = $(".goog-te-menu-value span:first").text();
+
+                    if (lang == 'Arabic') {
+                        setTimeout(function changeHeader() {
+                            $('input').css('direction', 'rtl');
+                            $('textarea').css('direction', 'rtl');
+                            $('.page-header input').css('direction', 'ltr');
+                            $('.page-header textarea').css('direction', 'ltr');
+                        
+                            return false;
+                        }, 5000);
+                    }
+                    return false;
+                }
+                // changeHeaderLangDeferred();
+
+                $('#btnSearch').click(function (event) {
+                    $('.loading-text').removeClass('hide').addClass('show');
+                });
+            });
+            </script>

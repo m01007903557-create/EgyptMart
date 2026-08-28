@@ -1,0 +1,10 @@
+max_execution_time = 30000000
+max_input_time = 12000000
+post_max_size = 512M
+memory_limit = 1024M
+zend_extension=/usr/local/php56/lib/php/extensions/ioncube.so
+zend_extension=/usr/local/php56/lib/php/extensions/ZendOptimizer.so
+session.gc_maxlifetime = 24*60*60
+display_errors = Off
+output_buffering=on
+
